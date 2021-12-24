@@ -34,19 +34,19 @@ keymap('', '<C-n>', '<cmd>tabn<CR>', {})
 keymap('', '<C-p>', '<cmd>tabp<CR>', {})
 
 -- Reselect visual selection after indenting
-keymap('v', '<', '<gv', { noremap = true })
-keymap('v', '>', '>gv', { noremap = true })
+keymap('v', '<', '<gv', opts)
+keymap('v', '>', '>gv', opts)
 
 -- Maintain the cursor position when yanking a visual selection
 -- http://ddrscott.github.io/blog/2016/yank-without-jank/
-keymap('v', 'y', 'myy`y', { noremap = true })
-keymap('v', 'Y', 'myY`y', { noremap = true })
+keymap('v', 'y', 'myy`y', opts)
+keymap('v', 'Y', 'myY`y', opts)
 
 -- Paste replace visual selection without copying it
-keymap('v', '<leader>p', '"_dP', { noremap = true })
+keymap('v', '<leader>p', '"_dP', opts)
 
 -- Make Y behave like the other capitals
-keymap('n', 'Y', 'y$', { noremap = true })
+keymap('n', 'Y', 'y$', opts)
 
 vim.cmd([[
 function! ExecuteMacroOverVisualRange()

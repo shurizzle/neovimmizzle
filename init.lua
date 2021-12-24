@@ -33,6 +33,8 @@ function _G.extend(res, ...)
   return res
 end
 
+require('utils')
 require('keymaps')
 require('options')
 require('plugins')
+require('rust')
