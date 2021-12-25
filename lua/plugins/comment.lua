@@ -10,7 +10,7 @@ function M.config()
   })
 
   local opts = { noremap = true, silent = true, expr = true }
-  for _, t in pairs({ 'v', 'n' }) do
+  for _, t in pairs({ 'x', 'n' }) do
     vim.api.nvim_set_keymap(
       t,
       '<leader>c ',

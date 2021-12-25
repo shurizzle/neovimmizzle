@@ -75,7 +75,7 @@ return {
   { 'junegunn/goyo.vim' },
   { 'windwp/nvim-autopairs', name = 'autopairs' },
   { 'tpope/vim-repeat' },
-  { 'numToStr/Comment.nvim' },
+  { 'numToStr/Comment.nvim', name = 'comment' },
   { 'tpope/vim-surround' },
   { 'ahmedkhalf/project.nvim', name = 'project' },
   { 'editorconfig/editorconfig-vim' },
