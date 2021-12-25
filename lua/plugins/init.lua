@@ -61,6 +61,7 @@ packer.startup(function()
   })
 
   use({ 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' })
+  use({ 'nvim-telescope/telescope-ui-select.nvim' })
 
   use({ 'L3MON4D3/LuaSnip' })
 
@@ -103,6 +104,7 @@ packer.startup(function()
       'nvim-lua/plenary.nvim',
       'kyazdani42/nvim-web-devicons',
       'nvim-telescope/telescope-fzf-native.nvim',
+      'nvim-telescope/telescope-ui-select.nvim',
     },
     config = function()
       require('plugins.telescope').setup()

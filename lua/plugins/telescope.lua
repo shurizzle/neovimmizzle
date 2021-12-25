@@ -12,11 +12,15 @@ function M.setup()
         override_file_sorter = true,
         case_mode = 'smart_case',
       },
+      ['ui-select'] = {
+        require('telescope.themes').get_dropdown(),
+      },
     },
   })
 
   ts.load_extension('fzf')
   ts.load_extension('projects')
+  ts.load_extension('ui-select')
 
   local opts = { noremap = true, silent = true }
   keymap('n', '<leader>ff', '<cmd>Telescope find_files<CR>', opts)

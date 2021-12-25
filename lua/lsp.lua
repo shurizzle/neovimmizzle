@@ -11,3 +11,39 @@ augroup END
 ]],
   false
 )
+
+local M = {}
+
+function M.diagnostics()
+  if vim.fn.exists(':Telescope') ~= 0 then
+    vim.cmd('Telescope diagnostics theme=get_dropdown')
+  else
+    vim.lsp.buf.diagnostics()
+  end
+end
+
+function M.code_action()
+  if vim.fn.exists(':Telescope') ~= 0 then
+    vim.cmd('Telescope lsp_code_actions theme=get_dropdown preview=false')
+  else
+    vim.lsp.buf.code_action()
+  end
+end
+
+function M.range_code_action()
+  if vim.fn.exists(':Telescope') ~= 0 then
+    vim.cmd('Telescope lsp_range_code_actions theme=get_dropdown preview=false')
+  else
+    vim.lsp.buf.range_code_action()
+  end
+end
+
+function M.references()
+  if vim.fn.exists(':Telescope') ~= 0 then
+    vim.cmd('Telescope lsp_references theme=get_dropdown')
+  else
+    vim.lsp.buf.references()
+  end
+end
+
+return M
