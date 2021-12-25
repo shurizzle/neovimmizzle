@@ -58,9 +58,12 @@ xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
 
 -- lsp
 keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+keymap('n', 'tgD', '<cmd>tab lua vim.lsp.buf.declaration()<CR>', opts)
 keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+keymap('n', 'tgd', '<cmd>tab lua vim.lsp.buf.definition()<CR>', opts)
 keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
 keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+keymap('n', 'tgi', '<cmd>tab lua vim.lsp.buf.implementation()<CR>', opts)
 keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
 keymap(
   'n',
@@ -78,6 +81,12 @@ keymap(
   'n',
   '<leader>wl',
   '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>',
+  opts
+)
+keymap(
+  'n',
+  '<leader>tD',
+  '<cmd>tab lua vim.lsp.buf.type_definition()<CR>',
   opts
 )
 keymap('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
