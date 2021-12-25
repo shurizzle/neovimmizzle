@@ -33,6 +33,16 @@ function M.on_right()
   end
 end
 
+function M.pre()
+  vim.g.nvim_tree_git_hl = 1
+  vim.g.nvim_tree_show_icons = {
+    git = 0,
+    folders = 1,
+    files = 1,
+    folder_arrows = 0,
+  }
+end
+
 function M.config()
   local tree_cb = require('nvim-tree.config').nvim_tree_callback
 
