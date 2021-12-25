@@ -1,6 +1,10 @@
 local M = {}
 
-function M.setup()
+function M.run()
+  vim.fn['firenvim#install'](0)
+end
+
+function M.pre()
   vim.g.firenvim_config = {
     globalSettings = { alt = 'all' },
     localSettings = {

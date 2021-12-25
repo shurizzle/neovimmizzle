@@ -28,8 +28,9 @@ local DEFAULT_OPTS = {
   nerdfont = true,
 }
 
-function M.setup(opts)
-  opts = vim.tbl_deep_extend('keep', opts or {}, DEFAULT_OPTS)
+function M.setup()
+    --[[
+  local opts = DEFAULT_OPTS
 
   local symbols = {
     fileformat = {},
@@ -126,6 +127,7 @@ function M.setup(opts)
       fixed_extension('Dashboard', 'dashboard'),
     },
   })
+  ]]
 end
 
 return M

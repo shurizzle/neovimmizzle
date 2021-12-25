@@ -33,6 +33,7 @@ function _G.extend(res, ...)
   return res
 end
 
+require('bootstrap')
 require('utils')
 require('keymaps')
 require('options')
