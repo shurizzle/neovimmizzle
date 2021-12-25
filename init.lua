@@ -36,5 +36,6 @@ end
 require('utils')
 require('keymaps')
 require('options')
+require('lsp')
 require('plugins')
 require('rust')

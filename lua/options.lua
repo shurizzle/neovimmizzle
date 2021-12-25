@@ -22,6 +22,7 @@ local options = {
   splitbelow = true,
   splitright = true,
   colorcolumn = '80',
+  omnifunc = 'v:lua.vim.lsp.omnifunc',
 }
 
 if vim.fn.has('termguicolors') then
