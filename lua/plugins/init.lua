@@ -54,13 +54,9 @@ for _, plugin in ipairs(require('plugins.packer')) do
   table.insert(config, plugin)
 end
 
+packer.reset()
+packer.use(config)
 
-packer.startup(function(use)
-  for _, plugin in ipairs(config) do
-    use(plugin)
-  end
-
-  if vim.g.packer_bootstrap then
-    require('.packer').sync()
-  end
-end)
+if vim.g.packer_bootstrap then
+  packer.sync()
+end
