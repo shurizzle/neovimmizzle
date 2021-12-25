@@ -6,7 +6,7 @@ augroup lsp_document_highlight
   autocmd CursorHold * lua vim.diagnostic.open_float()
   autocmd CursorHold * lua vim.lsp.buf.document_highlight()
   autocmd CursorMoved * lua vim.lsp.buf.clear_references()
-  autocmd BufWritePre * lua vim.lsp.buf.formatting()
+  autocmd BufWritePre * lua vim.lsp.buf.formatting_sync()
 augroup END
 ]],
   false
