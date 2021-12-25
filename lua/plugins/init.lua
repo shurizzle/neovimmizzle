@@ -157,6 +157,13 @@ packer.startup(function()
     run = ':TSUpdate',
   })
 
+  use({
+    'norcalli/nvim-colorizer.lua',
+    config = function()
+      require('colorizer').setup()
+    end,
+  })
+
   use({ 'MarcWeber/vim-addon-local-vimrc' })
 
   use({ 'junegunn/goyo.vim' })
