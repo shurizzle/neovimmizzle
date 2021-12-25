@@ -57,7 +57,19 @@ function M.config()
       local sumneko_opts = require('plugins.lsp.settings.sumneko_lua')
       opts = vim.tbl_deep_extend('force', sumneko_opts, opts)
     end
-    server:setup(opts)
+
+    if server.name == 'rust_analyzer' then
+      require('rust-tools').setup({
+        server = vim.tbl_deep_extend(
+          'force',
+          server:get_default_options(),
+          opts
+        ),
+      })
+      server:attach_buffers()
+    else
+      server:setup(opts)
+    end
   end)
 end
 

@@ -3,7 +3,21 @@ return {
   { 'nvim-lua/plenary.nvim' },
   { 'rcarriga/nvim-notify', name = 'notify' },
   { 'neovim/nvim-lspconfig', name = 'lsp' },
-  { 'williamboman/nvim-lsp-installer', name = 'lsp.installer' },
+  {
+    'simrat39/rust-tools.nvim',
+    requires = {
+      'nvim-lua/plenary.nvim',
+      'neovim/nvim-lspconfig',
+    },
+  },
+  {
+    'williamboman/nvim-lsp-installer',
+    requires = {
+      'neovim/nvim-lspconfig',
+      'simrat39/rust-tools.nvim',
+    },
+    name = 'lsp.installer',
+  },
   { 'jose-elias-alvarez/null-ls.nvim', name = 'lsp.null-ls' },
   { 'nvim-telescope/telescope-fzf-native.nvim', name = 'telescope.fzf' },
   { 'nvim-telescope/telescope-ui-select.nvim' },
