@@ -123,6 +123,7 @@ function M.setup(opts)
     extensions = {
       fixed_extension('Telescope', 'TelescopePrompt'),
       fixed_extension('Explorer', 'NvimTree'),
+      fixed_extension('Dashboard', 'dashboard'),
     },
   })
 end
