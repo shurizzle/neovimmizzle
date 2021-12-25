@@ -40,6 +40,13 @@ packer.startup(function()
   use('nvim-lua/plenary.nvim')
 
   use({
+    'rcarriga/nvim-notify',
+    config = function()
+      require('plugins.notify').setup()
+    end,
+  })
+
+  use({
     'neovim/nvim-lspconfig',
     config = function()
       require('plugins.lsp').setup()

@@ -21,6 +21,7 @@ function M.setup()
   ts.load_extension('fzf')
   ts.load_extension('projects')
   ts.load_extension('ui-select')
+  ts.load_extension('notify')
 
   local opts = { noremap = true, silent = true }
   keymap('n', '<leader>ff', '<cmd>Telescope find_files<CR>', opts)
