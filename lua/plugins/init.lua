@@ -112,7 +112,7 @@ packer.startup(function()
   use({
     'arcticicestudio/nord-vim',
     config = function()
-      vim.cmd([[colo nord]])
+      colorscheme('nord')
     end,
   })
 
