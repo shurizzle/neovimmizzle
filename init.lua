@@ -13,7 +13,8 @@ function _G.has(what)
   return vim.fn.has(what) ~= 0
 end
 
-_G.path_separator = (has('win32') or has('win64')) and '\\' or '/'
+_G.path_separator = (has('win16') or has('win32') or has('win64')) and '\\'
+  or '/'
 
 function _G.join_paths(...)
   return table.concat({ ... }, _G.path_separator)
