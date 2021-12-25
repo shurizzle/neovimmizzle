@@ -1,6 +1,6 @@
 local M = {}
 
-function M.setup()
+function M.config()
   local configs = require('nvim-treesitter.configs')
 
   configs.setup({

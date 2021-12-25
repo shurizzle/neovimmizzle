@@ -32,14 +32,10 @@ local function create_callback(plugin, callback)
 end
 
 local function add_callbacks(plugin, name)
-  for orig, callback in pairs({ 'install', 'update', 'run', config = 'setup' }) do
-    if type(orig) ~= 'string' then
-      orig = callback
-    end
-
+  for _, callback in ipairs({ 'install', 'update', 'run', 'config', 'setup' }) do
     local cb = create_callback(name, callback)
     if cb then
-      plugin[orig] = cb
+      plugin[callback] = cb
     end
   end
 
@@ -58,10 +54,12 @@ for _, plugin in ipairs(require('plugins.packer')) do
   table.insert(config, plugin)
 end
 
+
 packer.startup(function(use)
   for _, plugin in ipairs(config) do
     use(plugin)
   end
+
   if vim.g.packer_bootstrap then
     require('.packer').sync()
   end

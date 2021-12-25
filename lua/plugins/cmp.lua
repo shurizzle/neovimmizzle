@@ -1,6 +1,6 @@
 local M = {}
 
-function M.setup()
+function M.config()
   local cmp = require('cmp')
   local luasnip = require('luasnip')
 

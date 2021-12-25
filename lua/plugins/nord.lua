@@ -1,6 +1,6 @@
 local M = {}
 
-function M.setup()
+function M.config()
   colorscheme('nord')
 end
 

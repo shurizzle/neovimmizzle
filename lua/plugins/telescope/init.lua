@@ -1,6 +1,6 @@
 local M = {}
 
-function M.setup()
+function M.config()
   local ts = require('.telescope')
   local keymap = vim.api.nvim_set_keymap
 

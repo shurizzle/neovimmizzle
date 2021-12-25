@@ -33,7 +33,7 @@ function M.on_right()
   end
 end
 
-function M.setup()
+function M.config()
   local tree_cb = require('nvim-tree.config').nvim_tree_callback
 
   local list = {

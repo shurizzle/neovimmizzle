@@ -25,7 +25,7 @@ function M.on_file_open()
   end
 end
 
-function M.setup()
+function M.config()
   local lsp_installer = require('nvim-lsp-installer')
 
   lsp_installer.settings({

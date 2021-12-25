@@ -28,8 +28,7 @@ local DEFAULT_OPTS = {
   nerdfont = true,
 }
 
-function M.setup()
-    --[[
+function M.config()
   local opts = DEFAULT_OPTS
 
   local symbols = {
@@ -127,7 +126,6 @@ function M.setup()
       fixed_extension('Dashboard', 'dashboard'),
     },
   })
-  ]]
 end
 
 return M

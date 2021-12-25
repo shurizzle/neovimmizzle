@@ -1,8 +1,7 @@
 local M = {}
 
-function M.setup()
+function M.config()
   require('plugins.lsp.handlers').setup()
-  -- local nvim_lsp = require('lspconfig')
 end
 
 return M
