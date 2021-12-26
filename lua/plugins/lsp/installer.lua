@@ -60,6 +60,12 @@ function M.config()
 
     if server.name == 'rust_analyzer' then
       require('rust-tools').setup({
+        tools = {
+          inlay_hints = {
+            show_parameter_hints = false,
+            other_hints_prefix = '‣',
+          },
+        },
         server = vim.tbl_deep_extend(
           'force',
           server:get_default_options(),
