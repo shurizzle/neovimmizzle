@@ -110,13 +110,17 @@ function M.config()
   local view = require('nvim-tree.view')
   view.View.winopts['fillchars+'] = 'vert:\\ '
   view.View.winopts.statusline = '%#BufferOffset#'
-  for _, k in ipairs({
-    'NvimTreeVertSplit',
-    'NvimTreeNormal',
-    'NvimTreeEndOfBuffer',
-    'NvimTreeStatusLine',
-  }) do
-    vim.api.nvim_command('hi! def link ' .. k .. ' BufferOffset')
+  local old_setup = require('nvim-tree.colors').setup
+  require('nvim-tree.colors').setup = function()
+    old_setup()
+    for _, k in ipairs({
+      'NvimTreeVertSplit',
+      'NvimTreeNormal',
+      'NvimTreeEndOfBuffer',
+      'NvimTreeStatusLine',
+    }) do
+      vim.api.nvim_command('hi! def link ' .. k .. ' BufferOffset')
+    end
   end
 end
 
