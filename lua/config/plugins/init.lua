@@ -12,18 +12,22 @@ packer.init({
 })
 
 local function call_pre(plugin)
-  local ok, lib = pcall(require, 'plugins.' .. plugin)
+  local ok, lib = pcall(require, 'config.plugins.' .. plugin)
   if ok and type(lib) == 'table' then
     pcall(lib.pre)
   end
 end
 
 local function create_callback(plugin, callback)
-  local ok, lib = pcall(require, 'plugins.' .. plugin)
+  local ok, lib = pcall(require, 'config.plugins.' .. plugin)
   if ok and type(lib) == 'table' then
     if type(lib[callback]) == 'function' then
       return loadstring(
-        string.format('return require("plugins.%s").%s()', plugin, callback)
+        string.format(
+          'return require("config.plugins.%s").%s()',
+          plugin,
+          callback
+        )
       )
     else
       return lib[callback]
@@ -43,7 +47,7 @@ local function add_callbacks(plugin, name)
 end
 
 local config = {}
-for _, plugin in ipairs(require('plugins.packer')) do
+for _, plugin in ipairs(require('config.plugins.packer')) do
   if plugin.name then
     local name = plugin.name
     plugin.name = nil

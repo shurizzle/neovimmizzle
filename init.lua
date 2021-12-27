@@ -34,10 +34,10 @@ function _G.extend(res, ...)
   return res
 end
 
-require('bootstrap')
-require('utils')
-require('keymaps')
-require('options')
-require('lsp')
-require('plugins')
-require('rust')
+require('config.bootstrap')
+require('config.utils')
+require('config.keymaps')
+require('config.options')
+require('config.lsp')
+require('config.plugins')
+require('config.rust')

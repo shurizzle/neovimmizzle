@@ -91,14 +91,24 @@ keymap(
 )
 keymap('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
 keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-keymap('n', '<leader>a', '<cmd>lua require"lsp".diagnostics()<CR>', opts)
-keymap('n', '<leader>ca', '<cmd>lua require"lsp".code_action()<CR>', opts)
-keymap('x', '<leader>ca', '<cmd>lua require"lsp".code_action()<CR>', opts)
-keymap('n', 'gr', '<cmd>lua require"lsp".references()<CR>', opts)
+keymap('n', '<leader>a', '<cmd>lua require"config.lsp".diagnostics()<CR>', opts)
+keymap(
+  'n',
+  '<leader>ca',
+  '<cmd>lua require"config.lsp".code_action()<CR>',
+  opts
+)
+keymap(
+  'x',
+  '<leader>ca',
+  '<cmd>lua require"config.lsp".code_action()<CR>',
+  opts
+)
+keymap('n', 'gr', '<cmd>lua require"config.lsp".references()<CR>', opts)
 keymap('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
 keymap('n', '[g', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
 keymap('n', ']g', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
 keymap('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
 keymap('n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 
-keymap('', '<space>e', '<cmd>lua require"tree".toggle()<CR>', opts)
+keymap('', '<space>e', '<cmd>lua require"config.tree".toggle()<CR>', opts)

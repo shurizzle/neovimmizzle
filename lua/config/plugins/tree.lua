@@ -1,7 +1,7 @@
 local M = {}
 
 local function arrow(where)
-  return string.format(':lua require\'plugins.tree\'.on_%s()<CR>', where)
+  return string.format(':lua require\'config.plugins.tree\'.on_%s()<CR>', where)
 end
 
 function M.on_left()
