@@ -59,12 +59,9 @@ function M.config()
     end
 
     if server.name == 'rust_analyzer' then
-      require('rust-tools').setup({
+      require('inlay-hints.rust-tools').setup({
         tools = {
-          inlay_hints = {
-            show_parameter_hints = false,
-            other_hints_prefix = '‣',
-          },
+          autoSetHints = false,
         },
         server = vim.tbl_deep_extend(
           'force',
@@ -74,6 +71,7 @@ function M.config()
       })
       server:attach_buffers()
     else
+      require('inlay-hints.lsp-installer').setup(server, opts)
       server:setup(opts)
     end
   end)

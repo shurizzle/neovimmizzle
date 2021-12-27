@@ -50,9 +50,7 @@ function M.setup()
   )
 end
 
-function M.on_attach(
-  client --[[, bufnr ]]
-)
+function M.on_attach(client, bufnr)
   if client.name == 'tsserver' or client.name == 'intelephense' then
     client.resolved_capabilities.document_formatting = false
     client.resolved_capabilities.document_range_formatting = false

@@ -2,7 +2,11 @@ return {
   { 'wbthomason/packer.nvim' },
   { 'nvim-lua/plenary.nvim' },
   { 'rcarriga/nvim-notify', name = 'notify' },
-  { 'neovim/nvim-lspconfig', name = 'lsp' },
+  { 'shurizzle/inlay-hints.nvim', name = 'inlayhints' },
+  {
+    'neovim/nvim-lspconfig',
+    name = 'lsp',
+  },
   {
     'simrat39/rust-tools.nvim',
     requires = {
@@ -15,6 +19,7 @@ return {
     requires = {
       'neovim/nvim-lspconfig',
       'simrat39/rust-tools.nvim',
+      'shurizzle/inlay-hints.nvim',
     },
     name = 'lsp.installer',
   },
