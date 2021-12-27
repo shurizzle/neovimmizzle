@@ -28,6 +28,7 @@ function M.config()
   keymap('n', '<leader>fg', '<cmd>Telescope live_grep<CR>', opts)
   keymap('n', '<leader>fb', '<cmd>Telescope buffers<CR>', opts)
   keymap('n', '<leader>fh', '<cmd>Telescope help_tags<CR>', opts)
+  keymap('n', '<leader>fs', '<cmd>Telescope lsp_workspace_symbols<CR>', opts)
 end
 
 return M
