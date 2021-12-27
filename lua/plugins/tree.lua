@@ -41,6 +41,8 @@ function M.pre()
     files = 1,
     folder_arrows = 0,
   }
+  vim.g.nvim_tree_respect_buf_cwd = 1
+  vim.g.nvim_tree_indent_markers = 1
 end
 
 function M.config()
@@ -84,9 +86,6 @@ function M.config()
     { key = 'g?', cb = tree_cb('toggle_help') },
   }
 
-  vim.g.nvim_tree_respect_buf_cwd = 1
-  vim.g.nvim_tree_indent_markers = 1
-
   require('nvim-tree').setup({
     hijack_cursor = true,
     diagnostics = { enable = true },
@@ -107,6 +106,18 @@ function M.config()
       signcolumn = 'yes',
     },
   })
+
+  local view = require('nvim-tree.view')
+  view.View.winopts['fillchars+'] = 'vert:\\ '
+  view.View.winopts.statusline = '%#BufferOffset#'
+  for _, k in ipairs({
+    'NvimTreeVertSplit',
+    'NvimTreeNormal',
+    'NvimTreeEndOfBuffer',
+    'NvimTreeStatusLine',
+  }) do
+    vim.api.nvim_command('hi! def link ' .. k .. ' BufferOffset')
+  end
 end
 
 return M

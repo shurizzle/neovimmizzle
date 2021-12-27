@@ -8,7 +8,7 @@ vim.g.mapleader = ','
 vim.g.maplocalleader = ','
 
 -- Just use vim.
-local opts = { noremap = true, silent = true }
+opts = { noremap = true, silent = true }
 for _, key in pairs({ 'Left', 'Right', 'Up', 'Down', 'PageUp', 'PageDown', 'End', 'Home' }) do
   keymap(
     'n',

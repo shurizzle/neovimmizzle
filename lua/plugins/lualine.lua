@@ -114,6 +114,7 @@ function M.config()
           'filename',
           symbols = symbols.filename,
         },
+        'lsp_progress',
       },
       lualine_x = { 'filetype' },
       lualine_y = { fmt_enc, space, pos },
@@ -122,7 +123,7 @@ function M.config()
     tabline = {},
     extensions = {
       fixed_extension('Telescope', 'TelescopePrompt'),
-      fixed_extension('Explorer', 'NvimTree'),
+      fixed_extension('', 'NvimTree'),
       fixed_extension('Dashboard', 'dashboard'),
     },
   })
