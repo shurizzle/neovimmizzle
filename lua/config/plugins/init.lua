@@ -47,7 +47,7 @@ local function add_callbacks(plugin, name)
 end
 
 local config = {}
-for _, plugin in ipairs(require('config.plugins.packer')) do
+for _, plugin in ipairs(require('config.plugins._packages')) do
   if plugin.name then
     local name = plugin.name
     plugin.name = nil
