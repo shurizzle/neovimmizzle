@@ -114,7 +114,6 @@ function M.config()
           'filename',
           symbols = symbols.filename,
         },
-        'lsp_progress',
       },
       lualine_x = { 'filetype' },
       lualine_y = { fmt_enc, space, pos },
