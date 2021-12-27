@@ -100,3 +100,5 @@ keymap('n', '[g', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
 keymap('n', ']g', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
 keymap('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
 keymap('n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+
+keymap('', '<space>e', '<cmd>lua require"tree".toggle()<CR>', opts)

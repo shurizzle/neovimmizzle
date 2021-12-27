@@ -1,5 +1,9 @@
 local M = {}
 
-function M.config() end
+function M.pre()
+  vim.g.bufferline = {
+    auto_hide = true,
+  }
+end
 
 return M

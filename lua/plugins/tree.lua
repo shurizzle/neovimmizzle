@@ -107,13 +107,6 @@ function M.config()
       signcolumn = 'yes',
     },
   })
-
-  vim.api.nvim_set_keymap(
-    '',
-    '<space>e',
-    '<cmd>NvimTreeToggle<CR>',
-    { noremap = true, silent = true }
-  )
 end
 
 return M
