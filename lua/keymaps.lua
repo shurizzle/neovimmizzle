@@ -30,8 +30,8 @@ for _, key in pairs({ 'Left', 'Right', 'Up', 'Down', 'PageUp', 'PageDown', 'End'
   )
 end
 
-keymap('', '<C-n>', '<cmd>tabn<CR>', {})
-keymap('', '<C-p>', '<cmd>tabp<CR>', {})
+keymap('', '<C-n>', '<cmd>lua tabnext()<CR>', {})
+keymap('', '<C-p>', '<cmd>lua tabprev()<CR>', {})
 
 -- Reselect visual selection after indenting
 keymap('v', '<', '<gv', opts)

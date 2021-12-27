@@ -30,3 +30,19 @@ function _G.colorscheme(...)
     return false
   end
 end
+
+function _G.tabnext()
+  if vim.fn.exists(':BufferNext') ~= 0 then
+    vim.api.nvim_command('BufferNext')
+  else
+    vim.api.nvim_command('tabn')
+  end
+end
+
+function _G.tabprev()
+  if vim.fn.exists(':BufferPrevious') ~= 0 then
+    vim.api.nvim_command('BufferPrevious')
+  else
+    vim.api.nvim_command('tabp')
+  end
+end
