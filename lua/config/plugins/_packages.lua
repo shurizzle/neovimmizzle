@@ -3,6 +3,7 @@ return {
   { 'nvim-lua/plenary.nvim' },
   { 'rcarriga/nvim-notify', name = 'notify' },
   { 'shurizzle/inlay-hints.nvim', name = 'inlayhints' },
+  { 'ray-x/lsp_signature.nvim' },
   {
     'neovim/nvim-lspconfig',
     name = 'lsp',
@@ -20,6 +21,7 @@ return {
       'neovim/nvim-lspconfig',
       'simrat39/rust-tools.nvim',
       'shurizzle/inlay-hints.nvim',
+      'ray-x/lsp_signature.nvim',
     },
     name = 'lsp.installer',
   },

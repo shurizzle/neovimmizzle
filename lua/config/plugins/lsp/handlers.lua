@@ -55,6 +55,27 @@ function M.on_attach(client, bufnr)
     client.resolved_capabilities.document_formatting = false
     client.resolved_capabilities.document_range_formatting = false
   end
+
+  if client.resolved_capabilities.document_highlight then
+    local buffer = '<buffer'
+      .. ((bufnr or 0) ~= 0 and ('=' .. tostring(bufnr)) or '')
+      .. '>'
+    vim.api.nvim_exec(
+      string.format(
+        [[
+augroup lsp_document_highlight
+  autocmd! * %s
+  autocmd CursorHold %s lua vim.lsp.buf.document_highlight()
+augroup END
+    ]],
+        buffer,
+        buffer
+      ),
+      false
+    )
+  end
+
+  require('lsp_signature').on_attach({}, bufnr)
 end
 
 return M
