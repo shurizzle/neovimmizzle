@@ -101,7 +101,8 @@ return {
   { 'editorconfig/editorconfig-vim' },
   {
     'instant-markdown/vim-instant-markdown',
-    disabled = (vim.g.started_by_firenvim or 0) == 0,
+    name = 'markdown',
+    ft = { 'markdown' },
   },
   { 'glacambre/firenvim', name = 'firenvim' },
   { 'glepnir/dashboard-nvim', name = 'dashboard' },
