@@ -1,9 +1,7 @@
 local M = {}
 
 function M.config()
-  local configs = require('nvim-treesitter.configs')
-
-  configs.setup({
+  require('nvim-treesitter.configs').setup({
     ensure_installed = 'maintained', -- one of "all", "maintained" (parsers with maintainers), or a list of languages
     sync_install = false, -- install languages synchronously (only applied to `ensure_installed`)
     ignore_install = { '' }, -- List of parsers to ignore installing
@@ -19,6 +17,18 @@ function M.config()
     context_commentstring = {
       enable = true,
       enable_autocmd = false,
+    },
+    textobjects = {
+      select = {
+        enable = true,
+        lookahead = true,
+        keymaps = {
+          ['af'] = '@function.outer',
+          ['if'] = '@function.inner',
+          ['ac'] = '@class.outer',
+          ['ic'] = '@class.inner',
+        },
+      },
     },
   })
 

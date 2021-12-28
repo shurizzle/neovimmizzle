@@ -30,6 +30,11 @@ return {
   { 'jose-elias-alvarez/null-ls.nvim', name = 'lsp.null-ls' },
   { 'nvim-telescope/telescope-fzf-native.nvim', name = 'telescope.fzf' },
   { 'nvim-telescope/telescope-ui-select.nvim' },
+  { 'nvim-treesitter/nvim-treesitter', name = 'treesitter' },
+  {
+    'nvim-treesitter/nvim-treesitter-textobjects',
+    requires = { 'nvim-treesitter/nvim-treesitter' },
+  },
   { 'L3MON4D3/LuaSnip' },
   {
     'saecki/crates.nvim',
@@ -42,7 +47,10 @@ return {
   { 'hrsh7th/cmp-path' },
   { 'hrsh7th/cmp-calc' },
   { 'hrsh7th/cmp-emoji' },
-  { 'ray-x/cmp-treesitter' },
+  {
+    'ray-x/cmp-treesitter',
+    requires = { 'nvim-treesitter/nvim-treesitter' },
+  },
   { 'lukas-reineke/cmp-rg' },
   {
     'hrsh7th/nvim-cmp',
@@ -93,7 +101,6 @@ return {
       'kyazdani42/nvim-web-devicons',
     },
   },
-  { 'nvim-treesitter/nvim-treesitter', name = 'treesitter' },
   { 'norcalli/nvim-colorizer.lua', name = 'colorizer' },
   { 'MarcWeber/vim-addon-local-vimrc' },
   { 'junegunn/goyo.vim' },
