@@ -3,7 +3,7 @@ local M = {}
 function M.config()
   require('paperplanes').setup({
     register = '+',
-    provider = 'ix.io',
+    provider = 'paste.rs',
   })
 end
 
