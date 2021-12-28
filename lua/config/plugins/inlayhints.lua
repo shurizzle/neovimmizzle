@@ -1,7 +1,7 @@
 local M = {}
 
 function M.config()
-  require('inlay-hints').setup()
+  require('inlay-hints').config()
 end
 
 return M
