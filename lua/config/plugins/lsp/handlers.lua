@@ -57,7 +57,7 @@ function M.on_attach(client, bufnr)
   end
 
   require('lsp_signature').on_attach({}, bufnr)
-  vim.g.Illuminate_ftblacklist = { 'NvimTree' }
+  vim.g.Illuminate_ftblacklist = { 'NvimTree', 'dashboard' }
   require('illuminate').on_attach(client)
 end
 
