@@ -4,6 +4,7 @@ return {
   { 'rcarriga/nvim-notify', name = 'notify' },
   { 'shurizzle/inlay-hints.nvim', name = 'inlayhints' },
   { 'ray-x/lsp_signature.nvim' },
+  { 'RRethy/vim-illuminate' },
   {
     'neovim/nvim-lspconfig',
     name = 'lsp',
@@ -22,6 +23,7 @@ return {
       'simrat39/rust-tools.nvim',
       'shurizzle/inlay-hints.nvim',
       'ray-x/lsp_signature.nvim',
+      'RRethy/vim-illuminate',
     },
     name = 'lsp.installer',
   },
