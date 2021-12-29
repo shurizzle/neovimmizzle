@@ -1,5 +1,7 @@
 local M = {}
 
+local ignored_ft = { 'markdown' }
+
 local asked = {}
 
 function M.on_file_open()
@@ -8,6 +10,16 @@ function M.on_file_open()
   if asked[ft] ~= nil then
     return
   end
+
+  local ignore = not vim.tbl_isempty(vim.tbl_filter(function(ift)
+    return ift == ft
+  end, ignored_ft))
+
+  if ignore then
+    asked[ft] = true
+    return
+  end
+
   local servers = require('nvim-lsp-installer._generated.filetype_map')[ft]
 
   if servers == nil then
