@@ -34,6 +34,15 @@ local function ensure_winnr(winnr)
   return winnr
 end
 
+local function ensure_tabnr(tabnr)
+  tabnr = is_numeric(tabnr) and tonumber(tabnr) or nil
+  tabnr = tabnr or 0
+  if tabnr == 0 then
+    tabnr = vim.api.nvim_get_current_win()
+  end
+  return tabnr
+end
+
 local function index_of(tbl, what)
   for k, v in pairs(tbl) do
     if v == what then
@@ -118,6 +127,20 @@ local function err(msg)
   vim.api.nvim_echo({ { msg, 'ErrorMsg' } }, false, {})
 end
 
+local function buf_get_wins(bufnr)
+  bufnr = ensure_bufnr(bufnr)
+  return vim.tbl_filter(function(winnr)
+    return vim.api.nvim_win_get_buf(winnr) == bufnr
+  end, vim.api.nvim_list_wins())
+end
+
+local function tab_get_wins(tabnr)
+  tabnr = ensure_tabnr(tabnr)
+  return vim.tbl_filter(function(winnr)
+    return vim.api.nvim_win_get_tabpage(winnr) == tabnr
+  end, vim.api.nvim_list_wins())
+end
+
 function M.close_buffer(bang, bufnr)
   if type(bang) ~= 'string' then
     bang = bang and '!' or ''
@@ -146,10 +169,8 @@ function M.close_buffer(bang, bufnr)
     vim.fn.setbufvar(bufnr, '&bufhidden', 'hide')
   end
 
-  for _, winnr in ipairs(vim.api.nvim_list_wins()) do
-    if vim.api.nvim_win_get_buf(winnr) == bufnr then
-      M.clear_window(winnr)
-    end
+  for _, winnr in buf_get_wins(bufnr) do
+    M.clear_window(winnr)
   end
 
   if vim.api.nvim_buf_is_loaded(bufnr) then
