@@ -103,6 +103,11 @@ return {
     },
   },
   { 'norcalli/nvim-colorizer.lua', name = 'colorizer' },
+  {
+    'lewis6991/gitsigns.nvim',
+    name = 'gitsigns',
+    requires = { 'nvim-lua/plenary.nvim' },
+  },
   { 'MarcWeber/vim-addon-local-vimrc' },
   { 'junegunn/goyo.vim' },
   { 'windwp/nvim-autopairs', name = 'autopairs' },
