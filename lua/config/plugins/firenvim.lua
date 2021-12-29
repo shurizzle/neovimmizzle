@@ -8,7 +8,7 @@ function M.pre()
   vim.g.firenvim_config = {
     globalSettings = { alt = 'all' },
     localSettings = {
-      ['https?://[^/]+\\.(instagram\\.com|twitch\\.tv)'] = {
+      ['https?://[^/]+\\.(instagram\\.com|twitch\\.tv|notion\\.so)'] = {
         takeover = 'never',
         priority = 1,
       },
