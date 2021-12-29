@@ -8,27 +8,44 @@ vim.g.mapleader = ','
 vim.g.maplocalleader = ','
 
 -- Just use vim.
-opts = { noremap = true, silent = true }
-for _, key in pairs({ 'Left', 'Right', 'Up', 'Down', 'PageUp', 'PageDown', 'End', 'Home' }) do
+opts = { silent = true }
+for name, key in pairs({
+  'Left',
+  'Right',
+  'Up',
+  'Down',
+  'PageUp',
+  'PageDown',
+  'End',
+  'Home',
+  Backspace = 'BS',
+  Delete = 'Del',
+}) do
+  if type(name) == 'number' then
+    name = key
+  end
+
   keymap(
     'n',
     '<' .. key .. '>',
-    '<cmd>echo "No ' .. key .. ' for you!"<CR>',
+    '<cmd>echo "No ' .. name .. ' for you!"<CR>',
     opts
   )
   keymap(
     'v',
     '<' .. key .. '>',
-    '<cmd><C-u>echo "No ' .. key .. ' for you!"<CR>',
+    '<cmd><C-u>echo "No ' .. name .. ' for you!"<CR>',
     opts
   )
   keymap(
     'i',
     '<' .. key .. '>',
-    '<C-o><cmd>echo "No ' .. key .. ' for you!"<CR>',
+    '<C-o><cmd>echo "No ' .. name .. ' for you!"<CR>',
     opts
   )
 end
+
+opts = { noremap = true, silent = true }
 
 keymap('', '<C-n>', '<cmd>lua tabnext()<CR>', {})
 keymap('', '<C-p>', '<cmd>lua tabprev()<CR>', {})
