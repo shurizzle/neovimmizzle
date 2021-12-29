@@ -108,6 +108,7 @@ return {
     name = 'gitsigns',
     requires = { 'nvim-lua/plenary.nvim' },
   },
+  { 'lukas-reineke/indent-blankline.nvim', name = 'indent-blankline' },
   { 'MarcWeber/vim-addon-local-vimrc' },
   { 'junegunn/goyo.vim' },
   { 'windwp/nvim-autopairs', name = 'autopairs' },
