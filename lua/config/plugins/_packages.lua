@@ -1,5 +1,6 @@
 return {
   { 'wbthomason/packer.nvim' },
+  { 'lewis6991/impatient.nvim' },
   { 'nvim-lua/plenary.nvim' },
   { 'rcarriga/nvim-notify', name = 'notify' },
   { 'shurizzle/inlay-hints.nvim', name = 'inlayhints' },
