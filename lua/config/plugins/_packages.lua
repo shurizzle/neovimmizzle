@@ -3,6 +3,7 @@ return {
   { 'lewis6991/impatient.nvim' },
   { 'nvim-lua/plenary.nvim' },
   { 'rcarriga/nvim-notify', name = 'notify' },
+  { 'stevearc/dressing.nvim', name = 'dressing' },
   { 'shurizzle/inlay-hints.nvim', name = 'inlayhints' },
   { 'ray-x/lsp_signature.nvim' },
   { 'RRethy/vim-illuminate' },
