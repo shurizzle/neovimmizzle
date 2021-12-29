@@ -126,4 +126,5 @@ return {
   { 'glacambre/firenvim', name = 'firenvim' },
   { 'rktjmp/paperplanes.nvim', name = 'paperplanes' },
   { 'glepnir/dashboard-nvim', name = 'dashboard' },
+  { 'chrisbra/Colorizer' },
 }
