@@ -80,7 +80,7 @@ return {
       'rcarriga/nvim-notify',
     },
   },
-  { 'arcticicestudio/nord-vim', name = 'nord' },
+  { 'yashguptaz/calvera-dark.nvim', name = 'calvera' },
   { 'arkav/lualine-lsp-progress' },
   {
     'nvim-lualine/lualine.nvim',

@@ -109,17 +109,7 @@ function M.config()
 
   local view = require('nvim-tree.view')
   view.View.winopts['fillchars+'] = 'vert:\\ '
-  view.View.winopts.statusline = '%#BufferOffset#'
-  view.View.winopts.winhl = table.concat({
-    'EndOfBuffer:BufferOffset',
-    'Normal:BufferOffset',
-    'CursorLine:NvimTreeCursorLine',
-    'VertSplit:BufferOffset',
-    'StatusLine:BufferOffset',
-    'StatusLineNC:NvimTreeStatuslineNC',
-    'SignColumn:BufferOffset',
-    'NormalNC:BufferOffset',
-  }, ',')
+  view.View.winopts.statusline = '%#NvimTreeStatusLine#'
 end
 
 return M
