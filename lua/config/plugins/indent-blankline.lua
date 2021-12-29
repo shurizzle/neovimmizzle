@@ -1,7 +1,7 @@
 local M = {}
 
 function M.pre()
-  vim.g.indent_blankline_filetype_exclude = { 'dashboard', 'NvimTree' }
+  vim.g.indent_blankline_filetype_exclude = { 'dashboard', 'NvimTree', 'help' }
 end
 
 function M.config()
