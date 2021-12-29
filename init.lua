@@ -39,6 +39,7 @@ function _G.extend(res, ...)
 end
 
 require('config.bootstrap')
+require('config.navigation').register()
 require('config.utils')
 require('config.tree').setup()
 require('config.keymaps')

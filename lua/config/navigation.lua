@@ -4,6 +4,8 @@ local closing_filetypes = { 'help', 'NvimTree' }
 
 local state = require('bufferline.state')
 
+local history = {}
+
 local function is_numeric(n)
   if type(n) == 'string' then
     return n == tostring(tonumber(n))
@@ -32,44 +34,95 @@ local function ensure_winnr(winnr)
   return winnr
 end
 
-local function get_buffer_list()
+local function index_of(tbl, what)
+  for k, v in pairs(tbl) do
+    if v == what then
+      return k
+    end
+  end
+  return nil
+end
+
+local registered = false
+function M.register()
+  if registered then
+    return
+  end
+  registered = true
+
+  vim.api.nvim_exec(
+    [[
+augroup navigation_history
+  au!
+  autocmd BufEnter * lua require'config.navigation'.on_buf_enter()
+augroup END
+]],
+    false
+  )
+end
+
+function M.on_buf_enter()
+  local bufnr = ensure_bufnr()
+  history = vim.tbl_filter(function(buf)
+    return buf ~= bufnr
+  end, history)
+
+  table.insert(history, bufnr)
+end
+
+function M.get_buffer_list()
   return state.get_updated_buffers()
 end
 
-local function get_current_tab_buffer_list() end
+function M.get_history()
+  local buffers = M.get_buffer_list()
+  history = vim.tbl_filter(function(buf)
+    return vim.tbl_contains(buffers, buf)
+  end, history)
+  return vim.tbl_deep_extend('force', {}, history)
+end
 
 function M.close_direct(bufnr)
   require('bufferline.state').close_buffer(bufnr)
 end
 
-function M.new_empty(bang)
-  bang = bang and '!' or ''
-  vim.api.nvim_command('enew' .. bang)
-  local bufnr = vim.api.nvim_get_current_buf() -- 10
-  vim.fn.setbufvar(bufnr, 'empty_buffer', true)
-  vim.api.nvim_command('setl noswapfile')
-  vim.api.nvim_command('setl bufhidden=wipe')
-  vim.api.nvim_command('setl buftype=')
-  vim.api.nvim_command('setl nobuflisted')
-  vim.api.nvim_command('setl noma')
-  vim.api.nvim_command('augroup bbye_empty_buffer')
-  vim.api.nvim_command('au! * <buffer>')
-  vim.api.nvim_command(
-    'au BufWipeout <buffer> lua require"config.navigation".close_direct('
-      .. bufnr
-      .. ')'
-  )
-  vim.api.nvim_command('augroup END')
+function M.new_empty(winnr)
+  winnr = ensure_winnr(winnr)
+
+  local bufnr = vim.api.nvim_create_buf(false, true)
+  vim.bo[bufnr].swapfile = false
+  vim.bo[bufnr].bufhidden = 'wipe'
+  vim.bo[bufnr].buflisted = false
+  vim.bo[bufnr].modifiable = false
+  vim.api.nvim_buf_call(bufnr, function()
+    vim.cmd('setl buftype=')
+
+    vim.api.nvim_exec(
+      string.format(
+        [[
+augroup bbye_empty_buffer
+  au! * <buffer>
+  au BufWipeout <buffer> lua require"config.navigation".close_direct(%s)
+augroup END
+    ]],
+        bufnr
+      ),
+      false
+    )
+  end)
+  vim.b[bufnr].empty_buffer = true
+  vim.api.nvim_win_set_buf(winnr, bufnr)
 end
 
 local function err(msg)
   vim.api.nvim_echo({ { msg, 'ErrorMsg' } }, false, {})
 end
 
-local function delete(action, bang, bufnr)
+function M.close_buffer(bang, bufnr)
   if type(bang) ~= 'string' then
     bang = bang and '!' or ''
   end
+  bang = bang == '!'
   bufnr = ensure_bufnr(bufnr)
 
   local ft = vim.bo[bufnr].ft
@@ -93,29 +146,65 @@ local function delete(action, bang, bufnr)
     vim.fn.setbufvar(bufnr, '&bufhidden', 'hide')
   end
 
-  local next_bufnr = nil
-  for _, bn in ipairs(get_buffer_list()) do
-    if vim.tbl_isempty(vim.fn.getbufinfo(bn)[1].windows) then
-      next_bufnr = bn
-      break
+  for _, winnr in ipairs(vim.api.nvim_list_wins()) do
+    if vim.api.nvim_win_get_buf(winnr) == bufnr then
+      M.clear_window(winnr)
     end
   end
 
-  if next_bufnr then
-    vim.api.nvim_command('buffer' .. bang .. ' ' .. next_bufnr)
-  else
-    M.new_empty(bang)
-  end
-
-  if vim.fn.buflisted(bufnr) then
-    vim.api.nvim_command(action .. bang .. ' ' .. bufnr)
+  if vim.api.nvim_buf_is_loaded(bufnr) then
+    vim.api.nvim_buf_delete(bufnr, { force = true })
   end
 
   vim.api.nvim_command('doautocmd BufWinEnter')
 end
 
-function M.close_buffer(bang, bufnr)
-  delete('bdelete', bang, bufnr)
+function M.clear_window(winnr)
+  winnr = ensure_winnr(winnr)
+  local bufnr = vim.api.nvim_win_get_buf(winnr)
+  local h = M.get_history()
+  local remaining = vim.tbl_filter(function(buf)
+    return not vim.tbl_contains(h, buf)
+  end, M.get_buffer_list())
+  h = vim.tbl_map(function(buf)
+    if buf == bufnr then
+      return buf
+    end
+    return vim.tbl_isempty(vim.fn.getbufinfo(buf)[1].windows) and buf or nil
+  end, h)
+  local base = index_of(h, bufnr)
+  if not base then
+    return
+  end
+
+  local stop = #h - base
+  if base > stop then
+    stop = base
+  end
+
+  local prev = nil
+  for x = 1, stop do
+    local i = base - x
+    if i > 0 and h[i] then
+      prev = h[i]
+      break
+    end
+    i = base + x
+    if i <= #h and h[i] then
+      prev = h[i]
+      break
+    end
+  end
+
+  if not prev and vim.tbl_isempty(remaining) then
+    _, prev = next(remaining)
+  end
+
+  if prev then
+    vim.api.nvim_win_set_buf(winnr, prev)
+  else
+    M.new_empty(winnr)
+  end
 end
 
 function M.close_window(bang, winnr)
