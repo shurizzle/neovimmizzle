@@ -59,7 +59,7 @@ function M.config()
     end
 
     if server.name == 'rust_analyzer' then
-      require('inlay-hints.rust-tools').setup({
+      require('rust-tools').setup({
         tools = {
           autoSetHints = false,
         },
@@ -71,7 +71,6 @@ function M.config()
       })
       server:attach_buffers()
     else
-      require('inlay-hints.lsp-installer').setup(server, opts)
       server:setup(opts)
     end
   end)
