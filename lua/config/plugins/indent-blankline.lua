@@ -6,6 +6,7 @@ function M.pre()
     'NvimTree',
     'help',
     'packer',
+    'lsp-installer',
   }
 end
 
