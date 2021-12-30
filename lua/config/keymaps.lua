@@ -74,41 +74,42 @@ xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
 ]])
 
 -- lsp
-keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-keymap('n', 'tgD', '<cmd>tab lua vim.lsp.buf.declaration()<CR>', opts)
-keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-keymap('n', 'tgd', '<cmd>tab lua vim.lsp.buf.definition()<CR>', opts)
+keymap('n', '<leader>cD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+keymap('n', '<leader>cd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
 keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-keymap('n', 'tgi', '<cmd>tab lua vim.lsp.buf.implementation()<CR>', opts)
+keymap('n', '<leader>ci', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
 keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
 keymap(
   'n',
-  '<leader>wa',
+  '<leader>cwa',
   '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>',
   opts
 )
 keymap(
   'n',
-  '<leader>wr',
+  '<leader>cwr',
   '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>',
   opts
 )
 keymap(
   'n',
-  '<leader>wl',
+  '<leader>cwl',
   '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>',
   opts
 )
 keymap(
   'n',
-  '<leader>tD',
+  '<leader>ct',
   '<cmd>tab lua vim.lsp.buf.type_definition()<CR>',
   opts
 )
-keymap('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-keymap('n', '<leader>a', '<cmd>lua require"config.lsp".diagnostics()<CR>', opts)
+keymap('n', '<leader>cr', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+keymap(
+  'n',
+  '<leader>ch',
+  '<cmd>lua require"config.lsp".diagnostics()<CR>',
+  opts
+)
 keymap(
   'n',
   '<leader>ca',
@@ -121,11 +122,9 @@ keymap(
   '<cmd>lua require"config.lsp".code_action()<CR>',
   opts
 )
-keymap('n', 'gr', '<cmd>lua require"config.lsp".references()<CR>', opts)
-keymap('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
-keymap('n', '[g', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
-keymap('n', ']g', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
-keymap('n', '<leader>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
-keymap('n', '<leader>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
+keymap('n', '<leader>cr', '<cmd>lua require"config.lsp".references()<CR>', opts)
+keymap('n', '<leader>ce', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
+keymap('n', '[c', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
+keymap('n', ']c', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
 
 keymap('', '<space>e', '<cmd>lua require"config.tree".toggle()<CR>', opts)
