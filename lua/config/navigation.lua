@@ -157,7 +157,7 @@ function M.close_buffer(bang, bufnr)
   local is_modified = vim.api.nvim_buf_get_option(bufnr, 'modified')
   local has_confirm = vim.api.nvim_get_option('confirm')
 
-  if is_modified and string.len(bang) < 1 and not has_confirm then
+  if is_modified and bang and not has_confirm then
     return err(
       'E89: No write since last change for buffer '
         .. bufnr
@@ -165,7 +165,7 @@ function M.close_buffer(bang, bufnr)
     )
   end
 
-  if is_modified and string.len(bang) > 0 then
+  if is_modified and bang then
     vim.fn.setbufvar(bufnr, '&bufhidden', 'hide')
   end
 
@@ -257,7 +257,7 @@ function M.close_window(bang, winnr, close_if_no_valid_buffers)
     local is_modified = vim.api.nvim_buf_get_option(bufnr, 'modified')
     local has_confirm = vim.api.nvim_get_option('confirm')
 
-    if is_modified and string.len(bang) < 1 and not has_confirm then
+    if is_modified and bang and not has_confirm then
       return err(
         'E89: No write since last change for buffer '
           .. bufnr
