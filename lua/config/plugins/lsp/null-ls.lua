@@ -17,6 +17,23 @@ function M.config()
     table.insert(sources, formatting.prettier)
   end
 
+  if executable('blade-formatter') then
+    local bladeformatter = {
+      name = 'bladeformatter',
+      method = null_ls.methods.FORMATTING,
+      filetypes = { 'blade' },
+      generator = null_ls.formatter({
+        command = 'blade-formatter',
+        args = {
+          '--stdin',
+        },
+        to_stdin = true,
+        format = 'raw',
+      }),
+    }
+    table.insert(sources, bladeformatter)
+  end
+
   if executable('php-cs-fixer') then
     table.insert(
       sources,

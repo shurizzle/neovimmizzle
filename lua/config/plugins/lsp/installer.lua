@@ -1,6 +1,6 @@
 local M = {}
 
-local ignored_ft = { 'markdown' }
+local ignored_ft = { 'markdown', 'blade' }
 
 local asked = {}
 
