@@ -1,5 +1,29 @@
 local M = {}
 
+function M.setup()
+  vim.api.nvim_exec(
+    [[
+augroup nvim_tree_barbar_integration
+  au!
+  au WinClosed * lua require'config.tree'.on_close()
+augroup END
+    ]],
+    false
+  )
+end
+
+function M.on_close()
+  local winnr = vim.api.nvim_get_current_win()
+  local bufnr = vim.api.nvim_win_get_buf(winnr)
+  if vim.bo[bufnr].ft == 'NvimTree' then
+    local ok, state = pcall(require, 'bufferline.state')
+    if not ok then
+      return
+    end
+    state.set_offset(0)
+  end
+end
+
 function M.open()
   local ok, tree = pcall(require, 'nvim-tree')
   if not ok then

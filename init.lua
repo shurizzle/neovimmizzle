@@ -36,6 +36,7 @@ end
 
 require('config.bootstrap')
 require('config.utils')
+require('config.tree').setup()
 require('config.keymaps')
 require('config.options')
 require('config.colors')
