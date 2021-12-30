@@ -5,6 +5,11 @@ function M.config()
   local keymap = vim.api.nvim_set_keymap
 
   ts.setup({
+    defaults = {
+      prompt_prefix = '❯ ',
+      selection_caret = '❯ ',
+      winblend = 20,
+    },
     extensions = {
       fzf = {
         fuzzy = true,
