@@ -1,6 +1,6 @@
 local M = {}
 
-local closing_filetypes = { 'help', 'NvimTree' }
+local closable_filetypes = { 'help', 'NvimTree' }
 
 local state = require('bufferline.state')
 
@@ -136,9 +136,7 @@ end
 
 local function tab_get_wins(tabnr)
   tabnr = ensure_tabnr(tabnr)
-  return vim.tbl_filter(function(winnr)
-    return vim.api.nvim_win_get_tabpage(winnr) == tabnr
-  end, vim.api.nvim_list_wins())
+  return vim.api.nvim_tabpage_list_wins(tabnr)
 end
 
 function M.close_buffer(bang, bufnr)
@@ -149,8 +147,10 @@ function M.close_buffer(bang, bufnr)
   bufnr = ensure_bufnr(bufnr)
 
   local ft = vim.bo[bufnr].ft
-  if vim.tbl_contains(closing_filetypes, ft) then
-    vim.api.nvim_command('q')
+  if vim.tbl_contains(closable_filetypes, ft) then
+    for _, winnr in ipairs(buf_get_wins(bufnr)) do
+      vim.api.nvim_win_close(winnr, { force = true })
+    end
     return
   end
 
@@ -169,7 +169,7 @@ function M.close_buffer(bang, bufnr)
     vim.fn.setbufvar(bufnr, '&bufhidden', 'hide')
   end
 
-  for _, winnr in buf_get_wins(bufnr) do
+  for _, winnr in ipairs(buf_get_wins(bufnr)) do
     M.clear_window(winnr)
   end
 
@@ -228,8 +228,60 @@ function M.clear_window(winnr)
   end
 end
 
-function M.close_window(bang, winnr)
+function M.close_window(bang, winnr, close_if_no_valid_buffers)
+  if type(bang) ~= 'string' then
+    bang = bang and '!' or ''
+  end
+  bang = bang == '!'
   winnr = ensure_winnr(winnr)
+  local bufnr = vim.api.nvim_win_get_buf(winnr)
+
+  local ft = vim.bo[bufnr].ft
+  if vim.tbl_contains(closable_filetypes, ft) then
+    vim.api.nvim_win_close(winnr, { force = true })
+    return
+  end
+
+  local tabnr = vim.api.nvim_win_get_tabpage(winnr)
+
+  local wins = vim.tbl_filter(function(win)
+    return win ~= winnr
+  end, tab_get_wins(tabnr))
+  local valid_windows = vim.tbl_filter(function(win)
+    local buf = vim.api.nvim_win_get_buf(win)
+    return not vim.tbl_contains(closable_filetypes, vim.bo[buf].ft)
+      and vim.tbl_contains(M.get_buffer_list(), buf)
+  end, wins)
+
+  if close_if_no_valid_buffers and vim.tbl_isempty(valid_windows) then
+    local is_modified = vim.api.nvim_buf_get_option(bufnr, 'modified')
+    local has_confirm = vim.api.nvim_get_option('confirm')
+
+    if is_modified and string.len(bang) < 1 and not has_confirm then
+      return err(
+        'E89: No write since last change for buffer '
+          .. bufnr
+          .. ' (add ! to override)'
+      )
+    end
+
+    for _, win in ipairs(wins) do
+      vim.api.nvim_win_close(win, { force = true })
+    end
+    if vim.tbl_count(vim.api.nvim_list_tabpages()) == 1 then
+      vim.api.nvim_command('quit')
+    else
+      vim.api.nvim_command(
+        'tabclose ' .. vim.api.nvim_tabpage_get_number(tabnr)
+      )
+    end
+  else
+    if vim.tbl_isempty(valid_windows) then
+      M.clear_window(winnr)
+    else
+      vim.api.nvim_win_close(winnr, {})
+    end
+  end
 end
 
 return M
