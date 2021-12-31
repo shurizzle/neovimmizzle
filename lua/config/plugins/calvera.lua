@@ -14,6 +14,7 @@ function M.config()
   local bg = vim.g.calvera_disable_background == true and calvera.none
     or calvera.sidebar
   local h = {}
+  h.LspSignatureActiveParameter = { fg = calvera.yellow, bg = bg }
   h.NvimTreeStatusLine = { fg = bg, bg = bg }
   h.NvimTreeStatusLineNC = h.NvimTreeStatusLine
   h.NvimTreeEndOfBuffer = h.NvimTreeStatusLineNC
