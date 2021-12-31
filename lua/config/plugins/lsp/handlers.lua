@@ -56,7 +56,10 @@ function M.on_attach(client, bufnr)
     client.resolved_capabilities.document_range_formatting = false
   end
 
-  require('lsp_signature').on_attach({}, bufnr)
+  require('lsp_signature').on_attach({
+    floating_window_above_cur_line = true,
+    transparency = 10,
+  }, bufnr)
   vim.g.Illuminate_ftblacklist = { 'NvimTree', 'dashboard' }
   require('illuminate').on_attach(client)
 end

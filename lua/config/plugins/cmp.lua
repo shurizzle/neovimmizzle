@@ -5,31 +5,31 @@ function M.config()
   local luasnip = require('luasnip')
 
   local kind_icons = {
-    Class = ' ',
-    Color = ' ',
-    Constant = 'ﲀ ',
-    Constructor = ' ',
+    Class = '',
+    Color = '',
+    Constant = 'ﲀ',
+    Constructor = '',
     Enum = '練',
-    EnumMember = ' ',
-    Event = ' ',
-    Field = ' ',
+    EnumMember = '',
+    Event = '',
+    Field = '',
     File = '',
-    Folder = ' ',
-    Function = ' ',
+    Folder = '',
+    Function = '',
     Interface = 'ﰮ ',
-    Keyword = ' ',
-    Method = ' ',
-    Module = ' ',
+    Keyword = '',
+    Method = '',
+    Module = '',
     Operator = '',
-    Property = ' ',
-    Reference = ' ',
-    Snippet = ' ',
-    Struct = ' ',
-    Text = ' ',
-    TypeParameter = ' ',
+    Property = '',
+    Reference = '',
+    Snippet = '',
+    Struct = '',
+    Text = '',
+    TypeParameter = '',
     Unit = '塞',
-    Value = ' ',
-    Variable = ' ',
+    Value = '',
+    Variable = '',
   }
   local source_names = {
     nvim_lsp = '[Lsp]',
@@ -57,6 +57,7 @@ function M.config()
     },
     experimental = {
       native_menu = true,
+      ghost_text = true,
     },
     formatting = {
       fields = { 'kind', 'abbr', 'menu' },
@@ -86,8 +87,13 @@ function M.config()
         luasnip.lsp_expand(args.body)
       end,
     },
+    preselect = true,
     mapping = {
-      ['<Tab>'] = function(fallback)
+      ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+      ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+      ['<C-y>'] = cmp.config.disable,
+      ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+      ['<Tab>'] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.select_next_item()
         elseif luasnip.expand_or_jumpable() then
@@ -95,8 +101,8 @@ function M.config()
         else
           fallback()
         end
-      end,
-      ['<S-Tab>'] = function(fallback)
+      end, { 'i', 'c' }),
+      ['<S-Tab>'] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.select_prev_item()
         elseif luasnip.jumpable(-1) then
@@ -104,10 +110,13 @@ function M.config()
         else
           fallback()
         end
-      end,
-      ['<Esc>'] = cmp.mapping.abort(),
+      end, { 'i', 'c' }),
+      ['<Esc>'] = cmp.mapping({
+        i = cmp.mapping.abort(),
+        c = cmp.mapping.close(),
+      }),
       ['<CR>'] = cmp.mapping.confirm({
-        behavior = cmp.ConfirmBehavior.Replace,
+        behavior = cmp.ConfirmBehavior.Insert,
         select = true,
       }),
     },
