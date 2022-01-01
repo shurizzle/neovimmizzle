@@ -122,7 +122,7 @@ keymap(
   '<cmd>lua require"config.lsp".code_action()<CR>',
   opts
 )
-keymap('n', '<leader>cr', '<cmd>lua require"config.lsp".references()<CR>', opts)
+keymap('n', '<leader>cR', '<cmd>lua require"config.lsp".references()<CR>', opts)
 keymap('n', '<leader>ce', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
 keymap('n', '[c', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
 keymap('n', ']c', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
