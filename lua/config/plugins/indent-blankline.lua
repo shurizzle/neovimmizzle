@@ -7,6 +7,7 @@ function M.pre()
     'help',
     'packer',
     'lsp-installer',
+    'rfc',
   }
 end
 
