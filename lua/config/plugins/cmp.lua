@@ -56,7 +56,6 @@ function M.config()
       keyword_length = 1,
     },
     experimental = {
-      native_menu = true,
       ghost_text = true,
     },
     formatting = {
