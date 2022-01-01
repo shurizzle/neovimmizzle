@@ -11,11 +11,13 @@ return {
     'neovim/nvim-lspconfig',
     name = 'lsp',
   },
+  { 'mfussenegger/nvim-dap' },
   {
     'simrat39/rust-tools.nvim',
     requires = {
       'nvim-lua/plenary.nvim',
       'neovim/nvim-lspconfig',
+      'mfussenegger/nvim-dap',
     },
   },
   {
@@ -128,4 +130,9 @@ return {
   { 'glepnir/dashboard-nvim', name = 'dashboard' },
   { 'chrisbra/Colorizer' },
   { 'jwalton512/vim-blade' },
+  {
+    'rcarriga/nvim-dap-ui',
+    name = 'dapui',
+    requires = { 'mfussenegger/nvim-dap' },
+  },
 }

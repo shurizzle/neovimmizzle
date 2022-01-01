@@ -29,6 +29,7 @@ function M.open()
   if not ok then
     return
   end
+  require('config.debug').close()
   tree.find_file(true)
   if not M.is_open() then
     tree.open()

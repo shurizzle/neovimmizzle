@@ -128,3 +128,31 @@ keymap('n', '[c', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
 keymap('n', ']c', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
 
 keymap('', '<space>e', '<cmd>lua require"config.tree".toggle()<CR>', opts)
+
+keymap(
+  'n',
+  '<leader>db',
+  '<cmd>lua require"config.debug".toggle_breakpoint()<CR>',
+  opts
+)
+keymap(
+  'n',
+  '<leader>dp',
+  '<cmd>lua require"config.debug".step_back()<CR>',
+  opts
+)
+keymap(
+  'n',
+  '<leader>di',
+  '<cmd>lua require"config.debug".step_into()<CR>',
+  opts
+)
+keymap('n', '<leader>do', '<cmd>lua require"config.debug".step_out()<CR>', opts)
+keymap(
+  'n',
+  '<leader>dd',
+  '<cmd>lua require"config.debug".step_over()<CR>',
+  opts
+)
+
+keymap('', '<space>d', '<cmd>lua require"config.debug".toggle()<CR>', opts)

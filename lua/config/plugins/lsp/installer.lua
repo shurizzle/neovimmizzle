@@ -71,10 +71,35 @@ function M.config()
     end
 
     if server.name == 'rust_analyzer' then
+      local sysname = vim.loop.os_uname().sysname:lower()
+      local libext = 'so'
+      if sysname:match('windows') then
+        libext = 'dll'
+      elseif sysname:match('darwin') then
+        libext = 'dylib'
+      end
+
+      local extpath = join_paths(
+        vim.fn.expand('~'),
+        '.local',
+        'share',
+        'codelldb'
+      )
+      local codelldb = join_paths(extpath, 'adapter', 'codelldb')
+      local liblldb = join_paths(extpath, 'lldb', 'lib', 'liblldb.' .. libext)
+      local dap = {}
+      if executable(codelldb) and vim.fn.filereadable(liblldb) ~= 0 then
+        dap.adapter = require('rust-tools.dap').get_codelldb_adapter(
+          codelldb,
+          liblldb
+        )
+      end
+
       require('rust-tools').setup({
         tools = {
           autoSetHints = false,
         },
+        dap = dap,
         server = vim.tbl_deep_extend(
           'force',
           server:get_default_options(),
