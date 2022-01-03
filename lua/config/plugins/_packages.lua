@@ -39,7 +39,7 @@ return {
     'nvim-treesitter/nvim-treesitter-textobjects',
     requires = { 'nvim-treesitter/nvim-treesitter' },
   },
-  { 'L3MON4D3/LuaSnip' },
+  { 'L3MON4D3/LuaSnip', name = 'luasnip' },
   {
     'saecki/crates.nvim',
     name = 'crates',
