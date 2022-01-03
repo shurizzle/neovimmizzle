@@ -1,10 +1,10 @@
-local M = {}
+local _M = {}
 
 local function arrow(where)
   return string.format(':lua require\'config.plugins.tree\'.on_%s()<CR>', where)
 end
 
-function M.on_left()
+function _M.on_left()
   local lib = require('nvim-tree.lib')
   local node = lib.get_node_at_cursor()
 
@@ -13,7 +13,7 @@ function M.on_left()
   end
 end
 
-function M.on_right()
+function _M.on_right()
   local lib = require('nvim-tree.lib')
   local node = lib.get_node_at_cursor()
 
@@ -33,7 +33,7 @@ function M.on_right()
   end
 end
 
-function M.pre()
+function _M.pre()
   vim.g.nvim_tree_git_hl = 1
   vim.g.nvim_tree_show_icons = {
     git = 0,
@@ -45,7 +45,7 @@ function M.pre()
   vim.g.nvim_tree_indent_markers = 1
 end
 
-function M.config()
+function _M.config()
   local tree_cb = require('nvim-tree.config').nvim_tree_callback
 
   local list = {
@@ -112,4 +112,4 @@ function M.config()
   view.View.winopts.statusline = '%#NvimTreeStatusLine#'
 end
 
-return M
+return _M

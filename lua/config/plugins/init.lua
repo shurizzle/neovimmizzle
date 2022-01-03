@@ -11,48 +11,71 @@ packer.init({
   },
 })
 
-local function call_pre(plugin)
-  local ok, lib = pcall(require, 'config.plugins.' .. plugin)
-  if ok and type(lib) == 'table' then
-    pcall(lib.pre)
+local function hasupvalues(what)
+  if type(what) == 'table' then
+    local mt = debug.getmetatable(what)
+    if
+      type(mt) == 'table'
+      and type(mt.__call) == 'function'
+      and hasupvalues(mt.__call)
+    then
+      return true
+    end
+
+    for _, value in pairs(what) do
+      if hasupvalues(value) then
+        return true
+      end
+    end
+
+    return false
+  elseif type(what) == 'function' then
+    local name, _ = debug.getupvalue(what, 1)
+    return not not name
+  else
+    return false
   end
 end
 
-local function create_callback(plugin, callback)
-  local ok, lib = pcall(require, 'config.plugins.' .. plugin)
-  if ok and type(lib) == 'table' then
-    if type(lib[callback]) == 'function' then
-      return loadstring(
-        string.format(
-          'return require("config.plugins.%s").%s()',
-          plugin,
-          callback
-        )
-      )
-    else
-      return lib[callback]
-    end
+local function remap(plugin)
+  if type(plugin.mod) == 'string' then
+    local __mod
+    plugin.mod, __mod = nil, plugin.mod
+    setmetatable(plugin, {
+      __mod = __mod,
+      __index = function(table, key)
+        local res = rawget(table, key)
+        if res then
+          return res
+        end
+        local mod = getmetatable(table).__mod
+        res = require('config.plugins.' .. mod)[key]
+        -- Do magic because of packer's functions serialization
+        if hasupvalues(res) then
+          return load(
+            string.format(
+              'return function(...) require("config.plugins." .. %s)[%s](...) end',
+              vim.inspect(mod),
+              vim.inspect(key)
+            )
+          )()
+        else
+          return res
+        end
+      end,
+    })
   end
-end
-
-local function add_callbacks(plugin, name)
-  for _, callback in ipairs({ 'install', 'update', 'run', 'config', 'setup' }) do
-    local cb = create_callback(name, callback)
-    if cb then
-      plugin[callback] = cb
-    end
-  end
-
-  return plugin
 end
 
 local config = {}
 for _, plugin in ipairs(require('config.plugins._packages')) do
-  if plugin.name then
-    local name = plugin.name
-    plugin.name = nil
-    plugin = add_callbacks(plugin, name)
-    call_pre(name)
+  remap(plugin)
+
+  if plugin.pre then
+    local ok, desc = pcall(plugin.pre)
+    if not ok then
+      vim.notify(desc)
+    end
   end
 
   table.insert(config, plugin)
