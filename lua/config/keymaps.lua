@@ -73,6 +73,9 @@ endfunction
 xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
 ]])
 
+-- escape from terminal
+keymap('t', '<C-Esc>', '<C-\\><C-n>', opts)
+
 -- lsp
 keymap('n', '<leader>cD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
 keymap('n', '<leader>cd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
