@@ -48,20 +48,22 @@ local function remap(plugin)
         if res then
           return res
         end
+
         local mod = getmetatable(table).__mod
         res = require('config.plugins.' .. mod)[key]
         -- Do magic because of packer's functions serialization
         if hasupvalues(res) then
-          return load(
+          res = load(
             string.format(
               'return function(...) require("config.plugins." .. %s)[%s](...) end',
               vim.inspect(mod),
               vim.inspect(key)
             )
           )()
-        else
-          return res
         end
+        rawset(table, key, res)
+
+        return res
       end,
     })
   end
