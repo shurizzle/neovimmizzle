@@ -82,7 +82,7 @@ return {
       'rcarriga/nvim-notify',
     },
   },
-  { 'yashguptaz/calvera-dark.nvim', name = 'calvera' },
+  { 'catppuccin/nvim', name = 'catppuccin', as = 'cattpuccin' },
   { 'arkav/lualine-lsp-progress' },
   {
     'nvim-lualine/lualine.nvim',
