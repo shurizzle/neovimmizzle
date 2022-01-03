@@ -58,6 +58,7 @@ function M.on_attach(client, bufnr)
 
   require('lsp_signature').on_attach({
     floating_window_above_cur_line = true,
+    floating_window = false,
     transparency = 10,
   }, bufnr)
   vim.g.Illuminate_ftblacklist = { 'NvimTree', 'dashboard' }
