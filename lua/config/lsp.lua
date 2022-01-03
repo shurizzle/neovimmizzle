@@ -15,7 +15,7 @@ local M = {}
 
 function M.diagnostics()
   if vim.fn.exists(':Telescope') ~= 0 then
-    vim.cmd('Telescope diagnostics theme=get_dropdown')
+    vim.cmd('Telescope diagnostics bufnr=0 theme=get_dropdown')
   else
     vim.lsp.buf.diagnostics()
   end
