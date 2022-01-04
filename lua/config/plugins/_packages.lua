@@ -6,7 +6,7 @@ return {
   { 'stevearc/dressing.nvim', mod = 'dressing' },
   { 'shurizzle/inlay-hints.nvim', mod = 'inlayhints' },
   { 'ray-x/lsp_signature.nvim' },
-  { 'RRethy/vim-illuminate' },
+  { 'RRethy/vim-illuminate', mod = 'illuminate' },
   {
     'neovim/nvim-lspconfig',
     mod = 'lsp',

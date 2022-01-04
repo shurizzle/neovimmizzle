@@ -61,7 +61,6 @@ function M.on_attach(client, bufnr)
     floating_window = false,
     transparency = 10,
   }, bufnr)
-  vim.g.Illuminate_ftblacklist = { 'NvimTree', 'dashboard' }
   require('illuminate').on_attach(client)
 end
 
