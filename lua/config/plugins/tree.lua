@@ -33,7 +33,7 @@ function _M.on_right()
   end
 end
 
-function _M.pre()
+function _M.setup()
   vim.g.nvim_tree_git_hl = 1
   vim.g.nvim_tree_show_icons = {
     git = 0,

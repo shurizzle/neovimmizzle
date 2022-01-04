@@ -1,6 +1,6 @@
 local M = {}
 
-function M.pre()
+function M.setup()
   vim.g.bufferline = {
     auto_hide = true,
   }

@@ -1,6 +1,6 @@
 local M = {}
 
-function M.pre()
+function M.setup()
   vim.g.dashboard_default_executive = 'telescope'
   vim.g.dashboard_custom_header = vim.fn.split(
     [[

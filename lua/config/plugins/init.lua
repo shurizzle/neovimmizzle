@@ -71,16 +71,7 @@ end
 
 local config = {}
 for _, plugin in ipairs(require('config.plugins._packages')) do
-  remap(plugin)
-
-  if plugin.pre then
-    local ok, desc = pcall(plugin.pre)
-    if not ok then
-      vim.notify(desc)
-    end
-  end
-
-  table.insert(config, plugin)
+  table.insert(config, remap(plugin))
 end
 
 packer.reset()
