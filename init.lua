@@ -38,12 +38,11 @@ function _G.extend(res, ...)
   return res
 end
 
-require('config.bootstrap')
-require('config.utils')
-require('config.tree').setup()
 require('config.keymaps')
 require('config.options')
+require('config.bootstrap').setup()
+require('config.utils')
+require('config.tree').setup()
 require('config.colors')
 require('config.lsp')
-require('config.plugins')
 require('config.rust')

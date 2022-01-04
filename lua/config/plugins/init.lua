@@ -4,6 +4,8 @@ if not status_ok then
 end
 
 packer.init({
+  package_root = join_paths(vim.fn.stdpath('data'), 'site'),
+  compile_path = join_paths(vim.fn.stdpath('config'), 'packer_compiled.lua'),
   display = {
     open_fn = function()
       return require('packer.util').float({ border = 'rounded' })
