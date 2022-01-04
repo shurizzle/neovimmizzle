@@ -25,7 +25,17 @@ local options = {
   omnifunc = 'v:lua.vim.lsp.omnifunc',
 }
 
-if vim.fn.has('termguicolors') then
+if has('win32') then
+  options.shell = 'powershell'
+  options.shellcmdflag =
+    '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
+  options.shellredir = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
+  options.shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
+  options.shellquote = ''
+  options.shellxquote = ''
+end
+
+if has('termguicolors') then
   options.termguicolors = true
 end
 
