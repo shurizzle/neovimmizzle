@@ -67,6 +67,8 @@ local function remap(plugin)
       end,
     })
   end
+
+  return plugin
 end
 
 local config = {}
