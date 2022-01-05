@@ -158,5 +158,6 @@ keymap(
   '<cmd>lua require"config.debug".step_over()<CR>',
   opts
 )
+keymap('n', '<leader>dc', '<cmd>lua require"config.debug".continue()', opts)
 
 keymap('', '<space>d', '<cmd>lua require"config.debug".toggle()<CR>', opts)
