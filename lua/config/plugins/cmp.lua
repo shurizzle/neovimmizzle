@@ -109,6 +109,12 @@ function M.config()
       }),
     },
   })
+
+  -- FIXME
+  vim.api.nvim_exec(
+    [[au FileType sh lua require('cmp').setup.buffer{enabled=false}]],
+    false
+  )
 end
 
 return M
