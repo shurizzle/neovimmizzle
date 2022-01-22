@@ -22,14 +22,9 @@ function _M.on_right()
       lib.expand_or_collapse(node)
     end
   else
-    local path
-    if node.link_to then
-      path = node.link_to
-    else
-      path = node.absolute_path
-    end
+    local path = node.link_to and not node.entries and node.link_to or node.absolute_path
 
-    lib.open_file('open', path)
+    require('nvim-tree.actions.open-file').fn('open', path)
   end
 end
 
