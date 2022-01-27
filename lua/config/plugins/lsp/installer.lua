@@ -65,9 +65,10 @@ function M.config()
       capabilities = capabilities,
     }
 
-    if server.name == 'sumneko_lua' then
-      local sumneko_opts = require('config.plugins.lsp.settings.sumneko_lua')
-      opts = vim.tbl_deep_extend('force', sumneko_opts, opts)
+    local ok, custom_opts = pcall(require, 'config.plugins.lsp.settings.' .. server.name)
+
+    if ok then
+      opts = vim.tbl_deep_extend('force', custom_opts, opts)
     end
 
     if server.name == 'rust_analyzer' then
