@@ -130,6 +130,7 @@ return {
   { 'glepnir/dashboard-nvim', mod = 'dashboard' },
   { 'chrisbra/Colorizer' },
   { 'jwalton512/vim-blade' },
+  { 'DingDean/wgsl.vim' },
   {
     'rcarriga/nvim-dap-ui',
     mod = 'dapui',
