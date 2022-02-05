@@ -17,14 +17,19 @@ function _M.on_right()
   local lib = require('nvim-tree.lib')
   local node = lib.get_node_at_cursor()
 
-  if node.entries ~= nil then
+  if node.name == '..' then
+    return require('nvim-tree.actions.change-dir').fn('..')
+  end
+
+  if node.nodes ~= nil then
     if not node.open then
       lib.expand_or_collapse(node)
     end
   else
-    local path = node.link_to and not node.entries and node.link_to or node.absolute_path
+    local path = node.link_to and not node.entries and node.link_to
+      or node.absolute_path
 
-    require('nvim-tree.actions.open-file').fn('open', path)
+    require('nvim-tree.actions.open-file').fn('edit', path)
   end
 end
 
