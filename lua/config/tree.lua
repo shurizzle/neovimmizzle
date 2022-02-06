@@ -48,11 +48,11 @@ function M.open()
 end
 
 function M.close()
-  local ok, tree = pcall(require, 'nvim-tree')
+  local ok, view = pcall(require, 'nvim-tree.view')
   if not ok then
     return
   end
-  tree.close()
+  view.close()
   local state
   ok, state = pcall(require, 'bufferline.state')
   if not ok then
