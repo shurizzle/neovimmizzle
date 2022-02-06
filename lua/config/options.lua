@@ -51,5 +51,3 @@ end
 
 vim.opt.shortmess:append('c')
 vim.opt.fillchars:append('eob: ')
-
-vim.cmd([[autocmd FileType php set iskeyword+=$]])
