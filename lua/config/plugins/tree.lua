@@ -8,7 +8,7 @@ function _M.on_left()
   local lib = require('nvim-tree.lib')
   local node = lib.get_node_at_cursor()
 
-  if node.entries ~= nil and node.open then
+  if node.nodes ~= nil and node.open then
     lib.expand_or_collapse(node)
   end
 end
