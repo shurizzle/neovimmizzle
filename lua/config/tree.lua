@@ -66,7 +66,7 @@ function M.is_open()
   if not ok then
     return
   end
-  return view.win_open()
+  return view.is_visible()
 end
 
 function M.toggle()
