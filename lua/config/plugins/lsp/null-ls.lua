@@ -6,7 +6,10 @@ function M.config()
     return
   end
 
-  local formatting = null_ls.builtins.formatting
+  local diagnostics, code_actions, formatting =
+    null_ls.builtins.diagnostics,
+    null_ls.builtins.code_actions,
+    null_ls.builtins.formatting
   local sources = {}
 
   if executable('stylua') then
@@ -15,6 +18,11 @@ function M.config()
 
   if executable('prettier') then
     table.insert(sources, formatting.prettier)
+  end
+
+  if executable('eslint') then
+    table.insert(sources, diagnostics.eslint)
+    table.insert(sources, code_actions.eslint)
   end
 
   if executable('blade-formatter') then
