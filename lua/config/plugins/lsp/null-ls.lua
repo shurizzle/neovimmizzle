@@ -16,13 +16,16 @@ function M.config()
     table.insert(sources, formatting.stylua)
   end
 
-  if executable('prettier') then
-    table.insert(sources, formatting.prettier)
-  end
-
-  if executable('eslint') then
+  if executable('eslint_d') then
+    table.insert(sources, diagnostics.eslint_d)
+    table.insert(sources, code_actions.eslint_d)
+    table.insert(sources, formatting.eslint_d)
+  elseif executable('eslint') then
     table.insert(sources, diagnostics.eslint)
     table.insert(sources, code_actions.eslint)
+    table.insert(sources, formatting.eslint)
+  elseif executable('prettier') then
+    table.insert(sources, formatting.prettier)
   end
 
   if executable('blade-formatter') then
