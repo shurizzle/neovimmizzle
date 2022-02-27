@@ -23,6 +23,7 @@ local options = {
   splitright = true,
   colorcolumn = '80',
   omnifunc = 'v:lua.vim.lsp.omnifunc',
+  guifont = 'Hack Nerd Font Mono:h11',
 }
 
 if has('win32') then
