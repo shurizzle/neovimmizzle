@@ -49,8 +49,8 @@ function _M.config()
   local tree_cb = require('nvim-tree.config').nvim_tree_callback
 
   local list = {
-    { key = { '<CR>', '<2-LeftMouse>' }, cb = tree_cb('edit') },
-    { key = { '<2-RightMouse>', '<C-]>' }, cb = tree_cb('cd') },
+    { key = { '<2-LeftMouse>' }, cb = tree_cb('edit') },
+    { key = { '<2-RightMouse>', '<CR>' }, cb = tree_cb('cd') },
     { key = { 's' }, cb = tree_cb('split') },
     { key = { 'v' }, cb = tree_cb('vsplit') },
     { key = { 'l' }, cb = arrow('right') },
