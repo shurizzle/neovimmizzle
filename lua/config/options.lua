@@ -31,6 +31,25 @@ local options = {
   guifont = 'Hack Nerd Font Mono:h' .. font_size,
 }
 
+vim.g.neovide_cursor_vfx_mode = 'torpedo'
+
+vim.g.terminal_color_0 = '#282828'
+vim.g.terminal_color_8 = '#505050'
+vim.g.terminal_color_1 = '#c8213d'
+vim.g.terminal_color_9 = '#C7213D'
+vim.g.terminal_color_2 = '#169C51'
+vim.g.terminal_color_10 = '#1ef15f'
+vim.g.terminal_color_3 = '#DAAF19'
+vim.g.terminal_color_11 = '#FFE300'
+vim.g.terminal_color_4 = '#2F6CFF'
+vim.g.terminal_color_12 = '#00aeff'
+vim.g.terminal_color_5 = '#C14ABE'
+vim.g.terminal_color_13 = '#FF40BE'
+vim.g.terminal_color_6 = '#48C6DB'
+vim.g.terminal_color_14 = '#48FFFF'
+vim.g.terminal_color_7 = '#CBCBCB'
+vim.g.terminal_color_15 = '#FFFFFF'
+
 if has('win32') then
   options.shell = 'powershell'
   options.shellcmdflag =
