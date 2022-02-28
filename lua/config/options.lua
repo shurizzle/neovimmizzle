@@ -1,3 +1,8 @@
+local font_size = 9
+if has('mac') then
+  font_size = 11
+end
+
 local options = {
   fileencoding = 'UTF-8',
   mouse = 'a',
@@ -23,7 +28,7 @@ local options = {
   splitright = true,
   colorcolumn = '80',
   omnifunc = 'v:lua.vim.lsp.omnifunc',
-  guifont = 'Hack Nerd Font Mono:h11',
+  guifont = 'Hack Nerd Font Mono:h' .. font_size,
 }
 
 if has('win32') then
