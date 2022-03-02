@@ -54,6 +54,8 @@ function M.on_attach(client, bufnr)
   if client.name == 'tsserver' or client.name == 'intelephense' then
     client.resolved_capabilities.document_formatting = false
     client.resolved_capabilities.document_range_formatting = false
+  elseif client.name == 'eslint' then
+    client.resolved_capabilities.document_formatting = true
   end
 
   require('lsp_signature').on_attach({
