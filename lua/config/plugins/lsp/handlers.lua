@@ -1,6 +1,6 @@
-local M = {}
+local _M = {}
 
-function M.setup()
+function _M.setup()
   local signs = {
     { name = 'DiagnosticSignError', text = '' },
     { name = 'DiagnosticSignWarn', text = '' },
@@ -50,7 +50,7 @@ function M.setup()
   )
 end
 
-function M.on_attach(client, bufnr)
+function _M.on_attach(client, bufnr)
   if client.name == 'tsserver' or client.name == 'intelephense' then
     client.resolved_capabilities.document_formatting = false
     client.resolved_capabilities.document_range_formatting = false
@@ -60,10 +60,10 @@ function M.on_attach(client, bufnr)
 
   require('lsp_signature').on_attach({
     floating_window_above_cur_line = true,
-    floating_window = false,
+    floating_window = true,
     transparency = 10,
   }, bufnr)
   require('illuminate').on_attach(client)
 end
 
-return M
+return _M
