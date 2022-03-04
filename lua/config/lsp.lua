@@ -225,9 +225,15 @@ _M.commands.LspStop = function(args)
   end
 end
 
+_M.commands.LspInfo = require('lspconfig.ui.lspinfo')
+
 function _M.setup()
   vim.api.nvim_command(
     'command! -nargs=+ -complete=customlist,v:lua.completion.lsp.stop LspStop lua require\'config.lsp\'.commands.LspStop(<f-args>)'
+  )
+
+  vim.api.nvim_command(
+    'command! -nargs=0 LspInfo lua require\'config.lsp\'.commands.LspInfo()'
   )
 end
 
