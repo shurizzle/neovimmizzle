@@ -33,6 +33,21 @@ local function get_lsp_installer_available()
   return {}
 end
 
+---@return table<string, string>
+local function get_available()
+  local res = {}
+
+  for _, name in ipairs(get_lsp_installer_available()) do
+    res[name] = 'lsp-installer'
+  end
+
+  for _, name in ipairs(get_lspconfig_available()) do
+    res[name] = 'lspconfig'
+  end
+
+  return res
+end
+
 _G.completion = _G.completion or {}
 _G.completion.lsp = {}
 
@@ -157,9 +172,8 @@ local function parse_arg(arg)
   return create_matcher({ nil, arg })
 end
 
-local function split_args(line)
+local function map_args(x)
   local res = {}
-  local x = split(line)
   for _, arg in ipairs(x) do
     if #arg > 0 then
       arg = parse_arg(arg)
@@ -173,23 +187,12 @@ local function split_args(line)
   return concat_matcher(res)
 end
 
-local function remove_command(line)
-  return split2(line, ' ')
+local function split_args(line)
+  return map_args(split(line))
 end
 
----@return table<string, string>
-function _M.get_available()
-  local res = {}
-
-  for _, name in ipairs(get_lspconfig_available()) do
-    res[name] = 'lspconfig'
-  end
-
-  for _, name in ipairs(get_lsp_installer_available()) do
-    res[name] = 'lsp-installer'
-  end
-
-  return res
+local function remove_command(line)
+  return split2(line, ' ')
 end
 
 local function get_running()
@@ -214,14 +217,81 @@ _G.completion.lsp.stop = function(_, cmd_line, cursor_pos)
   end, clients)
 end
 
+_G.completion.lsp.start = function(_, cmd_line, cursor_pos)
+  local args, _ --[[completing]] = split_cmdline(cmd_line, cursor_pos + 1)
+  _ --[[command]], args = remove_command(args)
+  args = (args and #args > 0) and split(args) or {}
+  local argmap = {}
+  for _, name in ipairs(args) do
+    argmap[name] = true
+  end
+  -- TODO: filter by completing
+  return vim.tbl_filter(function(x)
+    return not argmap[x]
+  end, vim.tbl_keys(get_available()))
+end
+
 _M.commands = {}
 
-_M.commands.LspStop = function(args)
-  args = split_args(args)
+_M.commands.LspStop = function(...)
+  local args = { ... }
+  args = (args and #args > 0) and map_args(args) or {}
+
   for _, client in ipairs(get_running()) do
     if args:match(client) then
       client.stop()
     end
+  end
+end
+
+_M.commands.LspStart = function(...)
+  local args = { ... }
+  local servers = get_available()
+
+  local remaining = vim.tbl_filter(function(name)
+    local ok, res = pcall(function()
+      if servers[name] == 'lsp-installer' then
+        local ok, _ = require('nvim-lsp-installer.servers').get_server(name)
+        if not ok then
+          return true
+        end
+
+        servers[name] = 'lspconfig'
+      end
+
+      if servers[name] == 'lspconfig' then
+        (require('lspconfig.configs'))[name].launch()
+        return false
+      end
+
+      return true
+    end)
+
+    if not ok then
+      res = true
+    end
+
+    return res
+  end, args)
+
+  if #remaining > 0 then
+    local singular = #remaining == 1
+    if singular then
+      remaining = remaining[1]
+    else
+      local last = remaining[#remaining]
+      remaining[#remaining] = nil
+      remaining = table.concat(remaining, ', ') .. ' and ' .. last
+    end
+
+    vim.notify(
+      string.format(
+        'Cannot start server%s %s',
+        singular and '' or 's',
+        remaining
+      ),
+      'error'
+    )
   end
 end
 
@@ -230,6 +300,10 @@ _M.commands.LspInfo = require('lspconfig.ui.lspinfo')
 function _M.setup()
   vim.api.nvim_command(
     'command! -nargs=+ -complete=customlist,v:lua.completion.lsp.stop LspStop lua require\'config.lsp\'.commands.LspStop(<f-args>)'
+  )
+
+  vim.api.nvim_command(
+    'command! -nargs=+ -complete=customlist,v:lua.completion.lsp.start LspStart lua require\'config.lsp\'.commands.LspStart(<f-args>)'
   )
 
   vim.api.nvim_command(
