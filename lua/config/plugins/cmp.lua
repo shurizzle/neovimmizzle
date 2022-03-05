@@ -286,16 +286,7 @@ function _M.config()
             select = false,
           })
         then
-          if jumpable() then
-            luasnip.jump(1)
-          end
           return
-        end
-
-        if jumpable() then
-          if not luasnip.jump(1) then
-            fallback()
-          end
         else
           fallback()
         end
