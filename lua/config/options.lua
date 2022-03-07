@@ -27,6 +27,7 @@ local options = {
   splitbelow = true,
   splitright = true,
   colorcolumn = '80',
+  cursorline = true,
   omnifunc = 'v:lua.vim.lsp.omnifunc',
   guifont = 'Hack Nerd Font Mono:h' .. font_size,
 }

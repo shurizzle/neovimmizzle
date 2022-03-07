@@ -82,7 +82,6 @@ return {
       'rcarriga/nvim-notify',
     },
   },
-  { 'catppuccin/nvim', mod = 'catppuccin', as = 'cattpuccin' },
   { 'arkav/lualine-lsp-progress' },
   {
     'nvim-lualine/lualine.nvim',
@@ -90,6 +89,7 @@ return {
     requires = {
       { 'kyazdani42/nvim-web-devicons', opt = true },
       { 'arkav/lualine-lsp-progress' },
+      { 'rktjmp/lush.nvim' },
     },
     opt = false,
   },
@@ -136,4 +136,5 @@ return {
     mod = 'dapui',
     requires = { 'mfussenegger/nvim-dap' },
   },
+  { 'rktjmp/lush.nvim' },
 }

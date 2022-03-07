@@ -86,7 +86,7 @@ function M.config()
   require('lualine').setup({
     options = {
       icons_enabled = opts.nerdfont,
-      theme = 'catppuccin',
+      theme = 'bluesky',
       component_separators = symbols.component_separators,
       section_separators = symbols.section_separators,
       always_divide_middle = true,
