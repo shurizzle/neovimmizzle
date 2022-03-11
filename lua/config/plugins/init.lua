@@ -76,6 +76,15 @@ for _, plugin in ipairs(require('config.plugins._packages')) do
   table.insert(config, remap(plugin))
 end
 
+table.insert(config, { 'rktjmp/lush.nvim' })
+table.insert(config, {
+  join_paths(base_dir(), 'lua', 'post-packer-load'),
+  requires = { 'rktjmp/lush.nvim' },
+  config = function()
+    require('post-packer-load').config()
+  end,
+})
+
 packer.reset()
 packer.use(config)
 

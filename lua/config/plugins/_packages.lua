@@ -136,5 +136,4 @@ return {
     mod = 'dapui',
     requires = { 'mfussenegger/nvim-dap' },
   },
-  { 'rktjmp/lush.nvim' },
 }
