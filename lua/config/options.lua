@@ -60,3 +60,18 @@ end
 
 vim.opt.shortmess:append('c')
 vim.opt.fillchars:append('eob: ')
+
+if has('unix') and executable('lemonade') and is_ssh() then
+  vim.g.clipboard = {
+    name = 'lemonade',
+    copy = {
+      ['+'] = { 'lemonade', 'copy' },
+      ['*'] = { 'lemonade', 'copy' },
+    },
+    paste = {
+      ['+'] = { 'lemonade', 'paste' },
+      ['*'] = { 'lemonade', 'paste' },
+    },
+    cache_enabled = 1,
+  }
+end
