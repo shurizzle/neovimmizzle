@@ -42,7 +42,6 @@ function _M.setup()
     folder_arrows = 0,
   }
   vim.g.nvim_tree_respect_buf_cwd = 1
-  vim.g.nvim_tree_indent_markers = 1
 end
 
 function _M.config()
@@ -111,6 +110,7 @@ function _M.config()
       },
       signcolumn = 'yes',
     },
+    renderer = { indent_markers = { enable = true } },
   })
 
   local view = require('nvim-tree.view')
