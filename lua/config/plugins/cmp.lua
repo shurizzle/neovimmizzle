@@ -221,8 +221,10 @@ function _M.config()
         return vim_item
       end,
     },
-    documentation = {
-      border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
+    window = {
+      documentation = {
+        border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
+      },
     },
     sources = {
       { name = 'nvim_lsp' },
