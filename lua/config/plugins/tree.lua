@@ -113,9 +113,10 @@ function _M.config()
     renderer = { indent_markers = { enable = true } },
   })
 
-  local view = require('nvim-tree.view')
-  view.View.winopts['fillchars+'] = 'vert:\\ '
-  view.View.winopts.statusline = '%#NvimTreeStatusLine#'
+  require('nvim-tree.events').on_tree_open(function()
+    vim.opt_local.fillchars:append('vert: ')
+    vim.opt_local.statusline = '%#NvimTreeStatusLine#'
+  end)
 end
 
 return _M
