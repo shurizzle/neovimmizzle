@@ -9,19 +9,17 @@ vim.g.maplocalleader = ','
 
 -- Just use vim.
 opts = { silent = true }
-for name, key in
-  pairs({
-    'Left',
-    'Right',
-    'Up',
-    'Down',
-    'PageUp',
-    'PageDown',
-    'End',
-    'Home',
-    Delete = 'Del',
-  })
-do
+for name, key in pairs({
+  'Left',
+  'Right',
+  'Up',
+  'Down',
+  'PageUp',
+  'PageDown',
+  'End',
+  'Home',
+  Delete = 'Del',
+}) do
   if type(name) == 'number' then
     name = key
   end
