@@ -56,6 +56,9 @@ function _M.on_attach(client, bufnr)
     client.resolved_capabilities.document_range_formatting = false
   elseif client.name == 'eslint' then
     client.resolved_capabilities.document_formatting = true
+  elseif client.name == 'sumneko_lua' and executable('stylua') then
+    client.resolved_capabilities.document_formatting = false
+    client.resolved_capabilities.document_range_formatting = false
   end
 
   require('lsp_signature').on_attach({
