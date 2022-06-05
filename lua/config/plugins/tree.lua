@@ -33,17 +33,6 @@ function _M.on_right()
   end
 end
 
-function _M.setup()
-  vim.g.nvim_tree_git_hl = 1
-  vim.g.nvim_tree_show_icons = {
-    git = 0,
-    folders = 1,
-    files = 1,
-    folder_arrows = 0,
-  }
-  vim.g.nvim_tree_respect_buf_cwd = 1
-end
-
 function _M.config()
   local list = {
     { key = { '<2-LeftMouse>' }, action = 'edit' },
@@ -110,7 +99,19 @@ function _M.config()
       },
       signcolumn = 'yes',
     },
-    renderer = { indent_markers = { enable = true } },
+    renderer = {
+      indent_markers = { enable = true },
+      highlight_git = true,
+      icons = {
+        show = {
+          git = false,
+          folder = true,
+          file = true,
+          folder_arrow = false,
+        },
+      },
+    },
+    respect_buf_cwd = true,
   })
 
   require('nvim-tree.events').on_tree_open(function()
