@@ -52,13 +52,27 @@ end
 
 function _M.on_attach(client, bufnr)
   if client.name == 'tsserver' or client.name == 'intelephense' then
-    client.resolved_capabilities.document_formatting = false
-    client.resolved_capabilities.document_range_formatting = false
+    if client.resolved_capabilities then
+      client.resolved_capabilities.document_formatting = false
+      client.resolved_capabilities.document_range_formatting = false
+    end
+
+    client.server_capabilities.documentFormattingProvider = false
+    client.server_capabilities.documentRangeFormattingProvider = false
   elseif client.name == 'eslint' then
-    client.resolved_capabilities.document_formatting = true
+    if client.resolved_capabilities then
+      client.resolved_capabilities.document_formatting = true
+    end
+
+    client.server_capabilities.documentFormattingProvider = true
   elseif client.name == 'sumneko_lua' and executable('stylua') then
-    client.resolved_capabilities.document_formatting = false
-    client.resolved_capabilities.document_range_formatting = false
+    if client.resolved_capabilities then
+      client.resolved_capabilities.document_formatting = false
+      client.resolved_capabilities.document_range_formatting = false
+    end
+
+    client.server_capabilities.documentFormattingProvider = false
+    client.server_capabilities.documentRangeFormattingProvider = false
   end
 
   require('lsp_signature').on_attach({
