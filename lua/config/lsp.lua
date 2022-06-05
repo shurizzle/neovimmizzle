@@ -22,19 +22,11 @@ function M.diagnostics()
 end
 
 function M.code_action()
-  if vim.fn.exists(':Telescope') ~= 0 then
-    vim.cmd('Telescope lsp_code_actions theme=get_dropdown preview=false')
-  else
-    vim.lsp.buf.code_action()
-  end
+  vim.lsp.buf.code_action()
 end
 
 function M.range_code_action()
-  if vim.fn.exists(':Telescope') ~= 0 then
-    vim.cmd('Telescope lsp_range_code_actions theme=get_dropdown preview=false')
-  else
-    vim.lsp.buf.range_code_action()
-  end
+  vim.lsp.buf.range_code_action()
 end
 
 function M.references()
