@@ -4,7 +4,11 @@ return {
   { 'nvim-lua/plenary.nvim' },
   { 'rcarriga/nvim-notify', mod = 'notify' },
   { 'stevearc/dressing.nvim', mod = 'dressing' },
-  { 'shurizzle/inlay-hints.nvim', mod = 'inlayhints' },
+  {
+    'shurizzle/inlay-hints.nvim',
+    requires = { 'nvim-treesitter/nvim-treesitter' },
+    mod = 'inlayhints',
+  },
   { 'ray-x/lsp_signature.nvim' },
   { 'RRethy/vim-illuminate', mod = 'illuminate' },
   {
