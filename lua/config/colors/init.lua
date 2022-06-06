@@ -41,10 +41,14 @@ local function set_terminal_colors()
 end
 
 function _M.setup()
-  set_terminal_colors()
   vim.opt.background = 'dark'
+  vim.cmd('hi clear')
+  if vim.fn.exists('syntax') ~= 0 then
+    vim.cmd('syntax reset')
+  end
   vim.g.colors_name = 'bluesky'
   require('lush')(require('config.colors.bluesky'))
+  set_terminal_colors()
 end
 
 function _M.set_highlight_colors()
