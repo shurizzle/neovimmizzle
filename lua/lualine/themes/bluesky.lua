@@ -1,8 +1,4 @@
-local cp = {}
-
-for name, color in pairs(require('config.colors.bluesky.palette')) do
-  cp[name] = tostring(color)
-end
+local cp = require('config.colors.palette')
 
 return {
   normal = {

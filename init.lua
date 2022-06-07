@@ -17,7 +17,14 @@ function _G.has(what)
   return vim.fn.has(what) ~= 0
 end
 
-_G.is_ssh = loadstring('return ' .. ((has('unix') and vim.fn.system('who'):match('%(%d+%.%d+%.%d+%.%d+%)')) and 'true' or 'false'))
+_G.is_ssh = loadstring(
+  'return '
+    .. (
+      (has('unix') and vim.fn.system('who'):match('%(%d+%.%d+%.%d+%.%d+%)'))
+        and 'true'
+      or 'false'
+    )
+)
 
 _G.path_separator = (has('win16') or has('win32') or has('win64')) and '\\'
   or '/'
@@ -42,6 +49,7 @@ end
 
 require('config.bootstrap')
 require('config.utils')
+require('config.colors').setup()
 require('config.tree').setup()
 require('config.keymaps')
 require('config.options')

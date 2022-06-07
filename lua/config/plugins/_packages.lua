@@ -93,7 +93,6 @@ return {
     requires = {
       { 'kyazdani42/nvim-web-devicons', opt = true },
       { 'arkav/lualine-lsp-progress' },
-      { 'rktjmp/lush.nvim' },
     },
     opt = false,
   },

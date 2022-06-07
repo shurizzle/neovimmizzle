@@ -21,34 +21,107 @@ local resources = {
   color15 = '#FFFFFF',
 }
 
-local function set_terminal_colors()
-  vim.g.terminal_color_0 = resources.color0
-  vim.g.terminal_color_1 = resources.color1
-  vim.g.terminal_color_2 = resources.color2
-  vim.g.terminal_color_3 = resources.color3
-  vim.g.terminal_color_4 = resources.color4
-  vim.g.terminal_color_5 = resources.color5
-  vim.g.terminal_color_6 = resources.color6
-  vim.g.terminal_color_7 = resources.color7
-  vim.g.terminal_color_8 = resources.color8
-  vim.g.terminal_color_9 = resources.color9
-  vim.g.terminal_color_10 = resources.color10
-  vim.g.terminal_color_11 = resources.color11
-  vim.g.terminal_color_12 = resources.color12
-  vim.g.terminal_color_13 = resources.color13
-  vim.g.terminal_color_14 = resources.color14
-  vim.g.terminal_color_15 = resources.color15
+local function get_highlights()
+  local res = ''
+  for _, value in
+    ipairs(
+      require('shipwright.transform.lush.to_vimscript')(
+        require('config.colors.bluesky')
+      )
+    )
+  do
+    res = res .. value .. '\n'
+  end
+  return res
+end
+
+local function compile_terminal_colors()
+  local res = 'let g:terminal_color_fg = "'
+    .. resources.foreground
+    .. '"\n'
+    .. 'let g:terminal_color_bg = "'
+    .. resources.background
+    .. '"\n'
+
+  for i = 0, 15, 1 do
+    res = res
+      .. 'let g:terminal_color_'
+      .. tostring(i)
+      .. ' = "'
+      .. resources['color' .. tostring(i)]
+      .. '"\n'
+  end
+
+  return res
+end
+
+local function get_theme()
+  return 'set background=dark\nhi clear\n'
+    .. 'if exists("syntax")\n  syntax reset\nendif\n'
+    .. 'let g:colors_name="bluesky"\n\n'
+    .. get_highlights()
+    .. compile_terminal_colors()
+    .. [[
+augroup set_highlight_colors
+  au!
+  autocmd VimEnter * lua require"config.colors".set_highlight_colors()
+  autocmd ColorScheme * lua require"config.colors".set_highlight_colors()
+augroup END
+    ]]
+end
+
+local function write_file(file, content)
+  local f, err, ok = io.open(file, 'w+b')
+  if not f then
+    return false, err
+  end
+  ok, err = f:write(content)
+
+  if not ok then
+    return false, err
+  end
+
+  f:close()
+
+  return true, nil
+end
+
+local function get_colo_file()
+  return join_paths(vim.fn.stdpath('config'), 'colors', 'bluesky.vim')
+end
+
+local function get_palette()
+  local res = {}
+  for key, value in pairs(require('config.colors.bluesky.palette')) do
+    res[key] = tostring(value)
+  end
+  return res
+end
+
+local function generate_palette()
+  local palette = 'return ' .. vim.inspect(get_palette())
+  local init_path = debug.getinfo(1, 'S').source:sub(2)
+  local base_dir = init_path:match('(.*[/\\])'):sub(1, -2)
+  local ok, err = write_file(join_paths(base_dir, 'palette.lua'), palette)
+  if not ok then
+    error(err)
+  end
+end
+
+_M.color_sync = function()
+  local theme = get_theme()
+  local ok, err = write_file(get_colo_file(), theme)
+  if not ok then
+    error(err)
+  end
+  generate_palette()
+  vim.api.nvim_exec(theme, false)
+  vim.cmd('doautocmd ColorScheme')
 end
 
 function _M.setup()
-  vim.opt.background = 'dark'
-  vim.cmd('hi clear')
-  if vim.fn.exists('syntax') ~= 0 then
-    vim.cmd('syntax reset')
-  end
-  vim.g.colors_name = 'bluesky'
-  require('lush')(require('config.colors.bluesky'))
-  set_terminal_colors()
+  colorscheme('bluesky')
+  vim.cmd('command! ColoSync lua require"config.colors".color_sync()<CR>')
 end
 
 function _M.set_highlight_colors()
@@ -57,17 +130,5 @@ function _M.set_highlight_colors()
   vim.api.nvim_command('hi def link LspReferenceRead CursorLine')
   vim.api.nvim_command('hi def link illuminatedWord CursorLine')
 end
-
-_M.set_highlight_colors()
-vim.api.nvim_exec(
-  [[
-augroup set_highlight_colors
-  au!
-  autocmd VimEnter * lua require"config.colors".set_highlight_colors()
-  autocmd ColorScheme * lua require"config.colors".set_highlight_colors()
-augroup END
-]],
-  false
-)
 
 return _M
