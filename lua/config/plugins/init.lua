@@ -78,6 +78,7 @@ end
 
 table.insert(config, {
   'rktjmp/lush.nvim',
+  as = 'lush',
   opt = true,
   cmd = { 'LushRunQuickstart', 'LushRunTutorial', 'Lushify' },
 })

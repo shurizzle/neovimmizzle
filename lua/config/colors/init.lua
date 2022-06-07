@@ -108,7 +108,11 @@ local function generate_palette()
   end
 end
 
-_M.color_sync = function()
+function sync()
+  if not packer_plugins['lush'] then
+    require('packer').loader('lush')
+  end
+
   local theme = get_theme()
   local ok, err = write_file(get_colo_file(), theme)
   if not ok then
@@ -119,9 +123,24 @@ _M.color_sync = function()
   vim.cmd('doautocmd ColorScheme')
 end
 
+_M.sync = function()
+  local ok, err = pcall(sync)
+
+  if ok then
+    vim.notify('colorscheme synchronized', 'info', {
+      title = 'Colors',
+    })
+  else
+    vim.notify(err, 'error', {
+      title = 'Colors',
+    })
+  end
+end
+
 function _M.setup()
   colorscheme('bluesky')
-  vim.cmd('command! ColoSync lua require"config.colors".color_sync()<CR>')
+  vim.cmd('autocmd User PackerComplete lua require"config.colors".sync()')
+  vim.cmd('command! ColoSync lua require"config.colors".sync()<CR>')
 end
 
 function _M.set_highlight_colors()
