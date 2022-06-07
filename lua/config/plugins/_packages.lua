@@ -75,6 +75,7 @@ return {
       'saecki/crates.nvim',
       'lukas-reineke/cmp-rg',
       'L3MON4D3/LuaSnip',
+      'ahmedkhalf/project.nvim',
     },
   },
   {

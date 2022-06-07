@@ -156,6 +156,48 @@ _M.methods.jumpable = jumpable
 function _M.config()
   local cmp = require('cmp')
   local luasnip = require('luasnip')
+  local cmp_rg = require('cmp-rg')
+  local project = require('project_nvim.project')
+
+  local function isvalidcwd(req_cwd)
+    local cwd = vim.fn.getcwd()
+    local ok, root = pcall(function()
+      vim.api.nvim_set_current_dir(req_cwd)
+      local root, _ = project.get_project_root()
+      return root
+    end)
+    vim.api.nvim_set_current_dir(cwd)
+
+    if not ok then
+      error(root)
+    end
+
+    if not root then
+      return false
+    end
+
+    root = string.gsub(root, _G.path_separator .. '+$', '')
+
+    return vim.startswith(req_cwd, root)
+  end
+
+  local function rg1_complete(self, request, callback)
+    request.option.cwd = request.option.cwd or vim.fn.getcwd()
+
+    if isvalidcwd(request.option.cwd) then
+      self.inner.complete(self.inner, request, callback)
+    else
+      callback({ items = {}, isIncomplete = false })
+    end
+  end
+
+  cmp.register_source(
+    'rg1',
+    setmetatable(
+      { inner = cmp_rg.new() },
+      { __index = { complete = rg1_complete } }
+    )
+  )
 
   local kind_icons = {
     Class = '',
@@ -192,7 +234,7 @@ function _M.config()
     path = '[Pat]',
     calc = '[Clc]',
     emoji = '[Emj]',
-    rg = '[Rg]',
+    rg1 = '[Rg]',
   }
   local duplicates = {
     buffer = 1,
@@ -235,7 +277,7 @@ function _M.config()
       { name = 'treesitter' },
       { name = 'luasnip' },
       { name = 'crates' },
-      { name = 'rg' },
+      { name = 'rg1' },
     },
     snippet = {
       expand = function(args)
@@ -295,12 +337,6 @@ function _M.config()
       end),
     },
   })
-
-  -- FIXME
-  vim.api.nvim_exec(
-    [[au FileType sh lua require('cmp').setup.buffer{enabled=false}]],
-    false
-  )
 end
 
 return _M
