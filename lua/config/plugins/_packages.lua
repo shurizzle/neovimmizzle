@@ -120,7 +120,7 @@ return {
   },
   { 'lukas-reineke/indent-blankline.nvim', mod = 'indent-blankline' },
   { 'MarcWeber/vim-addon-local-vimrc' },
-  { 'junegunn/goyo.vim' },
+  { 'junegunn/goyo.vim', cmd = { 'Goyo' } },
   { 'windwp/nvim-autopairs', mod = 'autopairs' },
   { 'tpope/vim-repeat' },
   { 'numToStr/Comment.nvim', mod = 'comment' },
@@ -135,9 +135,7 @@ return {
   { 'glacambre/firenvim', mod = 'firenvim' },
   { 'rktjmp/paperplanes.nvim', mod = 'paperplanes' },
   { 'glepnir/dashboard-nvim', mod = 'dashboard' },
-  { 'chrisbra/Colorizer' },
   { 'jwalton512/vim-blade' },
-  { 'DingDean/wgsl.vim' },
   {
     'rcarriga/nvim-dap-ui',
     mod = 'dapui',
