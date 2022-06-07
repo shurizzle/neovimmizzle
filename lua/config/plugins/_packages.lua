@@ -7,6 +7,7 @@ return {
   {
     'shurizzle/inlay-hints.nvim',
     requires = { 'nvim-treesitter/nvim-treesitter' },
+    ft = { 'rust', 'typescript' },
     mod = 'inlayhints',
   },
   { 'ray-x/lsp_signature.nvim' },
@@ -47,8 +48,9 @@ return {
   {
     'saecki/crates.nvim',
     mod = 'crates',
-    tag = 'v0.1.0',
-    requires = { 'nvim-lua/plenary.nvim' },
+    event = { 'BufRead Cargo.toml' },
+    tag = 'v0.2.1',
+    requires = { 'nvim-lua/plenary.nvim', 'jose-elias-alvarez/null-ls.nvim' },
   },
   { 'hrsh7th/cmp-nvim-lsp' },
   { 'hrsh7th/cmp-buffer' },
@@ -84,6 +86,7 @@ return {
       'nvim-telescope/telescope-fzf-native.nvim',
       'nvim-telescope/telescope-ui-select.nvim',
       'rcarriga/nvim-notify',
+      'ahmedkhalf/project.nvim',
     },
   },
   { 'arkav/lualine-lsp-progress' },

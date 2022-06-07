@@ -69,6 +69,8 @@ function _M.config()
   }
 
   require('nvim-tree').setup({
+    respect_buf_cwd = true,
+    update_cwd = true,
     hijack_netrw = true,
     hijack_cursor = true,
     hijack_directories = {
@@ -111,7 +113,6 @@ function _M.config()
         },
       },
     },
-    respect_buf_cwd = true,
   })
 
   require('nvim-tree.events').on_tree_open(function()
