@@ -62,6 +62,9 @@ keymap('v', 'Y', 'myY`y')
 -- Paste replace visual selection without copying it
 keymap('v', '<leader>p', '"_dP')
 
+-- Search for text in visual selection
+keymap('v', '*', 'y/\\V<C-r>=escape(@", \'/\\\')<CR><CR>')
+
 -- Make Y behave like the other capitals
 keymap('n', 'Y', 'y$')
 
