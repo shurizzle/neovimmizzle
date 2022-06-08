@@ -9,15 +9,12 @@ function M.config()
     },
   })
 
-  local opts = { noremap = true, silent = true, expr = true }
-  for _, t in pairs({ 'x', 'n' }) do
-    vim.api.nvim_set_keymap(
-      t,
-      '<leader>c ',
-      [[v:count == 0 ? '<CMD>lua require("Comment.api").call("toggle_current_linewise_op")<CR>g@$' : '<CMD>lua require("Comment.api").toggle_linewise_count()<CR>']],
-      opts
-    )
-  end
+  vim.keymap.set(
+    { 'x', 'n' },
+    '<leader>c ',
+    [[v:count == 0 ? '<CMD>lua require("Comment.api").call("toggle_current_linewise_op")<CR>g@$' : '<CMD>lua require("Comment.api").toggle_linewise_count()<CR>']],
+    { noremap = true, silent = true, expr = true }
+  )
 end
 
 return M

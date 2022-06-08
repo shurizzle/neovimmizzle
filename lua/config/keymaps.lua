@@ -1,14 +1,17 @@
-local opts = { noremap = true, silent = true }
-
--- Shorten function name
-local keymap = vim.api.nvim_set_keymap
+local keymap = function(modes, left, right, options)
+  options = vim.tbl_extend(
+    'force',
+    { noremap = true, silent = true },
+    options or {}
+  )
+  vim.keymap.set(modes, left, right, options)
+end
 
 vim.g.mapleader = ','
 vim.g.maplocalleader = ','
-keymap('', '<leader>,', ',', opts)
+keymap('', '<leader>,', ',')
 
 -- Just use vim.
-opts = { silent = true }
 for name, key in pairs({
   'Left',
   'Right',
@@ -28,41 +31,39 @@ for name, key in pairs({
     'n',
     '<' .. key .. '>',
     '<cmd>echo "No ' .. name .. ' for you!"<CR>',
-    opts
+    { noremap = false }
   )
   keymap(
     'v',
     '<' .. key .. '>',
     '<cmd><C-u>echo "No ' .. name .. ' for you!"<CR>',
-    opts
+    { noremap = false }
   )
   keymap(
     'i',
     '<' .. key .. '>',
     '<C-o><cmd>echo "No ' .. name .. ' for you!"<CR>',
-    opts
+    { noremap = false }
   )
 end
 
-opts = { noremap = true, silent = true }
-
-keymap('', '<C-n>', '<cmd>lua tabnext()<CR>', {})
-keymap('', '<C-p>', '<cmd>lua tabprev()<CR>', {})
+keymap('', '<C-n>', _G.tabnext)
+keymap('', '<C-p>', _G.tabprev)
 
 -- Reselect visual selection after indenting
-keymap('v', '<', '<gv', opts)
-keymap('v', '>', '>gv', opts)
+keymap('v', '<', '<gv')
+keymap('v', '>', '>gv')
 
 -- Maintain the cursor position when yanking a visual selection
 -- http://ddrscott.github.io/blog/2016/yank-without-jank/
-keymap('v', 'y', 'myy`y', opts)
-keymap('v', 'Y', 'myY`y', opts)
+keymap('v', 'y', 'myy`y')
+keymap('v', 'Y', 'myY`y')
 
 -- Paste replace visual selection without copying it
-keymap('v', '<leader>p', '"_dP', opts)
+keymap('v', '<leader>p', '"_dP')
 
 -- Make Y behave like the other capitals
-keymap('n', 'Y', 'y$', opts)
+keymap('n', 'Y', 'y$')
 
 vim.cmd([[
 function! ExecuteMacroOverVisualRange()
@@ -73,88 +74,34 @@ xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
 ]])
 
 -- escape from terminal
-keymap('t', '<C-Esc>', '<C-\\><C-n>', opts)
+keymap('t', '<C-Esc>', '<C-\\><C-n>')
 
 -- lsp
-keymap('n', '<leader>cD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-keymap('n', '<leader>cd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-keymap('n', '<leader>ci', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-keymap(
-  'n',
-  '<leader>cwa',
-  '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>',
-  opts
-)
-keymap(
-  'n',
-  '<leader>cwr',
-  '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>',
-  opts
-)
-keymap(
-  'n',
-  '<leader>cwl',
-  '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>',
-  opts
-)
-keymap(
-  'n',
-  '<leader>ct',
-  '<cmd>tab lua vim.lsp.buf.type_definition()<CR>',
-  opts
-)
-keymap('n', '<leader>cr', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-keymap(
-  'n',
-  '<leader>ch',
-  '<cmd>lua require"config.lsp".diagnostics()<CR>',
-  opts
-)
-keymap(
-  'n',
-  '<leader>ca',
-  '<cmd>lua require"config.lsp".code_action()<CR>',
-  opts
-)
-keymap(
-  'x',
-  '<leader>ca',
-  '<cmd>lua require"config.lsp".code_action()<CR>',
-  opts
-)
-keymap('n', '<leader>cR', '<cmd>lua require"config.lsp".references()<CR>', opts)
-keymap('n', '<leader>ce', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
-keymap('n', '[c', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
-keymap('n', ']c', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+keymap('n', '<leader>cD', vim.lsp.buf.declaration)
+keymap('n', '<leader>cd', vim.lsp.buf.definition)
+keymap('n', 'K', vim.lsp.buf.hover)
+keymap('n', '<leader>ci', vim.lsp.buf.implementation)
+keymap('n', '<C-k>', vim.lsp.buf.signature_help)
+keymap('n', '<leader>cwa', vim.lsp.buf.add_workspace_folder)
+keymap('n', '<leader>cwr', vim.lsp.buf.remove_workspace_folder)
+keymap('n', '<leader>cwl', function()
+  print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+end)
+keymap('n', '<leader>ct', vim.lsp.buf.type_definition)
+keymap('n', '<leader>cr', vim.lsp.buf.rename)
+keymap('n', '<leader>ch', require('config.lsp').diagnostics)
+keymap({ 'n', 'x' }, '<leader>ca', require('config.lsp').code_action)
+keymap('n', '<leader>cR', require('config.lsp').references)
+keymap('n', '<leader>ce', vim.diagnostic.open_float)
+keymap('n', '[c', vim.diagnostic.goto_prev)
+keymap('n', ']c', vim.diagnostic.goto_next)
 
-keymap('', '<space>e', '<cmd>lua require"config.tree".toggle()<CR>', opts)
+keymap('', '<space>e', require('config.tree').toggle)
 
-keymap(
-  'n',
-  '<leader>db',
-  '<cmd>lua require"config.debug".toggle_breakpoint()<CR>',
-  opts
-)
-keymap(
-  'n',
-  '<leader>dp',
-  '<cmd>lua require"config.debug".step_back()<CR>',
-  opts
-)
-keymap(
-  'n',
-  '<leader>di',
-  '<cmd>lua require"config.debug".step_into()<CR>',
-  opts
-)
-keymap('n', '<leader>do', '<cmd>lua require"config.debug".step_out()<CR>', opts)
-keymap(
-  'n',
-  '<leader>dd',
-  '<cmd>lua require"config.debug".step_over()<CR>',
-  opts
-)
+keymap('n', '<leader>db', require('config.debug').toggle_breakpoint)
+keymap('n', '<leader>dp', require('config.debug').step_back)
+keymap('n', '<leader>di', require('config.debug').step_into)
+keymap('n', '<leader>do', require('config.debug').step_out)
+keymap('n', '<leader>dd', require('config.debug').step_over)
 
-keymap('', '<space>d', '<cmd>lua require"config.debug".toggle()<CR>', opts)
+keymap('', '<space>d', require('config.debug').toggle)

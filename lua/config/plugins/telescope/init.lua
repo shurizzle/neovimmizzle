@@ -2,7 +2,7 @@ local M = {}
 
 function M.config()
   local ts = require('telescope')
-  local keymap = vim.api.nvim_set_keymap
+  local keymap = vim.keymap.set
 
   ts.setup({
     defaults = {
