@@ -3,9 +3,9 @@ local opts = { noremap = true, silent = true }
 -- Shorten function name
 local keymap = vim.api.nvim_set_keymap
 
-keymap('', ',', '<Nop>', opts)
 vim.g.mapleader = ','
 vim.g.maplocalleader = ','
+keymap('', '<leader>,', ',', opts)
 
 -- Just use vim.
 opts = { silent = true }
