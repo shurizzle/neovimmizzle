@@ -15,12 +15,12 @@ augroup END
 
 local function action_severity(action)
   if not action.diagnostics then
-    return 0
+    return 5
   end
 
-  local s = 0
+  local s = 5
   for _, value in ipairs(action.diagnostics) do
-    if value.serverity and value.serverity > s then
+    if value.serverity and value.serverity < s then
       s = value.serverity
     end
   end
@@ -28,7 +28,7 @@ local function action_severity(action)
 end
 
 local function sort_actions(a, b)
-  return action_severity(a) <= action_severity(b)
+  return action_severity(a) >= action_severity(b)
 end
 
 function _M.diagnostics()
