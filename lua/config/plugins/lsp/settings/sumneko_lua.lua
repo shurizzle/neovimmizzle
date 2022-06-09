@@ -47,7 +47,7 @@ if vim.fn.getcwd() == base_dir() then
         completion = { callSnippet = 'Both' },
         diagnostics = {
           -- Get the language server to recognize the `vim` global
-          globals = { 'vim' },
+          globals = { 'vim', 'packer_plugins' },
         },
         workspace = {
           -- Make the server aware of Neovim runtime files
