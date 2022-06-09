@@ -108,7 +108,7 @@ local function generate_palette()
   end
 end
 
-function sync()
+local function sync()
   if not packer_plugins['lush'] or not packer_plugins['lush'].loaded then
     require('packer').loader('lush')
   end
