@@ -31,6 +31,12 @@ local function sort_actions(a, b)
   return action_severity(a) >= action_severity(b)
 end
 
+function _M.workspace_diagnostics()
+  if vim.fn.exists(':Telescope') ~= 0 then
+    vim.cmd('Telescope diagnostics theme=get_dropdown')
+  end
+end
+
 function _M.diagnostics()
   if vim.fn.exists(':Telescope') ~= 0 then
     vim.cmd('Telescope diagnostics bufnr=0 theme=get_dropdown')
@@ -38,7 +44,14 @@ function _M.diagnostics()
 end
 
 function _M.code_action()
-  vim.lsp.buf.code_action({ sort = sort_actions })
+  vim.lsp.buf.code_action({
+    sort = sort_actions,
+    on_no_actions = function()
+      vim.cmd(
+        'Telescope diagnostics bufnr=0 severity_limit=WARN theme=get_dropdown'
+      )
+    end,
+  })
 end
 
 function _M.range_code_action()
@@ -109,7 +122,11 @@ local function on_code_action_results(results, ctx, options)
   end
 
   if #action_tuples == 0 then
-    vim.notify('No code actions available', vim.log.levels.INFO)
+    if options.on_no_actions then
+      options.on_no_actions()
+    else
+      vim.notify('No code actions available', vim.log.levels.INFO)
+    end
     return
   end
 
