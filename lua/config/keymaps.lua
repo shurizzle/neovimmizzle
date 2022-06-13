@@ -115,3 +115,46 @@ keymap('n', '<leader>do', require('config.debug').step_out)
 keymap('n', '<leader>dd', require('config.debug').step_over)
 
 keymap('', '<space>d', require('config.debug').toggle)
+
+keymap('n', '<leader>a', function()
+  set_operatorfunc(function(vmode)
+    vim.notify(vim.fn.expand('<cword>'))
+  end)
+  vim.api.nvim_feedkeys('g@iw', 'i', false)
+end)
+
+keymap('n', '<leader>f', function()
+  -- vim.fn.matchadd('Visual', '\\k*\\%#\\k*', 10, 6969)
+  vim.api.nvim_echo(
+    { { ' [u]pper [s]nake [k]ebab [p]ascal [c]amel', 'Normal' } },
+    false,
+    {}
+  )
+  local map = {
+    u = 'upper',
+    s = 'snake',
+    k = 'kebab',
+    p = 'pascal',
+    c = 'camel',
+  }
+  local choice = vim.fn.getchar()
+  vim.api.nvim_echo({ { '', 'Normal' } }, false, {})
+  if choice == 27 then
+    return
+  end
+  choice = string.char(choice)
+  choice = map[choice]
+  if choice then
+    vim.fn.feedkeys(
+      'ciw'
+        .. string.char(18)
+        .. '=v:lua.convertcase(\''
+        .. choice
+        .. '\', getreg(\'"\'))'
+        .. string.char(10)
+        .. string.char(27)
+    )
+  else
+    vim.api.nvim_echo({ { 'Invalid choice', 'Error' } }, false, {})
+  end
+end)
