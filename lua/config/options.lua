@@ -4,6 +4,7 @@ if has('mac') then
 end
 
 local options = {
+  autoread = true,
   fileencoding = 'UTF-8',
   mouse = 'a',
   smartindent = true,
