@@ -1,7 +1,12 @@
-local M = {}
+local _M = {}
 
-function M.config()
-  require('dressing').setup({})
+function _M.config()
+  require('dressing').setup({
+    input = {
+      insert_only = false,
+      winblend = 20,
+    },
+  })
 end
 
-return M
+return _M
