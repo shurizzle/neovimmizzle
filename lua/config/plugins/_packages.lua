@@ -141,4 +141,5 @@ return {
     mod = 'dapui',
     requires = { 'mfussenegger/nvim-dap' },
   },
+  { 'vimpostor/vim-tpipeline', mod = 'tpipeline' },
 }
