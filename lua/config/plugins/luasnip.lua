@@ -8,7 +8,7 @@ function _M.config()
     enable_autosnippets = false,
   })
 
-  -- TODO
+  require('luasnip.loaders.from_vscode').lazy_load()
 end
 
 return _M
