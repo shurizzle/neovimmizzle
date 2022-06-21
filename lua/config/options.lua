@@ -76,3 +76,7 @@ if has('unix') and executable('lemonade') and is_ssh() then
     cache_enabled = 1,
   }
 end
+
+-- Disable provides
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_ruby_provider = 0
