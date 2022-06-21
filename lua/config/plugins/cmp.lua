@@ -228,6 +228,7 @@ function _M.config()
   }
   local source_names = {
     nvim_lsp = '[Lsp]',
+    treesitter = '[Tre]',
     luasnip = '[Snp]',
     buffer = '[Buf]',
     nvim_lua = '[Lua]',
