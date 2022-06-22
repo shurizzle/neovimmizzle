@@ -236,6 +236,7 @@ function _M.config()
     calc = '[Clc]',
     emoji = '[Emj]',
     rg1 = '[Rg]',
+    cmp_tabnine = '[Tb9]',
   }
   local duplicates = {
     buffer = 1,
@@ -261,6 +262,7 @@ function _M.config()
         vim_item.kind = kind_icons[vim_item.kind]
         vim_item.menu = source_names[entry.source.name]
         vim_item.dup = duplicates[entry.source.name] or duplicates_default
+
         return vim_item
       end,
     },
@@ -271,14 +273,15 @@ function _M.config()
     },
     sources = {
       { name = 'nvim_lsp' },
-      { name = 'path' },
+      { name = 'luasnip' },
+      { name = 'cmp_tabnine' },
+      { name = 'treesitter' },
       { name = 'buffer' },
+      { name = 'rg1' },
+      { name = 'path' },
       { name = 'calc' },
       { name = 'emoji' },
-      { name = 'treesitter' },
-      { name = 'luasnip' },
       { name = 'crates' },
-      { name = 'rg1' },
     },
     snippet = {
       expand = function(args)
