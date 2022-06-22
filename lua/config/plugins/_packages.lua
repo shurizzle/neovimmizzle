@@ -155,4 +155,9 @@ return {
     requires = { 'mfussenegger/nvim-dap' },
   },
   { 'vimpostor/vim-tpipeline', mod = 'tpipeline' },
+  {
+    'folke/todo-comments.nvim',
+    mod = 'todo-comments',
+    requires = { 'nvim-lua/plenary.nvim' },
+  },
 }

@@ -15,7 +15,7 @@ endfor
 unlet i
 syn match rfcRFCTitle	/^\v(\n)@<=RFC.*$/
 " RFC xxxx or ANSI X3.4-1986 like.
-" FIXME I really don't know what will follow ANSI so there may be mistakes
+" FIXME: I really don't know what will follow ANSI so there may be mistakes
 syn match rfcRFC	/\v.@<=%(RFC|STD)\s+[0-9]+|ANSI\s+[0-9A-Z-.]+/ containedin=ALL
 syn match rfcReference	/^\@<!\[\w\+\]/
 syn match rfcComment	/^\S.*\ze\n/
