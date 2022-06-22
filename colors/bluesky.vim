@@ -133,8 +133,8 @@ highlight! link Character String
 highlight! link Float String
 highlight! link Number String
 highlight Structure guifg=#2E8FFF guibg=NONE guisp=NONE blend=NONE gui=italic
-highlight TSDanger guifg=#CA213D guibg=NONE guisp=NONE blend=NONE gui=NONE
-highlight TSWarning guifg=#FFE100 guibg=NONE guisp=NONE blend=NONE gui=NONE
+highlight TSDanger guifg=#292929 guibg=#CA213D guisp=NONE blend=NONE gui=NONE
+highlight TSWarning guifg=#292929 guibg=#FFE100 guisp=NONE blend=NONE gui=NONE
 highlight TelescopeBorder guifg=#2E8FFF guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight TelescopeMatching guifg=NONE guibg=NONE guisp=NONE blend=NONE gui=italic,underline
 highlight Title guifg=#80BBFF guibg=NONE guisp=NONE blend=NONE gui=NONE

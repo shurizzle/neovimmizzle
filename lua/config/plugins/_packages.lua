@@ -44,6 +44,10 @@ return {
     'nvim-treesitter/nvim-treesitter-textobjects',
     requires = { 'nvim-treesitter/nvim-treesitter' },
   },
+  {
+    'nvim-treesitter/playground',
+    requires = { 'nvim-treesitter/nvim-treesitter' },
+  },
   { 'rafamadriz/friendly-snippets' },
   {
     'L3MON4D3/LuaSnip',
