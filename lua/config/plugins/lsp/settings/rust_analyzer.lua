@@ -1,6 +1,7 @@
 return {
   settings = {
     ['rust-analyzer'] = {
+      cargo = { features = 'all' },
       checkOnSave = {
         allFeatures = true,
         overrideCommand = {
