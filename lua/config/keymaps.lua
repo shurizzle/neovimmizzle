@@ -123,7 +123,7 @@ keymap('n', '<leader>a', function()
   vim.api.nvim_feedkeys('g@iw', 'i', false)
 end)
 
-keymap('n', '<leader>f', function()
+keymap('n', '<leader>s', function()
   -- vim.fn.matchadd('Visual', '\\k*\\%#\\k*', 10, 6969)
   vim.api.nvim_echo(
     { { ' [u]pper [s]nake [k]ebab [p]ascal [c]amel', 'Normal' } },
