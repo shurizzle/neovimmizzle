@@ -72,7 +72,6 @@ return {
     requires = { 'nvim-treesitter/nvim-treesitter' },
   },
   { 'lukas-reineke/cmp-rg' },
-  { 'tzachar/cmp-tabnine', mod = 'tabnine' },
   {
     'hrsh7th/nvim-cmp',
     mod = 'cmp',
@@ -86,7 +85,6 @@ return {
       'saecki/crates.nvim',
       'lukas-reineke/cmp-rg',
       'saadparwaiz1/cmp_luasnip',
-      'tzachar/cmp-tabnine',
       'L3MON4D3/LuaSnip',
       'ahmedkhalf/project.nvim',
     },

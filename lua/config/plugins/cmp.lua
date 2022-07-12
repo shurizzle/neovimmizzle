@@ -236,7 +236,6 @@ function _M.config()
     calc = '[Clc]',
     emoji = '[Emj]',
     rg1 = '[Rg]',
-    cmp_tabnine = '[Tb9]',
   }
   local duplicates = {
     buffer = 1,
@@ -274,7 +273,6 @@ function _M.config()
     sources = {
       { name = 'nvim_lsp' },
       { name = 'luasnip' },
-      { name = 'cmp_tabnine' },
       { name = 'treesitter' },
       { name = 'buffer' },
       { name = 'rg1' },
