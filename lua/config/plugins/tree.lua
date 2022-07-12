@@ -18,7 +18,7 @@ function _M.on_right()
   local node = lib.get_node_at_cursor()
 
   if node.name == '..' then
-    return require('nvim-tree.actions.change-dir').fn('..')
+    return require('nvim-tree.actions.root.change-dir').fn('..')
   end
 
   if node.nodes ~= nil then
@@ -29,7 +29,7 @@ function _M.on_right()
     local path = node.link_to and not node.entries and node.link_to
       or node.absolute_path
 
-    require('nvim-tree.actions.open-file').fn('edit', path)
+    require('nvim-tree.actions.node.open-file').fn('edit', path)
   end
 end
 
@@ -37,10 +37,11 @@ function _M.config()
   local list = {
     { key = { '<2-LeftMouse>' }, action = 'edit' },
     { key = { '<2-RightMouse>', '<CR>' }, action = 'cd' },
-    { key = { 's' }, action = 'split' },
-    { key = { 'v' }, action = 'vsplit' },
-    { key = { 'l' }, cb = arrow('right') },
-    { key = { 'h' }, cb = arrow('left') },
+    { key = 's', action = 'split' },
+    { key = 'v', action = 'vsplit' },
+    { key = 'l', cb = arrow('right') },
+    { key = 'h', cb = arrow('left') },
+    { key = '<BS>', action = 'close_node' },
     { key = 't', action = 'tabnew' },
     { key = '<', action = 'prev_sibling' },
     { key = '>', action = 'next_sibling' },
@@ -66,6 +67,8 @@ function _M.config()
     { key = 'o', action = 'system_open' },
     { key = 'q', action = 'close' },
     { key = 'g?', action = 'toggle_help' },
+    { key = 'f', action = 'live_filter' },
+    { key = 'F', action = 'clear_live_filter' },
   }
 
   require('nvim-tree').setup({
