@@ -9,12 +9,21 @@ function M.config()
     },
   })
 
-  vim.keymap.set(
-    { 'x', 'n' },
-    '<leader>c ',
-    [[v:count == 0 ? '<CMD>lua require("Comment.api").call("toggle_current_linewise_op")<CR>g@$' : '<CMD>lua require("Comment.api").toggle_linewise_count()<CR>']],
-    { noremap = true, silent = true, expr = true }
-  )
+  local flags = { noremap = true, silent = true, expr = false }
+
+  vim.keymap.set('n', '<leader>c ', function()
+    require('Comment.api').call('toggle.linewise.current')
+    vim.api.nvim_feedkeys('g@$', 'i', false)
+  end, flags)
+
+  vim.keymap.set('x', '<leader>c ', function()
+    vim.api.nvim_feedkeys(
+      vim.api.nvim_replace_termcodes('<Esc>', true, false, true),
+      'x',
+      false
+    )
+    require('Comment.api').locked('toggle.linewise')(vim.fn.visualmode())
+  end, flags)
 end
 
 return M
