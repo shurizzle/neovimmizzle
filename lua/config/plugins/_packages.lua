@@ -10,6 +10,10 @@ return {
     ft = { 'rust', 'typescript' },
     mod = 'inlayhints',
   },
+  {
+    'tamago324/nlsp-settings.nvim',
+    mod = 'nlsp-settings',
+  },
   { 'ray-x/lsp_signature.nvim' },
   { 'RRethy/vim-illuminate', mod = 'illuminate' },
   {
@@ -31,6 +35,7 @@ return {
       'neovim/nvim-lspconfig',
       'simrat39/rust-tools.nvim',
       'shurizzle/inlay-hints.nvim',
+      'tamago324/nlsp-settings.nvim',
       'ray-x/lsp_signature.nvim',
       'RRethy/vim-illuminate',
     },

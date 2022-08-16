@@ -1,17 +1,9 @@
 return {
   settings = {
     ['rust-analyzer'] = {
-      cargo = { features = 'all' },
+      allFeatures = true,
       checkOnSave = {
-        allFeatures = true,
-        overrideCommand = {
-          'cargo',
-          'clippy',
-          '--workspace',
-          '--message-format=json',
-          '--all-targets',
-          '--all-features',
-        },
+        command = 'clippy',
       },
     },
   },
