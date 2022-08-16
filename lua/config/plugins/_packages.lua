@@ -17,7 +17,7 @@ return {
     mod = 'lsp',
   },
   {
-    'tamago324/nlsp-settings.nvim',
+    'shurizzle/nlsp-settings.nvim',
     requires = { 'neovim/nvim-lspconfig' },
     mod = 'nlsp-settings',
   },
@@ -36,7 +36,7 @@ return {
       'neovim/nvim-lspconfig',
       'simrat39/rust-tools.nvim',
       'shurizzle/inlay-hints.nvim',
-      'tamago324/nlsp-settings.nvim',
+      'shurizzle/nlsp-settings.nvim',
       'ray-x/lsp_signature.nvim',
       'RRethy/vim-illuminate',
     },
