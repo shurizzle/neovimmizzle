@@ -10,15 +10,16 @@ return {
     ft = { 'rust', 'typescript' },
     mod = 'inlayhints',
   },
-  {
-    'tamago324/nlsp-settings.nvim',
-    mod = 'nlsp-settings',
-  },
   { 'ray-x/lsp_signature.nvim' },
   { 'RRethy/vim-illuminate', mod = 'illuminate' },
   {
     'neovim/nvim-lspconfig',
     mod = 'lsp',
+  },
+  {
+    'tamago324/nlsp-settings.nvim',
+    requires = { 'neovim/nvim-lspconfig' },
+    mod = 'nlsp-settings',
   },
   { 'mfussenegger/nvim-dap' },
   {
