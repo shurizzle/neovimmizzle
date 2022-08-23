@@ -1,12 +1,13 @@
-local keymap = function(modes, left, right, options)
-  options =
-    vim.tbl_extend('force', { noremap = true, silent = true }, options or {})
-  vim.keymap.set(modes, left, right, options)
-end
+local keymap = require('which-key')
 
 vim.g.mapleader = ','
 vim.g.maplocalleader = ','
-keymap('', '<leader>,', ',')
+
+keymap.register({
+  [','] = { ',', '' },
+}, {
+  prefix = '<leader>',
+})
 
 -- Just use vim.
 for name, key in pairs({
@@ -22,6 +23,12 @@ for name, key in pairs({
 }) do
   if type(name) == 'number' then
     name = key
+  end
+
+  local keymap = function(modes, left, right, options)
+    options =
+      vim.tbl_extend('force', { noremap = true, silent = true }, options or {})
+    vim.keymap.set(modes, left, right, options)
   end
 
   keymap(
@@ -44,31 +51,34 @@ for name, key in pairs({
   )
 end
 
-keymap('', '<C-n>', _G.tabnext)
-keymap('', '<C-p>', _G.tabprev)
+keymap.register({
+  ['<C-n>'] = { _G.tabnext, 'Go to next tab' },
+  ['<C-p>'] = { _G.tabprev, 'Go to previous tab' },
+})
 
--- Reselect visual selection after indenting
-keymap('v', '<', '<gv')
-keymap('v', '>', '>gv')
+keymap.register({
+  -- Reselect visual selection after indenting
+  ['<'] = { '<gv', 'Indent back' },
+  ['>'] = { '>gv', 'Indent' },
+  -- Maintain the cursor position when yanking a visual selection
+  -- http://ddrscott.github.io/blog/2016/yank-without-jank/
+  ['y'] = { 'myy`y', 'yank text' },
+  ['Y'] = { 'myY`y', 'yank text until the end of the line' },
+  -- Paste replace visual selection without copying it
+  ['<leader>p'] = { '"_dP', 'Replace visual selection' },
+  -- Search for text in visual selection
+  ['*'] = {
+    '"zy/\\<\\V<C-r>=escape(@z, \'/\\\')<CR>\\><CR>',
+    'Search for selected text',
+  },
+}, {
+  mode = 'v',
+})
 
--- Maintain the cursor position when yanking a visual selection
--- http://ddrscott.github.io/blog/2016/yank-without-jank/
-keymap('v', 'y', 'myy`y')
-keymap('v', 'Y', 'myY`y')
-
--- Paste replace visual selection without copying it
-keymap('v', '<leader>p', '"_dP')
-
--- Search for text in visual selection
-keymap(
-  'v',
-  '*',
-  '"zy/\\<\\V<C-r>=escape(@z, \'/\\\')<CR>\\><CR>',
-  { silent = false }
-)
-
--- Make Y behave like the other capitals
-keymap('n', 'Y', 'y$')
+keymap.register({
+  -- Make Y behave like the other capitals
+  Y = { 'y$', 'Yank untill the end of the line' },
+}, { mode = 'n' })
 
 vim.cmd([[
 function! ExecuteMacroOverVisualRange()
@@ -78,52 +88,7 @@ endfunction
 xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
 ]])
 
--- escape from terminal
-keymap('t', '<C-Esc>', '<C-\\><C-n>')
-
--- lsp
-keymap('n', '<leader>cD', vim.lsp.buf.declaration)
-keymap('n', '<leader>cd', vim.lsp.buf.definition)
-keymap('n', 'K', vim.lsp.buf.hover)
-keymap('n', '<leader>ci', vim.lsp.buf.implementation)
-keymap('n', '<C-k>', vim.lsp.buf.signature_help)
-keymap('n', '<leader>cwh', require('config.lsp').workspace_diagnostics)
-keymap('n', '<leader>cwa', vim.lsp.buf.add_workspace_folder)
-keymap('n', '<leader>cwr', vim.lsp.buf.remove_workspace_folder)
-keymap('n', '<leader>cwl', function()
-  print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-end)
-keymap('n', '<leader>ct', vim.lsp.buf.type_definition)
-keymap('n', '<leader>cr', vim.lsp.buf.rename)
-keymap('n', '<leader>ch', require('config.lsp').diagnostics)
-keymap({ 'n', 'x' }, '<leader>ca', require('config.lsp').code_action)
-keymap('v', '<leader>ca', require('config.lsp').range_code_action)
-keymap('n', '<leader>cR', require('config.lsp').references)
-keymap('n', '<leader>ce', vim.diagnostic.open_float)
-keymap('n', '[c', vim.diagnostic.goto_prev)
-keymap('n', ']c', vim.diagnostic.goto_next)
-
-keymap('', '<space>e', require('config.tree').toggle)
-
-keymap('n', '<leader>db', require('config.debug').toggle_breakpoint)
-keymap('n', '<leader>dp', require('config.debug').step_back)
-keymap('n', '<leader>di', require('config.debug').step_into)
-keymap('n', '<leader>do', require('config.debug').step_out)
-keymap('n', '<leader>dd', require('config.debug').step_over)
-
-keymap('n', 'ZZ', '<cmd>BufferClose<CR>')
-
-keymap('', '<space>d', require('config.debug').toggle)
-
-keymap('n', '<leader>a', function()
-  set_operatorfunc(function(vmode)
-    vim.notify(vim.fn.expand('<cword>'))
-  end)
-  vim.api.nvim_feedkeys('g@iw', 'i', false)
-end)
-
-keymap('n', '<leader>s', function()
-  -- vim.fn.matchadd('Visual', '\\k*\\%#\\k*', 10, 6969)
+local function switch_case()
   vim.api.nvim_echo(
     { { ' [u]pper [s]nake [k]ebab [p]ascal [c]amel', 'Normal' } },
     false,
@@ -156,4 +121,70 @@ keymap('n', '<leader>s', function()
   else
     vim.api.nvim_echo({ { 'Invalid choice', 'Error' } }, false, {})
   end
-end)
+end
+
+keymap.register({
+  ['<leader>'] = {
+    c = {
+      D = { vim.lsp.buf.declaration, 'Show under-cursor declaration' },
+      d = { vim.lsp.buf.definition, 'Show under-cursor definition' },
+      i = { vim.lsp.buf.implementation, 'Show under-cursor implementation' },
+      w = {
+        h = {
+          require('config.lsp').workspace_diagnostics,
+          'Show workspace diagnostics',
+        },
+        a = { vim.lsp.buf.add_workspace_folder, 'Add workspace folder' },
+        r = { vim.lsp.buf.remove_workspace_folder, 'Remove workspace folder' },
+        l = {
+          function()
+            print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+          end,
+          'List workspace folders',
+        },
+      },
+      t = { vim.lsp.buf.type_definition, 'Show under-cursor type definition' },
+      r = { vim.lsp.buf.rename, 'Rename under-cursor word' },
+      a = { require('config.lsp').code_action, 'Show available code actions' },
+      R = { require('config.lsp').references, 'Show under-cursor references' },
+      e = { vim.diagnostic.open_float, 'Show under-cursor diagnostics' },
+    },
+    d = {
+      b = { require('config.debug').toggle_breakpoint, 'Toggle breakpoint' },
+      p = { require('config.debug').step_back, 'Step back' },
+      i = { require('config.debug').step_into, 'Step into' },
+      o = { require('config.debug').step_out, 'Step out' },
+      d = { require('config.debug').step_over, 'Step over' },
+    },
+    s = { switch_case, 'Switch case of under-cursor word' },
+  },
+  K = { vim.lsp.buf.hover, 'Show under-cursor help' },
+  ['<C-k>'] = {
+    vim.lsp.buf.signature_help,
+    'Show under-cursor signature help',
+  },
+  ['[c'] = { vim.diagnostic.goto_prev, 'Go to previous diagnostic' },
+  [']c'] = { vim.diagnostic.goto_next, 'Go to next diagnostic' },
+  ['<space>e'] = { require('config.tree').toggle, 'Toggle nvim-tree' },
+  ['<space>d'] = { require('config.debug').toggle, 'Toggle dap-ui' },
+  ZZ = { '<cmd>BufferClose<CR>', 'Close current buffer' },
+}, { mode = 'n' })
+
+keymap.register({
+  ['<leader>'] = {
+    c = {
+      a = { require('config.lsp').code_action, 'Show available code actions' },
+    },
+  },
+}, { mode = 'x' })
+
+keymap.register({
+  ['<leader>'] = {
+    c = {
+      a = {
+        require('config.lsp').range_code_action,
+        'Show available code actions',
+      },
+    },
+  },
+}, { mode = 'v' })

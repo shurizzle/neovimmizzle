@@ -1,6 +1,7 @@
 return {
   { 'wbthomason/packer.nvim' },
   { 'lewis6991/impatient.nvim' },
+  { 'folke/which-key.nvim', mod = 'which-key' },
   { 'nvim-lua/plenary.nvim' },
   { 'rcarriga/nvim-notify', mod = 'notify' },
   { 'stevearc/dressing.nvim', mod = 'dressing' },
@@ -105,6 +106,7 @@ return {
       'nvim-telescope/telescope-ui-select.nvim',
       'rcarriga/nvim-notify',
       'ahmedkhalf/project.nvim',
+      'folke/which-key.nvim',
     },
   },
   { 'arkav/lualine-lsp-progress' },

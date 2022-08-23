@@ -1,8 +1,7 @@
-local M = {}
+local _M = {}
 
-function M.config()
+function _M.config()
   local ts = require('telescope')
-  local keymap = vim.keymap.set
 
   ts.setup({
     defaults = {
@@ -28,12 +27,18 @@ function M.config()
   ts.load_extension('ui-select')
   ts.load_extension('notify')
 
-  local opts = { noremap = true, silent = true }
-  keymap('n', '<leader>ff', '<cmd>Telescope find_files<CR>', opts)
-  keymap('n', '<leader>fg', '<cmd>Telescope live_grep<CR>', opts)
-  keymap('n', '<leader>fb', '<cmd>Telescope buffers<CR>', opts)
-  keymap('n', '<leader>fh', '<cmd>Telescope help_tags<CR>', opts)
-  keymap('n', '<leader>fs', '<cmd>Telescope lsp_workspace_symbols<CR>', opts)
+  require('which-key').register({
+    ['<leader>f'] = {
+      f = { '<cmd>Telescope find_files<CR>', 'Telescope find files' },
+      g = { '<cmd>Telescope live_grep<CR>', 'Telescope live grep' },
+      b = { '<cmd>Telescope buffer<CR>', 'Telescope show buffers' },
+      h = { '<cmd>Telescope help_tags<CR>', 'Telescope help tags' },
+      s = {
+        '<cmd>Telescope lsp_document_symbols<CR>',
+        'Telescope shopw workspace symbols',
+      },
+    },
+  }, { noremap = true, silent = true, mode = 'n' })
 end
 
-return M
+return _M
