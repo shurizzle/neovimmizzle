@@ -1,9 +1,6 @@
 local keymap = function(modes, left, right, options)
-  options = vim.tbl_extend(
-    'force',
-    { noremap = true, silent = true },
-    options or {}
-  )
+  options =
+    vim.tbl_extend('force', { noremap = true, silent = true }, options or {})
   vim.keymap.set(modes, left, right, options)
 end
 
@@ -113,6 +110,8 @@ keymap('n', '<leader>dp', require('config.debug').step_back)
 keymap('n', '<leader>di', require('config.debug').step_into)
 keymap('n', '<leader>do', require('config.debug').step_out)
 keymap('n', '<leader>dd', require('config.debug').step_over)
+
+keymap('n', 'ZZ', '<cmd>BufferClose<CR>')
 
 keymap('', '<space>d', require('config.debug').toggle)
 
