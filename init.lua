@@ -51,10 +51,10 @@ require('config.bootstrap')
 require('config.utils')
 require('config.colors').setup()
 require('config.tree').setup()
-require('config.keymaps')
 require('config.options')
-require('config.lsp')
 require('config.plugins')
+require('config.keymaps')
+require('config.lsp')
 require('config.rust')
 
 vim.cmd([[nmap sh :call SynStack()<CR>
