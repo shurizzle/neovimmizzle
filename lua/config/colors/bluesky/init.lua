@@ -10,6 +10,7 @@ for _, name in ipairs {
   'telescope',
   'lsp',
   'treesitter',
+  'illuminate',
 } do
   table.insert(theme, require('config.colors.bluesky.support.' .. name))
 end

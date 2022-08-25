@@ -90,6 +90,9 @@ highlight! link SpecialChar Identifier
 highlight! link Statement Identifier
 highlight! link Tag Identifier
 highlight Ignore guifg=#292929 guibg=#292929 guisp=NONE blend=NONE gui=NONE
+highlight IlluminatedWordText guifg=NONE guibg=NONE guisp=NONE blend=NONE gui=underline
+highlight! link illuminateWordRead IlluminatedWordText
+highlight! link illuminateWordWrite IlluminatedWordText
 highlight IncSearch guifg=#292929 guibg=#FFE100 guisp=NONE blend=NONE gui=NONE
 highlight! link Substitute IncSearch
 highlight Include guifg=#2E8FFF guibg=NONE guisp=NONE blend=NONE gui=italic

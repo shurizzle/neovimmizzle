@@ -1,7 +1,9 @@
 local _M = {}
 
 function _M.setup()
-  vim.g.Illuminate_ftblacklist = { 'NvimTree', 'dashboard' }
+  require('illuminate').configure({
+    filetypes_denylist = { 'NvimTree', 'dashboard' },
+  })
 end
 
 return _M
