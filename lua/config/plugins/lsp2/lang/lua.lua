@@ -31,7 +31,7 @@ local function lsp_configs()
   add('~/.local/share/nvim/site/pack/packer/start/*')
 
   return {
-    on_attach = function(client, bufnr)
+    on_attach = function(client, _)
       if client.resolved_capabilities then
         client.resolved_capabilities.document_formatting = false
         client.resolved_capabilities.document_range_formatting = false
