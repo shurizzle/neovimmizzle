@@ -1,8 +1,10 @@
 local _M = {}
 
-local util = require('config.plugins.lsp2.util')
+local base_dir =
+  debug.getinfo(1, 'S').source:sub(2):match('(.*[/\\])'):sub(1, -2)
 
 local function deferred_config(lang)
+  local util = require('config.plugins.lsp2.util')
   local l = require('config.plugins.lsp2.lang.' .. lang)
   local fts = table.concat(l.filetypes or { lang }, ',')
   local function launch()
@@ -10,7 +12,7 @@ local function deferred_config(lang)
     local other_matching_configs =
       lsp.util.get_other_matching_providers(vim.bo.filetype)
 
-    for server, config in ipairs(other_matching_configs) do
+    for _, config in ipairs(other_matching_configs) do
       config.launch()
     end
   end
@@ -88,19 +90,47 @@ function _M.config()
 
   require('null-ls').setup({ debug = false })
 
-  -- TODO: glob on dir
-  config('rust')
-  config('toml')
-  config('lua')
-end
+  require('lspconfig').on_setup = function(config)
+    local function on_attach(_, bufnr)
+      require('lsp_signature').on_attach({
+        floating_window_above_cur_line = true,
+        floating_window = true,
+        transparency = 10,
+      }, bufnr)
+    end
 
-function _M.on_attach(client, bufnr)
-  require('lsp_signature').on_attach({
-    floating_window_above_cur_line = true,
-    floating_window = true,
-    transparency = 10,
-  }, bufnr)
-  require('illuminate').on_attach(client)
+    if config.on_attach then
+      config.on_attach = (function(old)
+        return function(client, bufnr)
+          old(client, bufnr)
+          on_attach(client, bufnr)
+        end
+      end)(config.on_attach)
+    else
+      config.on_attach = on_attach
+    end
+
+    config.capabilities = require('cmp_nvim_lsp').update_capabilities(
+      vim.lsp.protocol.make_client_capabilities()
+    )
+  end
+
+  local dir_handle = vim.loop.fs_scandir(join_paths(base_dir, 'lang'))
+  while true do
+    local item, _ = vim.loop.fs_scandir_next(dir_handle)
+    if not item then
+      break
+    end
+
+    item = item:match('(.+)%..+')
+    if not item then
+      goto continue
+    end
+
+    config(item)
+
+    ::continue::
+  end
 end
 
 return _M

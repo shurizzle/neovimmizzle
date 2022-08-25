@@ -30,11 +30,6 @@ local function lsp_configs()
   add('~/.local/share/nvim/site/pack/packer/opt/*')
   add('~/.local/share/nvim/site/pack/packer/start/*')
 
-  local cmp_nvim_lsp = require('cmp_nvim_lsp')
-  local capabilities = cmp_nvim_lsp.update_capabilities(
-    vim.lsp.protocol.make_client_capabilities()
-  )
-
   return {
     on_attach = function(client, bufnr)
       if client.resolved_capabilities then
@@ -44,10 +39,7 @@ local function lsp_configs()
 
       client.server_capabilities.documentFormattingProvider = false
       client.server_capabilities.documentRangeFormattingProvider = false
-
-      require('config.plugins.lsp2').on_attach(client, bufnr)
     end,
-    capabilities = capabilities,
     -- delete root from workspace to make sure we don't trigger duplicate warnings
     on_new_config = function(config, root)
       local libs = vim.tbl_deep_extend('force', {}, library)
