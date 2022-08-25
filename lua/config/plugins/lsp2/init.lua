@@ -122,7 +122,7 @@ function _M.config()
       break
     end
 
-    item = item:match('(.+)%..+')
+    item = item:match('(.+)%.lua')
     if not item then
       goto continue
     end
