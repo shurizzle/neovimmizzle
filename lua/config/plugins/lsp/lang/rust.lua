@@ -1,7 +1,7 @@
 local _M = {}
 
 function _M.config(cb)
-  local util = require('config.plugins.lsp2.util')
+  local util = require('config.plugins.lsp.util')
 
   util.install_upgrade('rust-analyzer', function(ok)
     if ok then

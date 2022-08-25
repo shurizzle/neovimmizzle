@@ -4,8 +4,8 @@ local base_dir =
   debug.getinfo(1, 'S').source:sub(2):match('(.*[/\\])'):sub(1, -2)
 
 local function deferred_config(lang)
-  local util = require('config.plugins.lsp2.util')
-  local l = require('config.plugins.lsp2.lang.' .. lang)
+  local util = require('config.plugins.lsp.util')
+  local l = require('config.plugins.lsp.lang.' .. lang)
   local fts = table.concat(l.filetypes or { lang }, ',')
   local function launch()
     local lsp = require('lspconfig')
@@ -31,7 +31,7 @@ local function deferred_config(lang)
 end
 
 local function config(lang)
-  local l = require('config.plugins.lsp2.lang.' .. lang)
+  local l = require('config.plugins.lsp.lang.' .. lang)
   if l.setup then
     l.setup()
   else

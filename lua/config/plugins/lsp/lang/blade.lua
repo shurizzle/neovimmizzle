@@ -1,6 +1,6 @@
 local _M = {}
 
-local util = require('config.plugins.lsp2.util')
+local util = require('config.plugins.lsp.util')
 
 function _M.config(cb)
   util.install_upgrade('blade-formatter', function(ok)

@@ -31,7 +31,7 @@ return {
   { 'jose-elias-alvarez/null-ls.nvim' },
   {
     'neovim/nvim-lspconfig',
-    mod = 'lsp2',
+    mod = 'lsp',
     requires = {
       'williamboman/mason.nvim',
       'shurizzle/nlsp-settings.nvim',

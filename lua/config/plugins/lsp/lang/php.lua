@@ -1,6 +1,6 @@
 local _M = {}
 
-local util = require('config.plugins.lsp2.util')
+local util = require('config.plugins.lsp.util')
 local lsp = require('lspconfig')
 
 local function intelephense(cb)
