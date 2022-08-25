@@ -1,6 +1,6 @@
 return {
   { 'wbthomason/packer.nvim' },
-  { 'shurizzle/mason.nvim' },
+  { 'williamboman/mason.nvim' },
   { 'lewis6991/impatient.nvim' },
   { 'folke/which-key.nvim', mod = 'which-key' },
   { 'nvim-lua/plenary.nvim' },
@@ -33,8 +33,7 @@ return {
     'neovim/nvim-lspconfig',
     mod = 'lsp2',
     requires = {
-      -- 'williamboman/mason.nvim',
-      'shurizzle/mason.nvim',
+      'williamboman/mason.nvim',
       'shurizzle/nlsp-settings.nvim',
       'ray-x/lsp_signature.nvim',
       'RRethy/vim-illuminate',
