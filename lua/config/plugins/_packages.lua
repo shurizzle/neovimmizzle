@@ -15,7 +15,7 @@ return {
   { 'ray-x/lsp_signature.nvim' },
   { 'RRethy/vim-illuminate', mod = 'illuminate' },
   {
-    'shurizzle/nlsp-settings.nvim',
+    'tamago324/nlsp-settings.nvim',
     requires = { 'neovim/nvim-lspconfig' },
     mod = 'nlsp-settings',
   },
@@ -34,7 +34,7 @@ return {
     mod = 'lsp',
     requires = {
       'williamboman/mason.nvim',
-      'shurizzle/nlsp-settings.nvim',
+      'tamago324/nlsp-settings.nvim',
       'ray-x/lsp_signature.nvim',
       'RRethy/vim-illuminate',
       'jose-elias-alvarez/null-ls.nvim',
