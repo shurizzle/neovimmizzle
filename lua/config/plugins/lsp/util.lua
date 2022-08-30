@@ -2,7 +2,9 @@ local _M = {}
 
 local function do_install(p, version, cb)
   if version then
-    vim.notify(string.format('%s: updating to %s', p.name, version))
+    vim.notify(
+      string.format('%s: updating to %s', p.name, vim.inspect(version))
+    )
   else
     vim.notify(string.format('%s: installing', p.name))
   end
@@ -22,12 +24,12 @@ local function do_install(p, version, cb)
 
   p:once('install:failed', function()
     if version then
-      vim.notify(string.format('%s: failed to upgrade', p.name))
+      vim.notify(string.format('%s: failed to upgrade', p.name), 'error')
       vim.defer_fn(function()
         cb(true)
       end, 0)
     else
-      vim.notify(string.format('%s: failed to install', p.name))
+      vim.notify(string.format('%s: failed to install', p.name), 'error')
       vim.defer_fn(function()
         cb(false)
       end, 0)
