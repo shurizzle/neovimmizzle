@@ -1,7 +1,4 @@
 return {
-  { 'wbthomason/packer.nvim' },
-  { 'williamboman/mason.nvim' },
-  { 'lewis6991/impatient.nvim' },
   { 'folke/which-key.nvim', mod = 'which-key' },
   { 'nvim-lua/plenary.nvim' },
   { 'rcarriga/nvim-notify', mod = 'notify' },
