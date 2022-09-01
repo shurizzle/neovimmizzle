@@ -2,9 +2,7 @@ local _M = {}
 
 local function do_install(p, version, cb)
   if version then
-    vim.notify(
-      string.format('%s: updating to %s', p.name, vim.inspect(version))
-    )
+    vim.notify(string.format('%s: updating to %s', p.name, version))
   else
     vim.notify(string.format('%s: installing', p.name))
   end
@@ -46,7 +44,7 @@ function _M.install_upgrade(what, cb)
   if p:is_installed() then
     p:check_new_version(function(ok, version)
       if ok then
-        do_install(p, version, cb)
+        do_install(p, version.latest_version, cb)
       else
         -- skip
         vim.defer_fn(function()
