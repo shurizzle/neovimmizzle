@@ -56,11 +56,3 @@ require('config.plugins')
 require('config.keymaps')
 require('config.lsp')
 require('config.rust')
-
-vim.cmd([[nmap sh :call SynStack()<CR>
-function! SynStack()
-if !exists("*synstack")
-return
-endif
-echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-endfunc]])
