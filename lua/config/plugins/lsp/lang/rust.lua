@@ -14,6 +14,21 @@ function _M.config(cb)
             autoSetHints = false,
           },
           server = {
+            on_attach = function(_, bufnr)
+              vim.keymap.set(
+                'n',
+                '<leader>ca',
+                '<cmd>RustCodeAction<CR>',
+                { buffer = bufnr, silent = true }
+              )
+
+              vim.keymap.set(
+                'n',
+                'K',
+                '<cmd>RustHoverAction<CR>',
+                { buffer = bufnr, silent = true }
+              )
+            end,
             settings = {
               ['rust-analyzer'] = {
                 allFeatures = true,
