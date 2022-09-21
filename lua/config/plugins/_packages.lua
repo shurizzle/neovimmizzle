@@ -9,6 +9,19 @@ return {
     mod = 'inlayhints',
     opt = true,
   },
+  {
+    'nvim-treesitter/nvim-treesitter',
+    mod = 'treesitter',
+    requires = { 'nvim-orgmode/orgmode' },
+  },
+  {
+    'nvim-treesitter/nvim-treesitter-textobjects',
+    requires = { 'nvim-treesitter/nvim-treesitter' },
+  },
+  {
+    'nvim-orgmode/orgmode',
+    mod = 'org',
+  },
   { 'ray-x/lsp_signature.nvim' },
   { 'RRethy/vim-illuminate', mod = 'illuminate' },
   {
@@ -40,11 +53,6 @@ return {
   },
   { 'nvim-telescope/telescope-fzf-native.nvim', mod = 'telescope.fzf' },
   { 'nvim-telescope/telescope-ui-select.nvim' },
-  { 'nvim-treesitter/nvim-treesitter', mod = 'treesitter' },
-  {
-    'nvim-treesitter/nvim-treesitter-textobjects',
-    requires = { 'nvim-treesitter/nvim-treesitter' },
-  },
   {
     'nvim-treesitter/playground',
     requires = { 'nvim-treesitter/nvim-treesitter' },
@@ -88,6 +96,7 @@ return {
       'saadparwaiz1/cmp_luasnip',
       'L3MON4D3/LuaSnip',
       'ahmedkhalf/project.nvim',
+      'nvim-orgmode/orgmode',
     },
   },
   {

@@ -1,6 +1,8 @@
 local M = {}
 
 function M.config()
+  require('orgmode').setup_ts_grammar()
+
   require('nvim-treesitter.configs').setup({
     ensure_installed = 'all',
     sync_install = false, -- install languages synchronously (only applied to `ensure_installed`)

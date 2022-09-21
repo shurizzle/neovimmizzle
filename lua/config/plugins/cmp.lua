@@ -236,6 +236,7 @@ function _M.config()
     calc = '[Clc]',
     emoji = '[Emj]',
     rg1 = '[Rg]',
+    orgmode = '[Org]',
   }
   local duplicates = {
     buffer = 1,
@@ -280,6 +281,7 @@ function _M.config()
       { name = 'calc' },
       { name = 'emoji' },
       { name = 'crates' },
+      { name = 'orgmode' },
     },
     snippet = {
       expand = function(args)
