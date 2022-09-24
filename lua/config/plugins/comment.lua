@@ -13,24 +13,14 @@ function M.config()
 
   keymap.register({
     ['<leader>c<space>'] = {
-      function()
-        require('Comment.api').call('toggle.linewise.current')
-        vim.api.nvim_feedkeys('g@$', 'i', false)
-      end,
+      '<Plug>(comment_toggle_linewise_current)',
       'Toggle comments',
     },
   }, { mode = 'n', noremap = true, silent = true, expr = false })
 
   keymap.register({
     ['<leader>c<space>'] = {
-      function()
-        vim.api.nvim_feedkeys(
-          vim.api.nvim_replace_termcodes('<Esc>', true, false, true),
-          'x',
-          false
-        )
-        require('Comment.api').locked('toggle.linewise')(vim.fn.visualmode())
-      end,
+      '<Plug>(comment_toggle_linewise_visual)',
       'Toggle comments',
     },
   }, { mode = 'x', noremap = true, silent = true, expr = false })
