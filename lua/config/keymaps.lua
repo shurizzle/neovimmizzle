@@ -1,13 +1,9 @@
-local keymap = require('which-key')
+local K = vim.keymap.set
 
 vim.g.mapleader = ','
 vim.g.maplocalleader = ','
 
-keymap.register({
-  [','] = { ',', '' },
-}, {
-  prefix = '<leader>',
-})
+K('n', '<leader>,', ',', { noremap = true, silent = true })
 
 -- Just use vim.
 for name, key in pairs({
@@ -28,7 +24,7 @@ for name, key in pairs({
   local keymap = function(modes, left, right, options)
     options =
       vim.tbl_extend('force', { noremap = true, silent = true }, options or {})
-    vim.keymap.set(modes, left, right, options)
+    K(modes, left, right, options)
   end
 
   keymap(
@@ -51,12 +47,14 @@ for name, key in pairs({
   )
 end
 
-keymap.register({
-  ['<C-n>'] = { _G.tabnext, 'Go to next tab' },
-  ['<C-p>'] = { _G.tabprev, 'Go to previous tab' },
-})
+for k, v in pairs({
+  ['<C-n>'] = { _G.tabnext, 'Go to next Tab' },
+  ['<C-p>'] = { _G.tabprev, 'Go to previous Tab' },
+}) do
+  K('n', k, v[1], { silent = true, noremap = true, desc = v[2] })
+end
 
-keymap.register({
+for k, v in pairs({
   -- Reselect visual selection after indenting
   ['<'] = { '<gv', 'Indent back' },
   ['>'] = { '>gv', 'Indent' },
@@ -71,14 +69,13 @@ keymap.register({
     '"zy/\\<\\V<C-r>=escape(@z, \'/\\\')<CR>\\><CR>',
     'Search for selected text',
   },
-}, {
-  mode = 'v',
-})
-
-keymap.register({
-  -- Make Y behave like the other capitals
-  Y = { 'y$', 'Yank untill the end of the line' },
-}, { mode = 'n' })
+  ['<leader>ca'] = {
+    require('config.lsp').range_code_action,
+    'Show available code actions',
+  },
+}) do
+  K('v', k, v[1], { silent = true, noremap = true, desc = v[2] })
+end
 
 vim.cmd([[
 function! ExecuteMacroOverVisualRange()
@@ -123,41 +120,56 @@ local function switch_case()
   end
 end
 
-keymap.register({
-  ['<leader>'] = {
-    c = {
-      D = { vim.lsp.buf.declaration, 'Show under-cursor declaration' },
-      d = { vim.lsp.buf.definition, 'Show under-cursor definition' },
-      i = { vim.lsp.buf.implementation, 'Show under-cursor implementation' },
-      w = {
-        h = {
-          require('config.lsp').workspace_diagnostics,
-          'Show workspace diagnostics',
-        },
-        a = { vim.lsp.buf.add_workspace_folder, 'Add workspace folder' },
-        r = { vim.lsp.buf.remove_workspace_folder, 'Remove workspace folder' },
-        l = {
-          function()
-            print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-          end,
-          'List workspace folders',
-        },
-      },
-      t = { vim.lsp.buf.type_definition, 'Show under-cursor type definition' },
-      r = { vim.lsp.buf.rename, 'Rename under-cursor word' },
-      a = { require('config.lsp').code_action, 'Show available code actions' },
-      R = { require('config.lsp').references, 'Show under-cursor references' },
-      e = { vim.diagnostic.open_float, 'Show under-cursor diagnostics' },
-    },
-    d = {
-      b = { require('config.debug').toggle_breakpoint, 'Toggle breakpoint' },
-      p = { require('config.debug').step_back, 'Step back' },
-      i = { require('config.debug').step_into, 'Step into' },
-      o = { require('config.debug').step_out, 'Step out' },
-      d = { require('config.debug').step_over, 'Step over' },
-    },
-    s = { switch_case, 'Switch case of under-cursor word' },
+for k, v in pairs({
+  -- Make Y behave like the other capitals
+  Y = { 'y$', 'Yank untill the end of the line' },
+  ['<leader>cD'] = { vim.lsp.buf.declaration, 'Show under-cursor declaration' },
+  ['<leader>cd'] = { vim.lsp.buf.definition, 'Show under-cursor definition' },
+  ['<leader>ci'] = {
+    vim.lsp.buf.implementation,
+    'Show under-cursor implementation',
   },
+  ['<leader>cwh'] = {
+    require('config.lsp').workspace_diagnostics,
+    'Show workspace diagnostics',
+  },
+  ['<leader>cwa'] = { vim.lsp.buf.add_workspace_folder, 'Add workspace folder' },
+  ['<leader>cwr'] = {
+    vim.lsp.buf.remove_workspace_folder,
+    'Remove workspace folder',
+  },
+  ['<leader>cwl'] = {
+    function()
+      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    end,
+    'List workspace folders',
+  },
+  ['<leader>ct'] = {
+    vim.lsp.buf.type_definition,
+    'Show under-cursor type definition',
+  },
+  ['<leader>cr'] = { vim.lsp.buf.rename, 'Rename under-cursor word' },
+  ['<leader>ca'] = {
+    require('config.lsp').code_action,
+    'Show available code actions',
+  },
+  ['<leader>cR'] = {
+    require('config.lsp').references,
+    'Show under-cursor references',
+  },
+  ['<leader>ce'] = {
+    vim.diagnostic.open_float,
+    'Show under-cursor diagnostics',
+  },
+  ['<leader>db'] = {
+    require('config.debug').toggle_breakpoint,
+    'Toggle breakpoint',
+  },
+  ['<leader>dp'] = { require('config.debug').step_back, 'Step back' },
+  ['<leader>di'] = { require('config.debug').step_into, 'Step into' },
+  ['<leader>do'] = { require('config.debug').step_out, 'Step out' },
+  ['<leader>dd'] = { require('config.debug').step_over, 'Step over' },
+  ['<leader>s'] = { switch_case, 'Switch case of under-cursor word' },
   K = { vim.lsp.buf.hover, 'Show under-cursor help' },
   ['<C-k>'] = {
     vim.lsp.buf.signature_help,
@@ -168,23 +180,26 @@ keymap.register({
   ['<space>e'] = { require('config.tree').toggle, 'Toggle nvim-tree' },
   ['<space>d'] = { require('config.debug').toggle, 'Toggle dap-ui' },
   ZZ = { '<cmd>BufferClose<CR>', 'Close current buffer' },
-}, { mode = 'n' })
+}) do
+  K('n', k, v[1], { silent = true, noremap = true, desc = v[2] })
+end
 
-keymap.register({
-  ['<leader>'] = {
-    c = {
-      a = { require('config.lsp').code_action, 'Show available code actions' },
-    },
+for k, v in pairs({
+  -- Make Y behave like the other capitals
+  Y = { 'y$', 'Yank untill the end of the line' },
+  ['<leader>ca'] = {
+    require('config.lsp').code_action,
+    'Show available code actions',
   },
-}, { mode = 'x' })
+}) do
+  K('n', k, v[1], { silent = true, noremap = true, desc = v[2] })
+end
 
-keymap.register({
-  ['<leader>'] = {
-    c = {
-      a = {
-        require('config.lsp').range_code_action,
-        'Show available code actions',
-      },
-    },
+for k, v in pairs({
+  ['<leader>ca'] = {
+    require('config.lsp').code_action,
+    'Show available code actions',
   },
-}, { mode = 'v' })
+}) do
+  K('x', k, v[1], { silent = true, noremap = true, desc = v[2] })
+end
