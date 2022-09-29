@@ -10,7 +10,7 @@ function M.open()
   if not ok then
     return
   end
-  ok, state = pcall(require, 'bufferline.state')
+  ok, state = pcall(require, 'bufferline.api')
   if not ok then
     return
   end
@@ -23,7 +23,7 @@ function M.close()
   if ok then
     dapui.close()
   end
-  ok, state = pcall(require, 'bufferline.state')
+  ok, state = pcall(require, 'bufferline.api')
   if not ok then
     return
   end

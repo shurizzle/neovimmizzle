@@ -16,7 +16,7 @@ function M.on_close()
   local winnr = vim.api.nvim_get_current_win()
   local bufnr = vim.api.nvim_win_get_buf(winnr)
   if vim.bo[bufnr].ft == 'NvimTree' then
-    local ok, state = pcall(require, 'bufferline.state')
+    local ok, state = pcall(require, 'bufferline.api')
     if not ok then
       return
     end
@@ -40,7 +40,7 @@ function M.open()
     return
   end
   local width = view.View.width
-  ok, state = pcall(require, 'bufferline.state')
+  ok, state = pcall(require, 'bufferline.api')
   if not ok then
     return
   end
@@ -54,7 +54,7 @@ function M.close()
   end
   view.close()
   local state
-  ok, state = pcall(require, 'bufferline.state')
+  ok, state = pcall(require, 'bufferline.api')
   if not ok then
     return
   end
