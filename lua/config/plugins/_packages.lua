@@ -167,4 +167,9 @@ return {
     mod = 'todo-comments',
     requires = { 'nvim-lua/plenary.nvim' },
   },
+  {
+    'akinsho/flutter-tools.nvim',
+    mod = 'flutter',
+    requires = 'nvim-lua/plenary.nvim',
+  },
 }
