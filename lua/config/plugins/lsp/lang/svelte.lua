@@ -8,11 +8,6 @@ local function svelte(cb)
     if ok then
       lsp.tsserver.setup({
         on_attach = function(client, _)
-          if client.resolved_capabilities then
-            client.resolved_capabilities.document_formatting = false
-            client.resolved_capabilities.document_range_formatting = false
-          end
-
           client.server_capabilities.documentFormattingProvider = false
           client.server_capabilities.documentRangeFormattingProvider = false
         end,
@@ -27,11 +22,6 @@ local function eslint(cb)
     if ok then
       lsp.eslint.setup({
         on_attach = function(client, _)
-          if client.resolved_capabilities then
-            client.resolved_capabilities.document_formatting = false
-            client.resolved_capabilities.document_range_formatting = false
-          end
-
           client.server_capabilities.documentFormattingProvider = false
           client.server_capabilities.documentRangeFormattingProvider = false
         end,

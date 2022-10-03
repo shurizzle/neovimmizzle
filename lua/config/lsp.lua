@@ -1,13 +1,13 @@
 local _M = {}
 
-vim.cmd('command! Format lua vim.lsp.buf.formatting()')
+vim.cmd('command! Format lua vim.lsp.buf.format({ async = true })')
 vim.api.nvim_exec(
   [[
 augroup lsp_document
   autocmd!
   autocmd CursorHold * lua vim.diagnostic.open_float()
   autocmd CursorMoved * lua vim.lsp.buf.clear_references()
-  autocmd BufWritePre * lua vim.lsp.buf.formatting_sync()
+  autocmd BufWritePre * lua vim.lsp.buf.format({ async = false })
 augroup END
 ]],
   false
