@@ -36,6 +36,9 @@ local options = {
 
 vim.g.neovide_cursor_vfx_mode = 'torpedo'
 
+vim.g.himalaya_mailbox_picker = 'telescope'
+vim.g.himalaya_telescope_preview_enabled = true
+
 if has('win32') then
   options.shell = 'powershell'
   options.shellcmdflag =
