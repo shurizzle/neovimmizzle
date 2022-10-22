@@ -33,6 +33,10 @@ return {
     },
     opt = true,
   },
+  {
+    'jose-elias-alvarez/typescript.nvim',
+    opt = true,
+  },
   { 'jose-elias-alvarez/null-ls.nvim' },
   {
     'neovim/nvim-lspconfig',

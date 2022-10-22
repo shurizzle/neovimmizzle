@@ -16,12 +16,7 @@ _M.filetypes = {
 local function tsserver(cb)
   util.install_upgrade('typescript-language-server', function(ok)
     if ok then
-      lsp.tsserver.setup({
-        on_attach = function(client, _)
-          client.server_capabilities.documentFormattingProvider = false
-          client.server_capabilities.documentRangeFormattingProvider = false
-        end,
-      })
+      util.packer_load('typescript.nvim')
     end
     cb()
   end)
