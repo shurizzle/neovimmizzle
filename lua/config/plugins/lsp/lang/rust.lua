@@ -7,11 +7,10 @@ function _M.config(cb)
     if ok then
       util.install_upgrade('codelldb', function(_)
         util.packer_load('rust-tools.nvim')
-        util.packer_load('inlay-hints.nvim')
 
         require('rust-tools').setup({
           tools = {
-            autoSetHints = false,
+            autoSetHints = true,
           },
           server = {
             on_attach = function(_, bufnr)

@@ -4,12 +4,6 @@ return {
   { 'rcarriga/nvim-notify', mod = 'notify' },
   { 'stevearc/dressing.nvim', mod = 'dressing' },
   {
-    'shurizzle/inlay-hints.nvim',
-    requires = { 'nvim-treesitter/nvim-treesitter' },
-    mod = 'inlayhints',
-    opt = true,
-  },
-  {
     'nvim-treesitter/nvim-treesitter',
     mod = 'treesitter',
     requires = { 'nvim-orgmode/orgmode' },
