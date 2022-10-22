@@ -153,6 +153,10 @@ for k, v in pairs({
     require('config.lsp').code_action,
     'Show available code actions',
   },
+  ['<leader>ch'] = {
+    require('config.lsp').diagnostics,
+    'Show buffer diagnostics',
+  },
   ['<leader>cR'] = {
     require('config.lsp').references,
     'Show under-cursor references',
