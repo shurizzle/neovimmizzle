@@ -12,14 +12,14 @@ function M.config()
   local keymap = require('which-key')
 
   keymap.register({
-    ['<leader>c<space>'] = {
+    ['<leader>c/'] = {
       '<Plug>(comment_toggle_linewise_current)',
       'Toggle comments',
     },
   }, { mode = 'n', noremap = true, silent = true, expr = false })
 
   keymap.register({
-    ['<leader>c<space>'] = {
+    ['<leader>c/'] = {
       '<Plug>(comment_toggle_linewise_visual)',
       'Toggle comments',
     },
