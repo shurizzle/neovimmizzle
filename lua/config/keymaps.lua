@@ -70,7 +70,7 @@ for k, v in pairs({
     'Search for selected text',
   },
   ['<leader>ca'] = {
-    require('config.lsp').range_code_action,
+    require('config.lsp').code_action,
     'Show available code actions',
   },
 }) do

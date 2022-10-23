@@ -4,7 +4,7 @@ function M.open()
   local ok, dapui, dapuiwin, state = pcall(require, 'dapui')
   if ok then
     require('config.tree').close()
-    dapui.open()
+    dapui.open({})
   end
   ok, dapuiwin = pcall(require, 'dapui.windows')
   if not ok then
@@ -21,7 +21,7 @@ end
 function M.close()
   local ok, dapui, state = pcall(require, 'dapui')
   if ok then
-    dapui.close()
+    dapui.close({})
   end
   ok, state = pcall(require, 'bufferline.api')
   if not ok then
