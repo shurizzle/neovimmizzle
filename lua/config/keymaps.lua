@@ -184,6 +184,7 @@ for k, v in pairs({
   ['<space>e'] = { require('config.tree').toggle, 'Toggle nvim-tree' },
   ['<space>d'] = { require('config.debug').toggle, 'Toggle dap-ui' },
   ZZ = { '<cmd>BufferClose<CR>', 'Close current buffer' },
+  ZQ = { '<cmd>BufferClose!<CR>', 'Close current buffer without saving' },
 }) do
   K('n', k, v[1], { silent = true, noremap = true, desc = v[2] })
 end
