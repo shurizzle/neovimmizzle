@@ -171,4 +171,5 @@ return {
     mod = 'flutter',
     requires = 'nvim-lua/plenary.nvim',
   },
+  { 'ojroques/nvim-osc52', mod = 'osc52' },
 }
