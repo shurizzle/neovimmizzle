@@ -1,7 +1,7 @@
 local M = {}
 
 function M.config()
-  if not is_ssh() then
+  if is_ssh() then
     local function copy(lines, _)
       require('osc52').copy(table.concat(lines, '\n'))
     end
