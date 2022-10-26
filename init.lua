@@ -17,14 +17,13 @@ function _G.has(what)
   return vim.fn.has(what) ~= 0
 end
 
-_G.is_ssh = loadstring(
-  'return '
-    .. (
-      (has('unix') and vim.fn.system('who'):match('%(%d+%.%d+%.%d+%.%d+%)'))
-        and 'true'
-      or 'false'
+function _G.is_ssh()
+  local res = not not (
+      has('unix') and vim.fn.system('who'):match('%(%d+%.%d+%.%d+%.%d+%)')
     )
-)
+  _G.is_ssh = loadstring('return ' .. vim.inspect(res))
+  return res
+end
 
 _G.path_separator = (has('win16') or has('win32') or has('win64')) and '\\'
   or '/'
