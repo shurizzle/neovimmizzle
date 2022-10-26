@@ -170,6 +170,7 @@ return {
     'akinsho/flutter-tools.nvim',
     mod = 'flutter',
     requires = 'nvim-lua/plenary.nvim',
+    opt = true,
   },
   { 'ojroques/nvim-osc52', mod = 'osc52' },
 }
