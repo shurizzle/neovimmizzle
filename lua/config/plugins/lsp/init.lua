@@ -3,8 +3,9 @@ local _M = {}
 local base_dir =
   debug.getinfo(1, 'S').source:sub(2):match('(.*[/\\])'):sub(1, -2)
 
+local Future = require('config.future')
+
 local function deferred_config(lang)
-  local util = require('config.plugins.lsp.util')
   local l = require('config.plugins.lsp.lang.' .. lang)
   local fts = table.concat(l.filetypes or { lang }, ',')
   local function launch()
@@ -13,19 +14,22 @@ local function deferred_config(lang)
       lsp.util.get_other_matching_providers(vim.bo.filetype)
 
     for _, config in ipairs(other_matching_configs) do
-      config.launch()
+      config.manager.try_add_wrapper(vim.api.nvim_get_current_buf())
     end
   end
 
-  local init = util.once(l.config, launch)
+  local auname = 'LSP_' .. lang
 
-  vim.api.nvim_create_augroup('LSP_' .. lang, { clear = true })
+  vim.api.nvim_create_augroup(auname, { clear = true })
   vim.api.nvim_create_autocmd('Filetype', {
     pattern = fts,
     callback = function()
-      init()
+      Future.pcall(l.config):finally(function()
+        pcall(vim.api.nvim_del_augroup_by_name, auname)
+        launch()
+      end)
     end,
-    group = 'LSP_' .. lang,
+    group = auname,
     desc = 'Configure ' .. lang .. ' LSP',
   })
 end

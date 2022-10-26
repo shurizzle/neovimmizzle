@@ -1,7 +1,6 @@
 local _M = {}
 
-local util = require('config.plugins.lsp.util')
-local lsp = require('lspconfig')
+local Future = require('config.future')
 
 _M.filetypes = {
   'javascript',
@@ -13,50 +12,13 @@ _M.filetypes = {
   'vue',
 }
 
-local function tsserver(cb)
-  util.install_upgrade('typescript-language-server', function(ok)
-    if ok then
-      util.packer_load('typescript.nvim')
-    end
-    cb()
-  end)
-end
-
-local function eslint(cb)
-  util.install_upgrade('eslint-lsp', function(ok)
-    if ok then
-      lsp.eslint.setup({
-        on_attach = function(client, _)
-          client.server_capabilities.documentFormattingProvider = false
-          client.server_capabilities.documentRangeFormattingProvider = false
-        end,
-        settings = {
-          format = false,
-        },
-      })
-    end
-    cb()
-  end)
-end
-
-local function prettier(cb)
-  util.install_upgrade('prettierd', function(ok)
-    if ok then
-      local null_ls = require('null-ls')
-      null_ls.register(null_ls.builtins.formatting.prettierd)
-    end
-    cb()
-  end)
-end
-
-function _M.config(cb)
-  tsserver(function()
-    eslint(function()
-      prettier(function()
-        cb()
-      end)
-    end)
-  end)
+function _M.config()
+  local s = require('config.plugins.lsp.servers')
+  Future.join({
+    s.tsserver,
+    s.eslintd,
+    require('config.plugins.lsp.formatters').prettierd,
+  })
 end
 
 return _M

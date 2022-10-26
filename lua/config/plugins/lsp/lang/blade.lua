@@ -1,15 +1,7 @@
 local _M = {}
 
-local util = require('config.plugins.lsp.util')
-
-function _M.config(cb)
-  util.install_upgrade('blade-formatter', function(ok)
-    if ok then
-      local null_ls = require('null-ls')
-      null_ls.register(null_ls.builtins.formatting.blade_formatter)
-    end
-    cb()
-  end)
+function _M.config()
+  return require('config.plugins.lsp.formatters')['blade-formatter']
 end
 
 return _M

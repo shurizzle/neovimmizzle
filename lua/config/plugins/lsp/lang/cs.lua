@@ -1,17 +1,7 @@
 local _M = {}
 
-local util = require('config.plugins.lsp.util')
-local lsp = require('lspconfig')
-
-function _M.config(cb)
-  util.install_upgrade('omnisharp', function(ok)
-    if ok then
-      lsp.omnisharp.setup({
-        cmd = { 'omnisharp' },
-      })
-    end
-    cb()
-  end)
+function _M.config()
+  return require('config.plugins.lsp.formatters').omnisharp
 end
 
 return _M

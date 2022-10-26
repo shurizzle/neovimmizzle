@@ -1,8 +1,5 @@
 local _M = {}
 
-local util = require('config.plugins.lsp.util')
-local lsp = require('lspconfig')
-
 _M.filetypes = {
   'c',
   'cpp',
@@ -11,13 +8,8 @@ _M.filetypes = {
   'cuda',
 }
 
-function _M.config(cb)
-  util.install_upgrade('clangd', function(ok)
-    if ok then
-      lsp.clangd.setup({})
-    end
-    cb()
-  end)
+function _M.config()
+  return require('config.plugins.lsp.servers').clangd
 end
 
 return _M
