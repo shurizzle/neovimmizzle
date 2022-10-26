@@ -1,11 +1,31 @@
 local Future = require('config.future')
 local GeneratingMap = require('config.generating_map')
 
+local function default_timeout()
+  local ok, res = pcall(function()
+    return require('notify')._config().default_timeout()
+  end)
+
+  return ok and res or 5000
+end
+
 local function do_install(p, version, resolve, reject)
+  local window
   if version then
-    vim.notify(string.format('%s: updating to %s', p.name, version))
+    window = vim.notify(
+      string.format('%s: updating to %s', p.name, version),
+      vim.log.levels.INFO,
+      {
+        title = 'Mason',
+        timeout = false,
+      }
+    )
   else
-    vim.notify(string.format('%s: installing', p.name))
+    window =
+      vim.notify(string.format('%s: installing', p.name), vim.log.levels.INFO, {
+        title = 'Mason',
+        timeout = false,
+      })
   end
 
   p:once('install:success', function()
@@ -14,7 +34,9 @@ local function do_install(p, version, resolve, reject)
         '%s: successfully %s',
         p.name,
         version and 'upgraded' or 'installed'
-      )
+      ),
+      vim.log.levels.INFO,
+      { title = 'Mason', timeout = default_timeout(), replace = window }
     )
     resolve()
   end)
@@ -26,7 +48,8 @@ local function do_install(p, version, resolve, reject)
         p.name,
         version and 'upgrade' or 'install'
       ),
-      'error'
+      vim.log.levels.ERROR,
+      { title = 'Mason', timeout = default_timeout(), replace = window }
     )
 
     reject()
@@ -45,10 +68,18 @@ local function install_or_upgrade(what, resolve, reject)
         do_install(p, version.latest_version, resolve, reject)
       else
         if type(version) == 'string' and version:match('is not outdated') then
-          vim.notify(string.format('%s: up to date', what))
+          vim.notify(
+            string.format('%s: up to date', what),
+            vim.log.levels.INFO,
+            { title = 'Mason' }
+          )
           resolve()
         else
-          vim.notify(string.format('%s: update error', what))
+          vim.notify(
+            string.format('%s: update error', what),
+            vim.log.levels.INFO,
+            { title = 'Mason' }
+          )
           reject(version)
         end
       end
