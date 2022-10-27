@@ -37,9 +37,9 @@ function Future.new(cb)
     o.state = state
     o.callbacks = nil
     for _, fn in ipairs(callbacks) do
-      vim.defer_fn(function()
+      vim.schedule(function()
         fn(o.state)
-      end, 0)
+      end)
     end
   end
 
