@@ -91,6 +91,8 @@ function _M.config()
     win_adjust_winbar(winnr)
   end
 
+  vim.o.winhighlight = vim.o.winhighlight .. 'Winbar:NavicBar'
+
   local augroup = vim.api.nvim_create_augroup('navic_winbar', { clear = true })
 
   vim.api.nvim_create_autocmd('User', {

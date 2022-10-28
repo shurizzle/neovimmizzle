@@ -11,6 +11,7 @@ for _, name in ipairs {
   'lsp',
   'treesitter',
   'illuminate',
+  'navic',
 } do
   table.insert(theme, require('config.colors.bluesky.support.' .. name))
 end

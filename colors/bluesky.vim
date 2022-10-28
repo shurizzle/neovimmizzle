@@ -106,6 +106,35 @@ highlight Macro guifg=#2E8FFF guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight MatchParen guifg=#FFE100 guibg=NONE guisp=NONE blend=NONE gui=bold
 highlight ModeMsg guifg=#2E8FFF guibg=NONE guisp=NONE blend=NONE gui=bold
 highlight MoreMsg guifg=NONE guibg=NONE guisp=NONE blend=NONE gui=bold
+highlight NavicBar guifg=NONE guibg=#242424 guisp=NONE blend=NONE gui=NONE
+highlight NavicIconsFile guifg=#2E8FFF guibg=#242424 guisp=NONE blend=NONE gui=bold
+highlight! link NavicIconsArray NavicIconsFile
+highlight! link NavicIconsBoolean NavicIconsFile
+highlight! link NavicIconsClass NavicIconsFile
+highlight! link NavicIconsConstant NavicIconsFile
+highlight! link NavicIconsConstructor NavicIconsFile
+highlight! link NavicIconsEnum NavicIconsFile
+highlight! link NavicIconsEnumMember NavicIconsFile
+highlight! link NavicIconsEvent NavicIconsFile
+highlight! link NavicIconsField NavicIconsFile
+highlight! link NavicIconsFunction NavicIconsFile
+highlight! link NavicIconsInterface NavicIconsFile
+highlight! link NavicIconsKey NavicIconsFile
+highlight! link NavicIconsMethod NavicIconsFile
+highlight! link NavicIconsModule NavicIconsFile
+highlight! link NavicIconsNamespace NavicIconsFile
+highlight! link NavicIconsNull NavicIconsFile
+highlight! link NavicIconsNumber NavicIconsFile
+highlight! link NavicIconsObject NavicIconsFile
+highlight! link NavicIconsOperator NavicIconsFile
+highlight! link NavicIconsPackage NavicIconsFile
+highlight! link NavicIconsProperty NavicIconsFile
+highlight! link NavicIconsString NavicIconsFile
+highlight! link NavicIconsStruct NavicIconsFile
+highlight! link NavicIconsTypeParameter NavicIconsFile
+highlight! link NavicIconsVariable NavicIconsFile
+highlight NavicSeparator guifg=#FFE100 guibg=#242424 guisp=NONE blend=NONE gui=bold
+highlight NavicText guifg=#EDEDED guibg=#242424 guisp=NONE blend=NONE gui=italic
 highlight NonText guifg=#545454 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight NvimTreeEndOfBuffer guifg=#242424 guibg=#242424 guisp=NONE blend=NONE gui=NONE
 highlight NvimTreeFolderIcon guifg=#2E8FFF guibg=NONE guisp=NONE blend=NONE gui=NONE
