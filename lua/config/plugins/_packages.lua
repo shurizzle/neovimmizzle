@@ -173,4 +173,10 @@ return {
     opt = true,
   },
   { 'ojroques/nvim-osc52', mod = 'osc52' },
+  {
+    'shurizzle/nvim-navic',
+    mod = 'navic',
+    requires = 'neovim/nvim-lspconfig',
+    opt = true,
+  },
 }

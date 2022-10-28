@@ -94,13 +94,26 @@ function _M.config()
 
   require('null-ls').setup({ debug = false })
 
-  require('lspconfig').on_setup = function(config)
-    local function on_attach(_, bufnr)
+  local lsputil = require('lspconfig.util')
+
+  lsputil.on_setup = lsputil.add_hook_before(lsputil.on_setup, function(config)
+    local function on_attach(client, bufnr)
       require('lsp_signature').on_attach({
         floating_window_above_cur_line = true,
         floating_window = true,
         transparency = 10,
       }, bufnr)
+
+      if client.server_capabilities.documentSymbolProvider then
+        local ok, err = pcall(function()
+          require('config.plugins.lsp.util').packer_load('nvim-navic')
+          require('nvim-navic').attach(client, bufnr)
+        end)
+
+        if not ok then
+          vim.notify(err, 'error', { title = 'navic' })
+        end
+      end
     end
 
     if config.on_attach then
@@ -114,10 +127,8 @@ function _M.config()
       config.on_attach = on_attach
     end
 
-    config.capabilities = require('cmp_nvim_lsp').update_capabilities(
-      vim.lsp.protocol.make_client_capabilities()
-    )
-  end
+    config.capabilities = require('cmp_nvim_lsp').default_capabilities()
+  end)
 
   local dir_handle = vim.loop.fs_scandir(join_paths(base_dir, 'lang'))
   while true do
