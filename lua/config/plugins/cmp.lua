@@ -5,6 +5,7 @@ _M.methods = {}
 ---@return boolean true if it is a space character, false otherwise
 local check_backspace = function()
   local col = vim.fn.col('.') - 1
+  ---@diagnostic disable-next-line
   return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s')
 end
 _M.methods.check_backspace = check_backspace
@@ -25,7 +26,7 @@ _M.methods.feedkeys = feedkeys
 ---checks if emmet_ls is available and active in the buffer
 ---@return boolean true if available, false otherwise
 local is_emmet_active = function()
-  local clients = vim.lsp.buf_get_clients()
+  local clients = vim.lsp.buf_get_active_clients()
 
   for _, client in pairs(clients) do
     if client.name == 'emmet_ls' then
@@ -37,12 +38,12 @@ end
 _M.methods.is_emmet_active = is_emmet_active
 
 ---when inside a snippet, seeks to the nearest luasnip field if possible, and checks if it is jumpable
----@param dir number 1 for forward, -1 for backward; defaults to 1
+---@param dir ?number 1 for forward, -1 for backward; defaults to 1
 ---@return boolean true if a jumpable luasnip field is found while inside a snippet
 local function jumpable(dir)
   local luasnip_ok, luasnip = pcall(require, 'luasnip')
   if not luasnip_ok then
-    return
+    return false
   end
 
   local win_get_cursor = vim.api.nvim_win_get_cursor
@@ -294,12 +295,12 @@ function _M.config()
       ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
       ['<C-y>'] = cmp.config.disable,
       ['<C-n>'] = cmp.config.disable,
-      ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+      ['<C-Space>'] = cmp.mapping(cmp.mapping.complete({}), { 'i', 'c' }),
       ['<Tab>'] = cmp.mapping(function(fallback)
         if cmp.visible() then
           cmp.select_next_item()
         elseif luasnip.expandable() then
-          luasnip.expand()
+          luasnip.expand({})
         elseif jumpable() then
           luasnip.jump(1)
         elseif check_backspace() then

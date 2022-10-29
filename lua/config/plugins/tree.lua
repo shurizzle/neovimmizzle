@@ -8,6 +8,10 @@ function _M.on_left()
   local lib = require('nvim-tree.lib')
   local node = lib.get_node_at_cursor()
 
+  if not node then
+    return
+  end
+
   if node.nodes ~= nil and node.open then
     lib.expand_or_collapse(node)
   end
@@ -16,6 +20,10 @@ end
 function _M.on_right()
   local lib = require('nvim-tree.lib')
   local node = lib.get_node_at_cursor()
+
+  if not node then
+    return
+  end
 
   if node.name == '..' then
     return require('nvim-tree.actions.root.change-dir').fn('..')
@@ -118,9 +126,10 @@ function _M.config()
     },
   })
 
-  require('nvim-tree.events').on_tree_open(function()
+  local ev = require('nvim-tree.events')
+  ev.subscribe(ev.Event.TreeOpen, function()
     vim.opt_local.fillchars:append('vert: ')
-    vim.opt_local.statusline = '%#NvimTreeStatusLine#'
+    vim.wo.statusline = '%#NvimTreeStatusLine#'
   end)
 end
 
