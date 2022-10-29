@@ -68,11 +68,6 @@ local function install_or_upgrade(what, resolve, reject)
         do_install(p, version.latest_version, resolve, reject)
       else
         if type(version) == 'string' and version:match('is not outdated') then
-          vim.notify(
-            string.format('%s: up to date', what),
-            vim.log.levels.INFO,
-            { title = 'Mason' }
-          )
           resolve()
         else
           vim.notify(
