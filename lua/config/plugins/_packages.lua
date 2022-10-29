@@ -179,4 +179,5 @@ return {
     requires = 'neovim/nvim-lspconfig',
     opt = true,
   },
+  { 'folke/neodev.nvim', mod = 'neodev', opt = true },
 }
