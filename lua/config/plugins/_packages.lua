@@ -26,7 +26,6 @@ return {
   { 'mfussenegger/nvim-dap' },
   {
     'simrat39/rust-tools.nvim',
-    mod = 'rust-tools',
     requires = {
       'nvim-lua/plenary.nvim',
       'mfussenegger/nvim-dap',

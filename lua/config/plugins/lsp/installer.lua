@@ -38,7 +38,7 @@ local function do_install(p, version, resolve, reject)
       vim.log.levels.INFO,
       { title = 'Mason', timeout = default_timeout(), replace = window }
     )
-    resolve()
+    resolve(p)
   end)
 
   p:once('install:failed', function()
@@ -68,7 +68,7 @@ local function install_or_upgrade(what, resolve, reject)
         do_install(p, version.latest_version, resolve, reject)
       else
         if type(version) == 'string' and version:match('is not outdated') then
-          resolve()
+          resolve(p)
         else
           vim.notify(
             string.format('%s: update error', what),

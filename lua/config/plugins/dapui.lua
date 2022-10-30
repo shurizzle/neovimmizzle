@@ -1,21 +1,22 @@
 local M = {}
 
 function M.config()
+  -- TODO: configure with sidebar
   local dap, dapui, debug =
     require('dap'), require('dapui'), require('config.debug')
 
   dapui.setup()
 
   dap.listeners.after.event_initialized['dapui_config'] = function()
-    debug.open()
+    dapui.open({})
   end
-
-  dap.listeners.after.event_terminated['dapui_config'] = function()
-    debug.close()
+  dap.listeners.before.event_terminated['dapui_config'] = function()
+    dapui.close({})
+    dap.repl.close()
   end
-
-  dap.listeners.after.event_exited['dapui_config'] = function()
-    debug.close()
+  dap.listeners.before.event_exited['dapui_config'] = function()
+    dapui.close({})
+    dap.repl.close()
   end
 end
 
