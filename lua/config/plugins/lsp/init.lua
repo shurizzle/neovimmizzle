@@ -111,7 +111,7 @@ function _M.config()
         end)
 
         if not ok then
-          vim.notify(err, 'error', { title = 'navic' })
+          vim.notify(err, vim.log.levels.ERROR, { title = 'navic' })
         end
       end
     end
@@ -127,7 +127,11 @@ function _M.config()
       config.on_attach = on_attach
     end
 
-    config.capabilities = require('cmp_nvim_lsp').default_capabilities()
+    config.capabilities = vim.tbl_deep_extend(
+      'force',
+      require('cmp_nvim_lsp').default_capabilities(),
+      config.capabilities or {}
+    )
   end)
 
   local dir_handle = vim.loop.fs_scandir(join_paths(base_dir, 'lang'))
