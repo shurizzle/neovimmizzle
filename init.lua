@@ -21,6 +21,7 @@ function _G.is_ssh()
   local res = not not (
       has('unix') and vim.fn.system('who'):match('%(%d+%.%d+%.%d+%.%d+%)')
     )
+  ---@diagnostic disable-next-line
   _G.is_ssh = loadstring('return ' .. vim.inspect(res))
   return res
 end
@@ -34,16 +35,6 @@ end
 
 function _G.executable(what)
   return vim.fn.executable(what) ~= 0
-end
-
-function _G.extend(res, ...)
-  for _, t in pairs(...) do
-    for k, v in pairs(t) do
-      res[k] = v
-    end
-  end
-
-  return res
 end
 
 require('config.bootstrap')
