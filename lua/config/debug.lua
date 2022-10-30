@@ -3,7 +3,6 @@ local M = {}
 function M.open()
   local ok, dapui, dapuiwin, state = pcall(require, 'dapui')
   if ok then
-    require('config.tree').close()
     dapui.open({})
   end
   ok, dapuiwin = pcall(require, 'dapui.windows')

@@ -79,7 +79,9 @@ function _M.config()
     { key = 'F', action = 'clear_live_filter' },
   }
 
-  require('nvim-tree').setup({
+  local tree = require('nvim-tree')
+
+  tree.setup({
     respect_buf_cwd = true,
     update_cwd = true,
     hijack_netrw = true,
@@ -126,10 +128,83 @@ function _M.config()
     },
   })
 
+  local view = require('nvim-tree.view')
+  local sidebar = require('config.sidebar')
+  local sb = nil
+
+  local function is_open()
+    return view.is_visible()
+  end
+
+  local function raw_open()
+    tree.find_file(true)
+    if not is_open() then
+      tree.open()
+    end
+  end
+
+  local function close()
+    view.close()
+  end
+
+  local function open()
+    sidebar.register('Explorer', function(cb)
+      sb = { close = cb }
+    end, function(ssb)
+      sb = ssb
+      raw_open()
+    end)
+  end
+
+  local function toggle()
+    return (is_open() and close or open)()
+  end
+
+  vim.keymap.set(
+    'n',
+    '<space>e',
+    toggle,
+    { desc = 'Toggle nvim-tree', silent = true, noremap = true }
+  )
+
   local ev = require('nvim-tree.events')
+
   ev.subscribe(ev.Event.TreeOpen, function()
     vim.opt_local.fillchars:append('vert: ')
     vim.wo.statusline = '%#NvimTreeStatusLine#'
+    ---@diagnostic disable-next-line
+    local winnr = view.get_winnr()
+
+    local augroup =
+      vim.api.nvim_create_augroup('NvimTreeResize', { clear = true })
+    vim.api.nvim_create_autocmd('WinScrolled', {
+      pattern = tostring(winnr),
+      group = augroup,
+      callback = function()
+        if sb and sb.resize then
+          sb.resize(vim.api.nvim_win_get_width(winnr) + 1)
+        end
+      end,
+    })
+
+    if sb and sb.resize then
+      sb.resize(vim.api.nvim_win_get_width(winnr) + 1)
+    end
+  end)
+
+  ev.subscribe(ev.Event.Resize, function()
+    ---@diagnostic disable-next-line
+    local winnr = view.get_winnr()
+    if sb and sb.resize then
+      sb.resize(vim.api.nvim_win_get_width(winnr) + 1)
+    end
+  end)
+
+  ev.subscribe(ev.Event.TreeClose, function()
+    vim.api.nvim_create_augroup('NvimTreeResize', { clear = true })
+    if sb then
+      sb.close()
+    end
   end)
 end
 
