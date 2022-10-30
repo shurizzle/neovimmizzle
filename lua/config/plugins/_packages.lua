@@ -144,7 +144,7 @@ return {
   { 'windwp/nvim-autopairs', mod = 'autopairs' },
   { 'tpope/vim-repeat' },
   { 'numToStr/Comment.nvim', mod = 'comment' },
-  { 'tpope/vim-surround' },
+  { 'kylechui/nvim-surround', mod = 'surround' },
   { 'ahmedkhalf/project.nvim', mod = 'project' },
   { 'editorconfig/editorconfig-vim' },
   {
