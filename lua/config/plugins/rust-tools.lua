@@ -3,7 +3,9 @@ local _M = {}
 function _M.config()
   require('rust-tools').setup({
     tools = {
-      autoSetHints = true,
+      inlay_hints = {
+        auto = true,
+      },
     },
     server = {
       on_attach = function(_, bufnr)
