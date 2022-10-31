@@ -1,4 +1,8 @@
 return {
+  {
+    'kyazdani42/nvim-web-devicons',
+    mod = 'devicons',
+  },
   { 'folke/which-key.nvim', mod = 'which-key' },
   { 'nvim-lua/plenary.nvim' },
   { 'rcarriga/nvim-notify', mod = 'notify' },
@@ -115,22 +119,20 @@ return {
     'nvim-lualine/lualine.nvim',
     mod = 'lualine',
     requires = {
-      { 'kyazdani42/nvim-web-devicons', opt = true },
-      { 'arkav/lualine-lsp-progress' },
+      'kyazdani42/nvim-web-devicons',
+      'arkav/lualine-lsp-progress',
     },
     opt = false,
   },
   {
     'romgrk/barbar.nvim',
     mod = 'barbar',
-    requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+    requires = 'kyazdani42/nvim-web-devicons',
   },
   {
     'kyazdani42/nvim-tree.lua',
     mod = 'tree',
-    requires = {
-      'kyazdani42/nvim-web-devicons',
-    },
+    requires = 'kyazdani42/nvim-web-devicons',
   },
   { 'norcalli/nvim-colorizer.lua', mod = 'colorizer' },
   {
