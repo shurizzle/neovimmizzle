@@ -1,11 +1,17 @@
-local M = {}
+local _M = {}
 
-function M.config()
+function _M.run()
+  local ts_update =
+    require('nvim-treesitter.install').update({ with_sync = true })
+  ts_update()
+end
+
+function _M.config()
   require('orgmode').setup_ts_grammar()
 
   require('nvim-treesitter.configs').setup({
     ensure_installed = 'all',
-    sync_install = false, -- install languages synchronously (only applied to `ensure_installed`)
+    sync_install = is_headless(),
     ignore_install = { 'comment' }, -- List of parsers to ignore installing
     autopairs = {
       enable = true,
@@ -38,4 +44,4 @@ function M.config()
   vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
 end
 
-return M
+return _M
