@@ -166,7 +166,7 @@ _G.operatorfunction_apply = function(vmode)
   if type(_G.operatorfunction) == 'function' then
     local fn = _G.operatorfunction
     _G.operatorfunction = nil
-    return fn()
+    return fn(vmode)
   end
 end
 

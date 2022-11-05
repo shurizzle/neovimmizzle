@@ -2,8 +2,7 @@ local M = {}
 
 function M.config()
   -- TODO: configure with sidebar
-  local dap, dapui, debug =
-    require('dap'), require('dapui'), require('config.debug')
+  local dap, dapui = require('dap'), require('dapui')
 
   dapui.setup()
 

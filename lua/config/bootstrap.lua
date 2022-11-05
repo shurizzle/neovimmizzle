@@ -1,12 +1,6 @@
 local function git_clone(url, dir, callback)
-  local install_path = join_paths(
-    vim.fn.stdpath('data'),
-    'site',
-    'pack',
-    'packer',
-    'start',
-    dir
-  )
+  local install_path =
+    join_paths(vim.fn.stdpath('data'), 'site', 'pack', 'packer', 'start', dir)
 
   if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
     callback(vim.fn.system({
@@ -28,14 +22,13 @@ git_clone(
   end
 )
 
+require('impatient')
+
 git_clone(
   'https://github.com/wbthomason/packer.nvim',
   'packer.nvim',
   function(res)
     vim.g.packer_bootstrap = res
-    print('Installing packer close and reopen Neovim...')
     vim.cmd([[packadd packer.nvim]])
   end
 )
-
-require('impatient')

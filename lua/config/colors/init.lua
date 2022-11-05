@@ -75,6 +75,7 @@ local function write_file(file, content)
   if not f then
     return false, err
   end
+  ---@diagnostic disable-next-line
   ok, err = f:write(content)
 
   if not ok then

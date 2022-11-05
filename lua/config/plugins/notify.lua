@@ -1,7 +1,7 @@
 local M = {}
 
 function M.config()
-  if #vim.api.nvim_list_uis() ~= 0 then
+  if not is_headless() then
     vim.notify = require('notify')
   end
 end

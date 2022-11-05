@@ -39,6 +39,7 @@ end
 
 function _G.is_headless()
   local res = vim.tbl_isempty(vim.api.nvim_list_uis())
+  ---@diagnostic disable-next-line
   _G.is_headless = loadstring('return ' .. vim.inspect(res))
   return res
 end
@@ -49,5 +50,4 @@ require('config.colors').setup()
 require('config.keymaps')
 require('config.options')
 require('config.plugins')
-require('config.lsp')
 require('config.rust')
