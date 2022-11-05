@@ -179,7 +179,7 @@ function Future.join(futures)
   local joined = Future.new(function(a)
     resolve = a
   end)
-  for index, value in pairs(futures) do
+  for index, _ in pairs(futures) do
     futures[index]:finally((function(i)
       return function(ok, res)
         results[i] = { ok, res }

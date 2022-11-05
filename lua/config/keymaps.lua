@@ -103,7 +103,9 @@ local function switch_case()
   if choice == 27 then
     return
   end
+  ---@diagnostic disable-next-line
   choice = string.char(choice)
+  ---@diagnostic disable-next-line
   choice = map[choice]
   if choice then
     vim.fn.feedkeys(
@@ -175,15 +177,15 @@ for k, v in pairs({
   ['<leader>dd'] = { require('config.debug').step_over, 'Step over' },
   ['<leader>s'] = { switch_case, 'Switch case of under-cursor word' },
   K = { vim.lsp.buf.hover, 'Show under-cursor help' },
-  ['<C-k>'] = {
-    vim.lsp.buf.signature_help,
-    'Show under-cursor signature help',
-  },
   ['[c'] = { vim.diagnostic.goto_prev, 'Go to previous diagnostic' },
   [']c'] = { vim.diagnostic.goto_next, 'Go to next diagnostic' },
   ['<space>d'] = { require('config.debug').toggle, 'Toggle dap-ui' },
   ZZ = { '<cmd>BufferClose<CR>', 'Close current buffer' },
   ZQ = { '<cmd>BufferClose!<CR>', 'Close current buffer without saving' },
+  ['<C-h>'] = { '<cmd>wincmd h<CR>' },
+  ['<C-j>'] = { '<cmd>wincmd j<CR>' },
+  ['<C-k>'] = { '<cmd>wincmd k<CR>' },
+  ['<C-l>'] = { '<cmd>wincmd l<CR>' },
 }) do
   K('n', k, v[1], { silent = true, noremap = true, desc = v[2] })
 end
