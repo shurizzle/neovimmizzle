@@ -19,8 +19,8 @@ end
 
 function _G.is_ssh()
   local res = not not (
-      has('unix') and vim.fn.system('who'):match('%(%d+%.%d+%.%d+%.%d+%)')
-    )
+    has('unix') and vim.fn.system('who'):match('%(%d+%.%d+%.%d+%.%d+%)')
+  )
   ---@diagnostic disable-next-line
   _G.is_ssh = loadstring('return ' .. vim.inspect(res))
   return res
@@ -35,6 +35,12 @@ end
 
 function _G.executable(what)
   return vim.fn.executable(what) ~= 0
+end
+
+function _G.is_headless()
+  local res = vim.tbl_isempty(vim.api.nvim_list_uis())
+  _G.is_headless = loadstring('return ' .. vim.inspect(res))
+  return res
 end
 
 require('config.bootstrap')
