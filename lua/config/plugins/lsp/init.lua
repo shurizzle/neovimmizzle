@@ -9,9 +9,9 @@ local function deferred_config(lang)
   local l = require('config.plugins.lsp.lang.' .. lang)
   local fts = table.concat(l.filetypes or { lang }, ',')
   local function launch()
-    local lsp = require('lspconfig')
+    local lsputil = require('lspconfig.util')
     local other_matching_configs =
-      lsp.util.get_other_matching_providers(vim.bo.filetype)
+      lsputil.get_other_matching_providers(vim.bo.filetype)
 
     for _, config in ipairs(other_matching_configs) do
       config.manager.try_add_wrapper(vim.api.nvim_get_current_buf())
@@ -96,7 +96,7 @@ function _M.config()
 
   local lsputil = require('lspconfig.util')
 
-  lsputil.on_setup = lsputil.add_hook_before(lsputil.on_setup, function(config)
+  lsputil.on_setup = lsputil.add_hook_before(lsputil.on_setup, function(cfg)
     local function on_attach(client, bufnr)
       require('lsp_signature').on_attach({
         floating_window_above_cur_line = true,
@@ -116,21 +116,21 @@ function _M.config()
       end
     end
 
-    if config.on_attach then
-      config.on_attach = (function(old)
+    if cfg.on_attach then
+      cfg.on_attach = (function(old)
         return function(client, bufnr)
           old(client, bufnr)
           on_attach(client, bufnr)
         end
-      end)(config.on_attach)
+      end)(cfg.on_attach)
     else
-      config.on_attach = on_attach
+      cfg.on_attach = on_attach
     end
 
-    config.capabilities = vim.tbl_deep_extend(
+    cfg.capabilities = vim.tbl_deep_extend(
       'force',
       require('cmp_nvim_lsp').default_capabilities(),
-      config.capabilities or {}
+      cfg.capabilities or {}
     )
   end)
 
