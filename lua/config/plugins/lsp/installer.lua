@@ -10,23 +10,18 @@ local function default_timeout()
 end
 
 local function do_install(p, version, resolve, reject)
-  local window
-  if version then
-    window = vim.notify(
-      string.format('%s: updating to %s', p.name, version),
-      vim.log.levels.INFO,
-      {
-        title = 'Mason',
-        timeout = false,
-      }
-    )
-  else
-    window =
-      vim.notify(string.format('%s: installing', p.name), vim.log.levels.INFO, {
-        title = 'Mason',
-        timeout = false,
-      })
-  end
+  local window = vim.notify(
+    string.format(
+      version and '%s: updating to %s' or '%s: installing',
+      p.name,
+      version
+    ),
+    vim.log.levels.INFO,
+    {
+      title = 'Mason',
+      timeout = false,
+    }
+  )
 
   p:once('install:success', function()
     vim.notify(
