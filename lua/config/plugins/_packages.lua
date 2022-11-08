@@ -1,4 +1,5 @@
 return {
+  { 'goolord/alpha-nvim', mod = 'alpha' },
   {
     'kyazdani42/nvim-web-devicons',
     mod = 'devicons',
@@ -155,7 +156,6 @@ return {
     ft = { 'markdown' },
   },
   { 'rktjmp/paperplanes.nvim', mod = 'paperplanes' },
-  { 'glepnir/dashboard-nvim', mod = 'dashboard' },
   { 'jwalton512/vim-blade' },
   {
     'rcarriga/nvim-dap-ui',

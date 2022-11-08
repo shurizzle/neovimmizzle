@@ -2,7 +2,9 @@ local M = {}
 
 function M.config()
   if not is_headless() then
-    vim.notify = require('notify')
+    local notify = require('notify')
+    notify.setup({})
+    vim.notify = notify
   end
 end
 
