@@ -29,7 +29,11 @@ function _M.config()
     installer = Future.join({ i['rust-analyzer'], i['codelldb'] })
       :and_then(function(res)
         if res[1][1] then
-          util.packer_load('rust-tools.nvim')
+          local ok1, res1 = pcall(util.packer_load, 'rust-tools.nvim')
+
+          if not ok1 then
+            print(res1)
+          end
 
           require('rust-tools').setup({
             tools = {

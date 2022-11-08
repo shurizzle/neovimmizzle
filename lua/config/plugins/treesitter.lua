@@ -12,7 +12,7 @@ function _M.config()
   require('nvim-treesitter.configs').setup({
     ensure_installed = 'all',
     sync_install = is_headless(),
-    ignore_install = { 'comment', 'rust' }, -- List of parsers to ignore installing
+    ignore_install = { 'comment' }, -- List of parsers to ignore installing
     autopairs = {
       enable = true,
     },
