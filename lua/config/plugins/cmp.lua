@@ -281,7 +281,6 @@ function _M.config()
       { name = 'path' },
       { name = 'calc' },
       { name = 'emoji' },
-      { name = 'crates' },
       { name = 'orgmode' },
     },
     snippet = {

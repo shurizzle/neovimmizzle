@@ -70,7 +70,7 @@ return {
     'saecki/crates.nvim',
     mod = 'crates',
     event = { 'BufRead Cargo.toml' },
-    tag = 'v0.2.1',
+    tag = 'v0.3.0',
     requires = { 'nvim-lua/plenary.nvim', 'jose-elias-alvarez/null-ls.nvim' },
   },
   { 'saadparwaiz1/cmp_luasnip', requires = { 'L3MON4D3/LuaSnip' } },
