@@ -58,6 +58,7 @@ return {
   { 'nvim-telescope/telescope-ui-select.nvim' },
   {
     'nvim-treesitter/playground',
+    cmd = { 'TSPlaygroundToggle' },
     requires = { 'nvim-treesitter/nvim-treesitter' },
   },
   { 'rafamadriz/friendly-snippets' },
