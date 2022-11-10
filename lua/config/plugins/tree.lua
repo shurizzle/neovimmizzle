@@ -41,6 +41,11 @@ function _M.on_right()
   end
 end
 
+function _M.toggle()
+  require('packer').loader('nvim-tree.lua')
+  _M.toggle()
+end
+
 function _M.config()
   local list = {
     { key = { '<2-LeftMouse>' }, action = 'edit' },
@@ -156,16 +161,9 @@ function _M.config()
     end)
   end
 
-  local function toggle()
+  function _M.toggle()
     return (is_open() and close or open)()
   end
-
-  vim.keymap.set(
-    'n',
-    '<space>e',
-    toggle,
-    { desc = 'Toggle nvim-tree', silent = true, noremap = true }
-  )
 
   local ev = require('nvim-tree.events')
 

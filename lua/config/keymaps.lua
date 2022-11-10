@@ -180,6 +180,12 @@ for k, v in pairs({
   ['[c'] = { vim.diagnostic.goto_prev, 'Go to previous diagnostic' },
   [']c'] = { vim.diagnostic.goto_next, 'Go to next diagnostic' },
   ['<space>d'] = { require('config.debug').toggle, 'Toggle dap-ui' },
+  ['<space>e'] = {
+    function()
+      require('config.plugins.tree').toggle()
+    end,
+    'Toggle nvim-tree',
+  },
   ZZ = { '<cmd>BufferClose<CR>', 'Close current buffer' },
   ZQ = { '<cmd>BufferClose!<CR>', 'Close current buffer without saving' },
   ['<C-h>'] = { '<cmd>wincmd h<CR>' },

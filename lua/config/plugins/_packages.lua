@@ -1,11 +1,11 @@
 return {
+  { 'nvim-lua/plenary.nvim' },
   { 'goolord/alpha-nvim', mod = 'alpha' },
   {
     'kyazdani42/nvim-web-devicons',
     mod = 'devicons',
   },
   { 'folke/which-key.nvim', mod = 'which-key' },
-  { 'nvim-lua/plenary.nvim' },
   { 'rcarriga/nvim-notify', mod = 'notify' },
   { 'stevearc/dressing.nvim', mod = 'dressing' },
   {
@@ -123,7 +123,6 @@ return {
       'kyazdani42/nvim-web-devicons',
       'arkav/lualine-lsp-progress',
     },
-    opt = false,
   },
   {
     'romgrk/barbar.nvim',
@@ -134,6 +133,7 @@ return {
     'kyazdani42/nvim-tree.lua',
     mod = 'tree',
     requires = 'kyazdani42/nvim-web-devicons',
+    opt = true,
   },
   { 'norcalli/nvim-colorizer.lua', mod = 'colorizer' },
   {
