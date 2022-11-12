@@ -53,7 +53,7 @@ local function remap(plugin)
         res = require('config.plugins.' .. mod)[key]
         -- Do magic because of packer's functions serialization
         if hasupvalues(res) then
-          res = load(
+          res = loadstring(
             string.format(
               'return function(...) require("config.plugins." .. %s)[%s](...) end',
               vim.inspect(mod),

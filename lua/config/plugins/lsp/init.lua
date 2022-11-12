@@ -142,13 +142,9 @@ function _M.config()
     end
 
     item = item:match('(.+)%.lua')
-    if not item then
-      goto continue
+    if item then
+      config(item)
     end
-
-    config(item)
-
-    ::continue::
   end
 end
 
