@@ -126,7 +126,7 @@ return {
     },
   },
   {
-    'romgrk/barbar.nvim',
+    'shurizzle/barbar.nvim',
     mod = 'barbar',
     requires = 'kyazdani42/nvim-web-devicons',
   },
