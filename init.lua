@@ -18,9 +18,23 @@ function _G.has(what)
 end
 
 function _G.is_ssh()
-  local res = not not (
-    has('unix') and vim.fn.system('who'):match('%(%d+%.%d+%.%d+%.%d+%)')
-  )
+  local res = false
+
+  if has('unix') then
+    local function has_ip(str)
+      local ip = require('ip')
+
+      for m in str:gmatch('%((.+)%)') do
+        if ip.parse(m) then
+          return true
+        end
+      end
+
+      return false
+    end
+    res = has_ip(vim.fn.system('who'))
+  end
+
   ---@diagnostic disable-next-line
   _G.is_ssh = loadstring('return ' .. vim.inspect(res))
   return res
