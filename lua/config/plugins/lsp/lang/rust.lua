@@ -5,10 +5,11 @@ local installer = nil
 local function get_adapter(package)
   local exe = ''
   local lib = '.so'
-  if jit.os == 'Windows' then
+  local os = vim.loop.os_uname().sysname
+  if os:match('Windows') then
     exe = '.exe'
     lib = '.lib'
-  elseif jit.os == 'OSX' then
+  elseif os:match('Darwin') then
     lib = '.dylib'
   end
 
