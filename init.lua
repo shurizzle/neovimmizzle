@@ -26,8 +26,7 @@ function _G.is_ssh()
   return res
 end
 
-_G.path_separator = (has('win16') or has('win32') or has('win64')) and '\\'
-  or '/'
+_G.path_separator = vim.loop.os_uname().sysname:match('Windows') and '\\' or '/'
 
 function _G.join_paths(...)
   return table.concat({ ... }, _G.path_separator)
