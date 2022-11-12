@@ -83,7 +83,7 @@ table.insert(config, {
   cmd = { 'LushRunQuickstart', 'LushRunTutorial', 'Lushify' },
 })
 
-table.insert(config, 1, { 'shurizzle/impatient.nvim' })
+table.insert(config, 1, { 'lewis6991/impatient.nvim' })
 table.insert(config, 1, { 'wbthomason/packer.nvim' })
 table.insert(config, 1, { 'williamboman/mason.nvim' })
 
