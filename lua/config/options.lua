@@ -32,6 +32,7 @@ local options = {
   omnifunc = 'v:lua.vim.lsp.omnifunc',
   guifont = 'Hack Nerd Font Mono:h' .. font_size,
   laststatus = 3,
+  showmode = false,
 }
 
 vim.g.neovide_cursor_vfx_mode = 'torpedo'
