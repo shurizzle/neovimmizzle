@@ -17,27 +17,40 @@ function _G.has(what)
   return vim.fn.has(what) ~= 0
 end
 
-function _G.is_ssh()
-  local res = false
+function _G.ssh_remote()
+  local function extract(env)
+    if env then
+      local i = env:find('%s')
 
-  if has('unix') then
-    local function has_ip(str)
-      local ip = require('ip')
-
-      for m in str:gmatch('%((.+)%)') do
-        if ip.parse(m) then
-          return true
+      if i then
+        local remote = require('ip').parse(env:sub(0, i - 1))
+        if remote then
+          return remote
         end
       end
-
-      return false
     end
-    res = has_ip(vim.fn.system('who'))
   end
 
+  local function coalesce_map(map, ...)
+    for _, name in ipairs({ ... }) do
+      local res = map(name)
+      if res then
+        return res
+      end
+    end
+  end
+
+  local res = coalesce_map(function(name)
+    return extract(vim.loop.os_getenv(name))
+  end, 'SSH_CLIENT', 'SSH_CONNECTION')
+
   ---@diagnostic disable-next-line
-  _G.is_ssh = loadstring('return ' .. vim.inspect(res))
+  _G.ssh_remote = loadstring('return ' .. vim.inspect(res))
   return res
+end
+
+function _G.is_ssh()
+  return _G.ssh_remote() ~= nil
 end
 
 _G.path_separator = vim.loop.os_uname().sysname:match('Windows') and '\\' or '/'
