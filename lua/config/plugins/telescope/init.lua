@@ -1,5 +1,22 @@
 local _M = {}
 
+_M.cmd = 'Telescope'
+
+function _M.setup()
+  require('which-key').register({
+    ['<leader>f'] = {
+      f = { '<cmd>Telescope find_files<CR>', 'Telescope find files' },
+      g = { '<cmd>Telescope live_grep<CR>', 'Telescope live grep' },
+      b = { '<cmd>Telescope buffers<CR>', 'Telescope show buffers' },
+      h = { '<cmd>Telescope help_tags<CR>', 'Telescope help tags' },
+      s = {
+        '<cmd>Telescope lsp_document_symbols<CR>',
+        'Telescope shopw workspace symbols',
+      },
+    },
+  }, { noremap = true, silent = true, mode = 'n' })
+end
+
 function _M.config()
   local ts = require('telescope')
 
@@ -26,19 +43,6 @@ function _M.config()
   ts.load_extension('projects')
   ts.load_extension('ui-select')
   ts.load_extension('notify')
-
-  require('which-key').register({
-    ['<leader>f'] = {
-      f = { '<cmd>Telescope find_files<CR>', 'Telescope find files' },
-      g = { '<cmd>Telescope live_grep<CR>', 'Telescope live grep' },
-      b = { '<cmd>Telescope buffers<CR>', 'Telescope show buffers' },
-      h = { '<cmd>Telescope help_tags<CR>', 'Telescope help tags' },
-      s = {
-        '<cmd>Telescope lsp_document_symbols<CR>',
-        'Telescope shopw workspace symbols',
-      },
-    },
-  }, { noremap = true, silent = true, mode = 'n' })
 end
 
 return _M

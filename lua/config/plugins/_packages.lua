@@ -55,7 +55,6 @@ return {
     },
   },
   { 'nvim-telescope/telescope-fzf-native.nvim', mod = 'telescope.fzf' },
-  { 'nvim-telescope/telescope-ui-select.nvim' },
   {
     'nvim-treesitter/playground',
     cmd = { 'TSPlaygroundToggle' },
