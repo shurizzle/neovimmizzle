@@ -31,7 +31,7 @@ function _M.config()
     ['<leader>f'] = {
       f = { '<cmd>Telescope find_files<CR>', 'Telescope find files' },
       g = { '<cmd>Telescope live_grep<CR>', 'Telescope live grep' },
-      b = { '<cmd>Telescope buffer<CR>', 'Telescope show buffers' },
+      b = { '<cmd>Telescope buffers<CR>', 'Telescope show buffers' },
       h = { '<cmd>Telescope help_tags<CR>', 'Telescope help tags' },
       s = {
         '<cmd>Telescope lsp_document_symbols<CR>',
