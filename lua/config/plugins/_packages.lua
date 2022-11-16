@@ -146,7 +146,7 @@ return {
   { 'junegunn/goyo.vim', cmd = { 'Goyo' } },
   { 'windwp/nvim-autopairs', mod = 'autopairs' },
   { 'tpope/vim-repeat' },
-  { 'numToStr/Comment.nvim', mod = 'comment' },
+  { 'numToStr/Comment.nvim', mod = 'comment', keys = '<leader>c/' },
   { 'kylechui/nvim-surround', mod = 'surround' },
   { 'ahmedkhalf/project.nvim', mod = 'project' },
   { 'editorconfig/editorconfig-vim' },
