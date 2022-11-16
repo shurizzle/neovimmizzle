@@ -12,6 +12,7 @@ function M.setup()
       'packer',
       'lsp-installer',
       'rfc',
+      'DressingInput',
     },
     buftype_exclude = {
       'terminal',

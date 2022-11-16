@@ -122,7 +122,8 @@ function M.config()
     tabline = {},
     extensions = {
       fixed_extension('Telescope', 'TelescopePrompt'),
-      fixed_extension('Exporer', 'NvimTree'),
+      fixed_extension('Explorer', 'NvimTree'),
+      fixed_extension('Input', 'DressingInput'),
       fixed_extension('Dashboard', 'alpha'),
       fixed_extension('Scopes', 'dapui_scopes'),
       fixed_extension('Breakpoints', 'dapui_breakpoints'),
