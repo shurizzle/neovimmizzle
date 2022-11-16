@@ -50,7 +50,6 @@ return {
     requires = {
       'tamago324/nlsp-settings.nvim',
       'ray-x/lsp_signature.nvim',
-      'RRethy/vim-illuminate',
       'jose-elias-alvarez/null-ls.nvim',
       'hrsh7th/cmp-nvim-lsp',
     },
