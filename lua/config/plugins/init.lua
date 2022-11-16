@@ -81,7 +81,7 @@ local function remap(plugin)
 end
 
 local config = {}
-for _, plugin in ipairs(require('config.plugins._packages')) do
+for _, plugin in ipairs(require('config.plugins._')) do
   table.insert(config, remap(plugin))
 end
 
