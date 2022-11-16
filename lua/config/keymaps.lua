@@ -68,7 +68,7 @@ for k, v in pairs({
     'Search for selected text',
   },
   ['<leader>ca'] = {
-    require('config.lsp').code_action,
+    vim.lsp.buf.code_action,
     'Show available code actions',
   },
 }) do
@@ -129,10 +129,6 @@ for k, v in pairs({
     vim.lsp.buf.implementation,
     'Show under-cursor implementation',
   },
-  ['<leader>cwh'] = {
-    require('config.lsp').workspace_diagnostics,
-    'Show workspace diagnostics',
-  },
   ['<leader>cwa'] = { vim.lsp.buf.add_workspace_folder, 'Add workspace folder' },
   ['<leader>cwr'] = {
     vim.lsp.buf.remove_workspace_folder,
@@ -150,15 +146,11 @@ for k, v in pairs({
   },
   ['<leader>cr'] = { vim.lsp.buf.rename, 'Rename under-cursor word' },
   ['<leader>ca'] = {
-    require('config.lsp').code_action,
+    vim.lsp.buf.code_action,
     'Show available code actions',
   },
-  ['<leader>ch'] = {
-    require('config.lsp').diagnostics,
-    'Show buffer diagnostics',
-  },
   ['<leader>cR'] = {
-    require('config.lsp').references,
+    vim.lsp.buf.references,
     'Show under-cursor references',
   },
   ['<leader>ce'] = {
@@ -184,7 +176,7 @@ for k, v in pairs({
   -- Make Y behave like the other capitals
   Y = { 'y$', 'Yank untill the end of the line' },
   ['<leader>ca'] = {
-    require('config.lsp').code_action,
+    vim.lsp.buf.code_action,
     'Show available code actions',
   },
 }) do
@@ -193,7 +185,7 @@ end
 
 for k, v in pairs({
   ['<leader>ca'] = {
-    require('config.lsp').code_action,
+    vim.lsp.buf.code_action,
     'Show available code actions',
   },
 }) do

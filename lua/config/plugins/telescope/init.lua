@@ -1,21 +1,12 @@
 local _M = {}
 
-_M.cmd = 'Telescope'
-
-function _M.setup()
-  require('which-key').register({
-    ['<leader>f'] = {
-      f = { '<cmd>Telescope find_files<CR>', 'Telescope find files' },
-      g = { '<cmd>Telescope live_grep<CR>', 'Telescope live grep' },
-      b = { '<cmd>Telescope buffers<CR>', 'Telescope show buffers' },
-      h = { '<cmd>Telescope help_tags<CR>', 'Telescope help tags' },
-      s = {
-        '<cmd>Telescope lsp_document_symbols<CR>',
-        'Telescope shopw workspace symbols',
-      },
-    },
-  }, { noremap = true, silent = true, mode = 'n' })
-end
+_M.keys = {
+  { 'n', '<leader>ff' },
+  { 'n', '<leader>fg' },
+  { 'n', '<leader>fb' },
+  { 'n', '<leader>fh' },
+  { 'n', '<leader>fs' },
+}
 
 function _M.config()
   require('packer.load')({
@@ -48,6 +39,46 @@ function _M.config()
   ts.load_extension('projects')
   ts.load_extension('ui-select')
   ts.load_extension('notify')
+
+  for k, v in pairs({
+    f = { '<cmd>Telescope find_files<CR>', 'Telescope find files' },
+    g = { '<cmd>Telescope live_grep<CR>', 'Telescope live grep' },
+    b = { '<cmd>Telescope buffers<CR>', 'Telescope show buffers' },
+    h = { '<cmd>Telescope help_tags<CR>', 'Telescope help tags' },
+    s = {
+      '<cmd>Telescope lsp_document_symbols<CR>',
+      'Telescope shopw workspace symbols',
+    },
+  }) do
+    vim.keymap.set(
+      'n',
+      '<leader>f' .. k,
+      v[1],
+      { noremap = true, silent = true, desc = v[2] }
+    )
+  end
+
+  for k, v in pairs({
+    wh = {
+      '<cmd>Telescope diagnostics theme=get_dropdown<CR>',
+      'Show workspace diagnostics',
+    },
+    ch = {
+      '<cmd>Telescope diagnostics bufnr=0 theme=get_dropdown<CR>',
+      'Show buffer diagnostics',
+    },
+    cR = {
+      '<cmd>Telescope lsp_references theme=get_dropdown<CR>',
+      'Show under-cursor references',
+    },
+  }) do
+    vim.keymap.set(
+      'n',
+      '<leader>c' .. k,
+      v[1],
+      { noremap = true, silent = true, desc = v[2] }
+    )
+  end
 end
 
 return _M

@@ -13,30 +13,6 @@ augroup END
   false
 )
 
-function _M.workspace_diagnostics()
-  if vim.fn.exists(':Telescope') ~= 0 then
-    vim.cmd('Telescope diagnostics theme=get_dropdown')
-  end
-end
-
-function _M.diagnostics()
-  if vim.fn.exists(':Telescope') ~= 0 then
-    vim.cmd('Telescope diagnostics bufnr=0 theme=get_dropdown')
-  end
-end
-
-function _M.code_action(...)
-  vim.lsp.buf.code_action(...)
-end
-
-function _M.references()
-  if vim.fn.exists(':Telescope') ~= 0 then
-    vim.cmd('Telescope lsp_references theme=get_dropdown')
-  else
-    vim.lsp.buf.references({}, nil)
-  end
-end
-
 function _M.format(options)
   options = options or {}
   options.bufnr = options.bufnr or vim.api.nvim_get_current_buf()

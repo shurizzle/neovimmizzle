@@ -140,7 +140,6 @@ end
 
 function _M.setup()
   colorscheme('bluesky')
-  vim.cmd('autocmd User PackerComplete lua require"config.colors".sync()')
   vim.cmd('command! ColoSync lua require"config.colors".sync()<CR>')
 end
 

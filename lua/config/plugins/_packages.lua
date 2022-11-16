@@ -8,9 +8,6 @@ return {
   {
     'nvim-treesitter/nvim-treesitter',
     mod = 'treesitter',
-    requires = {
-      'nvim-orgmode/orgmode',
-    },
   },
   {
     'nvim-treesitter/nvim-treesitter-textobjects',
@@ -18,10 +15,10 @@ return {
     after = 'nvim-treesitter',
     requires = 'nvim-treesitter/nvim-treesitter',
   },
-  -- TODO: lazy load
   {
     'nvim-orgmode/orgmode',
     mod = 'org',
+    requires = 'nvim-treesitter/nvim-treesitter',
   },
   { 'RRethy/vim-illuminate', mod = 'illuminate' },
   {
@@ -103,11 +100,8 @@ return {
     'nvim-telescope/telescope.nvim',
     mod = 'telescope',
     requires = {
-      'nvim-lua/plenary.nvim',
-      'kyazdani42/nvim-web-devicons',
       'rcarriga/nvim-notify',
       'ahmedkhalf/project.nvim',
-      'folke/which-key.nvim',
     },
   },
   {

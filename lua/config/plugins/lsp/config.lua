@@ -47,7 +47,7 @@ function _M.config()
 
   require('packer.load')(
     { 'nlsp-settings.nvim' },
-    { module = 'telescope.nvim' },
+    { module = 'nvim-lspconfig' },
     packer_plugins
   )
 end

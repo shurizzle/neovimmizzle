@@ -3,6 +3,15 @@ if not status_ok then
   return
 end
 
+packer.on_complete = vim.schedule_wrap(function()
+  require('config.colors').sync()
+  require('orgmode').setup_ts_grammar()
+  local ts_update =
+    require('nvim-treesitter.install').update({ with_sync = true })
+  ts_update()
+  vim.cmd([[doautocmd User PackerComplete]])
+end)
+
 packer.init({
   display = {
     open_fn = function()
@@ -111,6 +120,22 @@ table.insert(config, 1, {
 
 packer.reset()
 packer.use(config)
+
+vim.api.nvim_create_user_command('Telescope', function(opts)
+  require('packer.load')({ 'telescope.nvim' }, {
+    cmd = 'Telescope',
+    l1 = opts.line1,
+    l2 = opts.line2,
+    bang = opts.bang and '!' or '',
+    args = opts.args,
+    ---@diagnostic disable-next-line
+  }, _G.packer_plugins)
+end, {
+  nargs = '*',
+  range = true,
+  bang = true,
+  complete = 'file',
+})
 
 if vim.g.packer_bootstrap then
   packer.sync()

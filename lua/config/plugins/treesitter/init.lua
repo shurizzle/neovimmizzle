@@ -1,14 +1,6 @@
 local _M = {}
 
-function _M.run()
-  local ts_update =
-    require('nvim-treesitter.install').update({ with_sync = true })
-  ts_update()
-end
-
 function _M.config()
-  require('orgmode').setup_ts_grammar()
-
   require('nvim-treesitter.configs').setup({
     ensure_installed = 'all',
     sync_install = is_headless(),
