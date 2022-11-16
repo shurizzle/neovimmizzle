@@ -10,8 +10,13 @@ return {
     mod = 'treesitter',
     requires = {
       'nvim-orgmode/orgmode',
-      'nvim-treesitter/nvim-treesitter-textobjects',
     },
+  },
+  {
+    'nvim-treesitter/nvim-treesitter-textobjects',
+    mod = 'treesitter.textobjects',
+    after = 'nvim-treesitter',
+    requires = 'nvim-treesitter/nvim-treesitter',
   },
   -- TODO: lazy load
   {

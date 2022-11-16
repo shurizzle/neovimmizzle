@@ -15,7 +15,7 @@ local function git_clone(url, dir, callback)
 end
 
 git_clone(
-  'https://github.com/shurizzle/impatient.nvim',
+  'https://github.com/lewis6991/impatient.nvim',
   'impatient.nvim',
   function(_)
     vim.cmd([[packadd impatient.nvim]])
