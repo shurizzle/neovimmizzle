@@ -1,5 +1,4 @@
 return {
-  { 'nvim-lua/plenary.nvim' },
   { 'goolord/alpha-nvim', mod = 'alpha' },
   {
     'kyazdani42/nvim-web-devicons',
@@ -11,24 +10,21 @@ return {
   {
     'nvim-treesitter/nvim-treesitter',
     mod = 'treesitter',
-    requires = { 'nvim-orgmode/orgmode' },
-  },
-  {
-    'nvim-treesitter/nvim-treesitter-textobjects',
-    requires = { 'nvim-treesitter/nvim-treesitter' },
+    requires = {
+      'nvim-orgmode/orgmode',
+      'nvim-treesitter/nvim-treesitter-textobjects',
+    },
   },
   {
     'nvim-orgmode/orgmode',
     mod = 'org',
   },
-  { 'ray-x/lsp_signature.nvim' },
   { 'RRethy/vim-illuminate', mod = 'illuminate' },
   {
     'tamago324/nlsp-settings.nvim',
     requires = { 'neovim/nvim-lspconfig' },
     mod = 'nlsp-settings',
   },
-  { 'mfussenegger/nvim-dap' },
   {
     'simrat39/rust-tools.nvim',
     requires = {
@@ -41,7 +37,6 @@ return {
     'jose-elias-alvarez/typescript.nvim',
     opt = true,
   },
-  { 'jose-elias-alvarez/null-ls.nvim' },
   {
     'neovim/nvim-lspconfig',
     mod = 'lsp',
@@ -60,7 +55,6 @@ return {
     cmd = { 'TSPlaygroundToggle' },
     requires = { 'nvim-treesitter/nvim-treesitter' },
   },
-  { 'rafamadriz/friendly-snippets' },
   {
     'L3MON4D3/LuaSnip',
     mod = 'luasnip',
@@ -73,17 +67,10 @@ return {
     tag = 'v0.3.0',
     requires = { 'nvim-lua/plenary.nvim', 'jose-elias-alvarez/null-ls.nvim' },
   },
-  { 'saadparwaiz1/cmp_luasnip', requires = { 'L3MON4D3/LuaSnip' } },
-  { 'hrsh7th/cmp-nvim-lsp' },
-  { 'hrsh7th/cmp-buffer' },
-  { 'hrsh7th/cmp-path' },
-  { 'hrsh7th/cmp-calc' },
-  { 'hrsh7th/cmp-emoji' },
   {
     'ray-x/cmp-treesitter',
     requires = { 'nvim-treesitter/nvim-treesitter' },
   },
-  { 'lukas-reineke/cmp-rg' },
   {
     'hrsh7th/nvim-cmp',
     mod = 'cmp',
@@ -115,7 +102,6 @@ return {
       'folke/which-key.nvim',
     },
   },
-  { 'arkav/lualine-lsp-progress' },
   {
     'nvim-lualine/lualine.nvim',
     mod = 'lualine',
