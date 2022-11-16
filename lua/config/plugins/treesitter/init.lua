@@ -11,7 +11,7 @@ function _M.config()
     highlight = {
       enable = true, -- false will disable the whole extension
       disable = { '' }, -- list of language that will be disabled
-      additional_vim_regex_highlighting = true,
+      additional_vim_regex_highlighting = { 'org' },
     },
     indent = { enable = true, disable = { 'yaml' } },
     context_commentstring = {

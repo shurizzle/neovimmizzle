@@ -13,7 +13,9 @@ _M.module_pattern = {
 }
 
 function _M.config()
-  require('orgmode').setup({})
+  local org = require('orgmode')
+  org.setup_ts_grammar()
+  org.setup({})
 end
 
 return _M
