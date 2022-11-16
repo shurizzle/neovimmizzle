@@ -1,6 +1,8 @@
-local M = {}
+local _M = {}
 
-function M.config()
+_M.event = { 'BufRead Cargo.toml' }
+
+function _M.config()
   require('crates').setup({
     null_ls = {
       enabled = true,
@@ -17,4 +19,4 @@ function M.config()
   })
 end
 
-return M
+return _M

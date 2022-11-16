@@ -18,6 +18,11 @@ function _M.setup()
 end
 
 function _M.config()
+  require('packer.load')({
+    'telescope-fzf-native.nvim',
+    'telescope-ui-select.nvim',
+  }, { module = 'telescope.nvim' }, packer_plugins)
+
   local ts = require('telescope')
 
   ts.setup({

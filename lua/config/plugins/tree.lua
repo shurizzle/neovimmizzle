@@ -1,5 +1,19 @@
 local _M = {}
 
+_M.module_pattern = {
+  '^nvim%-tree$',
+  '^nvim%-tree%.',
+}
+
+_M.cmd = {
+  'NvimTreeToggle',
+  'NvimTreeFocus',
+  'NvimTreeFindFile',
+  'NvimTreeCollapse',
+}
+
+_M.keys = { { 'n', '<space>e' } }
+
 local function arrow(where)
   return string.format(':lua require\'config.plugins.tree\'.on_%s()<CR>', where)
 end
@@ -39,11 +53,6 @@ function _M.on_right()
 
     require('nvim-tree.actions.node.open-file').fn('edit', path)
   end
-end
-
-function _M.toggle()
-  require('packer').loader('nvim-tree.lua')
-  _M.toggle()
 end
 
 function _M.config()
@@ -161,9 +170,16 @@ function _M.config()
     end)
   end
 
-  function _M.toggle()
+  local function toggle()
     return (is_open() and close or open)()
   end
+
+  vim.keymap.set(
+    'n',
+    '<space>e',
+    toggle,
+    { silent = true, noremap = true, desc = 'Toggle nvim-tree' }
+  )
 
   local ev = require('nvim-tree.events')
 

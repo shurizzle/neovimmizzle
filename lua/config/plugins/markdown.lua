@@ -1,10 +1,12 @@
-local M = {}
+local _M = {}
 
-function M.setup()
+_M.ft = 'markdown'
+
+function _M.setup()
   vim.g.nvim_markdown_preview_theme = 'github'
   if (vim.g.started_by_firenvim or 0) ~= 0 then
     vim.g.instant_markdown_autostart = 0
   end
 end
 
-return M
+return _M

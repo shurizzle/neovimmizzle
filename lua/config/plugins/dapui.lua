@@ -1,6 +1,13 @@
-local M = {}
+local _M = {}
 
-function M.config()
+_M.opt = true
+
+_M.module_pattern = {
+  '^dapui$',
+  '^dapui%.',
+}
+
+function _M.config()
   -- TODO: configure with sidebar
   local dap, dapui = require('dap'), require('dapui')
 
@@ -19,4 +26,4 @@ function M.config()
   end
 end
 
-return M
+return _M

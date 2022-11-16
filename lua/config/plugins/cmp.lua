@@ -238,6 +238,7 @@ function _M.config()
     emoji = '[Emj]',
     rg1 = '[Rg]',
     orgmode = '[Org]',
+    crates = '[Crg]',
   }
   local duplicates = {
     buffer = 1,

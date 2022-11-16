@@ -1,6 +1,8 @@
-local M = {}
+local _M = {}
 
-function M.config()
+_M.keys = { { 'n', '<leader>c/' }, { 'x', '<leader>c/' } }
+
+function _M.config()
   require('Comment').setup({
     mappings = {
       basic = false,
@@ -26,4 +28,4 @@ function M.config()
   }, { mode = 'x', noremap = true, silent = true, expr = false })
 end
 
-return M
+return _M

@@ -1,5 +1,7 @@
 local _M = {}
 
+_M.requires = { 'rafamadriz/friendly-snippets' }
+
 function _M.config()
   local luasnip = require('luasnip')
 

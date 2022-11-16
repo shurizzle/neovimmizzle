@@ -1,9 +1,7 @@
-local K = vim.keymap.set
-
 vim.g.mapleader = ','
 vim.g.maplocalleader = ','
 
-K('n', '<leader>,', ',', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>,', ',', { noremap = true, silent = true })
 
 -- Just use vim.
 for name, key in pairs({
@@ -24,7 +22,7 @@ for name, key in pairs({
   local keymap = function(modes, left, right, options)
     options =
       vim.tbl_extend('force', { noremap = true, silent = true }, options or {})
-    K(modes, left, right, options)
+    vim.keymap.set(modes, left, right, options)
   end
 
   keymap(
@@ -51,7 +49,7 @@ for k, v in pairs({
   ['<C-n>'] = { _G.tabnext, 'Go to next Tab' },
   ['<C-p>'] = { _G.tabprev, 'Go to previous Tab' },
 }) do
-  K('n', k, v[1], { silent = true, noremap = true, desc = v[2] })
+  vim.keymap.set('n', k, v[1], { silent = true, noremap = true, desc = v[2] })
 end
 
 for k, v in pairs({
@@ -74,7 +72,7 @@ for k, v in pairs({
     'Show available code actions',
   },
 }) do
-  K('v', k, v[1], { silent = true, noremap = true, desc = v[2] })
+  vim.keymap.set('v', k, v[1], { silent = true, noremap = true, desc = v[2] })
 end
 
 vim.cmd([[
@@ -167,25 +165,11 @@ for k, v in pairs({
     vim.diagnostic.open_float,
     'Show under-cursor diagnostics',
   },
-  ['<leader>db'] = {
-    require('config.debug').toggle_breakpoint,
-    'Toggle breakpoint',
-  },
-  ['<leader>dp'] = { require('config.debug').step_back, 'Step back' },
-  ['<leader>di'] = { require('config.debug').step_into, 'Step into' },
-  ['<leader>do'] = { require('config.debug').step_out, 'Step out' },
-  ['<leader>dd'] = { require('config.debug').step_over, 'Step over' },
   ['<leader>s'] = { switch_case, 'Switch case of under-cursor word' },
   K = { vim.lsp.buf.hover, 'Show under-cursor help' },
   ['[c'] = { vim.diagnostic.goto_prev, 'Go to previous diagnostic' },
   [']c'] = { vim.diagnostic.goto_next, 'Go to next diagnostic' },
   ['<space>d'] = { require('config.debug').toggle, 'Toggle dap-ui' },
-  ['<space>e'] = {
-    function()
-      require('config.plugins.tree').toggle()
-    end,
-    'Toggle nvim-tree',
-  },
   ZZ = { '<cmd>BufferClose<CR>', 'Close current buffer' },
   ZQ = { '<cmd>BufferClose!<CR>', 'Close current buffer without saving' },
   ['<C-h>'] = { '<cmd>wincmd h<CR>' },
@@ -193,7 +177,7 @@ for k, v in pairs({
   ['<C-k>'] = { '<cmd>wincmd k<CR>' },
   ['<C-l>'] = { '<cmd>wincmd l<CR>' },
 }) do
-  K('n', k, v[1], { silent = true, noremap = true, desc = v[2] })
+  vim.keymap.set('n', k, v[1], { silent = true, noremap = true, desc = v[2] })
 end
 
 for k, v in pairs({
@@ -204,7 +188,7 @@ for k, v in pairs({
     'Show available code actions',
   },
 }) do
-  K('n', k, v[1], { silent = true, noremap = true, desc = v[2] })
+  vim.keymap.set('n', k, v[1], { silent = true, noremap = true, desc = v[2] })
 end
 
 for k, v in pairs({
@@ -213,5 +197,5 @@ for k, v in pairs({
     'Show available code actions',
   },
 }) do
-  K('x', k, v[1], { silent = true, noremap = true, desc = v[2] })
+  vim.keymap.set('x', k, v[1], { silent = true, noremap = true, desc = v[2] })
 end

@@ -1,9 +1,7 @@
 return {
+  { 'nvim-lua/plenary.nvim', module = { 'plenary', 'luassert', 'say' } },
   { 'goolord/alpha-nvim', mod = 'alpha' },
-  {
-    'kyazdani42/nvim-web-devicons',
-    mod = 'devicons',
-  },
+  { 'kyazdani42/nvim-web-devicons', mod = 'devicons' },
   { 'folke/which-key.nvim', mod = 'which-key' },
   { 'rcarriga/nvim-notify', mod = 'notify' },
   { 'stevearc/dressing.nvim', mod = 'dressing' },
@@ -15,6 +13,7 @@ return {
       'nvim-treesitter/nvim-treesitter-textobjects',
     },
   },
+  -- TODO: lazy load
   {
     'nvim-orgmode/orgmode',
     mod = 'org',
@@ -22,8 +21,8 @@ return {
   { 'RRethy/vim-illuminate', mod = 'illuminate' },
   {
     'tamago324/nlsp-settings.nvim',
-    requires = { 'neovim/nvim-lspconfig' },
     mod = 'nlsp-settings',
+    opt = true,
   },
   {
     'simrat39/rust-tools.nvim',
@@ -38,10 +37,17 @@ return {
     opt = true,
   },
   {
+    'ray-x/lsp_signature.nvim',
+    module_pattern = {
+      '^lsp_signature$',
+      '^lsp_signature%.',
+    },
+  },
+  { 'jose-elias-alvarez/null-ls.nvim', mod = 'lsp.null' },
+  {
     'neovim/nvim-lspconfig',
-    mod = 'lsp',
+    mod = 'lsp.config',
     requires = {
-      'williamboman/mason.nvim',
       'tamago324/nlsp-settings.nvim',
       'ray-x/lsp_signature.nvim',
       'RRethy/vim-illuminate',
@@ -49,7 +55,6 @@ return {
       'hrsh7th/cmp-nvim-lsp',
     },
   },
-  { 'nvim-telescope/telescope-fzf-native.nvim', mod = 'telescope.fzf' },
   {
     'nvim-treesitter/playground',
     cmd = { 'TSPlaygroundToggle' },
@@ -58,18 +63,12 @@ return {
   {
     'L3MON4D3/LuaSnip',
     mod = 'luasnip',
-    requires = { 'rafamadriz/friendly-snippets' },
   },
   {
     'saecki/crates.nvim',
     mod = 'crates',
-    event = { 'BufRead Cargo.toml' },
     tag = 'v0.3.0',
     requires = { 'nvim-lua/plenary.nvim', 'jose-elias-alvarez/null-ls.nvim' },
-  },
-  {
-    'ray-x/cmp-treesitter',
-    requires = { 'nvim-treesitter/nvim-treesitter' },
   },
   {
     'hrsh7th/nvim-cmp',
@@ -80,6 +79,7 @@ return {
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-calc',
       'hrsh7th/cmp-emoji',
+      'nvim-treesitter/nvim-treesitter',
       'ray-x/cmp-treesitter',
       'saecki/crates.nvim',
       'lukas-reineke/cmp-rg',
@@ -90,13 +90,17 @@ return {
     },
   },
   {
+    'nvim-telescope/telescope-fzf-native.nvim',
+    mod = 'telescope.fzf',
+    opt = true,
+  },
+  { 'nvim-telescope/telescope-ui-select.nvim', opt = true },
+  {
     'nvim-telescope/telescope.nvim',
     mod = 'telescope',
     requires = {
       'nvim-lua/plenary.nvim',
       'kyazdani42/nvim-web-devicons',
-      'nvim-telescope/telescope-fzf-native.nvim',
-      'nvim-telescope/telescope-ui-select.nvim',
       'rcarriga/nvim-notify',
       'ahmedkhalf/project.nvim',
       'folke/which-key.nvim',
@@ -119,7 +123,6 @@ return {
     'kyazdani42/nvim-tree.lua',
     mod = 'tree',
     requires = 'kyazdani42/nvim-web-devicons',
-    opt = true,
   },
   { 'norcalli/nvim-colorizer.lua', mod = 'colorizer' },
   {
@@ -132,17 +135,17 @@ return {
   { 'junegunn/goyo.vim', cmd = { 'Goyo' } },
   { 'windwp/nvim-autopairs', mod = 'autopairs' },
   { 'tpope/vim-repeat' },
-  { 'numToStr/Comment.nvim', mod = 'comment', keys = '<leader>c/' },
+  { 'numToStr/Comment.nvim', mod = 'comment' },
   { 'kylechui/nvim-surround', mod = 'surround' },
   { 'ahmedkhalf/project.nvim', mod = 'project' },
   { 'editorconfig/editorconfig-vim' },
   {
     'instant-markdown/vim-instant-markdown',
     mod = 'markdown',
-    ft = { 'markdown' },
   },
-  { 'rktjmp/paperplanes.nvim', mod = 'paperplanes', cmd = 'PP' },
-  { 'jwalton512/vim-blade' },
+  { 'rktjmp/paperplanes.nvim', mod = 'paperplanes' },
+  { 'jwalton512/vim-blade', ft = 'blade' },
+  { 'mfussenegger/nvim-dap', mod = 'dap' },
   {
     'rcarriga/nvim-dap-ui',
     mod = 'dapui',
@@ -163,8 +166,6 @@ return {
   {
     'shurizzle/nvim-navic',
     mod = 'navic',
-    requires = 'neovim/nvim-lspconfig',
-    opt = true,
   },
   { 'folke/neodev.nvim', mod = 'neodev', opt = true },
 }

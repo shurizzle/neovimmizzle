@@ -1,5 +1,10 @@
 local _M = {}
 
+_M.module_pattern = {
+  '^nvim%-navic$',
+  '^nvim%-navic%.',
+}
+
 local winbar = '%{%v:lua.require\'nvim-navic\'.get_location()%}'
 
 local function ensure_bufnr(bufnr)

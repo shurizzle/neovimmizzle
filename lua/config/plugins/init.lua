@@ -55,8 +55,8 @@ local function remap(plugin)
         if hasupvalues(res) then
           res = loadstring(
             string.format(
-              'return function(...) require("config.plugins." .. %s)[%s](...) end',
-              vim.inspect(mod),
+              'return function(...) require(%s)[%s](...) end',
+              vim.inspect('config.plugins.' .. mod),
               vim.inspect(key)
             )
           )()
@@ -85,7 +85,29 @@ table.insert(config, {
 
 table.insert(config, 1, { 'lewis6991/impatient.nvim' })
 table.insert(config, 1, { 'wbthomason/packer.nvim' })
-table.insert(config, 1, { 'williamboman/mason.nvim' })
+table.insert(config, 1, {
+  'williamboman/mason.nvim',
+  module_pattern = {
+    '^mason%-core$',
+    '^mason%-core%.',
+    '^mason%-registry$',
+    '^mason%-registry%.',
+    '^mason%-schemas$',
+    '^mason%-schemas%.',
+    '^mason$',
+    '^mason%.',
+  },
+  cmd = {
+    'Mason',
+    'MasonInstall',
+    'MasonLog',
+    'MasonUninstall',
+    'MasonUninstallAll',
+  },
+  config = function()
+    require('mason').setup({})
+  end,
+})
 
 packer.reset()
 packer.use(config)
