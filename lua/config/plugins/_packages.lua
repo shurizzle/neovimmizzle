@@ -155,7 +155,7 @@ return {
     mod = 'markdown',
     ft = { 'markdown' },
   },
-  { 'rktjmp/paperplanes.nvim', mod = 'paperplanes' },
+  { 'rktjmp/paperplanes.nvim', mod = 'paperplanes', cmd = 'PP' },
   { 'jwalton512/vim-blade' },
   {
     'rcarriga/nvim-dap-ui',
