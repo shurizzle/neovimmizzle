@@ -8,6 +8,26 @@ _M.keys = {
   { 'n', '<leader>fs' },
 }
 
+function _M.setup()
+  if not vim.api.nvim_get_commands({})['Telescope'] then
+    vim.api.nvim_create_user_command('Telescope', function(opts)
+      require('packer.load')({ 'telescope.nvim' }, {
+        cmd = 'Telescope',
+        l1 = opts.line1,
+        l2 = opts.line2,
+        bang = opts.bang and '!' or '',
+        args = opts.args,
+        ---@diagnostic disable-next-line
+      }, _G.packer_plugins)
+    end, {
+      nargs = '*',
+      range = true,
+      bang = true,
+      complete = 'file',
+    })
+  end
+end
+
 function _M.config()
   require('packer.load')({
     'telescope-fzf-native.nvim',

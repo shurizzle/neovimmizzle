@@ -166,4 +166,5 @@ return {
     mod = 'navic',
   },
   { 'folke/neodev.nvim', mod = 'neodev', opt = true },
+  { 'rafcamlet/nvim-luapad', mod = 'luapad' },
 }
