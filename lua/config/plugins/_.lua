@@ -20,6 +20,11 @@ return {
     mod = 'org',
     requires = 'nvim-treesitter/nvim-treesitter',
   },
+  {
+    'windwp/nvim-ts-autotag',
+    mod = 'autotag',
+    requires = 'nvim-treesitter/nvim-treesitter',
+  },
   { 'RRethy/vim-illuminate', mod = 'illuminate' },
   {
     'tamago324/nlsp-settings.nvim',
