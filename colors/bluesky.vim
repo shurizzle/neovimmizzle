@@ -158,6 +158,8 @@ highlight Repeat guifg=#2E8FFF guibg=NONE guisp=NONE blend=NONE gui=italic
 highlight SignColumn guifg=#545454 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight SpecialComment guifg=#57A5FF guibg=NONE guisp=NONE blend=NONE gui=bold,italic
 highlight! link Operator Statement
+highlight StatusLine guifg=#EDEDED guibg=#242424 guisp=NONE blend=NONE gui=NONE
+highlight StatusLineNC guifg=#EDEDED guibg=#292929 guisp=NONE blend=NONE gui=NONE
 highlight StorageClass guifg=#2E8FFF guibg=NONE guisp=NONE blend=NONE gui=italic
 highlight String guifg=#80BBFF guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight! link Boolean String
