@@ -76,7 +76,7 @@ return lush(function()
     Boolean { String },
     Float { String },
 
-    Identifier { fg = cp.white },
+    Identifier { fg = cp.blue },
     Function { Identifier },
 
     Statement { Identifier },

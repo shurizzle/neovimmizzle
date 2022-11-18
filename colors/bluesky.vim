@@ -82,7 +82,7 @@ highlight GitSignsChangeNr guifg=#FFE100 guibg=#292929 guisp=NONE blend=NONE gui
 highlight GitSignsDelete guifg=#CA213D guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight GitSignsDeleteLn guifg=#CA213D guibg=#292929 guisp=NONE blend=NONE gui=NONE
 highlight GitSignsDeleteNr guifg=#CA213D guibg=#292929 guisp=NONE blend=NONE gui=NONE
-highlight Identifier guifg=#EDEDED guibg=NONE guisp=NONE blend=NONE gui=NONE
+highlight Identifier guifg=#2E8FFF guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight! link Delimiter Identifier
 highlight! link Function Identifier
 highlight! link Special Identifier
