@@ -86,8 +86,9 @@ highlight GitSignsDeleteLn guifg=#CA213D guibg=#292929 guisp=NONE blend=NONE gui
 highlight GitSignsDeleteNr guifg=#CA213D guibg=#292929 guisp=NONE blend=NONE gui=NONE
 highlight Identifier guifg=#EDEDED guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight! link Delimiter Identifier
-highlight! link Statement Identifier
 highlight! link Tag Identifier
+highlight! link luaSymbolOperator Identifier
+highlight! link vimHiTerm Identifier
 highlight Ignore guifg=#292929 guibg=#292929 guisp=NONE blend=NONE gui=NONE
 highlight IlluminatedWordText guifg=NONE guibg=NONE guisp=NONE blend=NONE gui=underline
 highlight! link illuminateWordRead IlluminatedWordText
@@ -99,6 +100,7 @@ highlight IndentBlanklineChar guifg=#303030 guibg=NONE guisp=NONE blend=NONE gui
 highlight IndentBlanklineContextChar guifg=#EDEDED guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight Italic guifg=NONE guibg=NONE guisp=NONE blend=NONE gui=italic
 highlight Keyword guifg=#2E8FFF guibg=NONE guisp=NONE blend=NONE gui=italic
+highlight! link @constructor Keyword
 highlight Label guifg=#2E8FFF guibg=NONE guisp=NONE blend=NONE gui=italic
 highlight LineNr guifg=#545454 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight Macro guifg=#2E8FFF guibg=NONE guisp=NONE blend=NONE gui=NONE
@@ -145,6 +147,7 @@ highlight NvimTreeSignColumn guifg=#242424 guibg=#242424 guisp=NONE blend=NONE g
 highlight NvimTreeStatusLine guifg=NONE guibg=#242424 guisp=NONE blend=NONE gui=NONE
 highlight NvimTreeStatusLineNC guifg=#242424 guibg=#242424 guisp=NONE blend=NONE gui=NONE
 highlight NvimTreeVertSplit guifg=NONE guibg=#242424 guisp=NONE blend=NONE gui=NONE
+highlight Operator guifg=NONE guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight PmenuSbar guifg=NONE guibg=#545454 guisp=NONE blend=NONE gui=NONE
 highlight PmenuSel guifg=#292929 guibg=#80BBFF guisp=NONE blend=NONE gui=NONE
 highlight! link QuickFixLine PmenuSel
@@ -156,9 +159,12 @@ highlight Question guifg=#169C50 guibg=NONE guisp=NONE blend=NONE gui=bold
 highlight Repeat guifg=#2E8FFF guibg=NONE guisp=NONE blend=NONE gui=italic
 highlight SignColumn guifg=#545454 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight Special guifg=#57A5FF guibg=NONE guisp=NONE blend=NONE gui=italic
+highlight! link luaFunc Special
 highlight SpecialChar guifg=#57A5FF guibg=NONE guisp=NONE blend=NONE gui=italic
 highlight SpecialComment guifg=#57A5FF guibg=NONE guisp=NONE blend=NONE gui=bold,italic
-highlight! link Operator Statement
+highlight Statement guifg=#2E8FFF guibg=NONE guisp=NONE blend=NONE gui=NONE
+highlight! link luaFunction Statement
+highlight! link luaOperator Statement
 highlight StatusLine guifg=#EDEDED guibg=#242424 guisp=NONE blend=NONE gui=NONE
 highlight StatusLineNC guifg=#EDEDED guibg=#292929 guisp=NONE blend=NONE gui=NONE
 highlight StorageClass guifg=#2E8FFF guibg=NONE guisp=NONE blend=NONE gui=italic

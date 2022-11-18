@@ -2,7 +2,9 @@ local lush = require 'lush'
 local cp = require 'config.colors.bluesky.palette'
 
 ---@diagnostic disable: undefined-global
-return lush(function()
+return lush(function(injected_functions)
+  local sym = injected_functions.sym
+
   return {
     Normal { fg = cp.white, bg = cp.black },
     NormalFloat { Normal },
@@ -79,11 +81,11 @@ return lush(function()
     Identifier { fg = cp.white, gui = 'NONE' },
     Function { fg = cp.white, gui = 'NONE' },
 
-    Statement { Identifier },
+    Statement { fg = cp.blue },
     Conditional { fg = cp.blue, gui = 'italic' },
     Repeat { fg = cp.blue, gui = 'italic' },
     Label { fg = cp.blue, gui = 'italic' },
-    Operator { Statement },
+    Operator {},
     Keyword { fg = cp.blue, gui = 'italic' },
     Exception { fg = cp.blue, gui = 'italic' },
 
@@ -115,7 +117,13 @@ return lush(function()
 
     Todo { fg = cp.black, bg = cp.yellow, gui = 'bold' }, -- (preferred) anything that needs extra attention; mostly the keywords TODO FIXME and XXX
 
-    sym '@boolean' { Boolean },
-    sym '@constructor' { Macro },
+    vimHiTerm { Identifier },
+
+    luaFunction { Statement },
+    luaOperator { Statement },
+    luaSymbolOperator { Identifier },
+    luaFunc { Special },
+
+    sym '@constructor' { Keyword },
   }
 end)
