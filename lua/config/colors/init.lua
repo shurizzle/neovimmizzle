@@ -25,8 +25,8 @@ local function get_highlights()
   local res = ''
   for _, value in
     ipairs(
-      require('shipwright.transform.lush.to_vimscript')(
-        require('config.colors.bluesky')
+      require 'shipwright.transform.lush.to_vimscript'(
+        require 'config.colors.bluesky'
       )
     )
   do
@@ -72,15 +72,11 @@ end
 
 local function write_file(file, content)
   local f, err, ok = io.open(file, 'w+b')
-  if not f then
-    return false, err
-  end
+  if not f then return false, err end
   ---@diagnostic disable-next-line
   ok, err = f:write(content)
 
-  if not ok then
-    return false, err
-  end
+  if not ok then return false, err end
 
   f:close()
 
@@ -88,12 +84,12 @@ local function write_file(file, content)
 end
 
 local function get_colo_file()
-  return join_paths(vim.fn.stdpath('config'), 'colors', 'bluesky.vim')
+  return join_paths(vim.fn.stdpath 'config', 'colors', 'bluesky.vim')
 end
 
 local function get_palette()
   local res = {}
-  for key, value in pairs(require('config.colors.bluesky.palette')) do
+  for key, value in pairs(require 'config.colors.bluesky.palette') do
     res[key] = tostring(value)
   end
   return res
@@ -104,24 +100,20 @@ local function generate_palette()
   local init_path = debug.getinfo(1, 'S').source:sub(2)
   local base_dir = init_path:match('(.*[/\\])'):sub(1, -2)
   local ok, err = write_file(join_paths(base_dir, 'palette.lua'), palette)
-  if not ok then
-    error(err)
-  end
+  if not ok then error(err) end
 end
 
 local function sync()
   if not packer_plugins['lush'] or not packer_plugins['lush'].loaded then
-    require('packer').loader('lush')
+    require('packer').loader 'lush'
   end
 
   local theme = get_theme()
   local ok, err = write_file(get_colo_file(), theme)
-  if not ok then
-    error(err)
-  end
+  if not ok then error(err) end
   generate_palette()
   vim.api.nvim_exec(theme, false)
-  vim.cmd('doautocmd ColorScheme')
+  vim.cmd 'doautocmd ColorScheme'
 end
 
 _M.sync = function()
@@ -139,15 +131,15 @@ _M.sync = function()
 end
 
 function _M.setup()
-  colorscheme('bluesky')
-  vim.cmd('command! ColoSync lua require"config.colors".sync()<CR>')
+  colorscheme 'bluesky'
+  vim.cmd 'command! ColoSync lua require"config.colors".sync()<CR>'
 end
 
 function _M.set_highlight_colors()
-  vim.api.nvim_command('hi def link LspReferenceText CursorLine')
-  vim.api.nvim_command('hi def link LspReferenceWrite CursorLine')
-  vim.api.nvim_command('hi def link LspReferenceRead CursorLine')
-  vim.api.nvim_command('hi def link illuminatedWord CursorLine')
+  vim.api.nvim_command 'hi def link LspReferenceText CursorLine'
+  vim.api.nvim_command 'hi def link LspReferenceWrite CursorLine'
+  vim.api.nvim_command 'hi def link LspReferenceRead CursorLine'
+  vim.api.nvim_command 'hi def link illuminatedWord CursorLine'
 end
 
 return _M

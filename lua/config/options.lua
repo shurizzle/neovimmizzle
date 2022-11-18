@@ -1,7 +1,5 @@
 local font_size = 9
-if has('mac') then
-  font_size = 11
-end
+if has('mac') then font_size = 11 end
 
 local options = {
   autoread = true,
@@ -50,9 +48,7 @@ if has('win32') then
   options.shellxquote = ''
 end
 
-if has('termguicolors') then
-  options.termguicolors = true
-end
+if has('termguicolors') then options.termguicolors = true end
 
 for k, v in pairs(options) do
   vim.opt[k] = v
@@ -60,9 +56,7 @@ end
 
 vim.cmd([[set nocompatible]])
 vim.cmd([[set t_ut=]])
-if vim.env.TERM == 'xterm-kitty' then
-  vim.cmd([[set t_Co=256]])
-end
+if vim.env.TERM == 'xterm-kitty' then vim.cmd([[set t_Co=256]]) end
 
 vim.opt.shortmess:append('c')
 vim.opt.fillchars:append('eob: ')

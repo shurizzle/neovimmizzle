@@ -19,9 +19,9 @@ function _M.config()
   local message = '🎉 Have fun with neovim'
   if packer_plugins ~= nil then
     message = '🎉 neovim loaded '
-      .. vim.tbl_count(vim.tbl_filter(function(p)
-        return p.loaded
-      end, packer_plugins))
+      .. vim.tbl_count(
+        vim.tbl_filter(function(p) return p.loaded end, packer_plugins)
+      )
       .. '/'
       .. vim.tbl_count(packer_plugins)
       .. ' plugins'

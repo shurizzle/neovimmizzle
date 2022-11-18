@@ -10,6 +10,7 @@ highlight! link NormalFloat Normal
 highlight! link NormalNC Normal
 highlight! link Pmenu Normal
 highlight Bold guifg=NONE guibg=NONE guisp=NONE blend=NONE gui=bold
+highlight Boolean guifg=#2E8FFF guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight BufferCurrent guifg=#EDEDED guibg=#545454 guisp=NONE blend=NONE gui=NONE
 highlight! link BufferCurrentIndex BufferCurrent
 highlight BufferCurrentMod guifg=#FFE100 guibg=#545454 guisp=NONE blend=NONE gui=NONE
@@ -73,6 +74,7 @@ highlight ErrorMsg guifg=#EDEDED guibg=#CA213D guisp=NONE blend=NONE gui=NONE
 highlight Exception guifg=#2E8FFF guibg=NONE guisp=NONE blend=NONE gui=italic
 highlight FoldColumn guifg=#80BBFF guibg=NONE guisp=NONE blend=NONE gui=italic
 highlight Folded guifg=#80BBFF guibg=NONE guisp=NONE blend=NONE gui=italic
+highlight Function guifg=#EDEDED guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight GitSignsAdd guifg=#169C50 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight GitSignsAddLn guifg=#169C50 guibg=#292929 guisp=NONE blend=NONE gui=NONE
 highlight GitSignsAddNr guifg=#169C50 guibg=#292929 guisp=NONE blend=NONE gui=NONE
@@ -82,11 +84,8 @@ highlight GitSignsChangeNr guifg=#FFE100 guibg=#292929 guisp=NONE blend=NONE gui
 highlight GitSignsDelete guifg=#CA213D guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight GitSignsDeleteLn guifg=#CA213D guibg=#292929 guisp=NONE blend=NONE gui=NONE
 highlight GitSignsDeleteNr guifg=#CA213D guibg=#292929 guisp=NONE blend=NONE gui=NONE
-highlight Identifier guifg=#2E8FFF guibg=NONE guisp=NONE blend=NONE gui=NONE
+highlight Identifier guifg=#EDEDED guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight! link Delimiter Identifier
-highlight! link Function Identifier
-highlight! link Special Identifier
-highlight! link SpecialChar Identifier
 highlight! link Statement Identifier
 highlight! link Tag Identifier
 highlight Ignore guifg=#292929 guibg=#292929 guisp=NONE blend=NONE gui=NONE
@@ -156,13 +155,14 @@ highlight PreProc guifg=#2E8FFF guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight Question guifg=#169C50 guibg=NONE guisp=NONE blend=NONE gui=bold
 highlight Repeat guifg=#2E8FFF guibg=NONE guisp=NONE blend=NONE gui=italic
 highlight SignColumn guifg=#545454 guibg=NONE guisp=NONE blend=NONE gui=NONE
+highlight Special guifg=#57A5FF guibg=NONE guisp=NONE blend=NONE gui=italic
+highlight SpecialChar guifg=#57A5FF guibg=NONE guisp=NONE blend=NONE gui=italic
 highlight SpecialComment guifg=#57A5FF guibg=NONE guisp=NONE blend=NONE gui=bold,italic
 highlight! link Operator Statement
 highlight StatusLine guifg=#EDEDED guibg=#242424 guisp=NONE blend=NONE gui=NONE
 highlight StatusLineNC guifg=#EDEDED guibg=#292929 guisp=NONE blend=NONE gui=NONE
 highlight StorageClass guifg=#2E8FFF guibg=NONE guisp=NONE blend=NONE gui=italic
 highlight String guifg=#80BBFF guibg=NONE guisp=NONE blend=NONE gui=NONE
-highlight! link Boolean String
 highlight! link Character String
 highlight! link Float String
 highlight! link Number String
@@ -173,8 +173,8 @@ highlight TelescopeBorder guifg=#2E8FFF guibg=NONE guisp=NONE blend=NONE gui=NON
 highlight TelescopeMatching guifg=NONE guibg=NONE guisp=NONE blend=NONE gui=italic,underline
 highlight Title guifg=#80BBFF guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight Todo guifg=#292929 guibg=#FFE100 guisp=NONE blend=NONE gui=bold
-highlight Type guifg=#57A5FF guibg=NONE guisp=NONE blend=NONE gui=italic
-highlight Typedef guifg=#2E8FFF guibg=NONE guisp=NONE blend=NONE gui=italic
+highlight Type guifg=#2E8FFF guibg=NONE guisp=NONE blend=NONE gui=NONE
+highlight! link Typedef Type
 highlight Underlined guifg=NONE guibg=NONE guisp=NONE blend=NONE gui=underline
 highlight VertSplit guifg=#EDEDED guibg=#292929 guisp=NONE blend=NONE gui=NONE
 highlight Visual guifg=#292929 guibg=#80BBFF guisp=NONE blend=NONE gui=NONE

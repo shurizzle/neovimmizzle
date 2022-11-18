@@ -16,7 +16,13 @@ _M.cmd = {
 
 function _M.setup()
   require('illuminate').configure({
-    filetypes_denylist = { 'NvimTree', 'dashboard', 'alpha', 'TelescopePrompt', 'DressingInput' },
+    filetypes_denylist = {
+      'NvimTree',
+      'dashboard',
+      'alpha',
+      'TelescopePrompt',
+      'DressingInput',
+    },
   })
 end
 

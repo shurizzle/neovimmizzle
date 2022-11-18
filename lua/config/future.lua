@@ -6,12 +6,8 @@ local function instanceof(subject, super)
   local mt = getmetatable(subject)
 
   while true do
-    if mt == nil then
-      return false
-    end
-    if tostring(mt) == super then
-      return true
-    end
+    if mt == nil then return false end
+    if tostring(mt) == super then return true end
 
     mt = getmetatable(mt)
   end
@@ -37,21 +33,17 @@ function Future.new(cb)
     o.state = state
     o.callbacks = nil
     for _, fn in ipairs(callbacks) do
-      vim.schedule(function()
-        fn(o.state)
-      end)
+      vim.schedule(function() fn(o.state) end)
     end
   end
 
-  local ok, err = pcall(cb, function(res)
-    run(true, res, o.callbacks.ok)
-  end, function(err)
-    run(false, err, o.callbacks.ko)
-  end)
+  local ok, err = pcall(
+    cb,
+    function(res) run(true, res, o.callbacks.ok) end,
+    function(err) run(false, err, o.callbacks.ko) end
+  )
 
-  if not ok then
-    run(false, err, o.callbacks.ko)
-  end
+  if not ok then run(false, err, o.callbacks.ko) end
 
   return o
 end
@@ -104,9 +96,7 @@ function Future:and_then(cb, catchCb)
     catchCb = { catchCb, 'function', true },
   })
 
-  if not cb and not catchCb then
-    return self
-  end
+  if not cb and not catchCb then return self end
 
   if type(self.resolved) == 'boolean' then
     if self.resolved then
@@ -143,9 +133,7 @@ function Future:and_then(cb, catchCb)
   end
 end
 
-function Future:catch(cb)
-  return self:and_then(nil, cb)
-end
+function Future:catch(cb) return self:and_then(nil, cb) end
 
 function Future:finally(cb)
   vim.validate({
@@ -153,11 +141,10 @@ function Future:finally(cb)
   })
 
   if cb then
-    return self:and_then(function(res)
-      cb(true, res)
-    end, function(err)
-      cb(false, err)
-    end)
+    return self:and_then(
+      function(res) cb(true, res) end,
+      function(err) cb(false, err) end
+    )
   else
     return self
   end
@@ -170,22 +157,16 @@ function Future.join(futures)
 
   local len = vim.tbl_count(futures)
 
-  if len == 0 then
-    return Future.resolved({})
-  end
+  if len == 0 then return Future.resolved({}) end
 
   local results = {}
   local resolve
-  local joined = Future.new(function(a)
-    resolve = a
-  end)
+  local joined = Future.new(function(a) resolve = a end)
   for index, _ in pairs(futures) do
     futures[index]:finally((function(i)
       return function(ok, res)
         results[i] = { ok, res }
-        if vim.tbl_count(results) == len then
-          resolve(results)
-        end
+        if vim.tbl_count(results) == len then resolve(results) end
       end
     end)(index))
   end

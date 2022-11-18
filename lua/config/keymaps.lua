@@ -15,9 +15,7 @@ for name, key in pairs({
   'Home',
   Delete = 'Del',
 }) do
-  if type(name) == 'number' then
-    name = key
-  end
+  if type(name) == 'number' then name = key end
 
   local keymap = function(modes, left, right, options)
     options =
@@ -81,6 +79,11 @@ function! ExecuteMacroOverVisualRange()
   execute ":'<,'>normal @".nr2char(getchar())
 endfunction
 xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
+function! SynGroup()
+    let l:s = synID(line('.'), col('.'), 1)
+    echo synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
+endfun
+nnoremap gm <cmd>call SynGroup()<CR>
 ]])
 
 local function switch_case()
@@ -98,9 +101,7 @@ local function switch_case()
   }
   local choice = vim.fn.getchar()
   vim.api.nvim_echo({ { '', 'Normal' } }, false, {})
-  if choice == 27 then
-    return
-  end
+  if choice == 27 then return end
   ---@diagnostic disable-next-line
   choice = string.char(choice)
   ---@diagnostic disable-next-line
@@ -135,9 +136,7 @@ for k, v in pairs({
     'Remove workspace folder',
   },
   ['<leader>cwl'] = {
-    function()
-      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    end,
+    function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end,
     'List workspace folders',
   },
   ['<leader>ct'] = {

@@ -25,14 +25,10 @@ local function raw_close()
 end
 
 local function close()
-  vim.schedule(function()
-    raw_close()
-  end)
+  vim.schedule(function() raw_close() end)
 end
 
-function _M.get_name()
-  return name
-end
+function _M.get_name() return name end
 
 function _M.on_resize(cb)
   vim.validate({

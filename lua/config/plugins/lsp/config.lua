@@ -17,9 +17,9 @@ function _M.config()
       }, bufnr)
 
       if client.server_capabilities.documentSymbolProvider then
-        local ok, err = pcall(function()
-          require('nvim-navic').attach(client, bufnr)
-        end)
+        local ok, err = pcall(
+          function() require('nvim-navic').attach(client, bufnr) end
+        )
 
         if not ok then
           vim.notify(err, vim.log.levels.ERROR, { title = 'navic' })

@@ -18,9 +18,7 @@ end
 ---Ex: feedkeys("<CR>", "n") becomes feedkeys("^M", "n")
 ---@param key string
 ---@param mode string
-local function feedkeys(key, mode)
-  vim.fn.feedkeys(T(key), mode)
-end
+local function feedkeys(key, mode) vim.fn.feedkeys(T(key), mode) end
 _M.methods.feedkeys = feedkeys
 
 ---checks if emmet_ls is available and active in the buffer
@@ -29,9 +27,7 @@ local is_emmet_active = function()
   local clients = vim.lsp.buf_get_active_clients()
 
   for _, client in pairs(clients) do
-    if client.name == 'emmet_ls' then
-      return true
-    end
+    if client.name == 'emmet_ls' then return true end
   end
   return false
 end
@@ -42,23 +38,17 @@ _M.methods.is_emmet_active = is_emmet_active
 ---@return boolean true if a jumpable luasnip field is found while inside a snippet
 local function jumpable(dir)
   local luasnip_ok, luasnip = pcall(require, 'luasnip')
-  if not luasnip_ok then
-    return false
-  end
+  if not luasnip_ok then return false end
 
   local win_get_cursor = vim.api.nvim_win_get_cursor
   local get_current_buf = vim.api.nvim_get_current_buf
 
   local function inside_snippet()
     -- for outdated versions of luasnip
-    if not luasnip.session.current_nodes then
-      return false
-    end
+    if not luasnip.session.current_nodes then return false end
 
     local node = luasnip.session.current_nodes[get_current_buf()]
-    if not node then
-      return false
-    end
+    if not node then return false end
 
     local snip_begin_pos, snip_end_pos =
       node.parent.snippet.mark:pos_begin_end()
@@ -71,16 +61,12 @@ local function jumpable(dir)
   ---@return boolean true if a node is found, false otherwise
   local function seek_luasnip_cursor_node()
     -- for outdated versions of luasnip
-    if not luasnip.session.current_nodes then
-      return false
-    end
+    if not luasnip.session.current_nodes then return false end
 
     local pos = win_get_cursor(0)
     pos[1] = pos[1] - 1
     local node = luasnip.session.current_nodes[get_current_buf()]
-    if not node then
-      return false
-    end
+    if not node then return false end
 
     local snippet = node.parent.snippet
     local exit_node = snippet.insert_nodes[0]
@@ -169,13 +155,9 @@ function _M.config()
     end)
     vim.api.nvim_set_current_dir(cwd)
 
-    if not ok then
-      error(root)
-    end
+    if not ok then error(root) end
 
-    if not root then
-      return false
-    end
+    if not root then return false end
 
     root = string.gsub(root, _G.path_separator .. '+$', '')
 
@@ -285,9 +267,7 @@ function _M.config()
       { name = 'orgmode' },
     },
     snippet = {
-      expand = function(args)
-        luasnip.lsp_expand(args.body)
-      end,
+      expand = function(args) luasnip.lsp_expand(args.body) end,
     },
     preselect = true,
     mapping = {

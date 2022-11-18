@@ -1,6 +1,6 @@
-local lush = require('lush')
+local lush = require 'lush'
 
-local theme = { require('config.colors.bluesky.base') }
+local theme = { require 'config.colors.bluesky.base' }
 
 for _, name in ipairs {
   'gitsigns',

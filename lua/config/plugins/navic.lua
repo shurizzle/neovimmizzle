@@ -12,9 +12,7 @@ local function ensure_bufnr(bufnr)
     bufnr = { bufnr, 'n', true },
   })
   bufnr = bufnr or 0
-  if bufnr == 0 then
-    bufnr = vim.api.nvim_get_current_buf()
-  end
+  if bufnr == 0 then bufnr = vim.api.nvim_get_current_buf() end
   return bufnr
 end
 
@@ -23,17 +21,13 @@ local function ensure_winnr(winnr)
     winnr = { winnr, 'n', true },
   })
   winnr = winnr or 0
-  if winnr == 0 then
-    winnr = vim.api.nvim_get_current_win()
-  end
+  if winnr == 0 then winnr = vim.api.nvim_get_current_win() end
   return winnr
 end
 
 local function buf_get_var(bufnr, name)
   local ok, res = pcall(vim.api.nvim_buf_get_var, ensure_bufnr(bufnr), name)
-  if not ok then
-    res = nil
-  end
+  if not ok then res = nil end
   return res
 end
 
@@ -46,9 +40,7 @@ local function set_winbar(winnr)
   local current = vim.api.nvim_win_get_option(winnr, 'winbar')
   if current == '' or current == nil then
     vim.api.nvim_win_set_option(winnr, 'winbar', winbar)
-    vim.api.nvim_win_call(winnr, function()
-      vim.cmd('redrawstatus')
-    end)
+    vim.api.nvim_win_call(winnr, function() vim.cmd('redrawstatus') end)
   end
 end
 
@@ -71,9 +63,10 @@ end
 
 local function buf_get_wins(bufnr)
   bufnr = ensure_bufnr(bufnr)
-  return vim.tbl_filter(function(winnr)
-    return vim.api.nvim_win_get_buf(winnr) == bufnr
-  end, vim.api.nvim_list_wins())
+  return vim.tbl_filter(
+    function(winnr) return vim.api.nvim_win_get_buf(winnr) == bufnr end,
+    vim.api.nvim_list_wins()
+  )
 end
 
 local function buf_adjust_winbar(bufnr)
@@ -102,16 +95,12 @@ function _M.config()
 
   vim.api.nvim_create_autocmd('User', {
     pattern = 'NavicUpdate',
-    callback = function(opts)
-      buf_adjust_winbar(opts.buf)
-    end,
+    callback = function(opts) buf_adjust_winbar(opts.buf) end,
     group = augroup,
   })
 
   vim.api.nvim_create_autocmd('BufWinEnter', {
-    callback = function(opts)
-      buf_adjust_winbar(opts.buf)
-    end,
+    callback = function(opts) buf_adjust_winbar(opts.buf) end,
     group = augroup,
   })
 end

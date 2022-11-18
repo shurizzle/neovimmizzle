@@ -1,23 +1,17 @@
 local M = {}
 
 local function fixed_extension(text, filetypes)
-  if type(filetypes) == 'string' then
-    filetypes = { filetypes }
-  end
+  if type(filetypes) == 'string' then filetypes = { filetypes } end
 
   return {
     sections = {
       lualine_a = {
-        function()
-          return text
-        end,
+        function() return text end,
       },
     },
     inactive_sections = {
       lualine_c = {
-        function()
-          return text
-        end,
+        function() return text end,
       },
     },
     filetypes = filetypes,
@@ -68,9 +62,7 @@ function M.config()
       .. (symbols.fileformat[format] or ('[' .. format .. ']'))
   end
 
-  local function pos()
-    return symbols.line .. ':%l:%v/%L %p%%'
-  end
+  local function pos() return symbols.line .. ':%l:%v/%L %p%%' end
 
   local space = {
     function()

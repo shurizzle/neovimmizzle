@@ -1,7 +1,5 @@
 local status_ok, packer = pcall(require, 'packer')
-if not status_ok then
-  return
-end
+if not status_ok then return end
 
 packer.on_complete = vim.schedule_wrap(function()
   require('config.colors').sync()
@@ -14,9 +12,7 @@ end)
 
 packer.init({
   display = {
-    open_fn = function()
-      return require('packer.util').float({ border = 'rounded' })
-    end,
+    open_fn = function() return require('packer.util').float({ border = 'rounded' }) end,
   },
 })
 
@@ -32,9 +28,7 @@ local function hasupvalues(what)
     end
 
     for _, value in pairs(what) do
-      if hasupvalues(value) then
-        return true
-      end
+      if hasupvalues(value) then return true end
     end
 
     return false
@@ -54,9 +48,7 @@ local function remap(plugin)
       __mod = __mod,
       __index = function(table, key)
         local res = rawget(table, key)
-        if res then
-          return res
-        end
+        if res then return res end
 
         local mod = getmetatable(table).__mod
         res = require('config.plugins.' .. mod)[key]
@@ -113,14 +105,10 @@ table.insert(config, 1, {
     'MasonUninstall',
     'MasonUninstallAll',
   },
-  config = function()
-    require('mason').setup({})
-  end,
+  config = function() require('mason').setup({}) end,
 })
 
 packer.reset()
 packer.use(config)
 
-if vim.g.packer_bootstrap then
-  packer.sync()
-end
+if vim.g.packer_bootstrap then packer.sync() end

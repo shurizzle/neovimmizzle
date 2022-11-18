@@ -22,17 +22,14 @@ function _M.format(options)
     name = options.name,
   })
 
-  if options.filter then
-    clients = vim.tbl_filter(options.filter, clients)
-  end
+  if options.filter then clients = vim.tbl_filter(options.filter, clients) end
 
-  clients = vim.tbl_filter(function(client)
-    return client.supports_method('textDocument/formatting')
-  end, clients)
+  clients = vim.tbl_filter(
+    function(client) return client.supports_method('textDocument/formatting') end,
+    clients
+  )
 
-  if #clients ~= 0 then
-    return vim.lsp.buf.format(options)
-  end
+  if #clients ~= 0 then return vim.lsp.buf.format(options) end
 end
 
 return _M

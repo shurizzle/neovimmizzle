@@ -19,8 +19,6 @@ _M.ft = {
   'hbs',
 }
 
-function _M.config()
-  require('nvim-ts-autotag').setup()
-end
+function _M.config() require('nvim-ts-autotag').setup() end
 
 return _M

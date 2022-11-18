@@ -2,9 +2,9 @@ local Future = require('config.future')
 local GeneratingMap = require('config.generating_map')
 
 local function default_timeout()
-  local ok, res = pcall(function()
-    return require('notify')._config().default_timeout()
-  end)
+  local ok, res = pcall(
+    function() return require('notify')._config().default_timeout() end
+  )
 
   return ok and res or 5000
 end
@@ -83,7 +83,7 @@ return GeneratingMap.new(function(name)
   vim.validate({
     name = { name, 's' },
   })
-  return Future.new(function(resolve, reject)
-    install_or_upgrade(name, resolve, reject)
-  end)
+  return Future.new(
+    function(resolve, reject) install_or_upgrade(name, resolve, reject) end
+  )
 end)

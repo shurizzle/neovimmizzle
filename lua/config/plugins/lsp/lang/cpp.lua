@@ -8,8 +8,6 @@ _M.filetypes = {
   'cuda',
 }
 
-function _M.config()
-  return require('config.plugins.lsp.servers').clangd
-end
+function _M.config() return require('config.plugins.lsp.servers').clangd end
 
 return _M

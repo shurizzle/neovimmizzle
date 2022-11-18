@@ -5,8 +5,6 @@ _M.module_pattern = {
   '^null%-ls%.',
 }
 
-function _M.config()
-  require('null-ls').setup({ debug = false })
-end
+function _M.config() require('null-ls').setup({ debug = false }) end
 
 return _M

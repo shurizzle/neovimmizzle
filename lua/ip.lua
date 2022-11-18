@@ -11,16 +11,12 @@ function _M.parse4(str)
   local octects =
     { str:match('^(%d?%d?%d)%.(%d?%d?%d)%.(%d?%d?%d)%.(%d?%d?%d)$') }
 
-  if #octects == 0 then
-    return
-  end
+  if #octects == 0 then return end
 
   for index, value in ipairs(octects) do
     octects[index] = tonumber(value)
 
-    if octects[index] > 255 then
-      return
-    end
+    if octects[index] > 255 then return end
   end
 
   return octects
@@ -68,9 +64,7 @@ local function convert_ipv4(str)
   local i, j = str:find(':%d?%d?%d%.%d?%d?%d%.%d?%d?%d%.%d?%d?%d$')
   if i then
     local ipv4 = _M.parse4(str:sub(i + 1, j))
-    if not ipv4 then
-      return
-    end
+    if not ipv4 then return end
     str = str:sub(0, i)
       .. string.format(
         '%x:%x',
@@ -86,22 +80,16 @@ local function parse_bits(str, collected)
   local piece
   if matches then
     piece = from_hex(matches)
-    if not piece then
-      return
-    end
+    if not piece then return end
 
     local len = #matches + 1
-    if str:sub(len, len) == ':' then
-      len = len + 1
-    end
+    if str:sub(len, len) == ':' then len = len + 1 end
     str = str:sub(len)
   else
     print(string.format('no matches \'%s\'', str))
     return
   end
-  if #str == 0 then
-    str = nil
-  end
+  if #str == 0 then str = nil end
 
   collected = collected or {}
   table.insert(collected, piece)
@@ -124,9 +112,7 @@ function _M.parse6(str)
   ---@diagnostic disable-next-line
   str = convert_ipv4(str)
 
-  if not str then
-    return
-  end
+  if not str then return end
 
   local i, j = str:find('::')
   local head, tail
@@ -135,13 +121,9 @@ function _M.parse6(str)
     head = i == 1 and '' or str:sub(0, i - 1)
     tail = str:sub(j + 1)
 
-    if #head == 0 then
-      head = nil
-    end
+    if #head == 0 then head = nil end
 
-    if #tail == 0 then
-      tail = nil
-    end
+    if #tail == 0 then tail = nil end
   else
     head = str
     tail = nil
@@ -153,9 +135,7 @@ function _M.parse6(str)
     head = {}
   end
 
-  if not head then
-    return
-  end
+  if not head then return end
 
   if tail then
     tail = parse_bits(tail)
@@ -163,9 +143,7 @@ function _M.parse6(str)
     tail = {}
   end
 
-  if not tail then
-    return
-  end
+  if not tail then return end
 
   for _ = 1, (8 - (#head + #tail)), 1 do
     table.insert(head, 0)
@@ -181,8 +159,6 @@ end
 ---Parse IP
 ---@param str string
 ---@return table|nil
-function _M.parse(str)
-  return _M.parse4(str) or _M.parse6(str)
-end
+function _M.parse(str) return _M.parse4(str) or _M.parse6(str) end
 
 return _M

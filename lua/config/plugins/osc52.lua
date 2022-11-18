@@ -1,13 +1,9 @@
 local _M = {}
 
-function _M.cond()
-  return is_ssh()
-end
+function _M.cond() return is_ssh() end
 
 function _M.config()
-  local function copy(lines, _)
-    require('osc52').copy(table.concat(lines, '\n'))
-  end
+  local function copy(lines, _) require('osc52').copy(table.concat(lines, '\n')) end
 
   local function paste()
     return { vim.fn.split(vim.fn.getreg(''), '\n'), vim.fn.getregtype('') }

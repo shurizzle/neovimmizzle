@@ -36,13 +36,9 @@ function _M.config()
   require('luapad').setup({
     on_init = function()
       local file = vim.api.nvim_buf_get_name(0)
-      if not file then
-        return
-      end
+      if not file then return end
       file = vim.loop.fs_realpath(file)
-      if not file then
-        return
-      end
+      if not file then return end
       local dir = vim.fn.fnamemodify(file, ':h')
 
       vim.loop.fs_copyfile(

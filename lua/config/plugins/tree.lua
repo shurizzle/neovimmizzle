@@ -22,31 +22,23 @@ function _M.on_left()
   local lib = require('nvim-tree.lib')
   local node = lib.get_node_at_cursor()
 
-  if not node then
-    return
-  end
+  if not node then return end
 
-  if node.nodes ~= nil and node.open then
-    lib.expand_or_collapse(node)
-  end
+  if node.nodes ~= nil and node.open then lib.expand_or_collapse(node) end
 end
 
 function _M.on_right()
   local lib = require('nvim-tree.lib')
   local node = lib.get_node_at_cursor()
 
-  if not node then
-    return
-  end
+  if not node then return end
 
   if node.name == '..' then
     return require('nvim-tree.actions.root.change-dir').fn('..')
   end
 
   if node.nodes ~= nil then
-    if not node.open then
-      lib.expand_or_collapse(node)
-    end
+    if not node.open then lib.expand_or_collapse(node) end
   else
     local path = node.link_to and not node.entries and node.link_to
       or node.absolute_path
@@ -146,33 +138,27 @@ function _M.config()
   local sidebar = require('config.sidebar')
   local sb = nil
 
-  local function is_open()
-    return view.is_visible()
-  end
+  local function is_open() return view.is_visible() end
 
   local function raw_open()
     tree.find_file(true)
-    if not is_open() then
-      tree.open()
-    end
+    if not is_open() then tree.open() end
   end
 
-  local function close()
-    view.close()
-  end
+  local function close() view.close() end
 
   local function open()
-    sidebar.register('Explorer', function(cb)
-      sb = { close = cb }
-    end, function(ssb)
-      sb = ssb
-      raw_open()
-    end)
+    sidebar.register(
+      'Explorer',
+      function(cb) sb = { close = cb } end,
+      function(ssb)
+        sb = ssb
+        raw_open()
+      end
+    )
   end
 
-  local function toggle()
-    return (is_open() and close or open)()
-  end
+  local function toggle() return (is_open() and close or open)() end
 
   vim.keymap.set(
     'n',
@@ -216,9 +202,7 @@ function _M.config()
 
   ev.subscribe(ev.Event.TreeClose, function()
     vim.api.nvim_create_augroup('NvimTreeResize', { clear = true })
-    if sb then
-      sb.close()
-    end
+    if sb then sb.close() end
   end)
 end
 
