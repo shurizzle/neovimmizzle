@@ -1,89 +1,84 @@
 local Future = require('config.future')
 local GeneratingMap = require('config.generating_map')
 
-local function default_timeout()
-  local ok, res = pcall(
-    function() return require('notify')._config().default_timeout() end
-  )
-
-  return ok and res or 5000
-end
-
-local function do_install(p, version, resolve, reject)
-  local window = vim.notify(
-    string.format(
-      version and '%s: updating to %s' or '%s: installing',
-      p.name,
-      version
-    ),
-    vim.log.levels.INFO,
-    {
-      title = 'Mason',
-      timeout = false,
-    }
-  )
-
-  p:once('install:success', function()
-    vim.notify(
+local function do_install(p, version)
+  local f = require('config.plugins.lsp.util').notify_progress(function(notify)
+    notify(
       string.format(
+        version and '%s: updating to %s' or '%s: installing',
+        p.name,
+        version
+      ),
+      vim.log.levels.INFO,
+      { title = 'Mason' }
+    )
+    return Future.new(function(resolve, reject)
+      p:once('install:success', resolve)
+      p:once('install:failed', reject)
+    end)
+  end, function(notify, ok)
+    local message
+    local log
+
+    if ok then
+      message = string.format(
         '%s: successfully %s',
         p.name,
         version and 'upgraded' or 'installed'
-      ),
-      vim.log.levels.INFO,
-      { title = 'Mason', timeout = default_timeout(), replace = window }
-    )
-    resolve(p)
-  end)
-
-  p:once('install:failed', function()
-    vim.notify(
-      string.format(
+      )
+      log = vim.log.levels.INFO
+    else
+      message = string.format(
         '%s: failed to %s',
         p.name,
         version and 'upgrade' or 'install'
-      ),
-      vim.log.levels.ERROR,
-      { title = 'Mason', timeout = default_timeout(), replace = window }
-    )
+      )
+      log = vim.log.levels.Error
+    end
 
-    reject()
+    notify(message, log, { title = 'Mason' })
   end)
 
   p:install({ version = version })
+
+  return f
 end
 
-local function install_or_upgrade(what, resolve, reject)
-  local mr = require('mason-registry')
-  local p = mr.get_package(what)
+local function install_or_upgrade(what)
+  return Future.pcall(function()
+    local mr = require('mason-registry')
+    local p = mr.get_package(what)
 
-  if p:is_installed() then
-    p:check_new_version(function(ok, version)
-      if ok then
-        do_install(p, version.latest_version, resolve, reject)
-      else
-        if type(version) == 'string' and version:match('is not outdated') then
-          resolve(p)
-        else
-          vim.notify(
-            string.format('%s: update error', what),
-            vim.log.levels.INFO,
-            { title = 'Mason' }
-          )
-          reject(version)
-        end
-      end
-    end)
-  else
-    do_install(p, nil, resolve, reject)
-  end
+    if p:is_installed() then
+      return Future.new(function(resolve, reject)
+        p:check_new_version(function(ok, version)
+          if ok then
+            do_install(p, version.latest_version):and_then(resolve, reject)
+          else
+            if
+              type(version) == 'string' and version:match('is not outdated')
+            then
+              resolve(p)
+            else
+              vim.notify(
+                string.format('%s: update error', what),
+                vim.log.levels.INFO,
+                { title = 'Mason' }
+              )
+              reject(version)
+            end
+          end
+        end)
+      end)
+    else
+      return do_install(p, nil)
+    end
+  end)
 end
 
 return GeneratingMap.new(function(name)
   vim.validate({
     name = { name, 's' },
   })
-  return Future.new(
-    function(resolve, reject) install_or_upgrade(name, resolve, reject) end
-  )
+  return install_or_upgrade(name)
 end)
