@@ -8,13 +8,15 @@ local Future = require('config.future')
 local function deferred_config(lang)
   local l = require('config.plugins.lsp.lang.' .. lang)
   local fts = table.concat(l.filetypes or { lang }, ',')
-  local function launch()
+
+  local function launch(bufnr)
     local lsputil = require('lspconfig.util')
-    local other_matching_configs =
-      lsputil.get_other_matching_providers(vim.bo.filetype)
+    local other_matching_configs = lsputil.get_other_matching_providers(
+      vim.api.nvim_buf_get_option(bufnr, 'filetype')
+    )
 
     for _, config in ipairs(other_matching_configs) do
-      config.manager.try_add_wrapper(vim.api.nvim_get_current_buf())
+      config.manager.try_add_wrapper(bufnr)
     end
   end
 
@@ -24,9 +26,10 @@ local function deferred_config(lang)
   vim.api.nvim_create_autocmd('Filetype', {
     pattern = fts,
     callback = function()
+      local bufnr = vim.api.nvim_get_current_buf()
       Future.pcall(l.config):finally(function()
         pcall(vim.api.nvim_del_augroup_by_name, auname)
-        launch()
+        launch(bufnr)
       end)
     end,
     group = auname,
