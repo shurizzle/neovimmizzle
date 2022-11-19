@@ -1,6 +1,6 @@
-local M = {}
+local _M = {}
 
-function M.config()
+function _M.config()
   local npairs = require('nvim-autopairs')
   local Rule = require('nvim-autopairs.rule')
 
@@ -14,4 +14,4 @@ function M.config()
   )
 end
 
-return M
+return _M

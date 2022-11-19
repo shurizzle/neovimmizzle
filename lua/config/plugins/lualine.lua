@@ -1,4 +1,4 @@
-local M = {}
+local _M = {}
 
 local function fixed_extension(text, filetypes)
   if type(filetypes) == 'string' then filetypes = { filetypes } end
@@ -22,7 +22,7 @@ local DEFAULT_OPTS = {
   nerdfont = true,
 }
 
-function M.config()
+function _M.config()
   local opts = DEFAULT_OPTS
 
   local symbols = {
@@ -125,4 +125,4 @@ function M.config()
   })
 end
 
-return M
+return _M

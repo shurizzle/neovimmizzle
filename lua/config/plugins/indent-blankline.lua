@@ -1,7 +1,7 @@
-local M = {}
+local _M = {}
 
-function M.setup()
-  for k, v in pairs({
+function _M.config()
+  require('indent_blankline').setup({
     show_current_context = true,
     show_current_context_start = true,
     filetype_exclude = {
@@ -17,9 +17,7 @@ function M.setup()
     buftype_exclude = {
       'terminal',
     },
-  }) do
-    vim.g['indent_blankline_' .. k] = v
-  end
+  })
 end
 
-return M
+return _M

@@ -1,5 +1,5 @@
-local M = {}
+local _M = {}
 
-function M.config() require('colorizer').setup() end
+function _M.config() require('colorizer').setup() end
 
-return M
+return _M

@@ -1,5 +1,5 @@
-local M = {}
+local _M = {}
 
-function M.config() require('gitsigns').setup() end
+function _M.config() require('gitsigns').setup() end
 
-return M
+return _M

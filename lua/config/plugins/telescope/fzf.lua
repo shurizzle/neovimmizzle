@@ -1,5 +1,5 @@
-local M = {}
+local _M = {}
 
-M.run = 'make'
+_M.run = 'make'
 
-return M
+return _M

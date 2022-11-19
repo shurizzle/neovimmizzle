@@ -1,5 +1,5 @@
-local M = {}
+local _M = {}
 
-function M.config() require('project_nvim').setup({}) end
+function _M.config() require('project_nvim').setup({}) end
 
-return M
+return _M
