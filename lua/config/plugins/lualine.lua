@@ -49,8 +49,8 @@ function _M.config()
     symbols.section_separators = { left = '', right = '' }
 
     symbols.filename = {
-      modified = ' ',
-      readonly = ' ',
+      modified = '',
+      readonly = '',
       unnamed = '',
     }
   end
@@ -60,6 +60,18 @@ function _M.config()
     return vim.opt.fileencoding:get()
       .. ' '
       .. (symbols.fileformat[format] or ('[' .. format .. ']'))
+  end
+
+  local function file_status()
+    local res = {}
+    if vim.bo.modified then table.insert(res, symbols.filename.modified) end
+    if vim.bo.modifiable == false or vim.bo.readonly == true then
+      table.insert(res, symbols.filename.readonly)
+    end
+
+    local res = table.concat(res, ' ')
+    if string.len(res) > 0 then res = ' ' .. res end
+    return res
   end
 
   local function pos() return symbols.line .. ':%l:%v/%L %p%%' end
@@ -87,10 +99,7 @@ function _M.config()
       lualine_a = { 'mode' },
       lualine_b = { 'branch', 'diagnostics' },
       lualine_c = {
-        {
-          'filename',
-          symbols = symbols.filename,
-        },
+        file_status,
         'lsp_progress',
       },
 
@@ -102,10 +111,7 @@ function _M.config()
       lualine_a = {},
       lualine_b = {},
       lualine_c = {
-        {
-          'filename',
-          symbols = symbols.filename,
-        },
+        file_status,
       },
       lualine_x = { 'filetype' },
       lualine_y = { fmt_enc, space, pos },
