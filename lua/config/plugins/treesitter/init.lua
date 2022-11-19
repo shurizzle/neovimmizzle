@@ -22,6 +22,9 @@ function _M.config()
 
   vim.o.foldmethod = 'expr'
   vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
+  vim.api.nvim_create_autocmd({ 'BufReadPost', 'FileReadPost' }, {
+    command = 'normal zR',
+  })
 end
 
 return _M
