@@ -39,6 +39,12 @@ function _M.icon(bufnr)
   return res
 end
 
+function _M.name(bufnr)
+  local name = vim.api.nvim_buf_get_name(bufnr)
+  if name ~= nil and name ~= '' then name = vim.fn.fnamemodify(name, ':.') end
+  return name or ''
+end
+
 function _M.len(str)
   if not str then return 0 end
   return vim.api.nvim_eval_statusline(str, { winid = 0, maxwidth = 0 }).width
@@ -49,12 +55,12 @@ function _M.winbar(bufnr)
   if _M.len(i) > 0 then i = i .. ' ' end
   local n = _M.navic(bufnr)
   if _M.len(n) > 0 then n = ' %#NavicSeparator#>%* ' .. n end
-  return i .. '%t' .. n
+  return i .. _M.name(bufnr) .. n
 end
 
 local function redrawstatus(winnr)
   vim.schedule(function()
-    vim.api.nvim_win_call(winnr, function() vim.cmd('redrawstatus') end)
+    pcall(vim.api.nvim_win_call, winnr, function() vim.cmd('redrawstatus') end)
   end)
 end
 
