@@ -124,7 +124,7 @@ table.insert(config, 1, {
 packer.reset()
 packer.use(config)
 
-function after_load() require('config.plugins.lsp').config() end
+function after_load() require('config.lsp').config() end
 
 if vim.g.packer_bootstrap then
   packer.sync()
