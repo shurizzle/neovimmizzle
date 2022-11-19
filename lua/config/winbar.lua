@@ -52,6 +52,12 @@ function _M.winbar(bufnr)
   return i .. '%t' .. n
 end
 
+local function redrawstatus(winnr)
+  vim.schedule(function()
+    vim.api.nvim_win_call(winnr, function() vim.cmd('redrawstatus') end)
+  end)
+end
+
 local function set_winbar(winnr)
   local current = vim.api.nvim_get_option_value('winbar', {
     scope = 'local',
@@ -63,7 +69,7 @@ local function set_winbar(winnr)
       winbar,
       { scope = 'local', win = winnr }
     )
-    vim.api.nvim_win_call(winnr, function() vim.cmd('redrawstatus') end)
+    redrawstatus(winnr)
   end
 end
 
@@ -78,7 +84,7 @@ local function unset_winbar(winnr)
       nil,
       { scope = 'local', win = winnr }
     )
-    vim.api.nvim_win_call(winnr, function() vim.cmd('redrawstatus') end)
+    redrawstatus(winnr)
   end
 end
 
