@@ -13,7 +13,7 @@ local function do_install(p, version)
       { title = 'Mason' }
     )
     return Future.new(function(resolve, reject)
-      p:once('install:success', resolve)
+      p:once('install:success', function() resolve(p) end)
       p:once('install:failed', reject)
     end)
   end, function(notify, ok)
