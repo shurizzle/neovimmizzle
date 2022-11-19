@@ -3,12 +3,12 @@ if not status_ok then return end
 
 local compiled = join_paths(vim.fn.stdpath('data'), 'packer_compiled.lua')
 
-local after_load
+local after_load = nil
 local loaded = false
 local function _after_load()
   if not loaded then
     loaded = true
-    after_load()
+    if after_load then after_load() end
   end
 end
 
