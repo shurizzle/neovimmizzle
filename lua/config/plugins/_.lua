@@ -138,7 +138,15 @@ return {
   { 'junegunn/goyo.vim', cmd = { 'Goyo' } },
   { 'windwp/nvim-autopairs', mod = 'autopairs' },
   { 'tpope/vim-repeat' },
-  { 'numToStr/Comment.nvim', mod = 'comment' },
+  {
+    'JoosepAlviste/nvim-ts-context-commentstring',
+    mod = 'treesitter.context-commentstring',
+  },
+  {
+    'numToStr/Comment.nvim',
+    mod = 'comment',
+    requires = 'JoosepAlviste/nvim-ts-context-commentstring',
+  },
   { 'kylechui/nvim-surround', mod = 'surround' },
   { 'ahmedkhalf/project.nvim', mod = 'project' },
   { 'editorconfig/editorconfig-vim' },
