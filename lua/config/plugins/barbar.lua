@@ -1,12 +1,10 @@
 local _M = {}
 
-function _M.setup()
-  vim.g.bufferline = {
-    auto_hide = true,
-  }
-end
-
 function _M.config()
+  require('bufferline').setup({
+    auto_hide = true,
+  })
+
   local sb = require('config.sidebar')
   local api = require('bufferline.api')
 
