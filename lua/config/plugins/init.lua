@@ -1,16 +1,29 @@
 local status_ok, packer = pcall(require, 'packer')
 if not status_ok then return end
 
+local compiled = join_paths(vim.fn.stdpath('data'), 'packer_compiled.lua')
+
+local after_load
+local loaded = false
+local function _after_load()
+  if not loaded then
+    loaded = true
+    after_load()
+  end
+end
+
 packer.on_complete = vim.schedule_wrap(function()
   require('config.colors').sync()
   require('orgmode').setup_ts_grammar()
   local ts_update =
     require('nvim-treesitter.install').update({ with_sync = true })
   ts_update()
+  _after_load()
   vim.cmd([[doautocmd User PackerComplete]])
 end)
 
 packer.init({
+  compile_path = compiled,
   display = {
     open_fn = function() return require('packer.util').float({ border = 'rounded' }) end,
   },
@@ -111,4 +124,11 @@ table.insert(config, 1, {
 packer.reset()
 packer.use(config)
 
-if vim.g.packer_bootstrap then packer.sync() end
+function after_load() require('config.plugins.lsp').config() end
+
+if vim.g.packer_bootstrap then
+  packer.sync()
+elseif vim.loop.fs_stat(compiled) then
+  dofile(compiled)
+  _after_load()
+end
