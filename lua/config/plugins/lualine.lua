@@ -69,9 +69,7 @@ function _M.config()
       table.insert(res, symbols.filename.readonly)
     end
 
-    local res = table.concat(res, ' ')
-    if string.len(res) > 0 then res = ' ' .. res end
-    return res
+    return table.concat(res, ' ')
   end
 
   local function pos() return symbols.line .. ':%l:%v/%L %p%%' end
