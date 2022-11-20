@@ -141,6 +141,8 @@ local function buf_changed(opts)
 end
 
 function _M.setup()
+  -- require('config.winbar.lsp').setup()
+
   vim.opt.winbar = nil
 
   vim.api.nvim_create_autocmd({ 'OptionSet' }, {
@@ -161,14 +163,15 @@ function _M.setup()
     end,
   })
 
-  vim.api.nvim_create_autocmd({ 'BufWinEnter', 'BufWritePost' }, {
+  vim.api.nvim_create_autocmd({ 'BufWinEnter', 'BufWritePost', 'BufReadPost' }, {
     callback = function(opts) buf_changed({ buf = opts.buf }) end,
   })
 
   vim.api.nvim_create_autocmd({ 'BufNew' }, {
     callback = function(opts)
-      if vim.api.nvim_buf_is_valid(opts.buf) then
-        buf_changed({ buf = opts.buf })
+      local file = opts.file or ''
+      if vim.api.nvim_buf_is_valid(opts.buf) and #file > 0 then
+        buf_changed({ buf = opts.buf, name = file })
       end
     end,
   })

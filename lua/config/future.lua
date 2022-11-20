@@ -1,3 +1,4 @@
+---@module 'config.future'
 local Future = {}
 Future.__index = Future
 
