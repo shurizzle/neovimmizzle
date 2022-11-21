@@ -101,26 +101,43 @@ local function query()
 end
 
 local function runinstall(pack)
-  u.notify_progress(function(notify)
-    local cmd = INSTALL_CMD
-    local msg
-    if pack.new and pack.version then
-      msg = 'lsp_server: upgrading to ' .. pack.new
-      cmd = UPGRADE_CMD
-    else
-      msg = 'lsp_server: installing ' .. (pack.new or pack.version)
-    end
+  if pack.new and pack.version ~= pack.new then
+    local okmsg = 'installed'
+    local komsg = 'installation'
 
-    notify(msg, vim.log.levels.INFO, { title = 'swipl' })
+    u.notify_progress(function(notify)
+      local cmd = INSTALL_CMD
+      local msg
+      if pack.new and pack.version then
+        okmsg = 'upgraded'
+        komsg = 'upgrade'
+        msg = 'lsp_server: upgrading to ' .. pack.new
+        cmd = UPGRADE_CMD
+      else
+        msg = 'lsp_server: installing ' .. (pack.new or pack.version)
+      end
 
-    return runcmd(cmd)
-  end, function(notify, ok)
-    if ok then
-      notify('lsp_server: upgraded', vim.log.levels.INFO, { title = 'swipl' })
-    else
-      notify('lsp_server: failed', vim.log.levels.ERROR, { title = 'swipl' })
-    end
-  end)
+      notify(msg, vim.log.levels.INFO, { title = 'swipl' })
+
+      return runcmd(cmd)
+    end, function(notify, ok)
+      if ok then
+        notify(
+          'lsp_server: ' .. okmsg,
+          vim.log.levels.INFO,
+          { title = 'swipl' }
+        )
+      else
+        notify(
+          'lsp_server: ' .. komsg .. ' failed',
+          vim.log.levels.ERROR,
+          { title = 'swipl' }
+        )
+      end
+    end)
+  else
+    return Future.resolved(nil)
+  end
 end
 
 local cache = nil
