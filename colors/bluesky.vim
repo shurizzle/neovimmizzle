@@ -11,6 +11,35 @@ highlight! link NormalNC Normal
 highlight! link Pmenu Normal
 highlight Bold guifg=NONE guibg=NONE guisp=NONE blend=NONE gui=bold
 highlight Boolean guifg=#2E8FFF guibg=NONE guisp=NONE blend=NONE gui=NONE
+highlight BreadcrumbIconFile guifg=#2E8FFF guibg=#242424 guisp=NONE blend=NONE gui=bold
+highlight! link BreadcrumbIconArray BreadcrumbIconFile
+highlight! link BreadcrumbIconBoolean BreadcrumbIconFile
+highlight! link BreadcrumbIconClass BreadcrumbIconFile
+highlight! link BreadcrumbIconConstant BreadcrumbIconFile
+highlight! link BreadcrumbIconConstructor BreadcrumbIconFile
+highlight! link BreadcrumbIconEnum BreadcrumbIconFile
+highlight! link BreadcrumbIconEnumMember BreadcrumbIconFile
+highlight! link BreadcrumbIconEvent BreadcrumbIconFile
+highlight! link BreadcrumbIconField BreadcrumbIconFile
+highlight! link BreadcrumbIconFunction BreadcrumbIconFile
+highlight! link BreadcrumbIconInterface BreadcrumbIconFile
+highlight! link BreadcrumbIconKey BreadcrumbIconFile
+highlight! link BreadcrumbIconMethod BreadcrumbIconFile
+highlight! link BreadcrumbIconModule BreadcrumbIconFile
+highlight! link BreadcrumbIconNamespace BreadcrumbIconFile
+highlight! link BreadcrumbIconNull BreadcrumbIconFile
+highlight! link BreadcrumbIconNumber BreadcrumbIconFile
+highlight! link BreadcrumbIconObject BreadcrumbIconFile
+highlight! link BreadcrumbIconOperator BreadcrumbIconFile
+highlight! link BreadcrumbIconPackage BreadcrumbIconFile
+highlight! link BreadcrumbIconProperty BreadcrumbIconFile
+highlight! link BreadcrumbIconString BreadcrumbIconFile
+highlight! link BreadcrumbIconStruct BreadcrumbIconFile
+highlight! link BreadcrumbIconTypeParameter BreadcrumbIconFile
+highlight! link BreadcrumbIconVariable BreadcrumbIconFile
+highlight BreadcrumbText guifg=#EDEDED guibg=#242424 guisp=NONE blend=NONE gui=italic
+highlight BreadcrumbsBar guifg=NONE guibg=#242424 guisp=NONE blend=NONE gui=NONE
+highlight BreadcrumbsSeparator guifg=#FFE100 guibg=#242424 guisp=NONE blend=NONE gui=bold
 highlight BufferCurrent guifg=#EDEDED guibg=#545454 guisp=NONE blend=NONE gui=NONE
 highlight! link BufferCurrentIndex BufferCurrent
 highlight BufferCurrentMod guifg=#FFE100 guibg=#545454 guisp=NONE blend=NONE gui=NONE
@@ -107,35 +136,6 @@ highlight Macro guifg=#2E8FFF guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight MatchParen guifg=#FFE100 guibg=NONE guisp=NONE blend=NONE gui=bold
 highlight ModeMsg guifg=#2E8FFF guibg=NONE guisp=NONE blend=NONE gui=bold
 highlight MoreMsg guifg=NONE guibg=NONE guisp=NONE blend=NONE gui=bold
-highlight NavicBar guifg=NONE guibg=#242424 guisp=NONE blend=NONE gui=NONE
-highlight NavicIconsFile guifg=#2E8FFF guibg=#242424 guisp=NONE blend=NONE gui=bold
-highlight! link NavicIconsArray NavicIconsFile
-highlight! link NavicIconsBoolean NavicIconsFile
-highlight! link NavicIconsClass NavicIconsFile
-highlight! link NavicIconsConstant NavicIconsFile
-highlight! link NavicIconsConstructor NavicIconsFile
-highlight! link NavicIconsEnum NavicIconsFile
-highlight! link NavicIconsEnumMember NavicIconsFile
-highlight! link NavicIconsEvent NavicIconsFile
-highlight! link NavicIconsField NavicIconsFile
-highlight! link NavicIconsFunction NavicIconsFile
-highlight! link NavicIconsInterface NavicIconsFile
-highlight! link NavicIconsKey NavicIconsFile
-highlight! link NavicIconsMethod NavicIconsFile
-highlight! link NavicIconsModule NavicIconsFile
-highlight! link NavicIconsNamespace NavicIconsFile
-highlight! link NavicIconsNull NavicIconsFile
-highlight! link NavicIconsNumber NavicIconsFile
-highlight! link NavicIconsObject NavicIconsFile
-highlight! link NavicIconsOperator NavicIconsFile
-highlight! link NavicIconsPackage NavicIconsFile
-highlight! link NavicIconsProperty NavicIconsFile
-highlight! link NavicIconsString NavicIconsFile
-highlight! link NavicIconsStruct NavicIconsFile
-highlight! link NavicIconsTypeParameter NavicIconsFile
-highlight! link NavicIconsVariable NavicIconsFile
-highlight NavicSeparator guifg=#FFE100 guibg=#242424 guisp=NONE blend=NONE gui=bold
-highlight NavicText guifg=#EDEDED guibg=#242424 guisp=NONE blend=NONE gui=italic
 highlight NonText guifg=#545454 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight NvimTreeEndOfBuffer guifg=#242424 guibg=#242424 guisp=NONE blend=NONE gui=NONE
 highlight NvimTreeFolderIcon guifg=#2E8FFF guibg=NONE guisp=NONE blend=NONE gui=NONE

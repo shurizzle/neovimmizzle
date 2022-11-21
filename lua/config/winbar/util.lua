@@ -1,8 +1,7 @@
----@module 'config.winbar.lsp.util'
 local _M = {}
 
----@param bufnr number
----@return number
+---@param bufnr integer
+---@return integer
 function _M.ensure_bufnr(bufnr)
   vim.validate({
     bufnr = { bufnr, 'n' },
@@ -11,8 +10,8 @@ function _M.ensure_bufnr(bufnr)
   return bufnr
 end
 
----@param winnr number
----@return number
+---@param winnr integer
+---@return integer
 function _M.ensure_winnr(winnr)
   vim.validate({
     winnr = { winnr, 'n' },
@@ -21,8 +20,8 @@ function _M.ensure_winnr(winnr)
   return winnr
 end
 
----@param tabnr number
----@return number
+---@param tabnr integer
+---@return integer
 function _M.ensure_tabnr(tabnr)
   vim.validate({
     tabnr = { tabnr, 'n' },
@@ -31,8 +30,8 @@ function _M.ensure_tabnr(tabnr)
   return tabnr
 end
 
----@param bufnr number
----@return number[]
+---@param bufnr integer
+---@return integer[]
 function _M.buf_get_windows(bufnr)
   bufnr = _M.ensure_bufnr(bufnr)
   return vim.tbl_filter(
@@ -41,8 +40,8 @@ function _M.buf_get_windows(bufnr)
   )
 end
 
----@param bufnr number
----@return number[]
+---@param bufnr integer
+---@return integer[]
 function _M.buf_get_tabpages(bufnr)
   return vim.tbl_map(
     function(winnr) return vim.api.nvim_win_get_tabpage(winnr) end,
@@ -50,15 +49,15 @@ function _M.buf_get_tabpages(bufnr)
   )
 end
 
----@param winnr number
----@param tabnr number
+---@param winnr integer
+---@param tabnr integer
 ---@return boolean
 function _M.win_is_visible(winnr, tabnr)
   return vim.api.nvim_win_get_tabpage(winnr) == _M.ensure_tabnr(tabnr)
 end
 
----@param bufnr number
----@param tabnr number
+---@param bufnr integer
+---@param tabnr integer
 ---@return boolean
 function _M.buf_is_visible(bufnr, tabnr)
   tabnr = _M.ensure_tabnr(tabnr)
@@ -79,6 +78,13 @@ function _M.call_once(fn)
       return fn(...)
     end
   end
+end
+
+---@param str string
+---@return string
+function _M.stl_escape(str)
+  if type(str) ~= 'string' then return str end
+  return select(1, str:gsub('%%', '%%%%'))
 end
 
 return _M

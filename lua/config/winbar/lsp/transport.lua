@@ -1,69 +1,68 @@
----@module 'config.winbar.lsp.transport'
 local _M = {}
 
----@alias SymbolKind
----| '1' # File
----| '2' # Module
----| '3' # Namespace
----| '4' # Package
----| '5' # Class
----| '6' # Method
----| '7' # Property
----| '8' # Field
----| '9' # Constructor
----| '10' # Enum
----| '11' # Interface
----| '12' # Function
----| '13' # Variable
----| '14' # Constant
----| '15' # String
----| '16' # Number
----| '17' # Boolean
----| '18' # Array
----| '19' # Object
----| '20' # Key
----| '21' # Null
----| '22' # EnumMember
----| '23' # Struct
----| '24' # Event
----| '25' # Operator
----| '26' # TypeParameter
+---@alias lsp.SymbolKind
+---| 1 # File
+---| 2 # Module
+---| 3 # Namespace
+---| 4 # Package
+---| 5 # Class
+---| 6 # Method
+---| 7 # Property
+---| 8 # Field
+---| 9 # Constructor
+---| 10 # Enum
+---| 11 # Interface
+---| 12 # Function
+---| 13 # Variable
+---| 14 # Constant
+---| 15 # String
+---| 16 # Number
+---| 17 # Boolean
+---| 18 # Array
+---| 19 # Object
+---| 20 # Key
+---| 21 # Null
+---| 22 # EnumMember
+---| 23 # Struct
+---| 24 # Event
+---| 25 # Operator
+---| 26 # TypeParameter
 
----@alias SymbolTag
----| '1' # Deprecated
+---@alias lsp.SymbolTag
+---| 1 # Deprecated
 
----@alias DocumentUri string
+---@alias lsp.DocumentUri string
 
----@class Location
----@field uri DocumentUri
+---@class lsp.Location
+---@field uri lsp.DocumentUri
 ---@field range Range
 
----@class DocumentSymbol
+---@class lsp.DocumentSymbol
 ---@field name string
----@field detail ?string
----@field kind SymbolKind
----@field tags ?SymbolTag[]
----@field deprecated ?boolean
----@field range Range
----@field selectionRange Range
----@filed children ?DocumentSymbol[]
+---@field detail string|nil
+---@field kind lsp.SymbolKind
+---@field tags lsp.SymbolTag[]|nil
+---@field deprecated boolean|nil
+---@field range lsp.Range
+---@field selectionRange lsp.Range
+---@field children lsp.DocumentSymbol[]|nil
 
----@class SymbolInformation
+---@class lsp.SymbolInformation
 ---@field name string
----@field kind SymbolKind
----@field tags ?SymbolTag[]
----@field deprecated ?boolean
----@field location Location
----@field containerName ?string
+---@field kind lsp.SymbolKind
+---@field tags lsp.SymbolTag[]|nil
+---@field deprecated boolean|nil
+---@field location lsp.Location
+---@field containerName string|nil
 
----@class ResponseError
----@field code number
+---@class lsp.ResponseError
+---@field code integer
 ---@field message string
 ---@field data any
 
----@class Info
----@field bufnr number
----@field client_id number
+---@class vim.lsp.HandlerInfo
+---@field bufnr integer
+---@field client_id integer
 ---@field method string
 ---@field params any
 
@@ -105,9 +104,10 @@ local s = require('config.winbar.lsp.state')
 
 local METHOD = 'textDocument/documentSymbol'
 
----@param bufnr number
----@param handler fun(err: ResponseError, data: SymbolInformation[], info: Info)
----@return boolean, number|nil
+---@param bufnr integer
+---@param handler fun(err: lsp.ResponseError, data: lsp.SymbolInformation[], info: vim.lsp.HandlerInfo)
+---@return boolean
+---@return integer|nil
 function _M.request(bufnr, handler)
   bufnr = u.ensure_bufnr(bufnr)
 

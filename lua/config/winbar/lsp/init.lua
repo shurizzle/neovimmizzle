@@ -1,4 +1,3 @@
----@module 'config.winbar.lsp'
 local _M = {}
 
 local u = require('config.winbar.util')
@@ -8,7 +7,7 @@ local t = require('config.winbar.lsp.transport')
 local request
 local augroup
 
----@param bufnr number
+---@param bufnr integer
 local function fire_event(bufnr)
   bufnr = u.ensure_bufnr(bufnr)
   vim.api.nvim_buf_call(
@@ -21,10 +20,10 @@ local function fire_event(bufnr)
   )
 end
 
----@param changedtick number
----@param err ResponseError
----@param data DocumentSymbol[]|nil
----@param info Info
+---@param changedtick integer
+---@param err lsp.ResponseError
+---@param data lsp.DocumentSymbol[]|nil
+---@param info vim.lsp.HandlerInfo
 local function handler(changedtick, err, data, info)
   local defer = 0
 
@@ -49,7 +48,7 @@ local function handler(changedtick, err, data, info)
   end
 end
 
----@param bufnr number
+---@param bufnr integer
 ---@return boolean|nil
 function request(bufnr)
   bufnr = u.ensure_bufnr(bufnr)
@@ -78,7 +77,7 @@ function request(bufnr)
   end
 end
 
----@param bufnr number
+---@param bufnr integer
 ---@return boolean|nil
 local function delete(bufnr)
   bufnr = u.ensure_bufnr(bufnr)
@@ -100,7 +99,7 @@ local function delete(bufnr)
 end
 
 ---@param client table
----@param bufnr number
+---@param bufnr integer
 ---@return boolean|nil
 local function detach(client, bufnr)
   bufnr = u.ensure_bufnr(bufnr)
@@ -128,7 +127,7 @@ local function detach(client, bufnr)
 end
 
 ---@param client table
----@param bufnr number
+---@param bufnr integer
 ---@return boolean|nil
 local function attach(client, bufnr)
   if not client.server_capabilities.documentSymbolProvider then return end
@@ -204,8 +203,8 @@ function _M.setup()
   end
 end
 
----@param bufnr number
----@return DocumentSymbol[]|nil
+---@param bufnr integer
+---@return lsp.DocumentSymbol[]|nil
 function _M.get_data(bufnr)
   local state = s.get(bufnr)
   if state then return state.data end

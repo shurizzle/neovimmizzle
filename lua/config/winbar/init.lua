@@ -1,5 +1,7 @@
 local _M = {}
 
+local u = require('config.winbar.util')
+
 local excluded_buftypes = {
   'nofile',
   'help',
@@ -9,19 +11,14 @@ local excluded_filetypes = {}
 
 local winbar = '%{%v:lua.require\'config.winbar\'()%}'
 
-function _M.navic(bufnr)
-  local ok, res = pcall(function()
-    local navic = require('nvim-navic')
-    return vim.api.nvim_buf_call(
-      bufnr,
-      ---@diagnostic disable-next-line
-      function() return navic.get_location() end
-    )
-  end)
-  if not ok or not res then res = '' end
-  return res
+---@param winid integer|nil
+---@return string
+function _M.breadcrumbs(winid)
+  return require('config.winbar.breadcrumbs').render(winid)
 end
 
+---@param bufnr integer
+---@return string
 function _M.icon(bufnr)
   local ok, icon, color = pcall(function()
     local icons = require('nvim-web-devicons')
@@ -32,16 +29,19 @@ function _M.icon(bufnr)
   if ok then
     if icon then
       if color then res = res .. '%#' .. color .. '#' end
-      res = res .. icon
+      res = res .. u.stl_escape(icon)
       if color then res = res .. '%*' end
     end
   end
   return res
 end
 
+---@param bufnr integer
+---@return string
 function _M.name(bufnr)
   local name = vim.api.nvim_buf_get_name(bufnr)
   if name ~= nil and name ~= '' then name = vim.fn.fnamemodify(name, ':.') end
+  if name then name = u.stl_escape(name) end
   return name or ''
 end
 
@@ -50,11 +50,16 @@ function _M.len(str)
   return vim.api.nvim_eval_statusline(str, { winid = 0, maxwidth = 0 }).width
 end
 
-function _M.winbar(bufnr)
+---@param winid integer|nil
+---@return string
+function _M.winbar(winid)
+  winid = u.ensure_winnr(winid or 0)
+  local bufnr = vim.api.nvim_win_get_buf(winid)
+
   local i = _M.icon(bufnr)
   if _M.len(i) > 0 then i = i .. ' ' end
-  local n = _M.navic(bufnr)
-  if _M.len(n) > 0 then n = ' %#NavicSeparator#>%* ' .. n end
+  local n = _M.breadcrumbs(winid)
+  if string.len(n) > 0 then n = ' %#BreadcrumbsSeparator#>%* ' .. n end
   return i .. _M.name(bufnr) .. n
 end
 
@@ -141,7 +146,14 @@ local function buf_changed(opts)
 end
 
 function _M.setup()
-  -- require('config.winbar.lsp').setup()
+  vim.cmd([[
+function GoToDocumentSymbol(a, b, c, d)
+  call v:lua.require('config.winbar.breadcrumbs').jump(a:a, a:b, a:c, a:d)
+endfunction
+  ]])
+
+  require('config.winbar.lsp').setup()
+  require('config.winbar.breadcrumbs').setup()
 
   vim.opt.winbar = nil
 
@@ -176,11 +188,24 @@ function _M.setup()
     end,
   })
 
-  for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
-    if vim.api.nvim_buf_is_valid(bufnr) then buf_changed({ buf = bufnr }) end
+  for _, winid in ipairs(vim.api.nvim_list_wins()) do
+    if vim.api.nvim_win_is_valid(winid) then
+      local bufnr = vim.api.nvim_win_get_buf(winid)
+      if vim.api.nvim_buf_is_valid(bufnr) then
+        xpcall(function()
+          vim.api.nvim_win_call(
+            winid,
+            function() buf_changed({ buf = bufnr }) end
+          )
+        end, function(err)
+          if type(err) ~= 'string' then err = vim.inspect(err) end
+          vim.api.nvim_echo({ { err, 'ErrorMsg' } }, true, {})
+        end)
+      end
+    end
   end
 end
 
 return setmetatable(_M, {
-  __call = function(self) return self.winbar(vim.api.nvim_get_current_buf()) end,
+  __call = function(self) return self.winbar() end,
 })

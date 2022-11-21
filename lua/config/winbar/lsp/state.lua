@@ -1,16 +1,15 @@
----@module 'config.winbar.lsp.state'
 local _M = {}
 
----@class Server
----@field id number
+---@class winbar.lsp.state.Server
+---@field id integer
 ---@field name string
 
----@class State
----@field servers Server[]
----@field data DocumentSymbol[]|nil
----@field changedtick number
+---@class winbar.lsp.state.State
+---@field servers winbar.lsp.state.Server[]
+---@field data lsp.DocumentSymbol[]|nil
+---@field changedtick integer
 ---@field requesting boolean
----@field request_id number|nil
+---@field request_id integer|nil
 local State = {
   servers = {},
   changedtick = 0,
@@ -18,7 +17,7 @@ local State = {
 }
 
 ---comment
----@return State
+---@return winbar.lsp.state.State
 function State:new()
   local o = setmetatable({
     servers = {},
@@ -30,8 +29,8 @@ function State:new()
   return o
 end
 
----@param id number
----@return Server|nil
+---@param id integer
+---@return winbar.lsp.state.Server|nil
 function State:get_server_by_id(id)
   for _, s in ipairs(self.servers) do
     if s.id == id then return s end
@@ -39,16 +38,16 @@ function State:get_server_by_id(id)
 end
 
 ---@param name string
----@return Server|nil
+---@return winbar.lsp.state.Server|nil
 function State:get_server_by_name(name)
   for _, s in ipairs(self.servers) do
     if s.name == name then return s end
   end
 end
 
----@param id number
----@return number|nil
----@return Server|nil
+---@param id integer
+---@return integer|nil
+---@return winbar.lsp.state.Server|nil
 function State:remove_server_by_id(id)
   local i = (function()
     for i, s in ipairs(self.servers) do
@@ -64,8 +63,8 @@ function State:remove_server_by_id(id)
 end
 
 ---@param name string
----@return number|nil
----@return Server|nil
+---@return integer|nil
+---@return winbar.lsp.state.Server|nil
 function State:remove_server_by_name(name)
   local i = (function()
     for i, s in ipairs(self.servers) do
@@ -80,7 +79,7 @@ function State:remove_server_by_name(name)
   return i, v
 end
 
----@param id number
+---@param id integer
 ---@param name string
 ---@return boolean
 function State:add_server(id, name)
@@ -105,7 +104,7 @@ function State:get_lsp_client()
   end
 end
 
----@param data DocumentSymbol[]|nil
+---@param data lsp.DocumentSymbol[]|nil
 ---@return boolean
 function State:set_data(data)
   if vim.deep_equal(self.data, data) then
@@ -116,27 +115,27 @@ function State:set_data(data)
   end
 end
 
----@type State[]
+---@type winbar.lsp.state.State[]
 local internal_states = {}
 
 local u = require('config.winbar.util')
 
----@param bufnr number
----@return State|nil
+---@param bufnr integer
+---@return winbar.lsp.state.State|nil
 function _M.get(bufnr)
   bufnr = u.ensure_bufnr(bufnr)
   return internal_states[bufnr]
 end
 
----@param bufnr number
----@return State
+---@param bufnr integer
+---@return winbar.lsp.state.State
 function _M.get_or_create(bufnr)
   bufnr = u.ensure_bufnr(bufnr)
   internal_states[bufnr] = internal_states[bufnr] or State:new()
   return internal_states[bufnr]
 end
 
----@param bufnr number
+---@param bufnr integer
 function _M.delete(bufnr)
   bufnr = u.ensure_bufnr(bufnr)
   internal_states[bufnr] = nil

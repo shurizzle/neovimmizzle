@@ -174,10 +174,6 @@ return {
     opt = true,
   },
   { 'ojroques/nvim-osc52', mod = 'osc52' },
-  {
-    'shurizzle/nvim-navic',
-    mod = 'navic',
-  },
   { 'folke/neodev.nvim', mod = 'neodev', opt = true },
   { 'rafcamlet/nvim-luapad', mod = 'luapad' },
 }
