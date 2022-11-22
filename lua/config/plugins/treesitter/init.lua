@@ -4,9 +4,9 @@ function _M.config()
   local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
   parser_config.prolog = {
     install_info = {
-      url = 'https://github.com/Rukiza/tree-sitter-prolog',
+      url = 'https://github.com/shurizzle/tree-sitter-prolog',
       files = { 'src/parser.c' },
-      revision = 'db66ca3f5b80e27a3328a8dcec828df93d7250a6',
+      revision = '62951c08e4381c01fc1d37aeeffdaaf1d3248844',
     },
     filetype = 'prolog',
   }
@@ -33,6 +33,11 @@ function _M.config()
   vim.o.foldenable = false
   vim.o.foldmethod = 'expr'
   vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
+
+  vim.api.nvim_create_autocmd({ 'FileType' }, {
+    pattern = 'prolog',
+    command = 'setlocal foldenable foldmethod=marker',
+  })
 end
 
 return _M
