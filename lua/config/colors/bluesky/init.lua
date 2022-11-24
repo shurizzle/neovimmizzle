@@ -12,6 +12,7 @@ for _, name in ipairs {
   'treesitter',
   'illuminate',
   'breadcrumbs',
+  'prolog',
 } do
   table.insert(theme, require('config.colors.bluesky.support.' .. name))
 end
