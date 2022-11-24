@@ -19,25 +19,6 @@ end
 
 ---@param bufnr integer
 ---@return string
-function _M.icon(bufnr)
-  local ok, icon, color = pcall(function()
-    local icons = require('nvim-web-devicons')
-    local name = vim.api.nvim_buf_get_name(bufnr)
-    if name then return icons.get_icon(vim.fn.fnamemodify(name, ':t')) end
-  end)
-  local res = ''
-  if ok then
-    if icon then
-      if color then res = res .. '%#' .. color .. '#' end
-      res = res .. u.stl_escape(icon)
-      if color then res = res .. '%*' end
-    end
-  end
-  return res
-end
-
----@param bufnr integer
----@return string
 function _M.name(bufnr)
   local name = vim.api.nvim_buf_get_name(bufnr)
   if name ~= nil and name ~= '' then name = vim.fn.fnamemodify(name, ':.') end
@@ -56,11 +37,9 @@ function _M.winbar(winid)
   winid = u.ensure_winnr(winid or 0)
   local bufnr = vim.api.nvim_win_get_buf(winid)
 
-  local i = _M.icon(bufnr)
-  if _M.len(i) > 0 then i = i .. ' ' end
   local n = _M.breadcrumbs(winid)
   if string.len(n) > 0 then n = ' %#BreadcrumbsSeparator#>%* ' .. n end
-  return i .. _M.name(bufnr) .. n
+  return _M.name(bufnr) .. n
 end
 
 local function redrawstatus(winnr)
