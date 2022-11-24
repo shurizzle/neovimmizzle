@@ -1,7 +1,10 @@
+-- local devicons = 'kyazdani42/nvim-web-devicons'
+local devicons = 'shurizzle/nvim-web-devicons'
+
 return {
   { 'nvim-lua/plenary.nvim', module = { 'plenary', 'luassert', 'say' } },
   { 'goolord/alpha-nvim', mod = 'alpha' },
-  { 'kyazdani42/nvim-web-devicons', mod = 'devicons' },
+  { devicons, mod = 'devicons' },
   { 'folke/which-key.nvim', mod = 'which-key' },
   { 'rcarriga/nvim-notify', mod = 'notify' },
   { 'stevearc/dressing.nvim', mod = 'dressing' },
@@ -113,19 +116,19 @@ return {
     'nvim-lualine/lualine.nvim',
     mod = 'lualine',
     requires = {
-      'kyazdani42/nvim-web-devicons',
+      devicons,
       'arkav/lualine-lsp-progress',
     },
   },
   {
     'romgrk/barbar.nvim',
     mod = 'barbar',
-    requires = 'kyazdani42/nvim-web-devicons',
+    requires = devicons,
   },
   {
     'kyazdani42/nvim-tree.lua',
     mod = 'tree',
-    requires = 'kyazdani42/nvim-web-devicons',
+    requires = devicons,
   },
   { 'norcalli/nvim-colorizer.lua', mod = 'colorizer' },
   {
