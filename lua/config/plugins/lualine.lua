@@ -72,19 +72,6 @@ function _M.config()
     return table.concat(res, ' ')
   end
 
-  local function filetype()
-    local ft = vim.bo.filetype
-    if not ft or ft == '' then return '' end
-    local icon, color =
-      require('nvim-web-devicons').get_icon_by_filetype(ft, {})
-    if icon then
-      if color then icon = '%#' .. color .. '#' .. icon .. '%*' end
-      ft = icon .. ' ' .. ft
-    end
-
-    return ft
-  end
-
   local function pos() return symbols.line .. ':%l:%v/%L %p%%' end
 
   local space = {
@@ -114,7 +101,7 @@ function _M.config()
         'lsp_progress',
       },
 
-      lualine_x = { filetype },
+      lualine_x = { 'file_type' },
       lualine_y = { fmt_enc },
       lualine_z = { pos },
     },
@@ -124,7 +111,7 @@ function _M.config()
       lualine_c = {
         file_status,
       },
-      lualine_x = { filetype },
+      lualine_x = { 'file_type' },
       lualine_y = { fmt_enc, space, pos },
       lualine_z = {},
     },
