@@ -1,5 +1,4 @@
--- local devicons = 'kyazdani42/nvim-web-devicons'
-local devicons = 'shurizzle/nvim-web-devicons'
+local devicons = 'kyazdani42/nvim-web-devicons'
 
 return {
   { 'nvim-lua/plenary.nvim', module = { 'plenary', 'luassert', 'say' } },
