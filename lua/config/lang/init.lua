@@ -6,7 +6,7 @@ local base_dir =
 local Future = require('config.future')
 
 local function deferred_config(lang)
-  local l = require('config.lang.lang.' .. lang)
+  local l = require('config.lang._.' .. lang)
   local fts = table.concat(l.filetypes or { lang }, ',')
 
   local function launch(bufnr)
@@ -46,7 +46,7 @@ local function deferred_config(lang)
 end
 
 local function config(lang)
-  local l = require('config.lang.lang.' .. lang)
+  local l = require('config.lang._.' .. lang)
   if l.setup then
     local ok, res = pcall(l.setup)
     if not ok then
@@ -151,7 +151,7 @@ augroup END
     false
   )
 
-  local dir_handle = vim.loop.fs_scandir(join_paths(base_dir, 'lang'))
+  local dir_handle = vim.loop.fs_scandir(join_paths(base_dir, '_'))
   while true do
     local item, _ = vim.loop.fs_scandir_next(dir_handle)
     if not item then break end

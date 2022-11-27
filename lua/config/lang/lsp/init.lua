@@ -5,5 +5,5 @@ return GeneratingMap.new(function(name)
   vim.validate({
     name = { name, 'string' },
   })
-  return Future.pcall(require, 'config.lang.servers.' .. name)
+  return Future.pcall(require, 'config.lang.lsp.' .. name)
 end)

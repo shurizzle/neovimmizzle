@@ -13,7 +13,7 @@ _M.filetypes = {
 }
 
 function _M.config()
-  local s = require('config.lang.servers')
+  local s = require('config.lang.lsp')
   Future.join({
     s.tsserver,
     s.eslintd,

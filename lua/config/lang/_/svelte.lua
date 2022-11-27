@@ -3,7 +3,7 @@ local _M = {}
 local Future = require('config.future')
 
 function _M.config()
-  local s = require('config.lang.servers')
+  local s = require('config.lang.lsp')
   Future.join({
     s.svelte,
     s.eslintd,
