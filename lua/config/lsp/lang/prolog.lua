@@ -105,7 +105,7 @@ local function runinstall(pack)
     local okmsg = 'installed'
     local komsg = 'installation'
 
-    u.notify_progress(function(notify)
+    return u.notify_progress(function(notify)
       local cmd = INSTALL_CMD
       local msg
       if pack.new and pack.version then
@@ -184,7 +184,9 @@ function _M.config()
     },
   }
 
-  install():and_then(function() require('lspconfig').prolog_lsp.setup({}) end)
+  return install():and_then(
+    function() require('lspconfig').prolog_lsp.setup({}) end
+  )
 end
 
 return _M
