@@ -24,7 +24,7 @@ _M.methods.feedkeys = feedkeys
 ---checks if emmet_ls is available and active in the buffer
 ---@return boolean true if available, false otherwise
 local is_emmet_active = function()
-  local clients = vim.lsp.buf_get_active_clients()
+  local clients = vim.lsp.buf_get_clients()
 
   for _, client in pairs(clients) do
     if client.name == 'emmet_ls' then return true end
