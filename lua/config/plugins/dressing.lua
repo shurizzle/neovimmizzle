@@ -4,7 +4,9 @@ function _M.config()
   require('dressing').setup({
     input = {
       insert_only = false,
-      winblend = 20,
+      win_options = {
+        winblend = 20,
+      },
     },
   })
 end
