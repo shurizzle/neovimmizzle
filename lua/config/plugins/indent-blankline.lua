@@ -13,6 +13,7 @@ function _M.config()
       'lsp-installer',
       'rfc',
       'DressingInput',
+      'mason',
     },
     buftype_exclude = {
       'terminal',
