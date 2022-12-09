@@ -25,7 +25,9 @@ end)
 packer.init({
   compile_path = compiled,
   display = {
-    open_fn = function() return require('packer.util').float({ border = 'rounded' }) end,
+    open_fn = function()
+      return require('packer.util').float({ border = 'rounded' })
+    end,
   },
 })
 
@@ -100,7 +102,7 @@ table.insert(config, {
 table.insert(config, 1, { 'lewis6991/impatient.nvim' })
 table.insert(config, 1, { 'wbthomason/packer.nvim' })
 table.insert(config, 1, {
-  'williamboman/mason.nvim',
+  'shurizzle/mason.nvim',
   module_pattern = {
     '^mason%-core$',
     '^mason%-core%.',
