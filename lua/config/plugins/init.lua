@@ -102,7 +102,7 @@ table.insert(config, {
 table.insert(config, 1, { 'lewis6991/impatient.nvim' })
 table.insert(config, 1, { 'wbthomason/packer.nvim' })
 table.insert(config, 1, {
-  'shurizzle/mason.nvim',
+  'williamboman/mason.nvim',
   module_pattern = {
     '^mason%-core$',
     '^mason%-core%.',

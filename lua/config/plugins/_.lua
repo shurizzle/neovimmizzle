@@ -42,6 +42,15 @@ return {
     opt = true,
   },
   {
+    'MrcJkb/haskell-tools.nvim',
+    requires = {
+      'neovim/nvim-lspconfig',
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope.nvim',
+    },
+    opt = true,
+  },
+  {
     'jose-elias-alvarez/typescript.nvim',
     opt = true,
   },
