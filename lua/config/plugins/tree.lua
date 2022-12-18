@@ -140,9 +140,20 @@ function _M.config()
 
   local function is_open() return view.is_visible() end
 
+  local function find_file(bufnr)
+    bufnr = bufnr or vim.api.nvim_get_current_buf()
+    if not vim.api.nvim_buf_is_valid(bufnr) then return end
+    local bufname = vim.api.nvim_buf_get_name(bufnr)
+    local filepath = require('nvim-tree.utils').canonical_path(
+      vim.fn.fnamemodify(bufname, ':p')
+    )
+    require('nvim-tree.api').tree.find_file(filepath)
+  end
+
   local function raw_open()
-    tree.find_file(true)
+    local bufnr = vim.api.nvim_get_current_buf()
     if not is_open() then tree.open() end
+    find_file(bufnr)
   end
 
   local function close() view.close() end
