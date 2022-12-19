@@ -138,18 +138,28 @@ function _M.config()
       border = 'rounded',
     })
 
-  vim.cmd('command! Format lua require("config.lang").format({ async = true })')
-  vim.api.nvim_exec(
-    [[
-augroup lsp_document
-  autocmd!
-  autocmd CursorHold * lua vim.diagnostic.open_float()
-  autocmd CursorMoved * lua vim.lsp.buf.clear_references()
-  autocmd BufWritePre * lua require('config.lang').format({ async = false })
-augroup END
-]],
-    false
+  vim.api.nvim_create_user_command(
+    'Format',
+    function() _M.format({ async = true }) end,
+    { desc = 'Format buffer' }
   )
+
+  local group = vim.api.nvim_create_augroup('lsp_document', { clear = true })
+  vim.api.nvim_create_autocmd({ 'CursorHold' }, {
+    pattern = { '*' },
+    callback = function() vim.diagnostic.open_float() end,
+    group = group,
+  })
+  vim.api.nvim_create_autocmd({ 'CursorMoved' }, {
+    pattern = { '*' },
+    callback = function() vim.lsp.buf.clear_references() end,
+    group = group,
+  })
+  vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
+    pattern = { '*' },
+    callback = function() _M.format({ async = false }) end,
+    group = group,
+  })
 
   local dir_handle = vim.loop.fs_scandir(join_paths(base_dir, '_'))
   while true do
