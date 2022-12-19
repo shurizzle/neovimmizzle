@@ -123,10 +123,7 @@ return {
   {
     'nvim-lualine/lualine.nvim',
     mod = 'lualine',
-    requires = {
-      devicons,
-      'arkav/lualine-lsp-progress',
-    },
+    requires = { devicons },
   },
   {
     'romgrk/barbar.nvim',
@@ -187,4 +184,5 @@ return {
   { 'ojroques/nvim-osc52', mod = 'osc52' },
   { 'folke/neodev.nvim', mod = 'neodev', opt = true },
   { 'rafcamlet/nvim-luapad', mod = 'luapad' },
+  { 'j-hui/fidget.nvim', mod = 'fidget' },
 }

@@ -98,7 +98,6 @@ function _M.config()
       lualine_b = { 'branch', 'diagnostics' },
       lualine_c = {
         file_status,
-        'lsp_progress',
       },
 
       lualine_x = { 'file_type' },
