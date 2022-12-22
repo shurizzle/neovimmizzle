@@ -4,9 +4,9 @@ function _M.config()
   local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
   parser_config.prolog = {
     install_info = {
-      url = 'https://github.com/shurizzle/tree-sitter-prolog',
+      url = 'https://github.com/Rukiza/tree-sitter-prolog',
       files = { 'src/parser.c' },
-      revision = '62951c08e4381c01fc1d37aeeffdaaf1d3248844',
+      revision = 'ee1c64cc15e96430c51914dfee7ca205159b0586',
     },
     filetype = 'prolog',
   }
