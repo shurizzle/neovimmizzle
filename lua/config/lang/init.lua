@@ -88,6 +88,8 @@ function _M.format(options)
     clients
   )
 
+  options.timeout_ms = options.timeout_ms or 4000
+
   if #clients ~= 0 then return vim.lsp.buf.format(options) end
 end
 
