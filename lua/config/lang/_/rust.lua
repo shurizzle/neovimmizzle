@@ -26,53 +26,100 @@ function _M.config()
     local i = require('config.lang.installer')
     local Future = require('config.future')
     local util = require('config.lang.util')
+    local os = vim.loop.os_uname().sysname
 
-    installer = Future.join({ i['rust-analyzer'], i['codelldb'] })
-      :and_then(function(res)
-        if res[1][1] then
-          local ok1, res1 = pcall(util.packer_load, 'rust-tools.nvim')
+    if os:match('Windows') then
+      local function set_sysroot_path()
+        local Job = require('plenary.job')
 
-          if not ok1 then print(res1) end
-
-          require('rust-tools').setup({
-            tools = {
-              inlay_hints = {
-                auto = true,
-              },
-            },
-            server = {
-              on_attach = function(_, bufnr)
-                vim.keymap.set(
-                  'n',
-                  '<leader>ca',
-                  '<cmd>RustCodeAction<CR>',
-                  { buffer = bufnr, silent = true }
-                )
-
-                vim.keymap.set(
-                  'n',
-                  'K',
-                  '<cmd>RustHoverAction<CR>',
-                  { buffer = bufnr, silent = true }
-                )
+        local f = Future.new(function(resolve, reject)
+          Job
+            :new({
+              command = 'rustc',
+              args = { '--print', 'sysroot' },
+              on_exit = function(job, return_val)
+                if return_val == 0 then
+                  vim.schedule(function()
+                    vim.fn.setenv(
+                      'PATH',
+                      vim.fn.getenv('PATH') .. ';' .. job:result()[1] .. '/bin'
+                    )
+                    resolve(nil)
+                  end)
+                else
+                  reject(
+                    'Command exited with error '
+                      .. return_val
+                      .. ':\n'
+                      .. table.concat(job:stderr_result(), '\n')
+                  )
+                end
               end,
-              settings = {
-                ['rust-analyzer'] = {
-                  allFeatures = true,
-                  checkOnSave = {
-                    command = 'clippy',
-                  },
+            })
+            :start()
+        end)
+
+        f:catch(
+          function(err)
+            vim.notify(err, vim.log.levels.ERROR, {
+              title = 'Rust',
+            })
+          end
+        )
+
+        return f
+      end
+
+      installer = Future.join({ set_sysroot_path(), i.codelldb })
+    else
+      installer = Future.join({ i['rust-analyzer'], i.codelldb })
+    end
+
+    installer = installer:and_then(function(res)
+      if res[1][1] then
+        local ok1, res1 = pcall(util.packer_load, 'rust-tools.nvim')
+
+        if not ok1 then print(res1) end
+
+        require('rust-tools').setup({
+          tools = {
+            inlay_hints = {
+              auto = true,
+            },
+          },
+          server = {
+            on_attach = function(_, bufnr)
+              vim.keymap.set(
+                'n',
+                '<leader>ca',
+                '<cmd>RustCodeAction<CR>',
+                { buffer = bufnr, silent = true }
+              )
+
+              vim.keymap.set(
+                'n',
+                'K',
+                '<cmd>RustHoverAction<CR>',
+                { buffer = bufnr, silent = true }
+              )
+            end,
+            settings = {
+              ['rust-analyzer'] = {
+                allFeatures = true,
+                checkOnSave = {
+                  command = 'clippy',
                 },
               },
             },
-            dap = { adapter = res[2][1] and get_adapter(res[2][2]) or nil },
-          })
+          },
+          dap = { adapter = res[2][1] and get_adapter(res[2][2]) or nil },
+        })
 
-          return Future.resolved(nil)
-        else
-          return Future.rejected(res[1][2])
-        end
-      end)
+        return Future.resolved(nil)
+      else
+        return Future.rejected(res[1][2])
+      end
+    end)
   end
 
   return installer
