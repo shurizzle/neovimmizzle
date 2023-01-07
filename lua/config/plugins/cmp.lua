@@ -159,7 +159,7 @@ function _M.config()
 
     if not root then return false end
 
-    root = string.gsub(root, _G.directory_separator .. '+$', '')
+    root = string.gsub(root, require('config.path').dir_sep .. '+$', '')
 
     return vim.startswith(req_cwd, root)
   end
