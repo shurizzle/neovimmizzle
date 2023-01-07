@@ -61,7 +61,11 @@ if vim.env.TERM == 'xterm-kitty' then vim.cmd([[set t_Co=256]]) end
 vim.opt.shortmess:append('c')
 vim.opt.fillchars:append('eob: ')
 
-if has('unix') and executable('lemonade') and is_ssh() then
+if
+  has('unix')
+  and executable('lemonade')
+  and require('config.platform').is.ssh
+then
   vim.g.clipboard = {
     name = 'lemonade',
     copy = {

@@ -1,7 +1,8 @@
 local status_ok, packer = pcall(require, 'packer')
 if not status_ok then return end
 
-local compiled = join_paths(vim.fn.stdpath('data'), 'packer_compiled.lua')
+local compiled =
+  require('config.path').join(vim.fn.stdpath('data'), 'packer_compiled.lua')
 
 local after_load = nil
 local loaded = false

@@ -163,7 +163,8 @@ function _M.config()
     group = group,
   })
 
-  local dir_handle = vim.loop.fs_scandir(join_paths(base_dir, '_'))
+  local dir_handle =
+    vim.loop.fs_scandir(require('config.path').join(base_dir, '_'))
   while true do
     local item, _ = vim.loop.fs_scandir_next(dir_handle)
     if not item then break end

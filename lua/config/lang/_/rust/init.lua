@@ -14,9 +14,10 @@ local function get_adapter(package)
   end
 
   local path = package:get_install_path()
+  local p = require('config.path')
 
-  exe = join_paths(path, 'extension', 'adapter', 'codelldb' .. exe)
-  lib = join_paths(path, 'extension', 'lldb', 'lib', 'liblldb' .. lib)
+  exe = p.join(path, 'extension', 'adapter', 'codelldb' .. exe)
+  lib = p.join(path, 'extension', 'lldb', 'lib', 'liblldb' .. lib)
 
   return require('rust-tools.dap').get_codelldb_adapter(exe, lib)
 end

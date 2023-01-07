@@ -1,5 +1,7 @@
 local _M = {}
 
+local path = require 'config.path'
+
 local resources = {
   foreground = '#eeeeee',
   background = '#282828',
@@ -84,7 +86,7 @@ local function write_file(file, content)
 end
 
 local function get_colo_file()
-  return join_paths(vim.fn.stdpath 'config', 'colors', 'bluesky.vim')
+  return path.join(vim.fn.stdpath 'config', 'colors', 'bluesky.vim')
 end
 
 local function get_palette()
@@ -99,7 +101,7 @@ local function generate_palette()
   local palette = 'return ' .. vim.inspect(get_palette())
   local init_path = debug.getinfo(1, 'S').source:sub(2)
   local base_dir = init_path:match('(.*[/\\])'):sub(1, -2)
-  local ok, err = write_file(join_paths(base_dir, 'palette.lua'), palette)
+  local ok, err = write_file(path.join(base_dir, 'palette.lua'), palette)
   if not ok then error(err) end
 end
 

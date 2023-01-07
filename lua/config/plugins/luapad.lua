@@ -33,6 +33,8 @@ function _M.setup()
 end
 
 function _M.config()
+  local path = require('config.path')
+
   require('luapad').setup({
     on_init = function()
       local file = vim.api.nvim_buf_get_name(0)
@@ -42,8 +44,8 @@ function _M.config()
       local dir = vim.fn.fnamemodify(file, ':h')
 
       vim.loop.fs_copyfile(
-        join_paths(base_dir(), '.luarc.json'),
-        join_paths(dir, '.luarc.json'),
+        path.join(require('config.path').init_dir, '.luarc.json'),
+        path.join(dir, '.luarc.json'),
         {
           ficlone = true,
           ficlone_force = true,
