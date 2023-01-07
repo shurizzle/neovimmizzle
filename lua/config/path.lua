@@ -21,6 +21,34 @@ path.init_dir = path.real(
   )
 )
 
+function path.dirs()
+  return vim.tbl_map(
+    function(x) return x:gsub(vim.pesc(path.dir_sep) .. '+$', '') end,
+    vim.split(vim.env.PATH, vim.pesc(path.sep), { trimempty = true })
+  )
+end
+
+local function set_path(paths) vim.env.PATH = table.concat(paths, path.sep) end
+
+function path.prepend(dir)
+  local dirs = vim.tbl_filter(function(e) return e ~= dir end, path.dirs())
+  table.insert(dirs, 1, dir)
+  set_path(dirs)
+end
+
+function path.append(dir)
+  local dirs = vim.tbl_filter(function(e) return e ~= dir end, path.dirs())
+  table.insert(dirs, dir)
+  set_path(dirs)
+end
+
+function path.which(bin)
+  for _, dir in ipairs(path.dirs()) do
+    local p = path.join(dir, bin)
+    if executable(p) then return p end
+  end
+end
+
 return setmetatable({}, {
   __index = function(_, key) return path[key] end,
 })

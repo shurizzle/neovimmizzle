@@ -1,6 +1,8 @@
 local _M = {}
 
 local installer = nil
+local platform = require('config.platform')
+local path = require('config.path')
 
 local function get_adapter(package)
   local exe = ''
@@ -13,11 +15,10 @@ local function get_adapter(package)
     lib = '.dylib'
   end
 
-  local path = package:get_install_path()
-  local p = require('config.path')
+  local p = package:get_install_path()
 
-  exe = p.join(path, 'extension', 'adapter', 'codelldb' .. exe)
-  lib = p.join(path, 'extension', 'lldb', 'lib', 'liblldb' .. lib)
+  exe = path.join(p, 'extension', 'adapter', 'codelldb' .. exe)
+  lib = path.join(p, 'extension', 'lldb', 'lib', 'liblldb' .. lib)
 
   return require('rust-tools.dap').get_codelldb_adapter(exe, lib)
 end
@@ -27,37 +28,31 @@ function _M.config()
     local i = require('config.lang.installer')
     local Future = require('config.future')
     local util = require('config.lang.util')
-    local os = vim.loop.os_uname().sysname
 
-    if os:match('Windows') then
+    if platform.is.win then
       local function set_sysroot_path()
         local Job = require('plenary.job')
 
         local f = Future.new(function(resolve, reject)
-          Job
-            :new({
-              command = 'rustc',
-              args = { '--print', 'sysroot' },
-              on_exit = function(job, return_val)
-                if return_val == 0 then
-                  vim.schedule(function()
-                    vim.fn.setenv(
-                      'PATH',
-                      vim.fn.getenv('PATH') .. ';' .. job:result()[1] .. '/bin'
-                    )
-                    resolve(nil)
-                  end)
-                else
-                  reject(
-                    'Command exited with error '
-                      .. return_val
-                      .. ':\n'
-                      .. table.concat(job:stderr_result(), '\n')
-                  )
-                end
-              end,
-            })
-            :start()
+          Job:new({
+            command = 'rustc',
+            args = { '--print', 'sysroot' },
+            on_exit = function(job, return_val)
+              if return_val == 0 then
+                vim.schedule(function()
+                  path.append(path.join(job:result()[1], 'bin'))
+                  resolve(nil)
+                end)
+              else
+                reject(
+                  'Command exited with error '
+                    .. return_val
+                    .. ':\n'
+                    .. table.concat(job:stderr_result(), '\n')
+                )
+              end
+            end,
+          }):start()
         end)
 
         f:catch(
