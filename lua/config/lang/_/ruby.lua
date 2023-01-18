@@ -1,5 +1,8 @@
 local _M = {}
 
-function _M.config() return require('config.lang.lsp').ruby_ls end
+function _M.config()
+  local lsp = require('config.lang.lsp')
+  return require('config.future').join({ lsp.ruby_ls, lsp.sorbet })
+end
 
 return _M
