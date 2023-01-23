@@ -1,5 +1,15 @@
 local _M = {}
 
-function _M.config() return require('config.lang.lsp').gopls end
+function _M.config()
+  local Future = require('config.future')
+
+  return Future.join({
+    require('config.lang.linters').staticcheck,
+    require('config.lang.lsp').gopls,
+  }):and_then(function(res)
+    if not res[1][1] then return Future.rejected(res[1][2]) end
+    if not res[2][1] then return Future.rejected(res[2][2]) end
+  end)
+end
 
 return _M
