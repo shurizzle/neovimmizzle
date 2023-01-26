@@ -185,4 +185,5 @@ return {
   { 'folke/neodev.nvim', mod = 'neodev', opt = true },
   { 'rafcamlet/nvim-luapad', mod = 'luapad' },
   { 'j-hui/fidget.nvim', mod = 'fidget' },
+  { 'lvimuser/lsp-inlayhints.nvim', mod = 'inlayhints' },
 }
