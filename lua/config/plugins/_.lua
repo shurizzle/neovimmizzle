@@ -50,17 +50,8 @@ return {
     },
     opt = true,
   },
-  {
-    'jose-elias-alvarez/typescript.nvim',
-    opt = true,
-  },
-  {
-    'ray-x/lsp_signature.nvim',
-    module_pattern = {
-      '^lsp_signature$',
-      '^lsp_signature%.',
-    },
-  },
+  { 'jose-elias-alvarez/typescript.nvim', opt = true },
+  { 'ray-x/lsp_signature.nvim', mod = 'signature' },
   { 'jose-elias-alvarez/null-ls.nvim', mod = 'lsp.null' },
   {
     'neovim/nvim-lspconfig',
