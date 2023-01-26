@@ -15,7 +15,6 @@ function _M.config()
         floating_window = true,
         transparency = 10,
       }, bufnr)
-      require('lsp-inlayhints').on_attach(client, bufnr)
     end
 
     if cfg.on_attach then
