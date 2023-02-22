@@ -165,12 +165,14 @@ function _M.config()
 
   local dir_handle =
     vim.loop.fs_scandir(require('config.path').join(base_dir, '_'))
-  while true do
-    local item, _ = vim.loop.fs_scandir_next(dir_handle)
-    if not item then break end
+  if dir_handle then
+    while true do
+      local item, _ = vim.loop.fs_scandir_next(dir_handle)
+      if not item then break end
 
-    item = item:match('(.+)%.lua')
-    if item then config(item) end
+      item = item:match('(.+)%.lua')
+      if item then config(item) end
+    end
   end
 end
 
