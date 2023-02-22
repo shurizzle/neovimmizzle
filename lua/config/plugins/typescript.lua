@@ -1,5 +1,7 @@
 local _M = {}
 
+_M.opt = true
+
 function _M.config()
   require('typescript').setup({
     on_attach = function(client, _)

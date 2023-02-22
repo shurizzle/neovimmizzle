@@ -50,7 +50,7 @@ return {
     },
     opt = true,
   },
-  { 'jose-elias-alvarez/typescript.nvim', opt = true },
+  { 'jose-elias-alvarez/typescript.nvim', mod = 'typescript' },
   { 'ray-x/lsp_signature.nvim', mod = 'signature' },
   { 'jose-elias-alvarez/null-ls.nvim', mod = 'lsp.null' },
   {
