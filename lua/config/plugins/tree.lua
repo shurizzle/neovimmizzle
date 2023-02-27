@@ -14,78 +14,110 @@ _M.cmd = {
 
 _M.keys = { { 'n', '<space>e' } }
 
-local function arrow(where)
-  return string.format(':lua require\'config.plugins.tree\'.on_%s()<CR>', where)
-end
-
-function _M.on_left()
-  local lib = require('nvim-tree.lib')
-  local node = lib.get_node_at_cursor()
-
-  if not node then return end
-
-  if node.nodes ~= nil and node.open then lib.expand_or_collapse(node) end
-end
-
-function _M.on_right()
-  local lib = require('nvim-tree.lib')
-  local node = lib.get_node_at_cursor()
-
-  if not node then return end
-
-  if node.name == '..' then
-    return require('nvim-tree.actions.root.change-dir').fn('..')
-  end
-
-  if node.nodes ~= nil then
-    if not node.open then lib.expand_or_collapse(node) end
-  else
-    local path = node.link_to and not node.entries and node.link_to
-      or node.absolute_path
-
-    require('nvim-tree.actions.node.open-file').fn('edit', path)
-  end
-end
-
 function _M.config()
-  local list = {
-    { key = { '<2-LeftMouse>' }, action = 'edit' },
-    { key = { '<2-RightMouse>', '<CR>' }, action = 'cd' },
-    { key = 's', action = 'split' },
-    { key = 'v', action = 'vsplit' },
-    { key = 'l', cb = arrow('right') },
-    { key = 'h', cb = arrow('left') },
-    { key = '<BS>', action = 'close_node' },
-    { key = 't', action = 'tabnew' },
-    { key = '<', action = 'prev_sibling' },
-    { key = '>', action = 'next_sibling' },
-    { key = 'P', action = 'parent_node' },
-    { key = '<Tab>', action = 'preview' },
-    { key = 'K', action = 'first_sibling' },
-    { key = 'J', action = 'last_sibling' },
-    { key = 'I', action = 'toggle_ignored' },
-    { key = '.', action = 'toggle_dotfiles' },
-    { key = 'R', action = 'refresh' },
-    { key = 'a', action = 'create' },
-    { key = 'd', action = 'remove' },
-    { key = 'D', action = 'trash' },
-    { key = 'r', action = 'rename' },
-    { key = '<C-r>', action = 'full_rename' },
-    { key = 'x', cb = 'cut' },
-    { key = 'c', cb = 'copy' },
-    { key = 'p', cb = 'paste' },
-    { key = 'y', cb = 'copy_name' },
-    { key = 'Y', cb = 'copy_path' },
-    { key = 'gy', action = 'copy_absolute_path' },
-    { key = '-', action = 'dir_up' },
-    { key = 'o', action = 'system_open' },
-    { key = 'q', action = 'close' },
-    { key = 'g?', action = 'toggle_help' },
-    { key = 'f', action = 'live_filter' },
-    { key = 'F', action = 'clear_live_filter' },
-  }
-
+  local api = require('nvim-tree.api')
+  local lib = require('nvim-tree.lib')
   local tree = require('nvim-tree')
+
+  local function on_attach(bufnr)
+    ---@param mapping string
+    ---@param action function
+    ---@param desc string|nil
+    local function keymap(mapping, action, desc)
+      local opts = {
+        buffer = bufnr,
+        noremap = true,
+        silent = true,
+        nowait = true,
+      }
+      if desc then opts.desc = 'nvim-tree: ' .. desc end
+
+      vim.keymap.set('n', mapping, action, opts)
+    end
+
+    local function inject_node(f)
+      return function(node, ...)
+        node = node or lib.get_node_at_cursor()
+        f(node, ...)
+      end
+    end
+
+    local function edit(mode, node)
+      local path = node.absolute_path
+      if node.link_to and not node.nodes then path = node.link_to end
+      require('nvim-tree.actions.node.open-file').fn(mode, path)
+    end
+
+    local function expand(node)
+      if node and not node.open then lib.expand_or_collapse(node) end
+    end
+
+    local function open_or_expand_or_dir_up(node)
+      if node.name == '..' then
+        require('nvim-tree.actions.root.change-dir').fn('..')
+      elseif node.nodes ~= nil then
+        expand(node)
+      else
+        edit('edit', node)
+      end
+    end
+
+    local function collapse(node)
+      if node and node.nodes ~= nil and node.open then
+        lib.expand_or_collapse(node)
+      end
+    end
+
+    local function cr(node)
+      if node.name == '..' then
+        require('nvim-tree.actions.root.change-dir').fn('..')
+      else
+        if node.nodes ~= nil then
+          require('nvim-tree.actions.root.change-dir').fn(
+            require('nvim-tree.lib').get_last_group_node(node).absolute_path
+          )
+        else
+          edit('edit', node)
+        end
+      end
+    end
+
+    keymap('<2-LeftMouse>', api.node.open.edit, 'Open')
+    keymap('<2-RightMouse>', api.tree.change_root_to_node, 'CD')
+    keymap('<BS>', api.node.navigate.parent_close, 'Close Directory')
+    keymap('<CR>', inject_node(cr), 'Open')
+    keymap('<Tab>', api.node.open.preview, 'Open Preview')
+    keymap('l', inject_node(open_or_expand_or_dir_up), 'Open')
+    keymap('h', inject_node(collapse), 'Collapse')
+    keymap('s', api.node.open.horizontal, 'Open: Horizontal Split')
+    keymap('v', api.node.open.vertical, 'Open: Vertical Split')
+    keymap('r', api.fs.rename, 'Rename')
+    keymap('<C-r>', api.fs.rename_sub, 'Rename Full Path')
+    keymap('R', api.tree.reload, 'Refresh')
+    keymap('I', api.tree.toggle_gitignore_filter, 'Toggle Git Ignore')
+    keymap('.', api.tree.toggle_hidden_filter, 'Toggle Dotfiles')
+    keymap('-', api.tree.change_root_to_parent, 'Up')
+    keymap('a', api.fs.create, 'Create')
+    keymap('d', api.fs.remove, 'Delete')
+    keymap('D', api.fs.trash, 'Trash')
+    keymap('f', api.live_filter.start, 'Filter')
+    keymap('F', api.live_filter.clear, 'Filter Clear')
+    keymap('g?', api.tree.toggle_help, 'Help')
+    keymap('q', api.tree.close, 'Close')
+    keymap('x', api.fs.cut, 'Cut')
+    keymap('c', api.fs.copy.node, 'Copy')
+    keymap('p', api.fs.paste, 'Paste')
+    keymap('y', api.fs.copy.filename, 'Copy Name')
+    keymap('Y', api.fs.copy.relative_path, 'Copy Relative Path')
+    keymap('gy', api.fs.copy.absolute_path, 'Copy Absolute Path')
+    keymap('o', api.node.run.system, 'System Open')
+    keymap('<', api.node.navigate.sibling.prev, 'Previous Sibling')
+    keymap('>', api.node.navigate.sibling.next, 'Next Sibling')
+    keymap('P', api.node.navigate.parent, 'Parent Directory')
+    keymap('K', api.node.navigate.sibling.first, 'First Sibling')
+    keymap('J', api.node.navigate.sibling.last, 'Last Sibling')
+    keymap('t', api.node.open.tab, 'Open: New Tab')
+  end
 
   tree.setup({
     respect_buf_cwd = true,
@@ -114,12 +146,9 @@ function _M.config()
       custom = { 'node_modules', 'dist', 'target', 'vendor' },
     },
     view = {
-      mappings = {
-        custom_only = true,
-        list = list,
-      },
       signcolumn = 'yes',
     },
+    on_attach = on_attach,
     renderer = {
       indent_markers = { enable = true },
       highlight_git = true,
