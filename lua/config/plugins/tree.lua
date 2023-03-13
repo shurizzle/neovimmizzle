@@ -181,7 +181,7 @@ function _M.config()
 
   local function raw_open()
     local bufnr = vim.api.nvim_get_current_buf()
-    if not is_open() then tree.open() end
+    if not is_open() then api.tree.open() end
     find_file(bufnr)
   end
 
