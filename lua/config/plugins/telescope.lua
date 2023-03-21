@@ -8,6 +8,16 @@ _M.keys = {
   { mode = 'n', '<leader>fs' },
 }
 
+_M.dependencies = {
+  'rcarriga/nvim-notify',
+  'ahmedkhalf/project.nvim',
+  {
+    'nvim-telescope/telescope-fzf-native.nvim',
+    build = 'make',
+  },
+  'nvim-telescope/telescope-ui-select.nvim',
+}
+
 _M.cmd = 'Telescope'
 
 function _M.config()

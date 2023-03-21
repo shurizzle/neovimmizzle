@@ -1,6 +1,8 @@
 local _M = {}
 
-_M.lazy = false
+_M.lazy = true
+
+_M.event = 'VeryLazy'
 
 function _M.config()
   require('indent_blankline').setup({
@@ -16,6 +18,7 @@ function _M.config()
       'rfc',
       'DressingInput',
       'mason',
+      'lazy',
     },
     buftype_exclude = {
       'terminal',

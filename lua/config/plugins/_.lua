@@ -1,7 +1,7 @@
 local devicons = 'kyazdani42/nvim-web-devicons'
 
 return {
-  { 'nvim-lua/plenary.nvim' },
+  { 'nvim-lua/plenary.nvim', lazy = true },
   { 'goolord/alpha-nvim', mod = 'alpha' },
   { devicons, mod = 'devicons' },
   { 'folke/which-key.nvim', mod = 'which-key' },
@@ -96,15 +96,6 @@ return {
   {
     'nvim-telescope/telescope.nvim',
     mod = 'telescope',
-    dependencies = {
-      'rcarriga/nvim-notify',
-      'ahmedkhalf/project.nvim',
-      {
-        'nvim-telescope/telescope-fzf-native.nvim',
-        build = 'make',
-      },
-      'nvim-telescope/telescope-ui-select.nvim',
-    },
   },
   {
     'nvim-lualine/lualine.nvim',

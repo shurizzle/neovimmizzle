@@ -1,6 +1,6 @@
 local _M = {}
 
-_M.lazy = false
+_M.lazy = true
 
 _M.dependencies = { 'rafamadriz/friendly-snippets' }
 

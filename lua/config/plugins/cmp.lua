@@ -1,6 +1,10 @@
 local _M = {}
 _M.methods = {}
 
+_M.lazy = true
+
+_M.event = 'InsertEnter'
+
 ---checks if the character preceding the cursor is a space character
 ---@return boolean true if it is a space character, false otherwise
 local check_backspace = function()
