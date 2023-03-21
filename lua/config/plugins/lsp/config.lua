@@ -1,10 +1,5 @@
 local _M = {}
 
-_M.module_pattern = {
-  '^lspconfig$',
-  '^lspconfig%.',
-}
-
 function _M.config()
   local lsputil = require('lspconfig.util')
 
@@ -17,12 +12,6 @@ function _M.config()
         cfg.capabilities or {}
       )
     end
-  )
-
-  require('packer.load')(
-    { 'nlsp-settings.nvim' },
-    { module = 'nvim-lspconfig' },
-    packer_plugins
   )
 end
 

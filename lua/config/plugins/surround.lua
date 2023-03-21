@@ -1,14 +1,14 @@
 local _M = {}
 
 _M.keys = {
-  { 'n', 'ys' },
-  { 'n', 'yss' },
-  { 'n', 'yS' },
-  { 'n', 'ySS' },
-  { 'x', 'S' },
-  { 'x', 'gS' },
-  { 'n', 'ds' },
-  { 'n', 'cs' },
+  { mode = 'n', 'ys' },
+  { mode = 'n', 'yss' },
+  { mode = 'n', 'yS' },
+  { mode = 'n', 'ySS' },
+  { mode = 'x', 'S' },
+  { mode = 'x', 'gS' },
+  { mode = 'n', 'ds' },
+  { mode = 'n', 'cs' },
 }
 
 function _M.config()

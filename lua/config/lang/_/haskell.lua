@@ -16,9 +16,6 @@ _M.filetypes = {
 
 function _M.config()
   return Future.pcall(function()
-    local ok1, res1 = pcall(util.packer_load, 'haskell-tools.nvim')
-
-    if not ok1 then print(res1) end
     require('haskell-tools').setup({
       hls = {
         filetypes = {

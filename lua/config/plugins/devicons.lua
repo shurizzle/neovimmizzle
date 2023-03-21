@@ -1,6 +1,6 @@
 local _M = {}
 
-_M.module = 'nvim-web-devicons'
+_M.lazy = false
 
 function _M.config() require('nvim-web-devicons').setup({}) end
 

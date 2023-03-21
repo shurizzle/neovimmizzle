@@ -1,5 +1,7 @@
 local _M = {}
 
+_M.lazy = false
+
 function _M.config()
   local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
   parser_config.prolog = {

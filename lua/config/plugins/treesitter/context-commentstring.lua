@@ -1,9 +1,6 @@
 local _M = {}
 
-_M.module_pattern = {
-  '^ts_context_commentstring$',
-  '^ts_context_commentstring%.',
-}
+_M.lazy = true
 
 function _M.config()
   require('nvim-treesitter.configs').setup({

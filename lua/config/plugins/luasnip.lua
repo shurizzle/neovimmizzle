@@ -1,6 +1,8 @@
 local _M = {}
 
-_M.requires = { 'rafamadriz/friendly-snippets' }
+_M.lazy = false
+
+_M.dependencies = { 'rafamadriz/friendly-snippets' }
 
 function _M.config()
   local luasnip = require('luasnip')

@@ -1,5 +1,7 @@
 local _M = {}
 
+_M.lazy = true
+
 _M.ft = 'markdown'
 
 function _M.setup()

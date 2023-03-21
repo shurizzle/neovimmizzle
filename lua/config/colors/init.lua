@@ -106,10 +106,6 @@ local function generate_palette()
 end
 
 local function sync()
-  if not packer_plugins['lush'] or not packer_plugins['lush'].loaded then
-    require('packer').loader 'lush'
-  end
-
   local theme = get_theme()
   local ok, err = write_file(get_colo_file(), theme)
   if not ok then error(err) end

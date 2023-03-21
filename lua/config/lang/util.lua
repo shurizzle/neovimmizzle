@@ -2,12 +2,6 @@ local _M = {}
 
 local Future = require('config.future')
 
-function _M.packer_load(what)
-  if not packer_plugins[what] or not packer_plugins[what].loaded then
-    require('packer').loader(what)
-  end
-end
-
 local function default_timeout()
   local ok, res = pcall(
     function() return require('notify')._config().default_timeout() end

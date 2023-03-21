@@ -73,10 +73,6 @@ function _M.config()
 
     installer = installer:and_then(function(res)
       if res[1][1] then
-        local ok1, res1 = pcall(util.packer_load, 'rust-tools.nvim')
-
-        if not ok1 then print(res1) end
-
         require('rust-tools').setup({
           tools = {
             inlay_hints = {

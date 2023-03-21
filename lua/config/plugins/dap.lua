@@ -1,16 +1,13 @@
 local _M = {}
 
-_M.module_pattern = {
-  '^dap$',
-  '^dap%.',
-}
+_M.lazy = true
 
 _M.keys = {
-  { 'n', '<leader>db' },
-  { 'n', '<leader>dp' },
-  { 'n', '<leader>di' },
-  { 'n', '<leader>do' },
-  { 'n', '<leader>dd' },
+  { mode = 'n', '<leader>db' },
+  { mode = 'n', '<leader>dp' },
+  { mode = 'n', '<leader>di' },
+  { mode = 'n', '<leader>do' },
+  { mode = 'n', '<leader>dd' },
 }
 
 function _M.config()

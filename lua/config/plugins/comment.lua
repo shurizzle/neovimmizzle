@@ -1,6 +1,6 @@
 local _M = {}
 
-_M.keys = { { 'n', '<leader>c/' }, { 'x', '<leader>c/' } }
+_M.keys = { { mode = 'n', '<leader>c/' }, { mode = 'x', '<leader>c/' } }
 
 function _M.config()
   require('Comment').setup({

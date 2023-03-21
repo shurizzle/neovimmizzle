@@ -1,6 +1,6 @@
 return require('config.lang.installer')['lua-language-server']:and_then(
   function()
-    require('config.lang.util').packer_load('neodev.nvim')
+    require('lazy.core.loader').load('neodev.nvim', {})
 
     require('lspconfig').lua_ls.setup({
       on_attach = function(client, _)

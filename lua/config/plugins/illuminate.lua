@@ -1,10 +1,5 @@
 local _M = {}
 
-_M.module_pattern = {
-  '^illuminate$',
-  '^illuminate%.',
-}
-
 _M.cmd = {
   'IlluminatePause',
   'IlluminateResume',

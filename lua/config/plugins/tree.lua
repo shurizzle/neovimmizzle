@@ -1,10 +1,5 @@
 local _M = {}
 
-_M.module_pattern = {
-  '^nvim%-tree$',
-  '^nvim%-tree%.',
-}
-
 _M.cmd = {
   'NvimTreeToggle',
   'NvimTreeFocus',
@@ -12,7 +7,7 @@ _M.cmd = {
   'NvimTreeCollapse',
 }
 
-_M.keys = { { 'n', '<space>e' } }
+_M.keys = { { mode = 'n', '<space>e' } }
 
 function _M.config()
   local api = require('nvim-tree.api')

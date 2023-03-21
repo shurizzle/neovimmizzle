@@ -1,11 +1,6 @@
 local _M = {}
 
-_M.module_pattern = {
-  '^lsp%-inlayhints$',
-  '^lsp%-inlayhints%.',
-}
-
-_M.opt = true
+_M.lazy = true
 
 function _M.setup()
   vim.api.nvim_create_autocmd('LspAttach', {

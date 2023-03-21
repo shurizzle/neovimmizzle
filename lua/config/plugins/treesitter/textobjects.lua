@@ -1,5 +1,7 @@
 local _M = {}
 
+_M.dependencies = 'nvim-treesitter/nvim-treesitter'
+
 function _M.config()
   require('nvim-treesitter.configs').setup({
     textobjects = {

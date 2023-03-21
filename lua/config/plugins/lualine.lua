@@ -1,5 +1,7 @@
 local _M = {}
 
+_M.lazy = false
+
 local function fixed_extension(text, filetypes)
   if type(filetypes) == 'string' then filetypes = { filetypes } end
 

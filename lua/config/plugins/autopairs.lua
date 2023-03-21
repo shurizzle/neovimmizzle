@@ -1,5 +1,7 @@
 local _M = {}
 
+_M.lazy = false
+
 function _M.config()
   local npairs = require('nvim-autopairs')
   local Rule = require('nvim-autopairs.rule')

@@ -1,15 +1,12 @@
 local _M = {}
 
+_M.dependencies = 'nvim-treesitter/nvim-treesitter'
+
 _M.ft = 'org'
 
 _M.keys = {
-  { 'n', '<leader>oa' },
-  { 'n', '<leader>oc' },
-}
-
-_M.module_pattern = {
-  '^orgmode$',
-  '^orgmode%.',
+  { mode = 'n', '<leader>oa' },
+  { mode = 'n', '<leader>oc' },
 }
 
 function _M.config()

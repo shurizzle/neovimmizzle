@@ -1,5 +1,7 @@
 local _M = {}
 
+_M.lazy = false
+
 function _M.config()
   require('dressing').setup({
     input = {

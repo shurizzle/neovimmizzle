@@ -1,5 +1,7 @@
 local _M = {}
 
+_M.lazy = true
+
 _M.cmd = 'PP'
 
 function _M.config()

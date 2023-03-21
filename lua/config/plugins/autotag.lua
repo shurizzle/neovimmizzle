@@ -1,5 +1,7 @@
 local _M = {}
 
+_M.dependencies = 'nvim-treesitter/nvim-treesitter'
+
 _M.ft = {
   'html',
   'javascript',

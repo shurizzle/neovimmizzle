@@ -1,7 +1,7 @@
 local devicons = 'kyazdani42/nvim-web-devicons'
 
 return {
-  { 'nvim-lua/plenary.nvim', module = { 'plenary', 'luassert', 'say' } },
+  { 'nvim-lua/plenary.nvim' },
   { 'goolord/alpha-nvim', mod = 'alpha' },
   { devicons, mod = 'devicons' },
   { 'folke/which-key.nvim', mod = 'which-key' },
@@ -14,41 +14,36 @@ return {
   {
     'nvim-treesitter/nvim-treesitter-textobjects',
     mod = 'treesitter.textobjects',
-    after = 'nvim-treesitter',
-    requires = 'nvim-treesitter/nvim-treesitter',
   },
   {
     'nvim-orgmode/orgmode',
     mod = 'org',
-    requires = 'nvim-treesitter/nvim-treesitter',
   },
   {
     'windwp/nvim-ts-autotag',
     mod = 'autotag',
-    requires = 'nvim-treesitter/nvim-treesitter',
   },
   { 'RRethy/vim-illuminate', mod = 'illuminate' },
   {
     'tamago324/nlsp-settings.nvim',
     mod = 'nlsp-settings',
-    opt = true,
   },
   {
     'simrat39/rust-tools.nvim',
-    requires = {
+    lazy = true,
+    dependencies = {
       'nvim-lua/plenary.nvim',
       'mfussenegger/nvim-dap',
     },
-    opt = true,
   },
   {
     'MrcJkb/haskell-tools.nvim',
-    requires = {
+    lazy = true,
+    dependencies = {
       'neovim/nvim-lspconfig',
       'nvim-lua/plenary.nvim',
       'nvim-telescope/telescope.nvim',
     },
-    opt = true,
   },
   { 'jose-elias-alvarez/typescript.nvim', mod = 'typescript' },
   { 'ray-x/lsp_signature.nvim', mod = 'signature' },
@@ -56,7 +51,7 @@ return {
   {
     'neovim/nvim-lspconfig',
     mod = 'lsp.config',
-    requires = {
+    dependencies = {
       'tamago324/nlsp-settings.nvim',
       'ray-x/lsp_signature.nvim',
       'jose-elias-alvarez/null-ls.nvim',
@@ -66,7 +61,7 @@ return {
   {
     'nvim-treesitter/playground',
     cmd = { 'TSPlaygroundToggle', 'TSHighlightCapturesUnderCursor' },
-    requires = { 'nvim-treesitter/nvim-treesitter' },
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
   },
   {
     'L3MON4D3/LuaSnip',
@@ -76,12 +71,15 @@ return {
     'saecki/crates.nvim',
     mod = 'crates',
     tag = 'v0.3.0',
-    requires = { 'nvim-lua/plenary.nvim', 'jose-elias-alvarez/null-ls.nvim' },
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'jose-elias-alvarez/null-ls.nvim',
+    },
   },
   {
     'hrsh7th/nvim-cmp',
     mod = 'cmp',
-    requires = {
+    dependencies = {
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
@@ -89,26 +87,23 @@ return {
       'hrsh7th/cmp-emoji',
       'nvim-treesitter/nvim-treesitter',
       'ray-x/cmp-treesitter',
-      'saecki/crates.nvim',
       'lukas-reineke/cmp-rg',
       'saadparwaiz1/cmp_luasnip',
       'L3MON4D3/LuaSnip',
       'ahmedkhalf/project.nvim',
-      'nvim-orgmode/orgmode',
     },
   },
   {
-    'nvim-telescope/telescope-fzf-native.nvim',
-    mod = 'telescope.fzf',
-    opt = true,
-  },
-  { 'nvim-telescope/telescope-ui-select.nvim', opt = true },
-  {
     'nvim-telescope/telescope.nvim',
     mod = 'telescope',
-    requires = {
+    dependencies = {
       'rcarriga/nvim-notify',
       'ahmedkhalf/project.nvim',
+      {
+        'nvim-telescope/telescope-fzf-native.nvim',
+        build = 'make',
+      },
+      'nvim-telescope/telescope-ui-select.nvim',
     },
   },
   {
@@ -119,12 +114,12 @@ return {
   {
     'romgrk/barbar.nvim',
     mod = 'barbar',
-    requires = devicons,
+    dependencies = devicons,
   },
   {
     'kyazdani42/nvim-tree.lua',
     mod = 'tree',
-    requires = devicons,
+    dependencies = devicons,
   },
   { 'norcalli/nvim-colorizer.lua', mod = 'colorizer' },
   {
@@ -134,7 +129,7 @@ return {
   },
   { 'lukas-reineke/indent-blankline.nvim', mod = 'indent-blankline' },
   { 'MarcWeber/vim-addon-local-vimrc' },
-  { 'junegunn/goyo.vim', cmd = { 'Goyo' } },
+  { 'junegunn/goyo.vim', lazy = true, cmd = { 'Goyo' } },
   { 'windwp/nvim-autopairs', mod = 'autopairs' },
   { 'tpope/vim-repeat' },
   {
@@ -154,7 +149,7 @@ return {
     mod = 'markdown',
   },
   { 'rktjmp/paperplanes.nvim', mod = 'paperplanes' },
-  { 'jwalton512/vim-blade', ft = 'blade' },
+  { 'jwalton512/vim-blade', lazy = true, ft = 'blade' },
   { 'mfussenegger/nvim-dap', mod = 'dap' },
   {
     'rcarriga/nvim-dap-ui',
@@ -173,7 +168,7 @@ return {
     opt = true,
   },
   { 'ojroques/nvim-osc52', mod = 'osc52' },
-  { 'folke/neodev.nvim', mod = 'neodev', opt = true },
+  { 'folke/neodev.nvim', mod = 'neodev' },
   { 'rafcamlet/nvim-luapad', mod = 'luapad' },
   { 'j-hui/fidget.nvim', mod = 'fidget' },
   { 'lvimuser/lsp-inlayhints.nvim', mod = 'inlayhints' },
