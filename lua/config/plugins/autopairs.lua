@@ -1,6 +1,8 @@
 local _M = {}
 
-_M.lazy = false
+_M.lazy = true
+
+_M.event = 'InsertEnter'
 
 function _M.config()
   local npairs = require('nvim-autopairs')

@@ -1,5 +1,7 @@
 local _M = {}
 
+_M.lazy = true
+
 _M.keys = { { mode = 'n', '<leader>c/' }, { mode = 'x', '<leader>c/' } }
 
 function _M.config()

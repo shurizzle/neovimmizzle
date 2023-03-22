@@ -100,7 +100,7 @@ return {
   {
     'nvim-lualine/lualine.nvim',
     mod = 'lualine',
-    requires = { devicons },
+    dependencies = { devicons },
   },
   {
     'romgrk/barbar.nvim',
@@ -116,7 +116,7 @@ return {
   {
     'lewis6991/gitsigns.nvim',
     mod = 'gitsigns',
-    requires = { 'nvim-lua/plenary.nvim' },
+    dependencies = { 'nvim-lua/plenary.nvim' },
   },
   { 'lukas-reineke/indent-blankline.nvim', mod = 'indent-blankline' },
   { 'MarcWeber/vim-addon-local-vimrc' },
@@ -130,7 +130,7 @@ return {
   {
     'numToStr/Comment.nvim',
     mod = 'comment',
-    requires = 'JoosepAlviste/nvim-ts-context-commentstring',
+    dependencies = 'JoosepAlviste/nvim-ts-context-commentstring',
   },
   { 'kylechui/nvim-surround', mod = 'surround' },
   { 'ahmedkhalf/project.nvim', mod = 'project' },
@@ -145,18 +145,17 @@ return {
   {
     'rcarriga/nvim-dap-ui',
     mod = 'dapui',
-    requires = { 'mfussenegger/nvim-dap' },
+    dependencies = { 'mfussenegger/nvim-dap' },
   },
   {
     'folke/todo-comments.nvim',
     mod = 'todo-comments',
-    requires = { 'nvim-lua/plenary.nvim' },
+    dependencies = { 'nvim-lua/plenary.nvim' },
   },
   {
     'akinsho/flutter-tools.nvim',
     mod = 'flutter',
-    requires = 'nvim-lua/plenary.nvim',
-    opt = true,
+    dependencies = 'nvim-lua/plenary.nvim',
   },
   { 'ojroques/nvim-osc52', mod = 'osc52' },
   { 'folke/neodev.nvim', mod = 'neodev' },

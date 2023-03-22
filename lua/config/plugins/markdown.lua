@@ -4,7 +4,7 @@ _M.lazy = true
 
 _M.ft = 'markdown'
 
-function _M.setup()
+function _M.init()
   vim.g.nvim_markdown_preview_theme = 'github'
   if (vim.g.started_by_firenvim or 0) ~= 0 then
     vim.g.instant_markdown_autostart = 0

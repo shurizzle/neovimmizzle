@@ -1,6 +1,8 @@
 local _M = {}
 
-_M.lazy = false
+_M.lazy = true
+
+_M.event = 'VeryLazy'
 
 function _M.config() require('colorizer').setup() end
 

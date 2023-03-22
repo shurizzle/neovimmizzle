@@ -2,7 +2,7 @@ local _M = {}
 
 _M.lazy = true
 
-function _M.setup()
+function _M.init()
   vim.api.nvim_create_autocmd('LspAttach', {
     callback = function(opts)
       local client = vim.lsp.get_client_by_id(opts.data.client_id)

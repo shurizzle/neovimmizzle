@@ -1,5 +1,7 @@
 local _M = {}
 
+_M.lazy = true
+
 function _M.config()
   local lsputil = require('lspconfig.util')
 
