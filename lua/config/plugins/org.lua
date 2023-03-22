@@ -9,6 +9,13 @@ _M.keys = {
   { mode = 'n', '<leader>oc' },
 }
 
+function _M.build()
+  require('orgmode').setup_ts_grammar()
+  local ts_update =
+    require('nvim-treesitter.install').update({ with_sync = true })
+  ts_update()
+end
+
 function _M.config()
   local org = require('orgmode')
   org.setup_ts_grammar()

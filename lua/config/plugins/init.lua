@@ -7,16 +7,6 @@ local function _after_load()
   end
 end
 
--- packer.on_complete = vim.schedule_wrap(function()
---   require('config.colors').sync()
---   require('orgmode').setup_ts_grammar()
---   local ts_update =
---     require('nvim-treesitter.install').update({ with_sync = true })
---   ts_update()
---   _after_load()
---   vim.cmd([[doautocmd User PackerComplete]])
--- end)
-
 local function hasupvalues(what)
   if type(what) == 'table' then
     local mt = debug.getmetatable(what)
