@@ -1,6 +1,8 @@
 local _M = {}
 
-function _M.setup()
+_M.lazy = true
+
+function _M.init()
   vim.api.nvim_create_autocmd('LspAttach', {
     callback = function(opts)
       require('lsp_signature').on_attach({

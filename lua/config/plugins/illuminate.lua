@@ -9,7 +9,11 @@ _M.cmd = {
   'IlluminateToggleBuf',
 }
 
-function _M.init()
+_M.lazy = true
+
+_M.event = 'VeryLazy'
+
+function _M.config()
   require('illuminate').configure({
     filetypes_denylist = {
       'NvimTree',

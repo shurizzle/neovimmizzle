@@ -122,7 +122,7 @@ return {
   { 'MarcWeber/vim-addon-local-vimrc' },
   { 'junegunn/goyo.vim', lazy = true, cmd = { 'Goyo' } },
   { 'windwp/nvim-autopairs', mod = 'autopairs' },
-  { 'tpope/vim-repeat' },
+  { 'tpope/vim-repeat', lazy = true, event = 'InsertEnter' },
   {
     'JoosepAlviste/nvim-ts-context-commentstring',
     mod = 'treesitter.context-commentstring',

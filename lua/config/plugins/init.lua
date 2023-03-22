@@ -54,8 +54,8 @@ table.insert(config, {
   cmd = { 'LushRunQuickstart', 'LushRunTutorial', 'Lushify' },
 })
 
-table.insert(config, 1, { 'lewis6991/impatient.nvim' })
-table.insert(config, 1, { 'folke/lazy.nvim' })
+table.insert(config, 1, { 'lewis6991/impatient.nvim', lazy = true })
+table.insert(config, 1, { 'folke/lazy.nvim', lazy = true })
 table.insert(config, 1, {
   'williamboman/mason.nvim',
   lazy = true,
