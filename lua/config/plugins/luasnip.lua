@@ -2,6 +2,8 @@ local _M = {}
 
 _M.lazy = true
 
+_M.build = 'make install_jsregexp'
+
 _M.dependencies = { 'rafamadriz/friendly-snippets' }
 
 function _M.config()
