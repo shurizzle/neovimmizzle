@@ -1,3 +1,5 @@
+local platform = require('config.platform')
+
 local _M = {}
 
 _M.keys = {
@@ -13,7 +15,7 @@ _M.dependencies = {
   'ahmedkhalf/project.nvim',
   {
     'nvim-telescope/telescope-fzf-native.nvim',
-    build = 'make',
+    build = platform.is.bsd and 'gmake' or 'make',
   },
   'nvim-telescope/telescope-ui-select.nvim',
 }
