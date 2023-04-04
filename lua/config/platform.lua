@@ -7,6 +7,8 @@ local os = (function(os)
     return 'macos'
   elseif os:match('FreeBSD') then
     return 'freebsd'
+  elseif os:match('DragonFly') then
+    return 'dragonflybsd'
   else
     return 'unknown'
   end
@@ -47,6 +49,7 @@ local _is = {
   lin = os == 'linux',
   mac = os == 'macos',
   fbsd = os == 'freebsd',
+  dfbsd = os == 'dragonflybsd',
   ssh = ssh_remote ~= nil,
   headless = vim.tbl_isempty(vim.api.nvim_list_uis()),
 }
@@ -54,7 +57,8 @@ _is.windows = _is.win
 _is.linux = _is.lin
 _is.macos = _is.mac
 _is.freebsd = _is.fbsd
-_is.bsd = _is.mac or _is.fbsd
+_is.dragonflybsd = _is.dfbsd
+_is.bsd = _is.mac or _is.fbsd or _is.dfbsd
 
 setmetatable(is, { __index = function(_, key) return _is[key] end })
 
