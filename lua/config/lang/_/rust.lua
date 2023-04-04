@@ -29,7 +29,7 @@ function _M.config()
     local Future = require('config.future')
     local util = require('config.lang.util')
 
-    if platform.is.win or platform.is.fbsd or platform.is.dfbsd then
+    if platform.is.win or platform.is.fbsd or platform.is.dfbsd or platform.is.nbsd then
       local function set_sysroot_path()
         local Job = require('plenary.job')
 
