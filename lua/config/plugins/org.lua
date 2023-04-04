@@ -10,9 +10,11 @@ _M.keys = {
 }
 
 function _M.build()
+  local platform = require('config.platform')
   require('orgmode').setup_ts_grammar()
-  local ts_update =
-    require('nvim-treesitter.install').update({ with_sync = true })
+  local ts_update = require('nvim-treesitter.install').update({
+    with_sync = platform.is.headless,
+  })
   ts_update()
 end
 

@@ -3,8 +3,10 @@ local _M = {}
 _M.lazy = false
 
 function _M.buid()
-  local ts_update =
-    require('nvim-treesitter.install').update({ with_sync = true })
+  local platform = require('config.platform')
+  local ts_update = require('nvim-treesitter.install').update({
+    with_sync = platform.is.headless,
+  })
   ts_update()
 end
 
