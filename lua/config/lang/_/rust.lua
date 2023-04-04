@@ -29,7 +29,7 @@ function _M.config()
     local Future = require('config.future')
     local util = require('config.lang.util')
 
-    if platform.is.win or platform.is.fbsd then
+    if platform.is.win or platform.is.fbsd or platform.is.dfbsd then
       local function set_sysroot_path()
         local Job = require('plenary.job')
 
@@ -69,7 +69,7 @@ function _M.config()
       if platform.is.win then
         installer = Future.join({ set_sysroot_path(), i.codelldb })
       else
-        installer =Future.join({ set_sysroot_path() }) 
+        installer = Future.join({ set_sysroot_path() })
       end
     else
       installer = Future.join({ i['rust-analyzer'], i.codelldb })
@@ -108,7 +108,9 @@ function _M.config()
               },
             },
           },
-          dap = { adapter = res[2] and res[2][1] and get_adapter(res[2][2]) or nil },
+          dap = {
+            adapter = res[2] and res[2][1] and get_adapter(res[2][2]) or nil,
+          },
         })
 
         return Future.resolved(nil)
