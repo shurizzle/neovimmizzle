@@ -134,7 +134,7 @@ return {
   },
   { 'kylechui/nvim-surround', mod = 'surround' },
   { 'ahmedkhalf/project.nvim', mod = 'project' },
-  { 'editorconfig/editorconfig-vim' },
+  { 'editorconfig/editorconfig-vim', enabled = vim.fn.has('nvim-0.9.0') == 0 },
   {
     'instant-markdown/vim-instant-markdown',
     mod = 'markdown',
