@@ -1,6 +1,7 @@
 local _M = {}
 
 _M.lazy = true
+_M.cmd = { 'LspInfo', 'LspLog', 'LspRestart', 'LspStart', 'LspStop' }
 
 function _M.config()
   local lsputil = require('lspconfig.util')

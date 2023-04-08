@@ -1,6 +1,7 @@
 local _M = {}
 
 _M.lazy = true
+_M.cmd = 'LspSettings'
 
 function _M.config()
   local nlsp = require('nlspsettings')
