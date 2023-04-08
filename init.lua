@@ -10,6 +10,7 @@ function _G.has(what) return vim.fn.has(what) ~= 0 end
 
 function _G.executable(what) return vim.fn.executable(what) ~= 0 end
 
+require('config.ft')
 require('config.bootstrap')
 require('config.utils')
 require('config.colors').setup()

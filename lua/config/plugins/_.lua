@@ -162,4 +162,5 @@ return {
   { 'rafcamlet/nvim-luapad', mod = 'luapad' },
   { 'j-hui/fidget.nvim', mod = 'fidget' },
   { 'lvimuser/lsp-inlayhints.nvim', mod = 'inlayhints' },
+  { 'LhKipp/nvim-nu', mod = 'nu' },
 }
