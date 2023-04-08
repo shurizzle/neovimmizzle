@@ -119,7 +119,10 @@ return {
     dependencies = { 'nvim-lua/plenary.nvim' },
   },
   { 'lukas-reineke/indent-blankline.nvim', mod = 'indent-blankline' },
-  { 'MarcWeber/vim-addon-local-vimrc' },
+  {
+    'MarcWeber/vim-addon-local-vimrc',
+    enabled = vim.fn.has('nvim-0.9.0') == 0,
+  },
   { 'junegunn/goyo.vim', lazy = true, cmd = { 'Goyo' } },
   { 'windwp/nvim-autopairs', mod = 'autopairs' },
   { 'tpope/vim-repeat', lazy = true, event = 'InsertEnter' },
