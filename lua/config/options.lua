@@ -50,6 +50,8 @@ end
 
 if has('termguicolors') then options.termguicolors = true end
 
+if has('nvim-0.9.0') then options.exrc = true end
+
 for k, v in pairs(options) do
   vim.opt[k] = v
 end
