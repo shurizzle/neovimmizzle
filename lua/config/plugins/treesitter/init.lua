@@ -1,7 +1,18 @@
 local _M = {}
 
 _M.lazy = true
+
 _M.event = 'BufReadPre'
+
+_M.cmd = {
+  'TSInstall',
+  'TSUninstall',
+  'TSUpdate',
+  'TSUpdateSync',
+  'TSInstallInfo',
+  'TSInstallSync',
+  'TSInstallFromGrammar',
+}
 
 _M.dependencies = 'nvim-treesitter/nvim-treesitter-textobjects'
 
