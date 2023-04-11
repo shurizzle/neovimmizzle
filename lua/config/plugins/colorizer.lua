@@ -2,7 +2,7 @@ local _M = {}
 
 _M.lazy = true
 
-_M.event = 'VeryLazy'
+_M.event = 'BufRead'
 
 function _M.config() require('colorizer').setup() end
 

@@ -48,16 +48,7 @@ return {
   { 'jose-elias-alvarez/typescript.nvim', mod = 'typescript' },
   { 'ray-x/lsp_signature.nvim', mod = 'signature' },
   { 'jose-elias-alvarez/null-ls.nvim', mod = 'lsp.null' },
-  {
-    'neovim/nvim-lspconfig',
-    mod = 'lsp.config',
-    dependencies = {
-      'tamago324/nlsp-settings.nvim',
-      'ray-x/lsp_signature.nvim',
-      'jose-elias-alvarez/null-ls.nvim',
-      'hrsh7th/cmp-nvim-lsp',
-    },
-  },
+  { 'neovim/nvim-lspconfig', mod = 'lsp.config' },
   {
     'nvim-treesitter/playground',
     cmd = { 'TSPlaygroundToggle', 'TSHighlightCapturesUnderCursor' },
@@ -97,11 +88,7 @@ return {
     dependencies = devicons,
   },
   { 'norcalli/nvim-colorizer.lua', mod = 'colorizer' },
-  {
-    'lewis6991/gitsigns.nvim',
-    mod = 'gitsigns',
-    dependencies = { 'nvim-lua/plenary.nvim' },
-  },
+  { 'lewis6991/gitsigns.nvim', mod = 'gitsigns' },
   { 'lukas-reineke/indent-blankline.nvim', mod = 'indent-blankline' },
   {
     'MarcWeber/vim-addon-local-vimrc',

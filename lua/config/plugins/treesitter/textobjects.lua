@@ -1,6 +1,7 @@
 local _M = {}
 
-_M.dependencies = 'nvim-treesitter/nvim-treesitter'
+_M.lazy = true
+_M.event = 'BufReadPre'
 
 function _M.config()
   require('nvim-treesitter.configs').setup({

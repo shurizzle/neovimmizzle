@@ -1,16 +1,11 @@
 local _M = {}
 
-_M.lazy = false
+_M.lazy = true
+_M.event = 'BufReadPre'
+
+_M.dependencies = 'nvim-treesitter/nvim-treesitter-textobjects'
 
 function _M.buid()
-  local platform = require('config.platform')
-  local ts_update = require('nvim-treesitter.install').update({
-    with_sync = platform.is.headless,
-  })
-  ts_update()
-end
-
-function _M.config()
   local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
   parser_config.prolog = {
     install_info = {
@@ -21,6 +16,14 @@ function _M.config()
     filetype = 'prolog',
   }
 
+  local platform = require('config.platform')
+  local ts_update = require('nvim-treesitter.install').update({
+    with_sync = platform.is.headless,
+  })
+  ts_update()
+end
+
+function _M.config()
   require('nvim-treesitter.configs').setup({
     ensure_installed = 'all',
     sync_install = require('config.platform').is.headless,

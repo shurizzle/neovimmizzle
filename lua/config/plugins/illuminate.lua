@@ -11,7 +11,7 @@ _M.cmd = {
 
 _M.lazy = true
 
-_M.event = 'VeryLazy'
+_M.event = 'BufRead'
 
 function _M.config()
   require('illuminate').configure({

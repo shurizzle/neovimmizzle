@@ -2,6 +2,11 @@ local _M = {}
 
 _M.lazy = true
 _M.cmd = { 'LspInfo', 'LspLog', 'LspRestart', 'LspStart', 'LspStop' }
+_M.dependencies = {
+  'tamago324/nlsp-settings.nvim',
+  'ray-x/lsp_signature.nvim',
+  'hrsh7th/cmp-nvim-lsp',
+}
 
 function _M.config()
   local lsputil = require('lspconfig.util')
