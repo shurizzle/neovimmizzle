@@ -158,4 +158,5 @@ return {
   { 'j-hui/fidget.nvim', mod = 'fidget' },
   { 'lvimuser/lsp-inlayhints.nvim', mod = 'inlayhints' },
   { 'LhKipp/nvim-nu', mod = 'nu' },
+  { 'b0o/schemastore.nvim', lazy = true },
 }
