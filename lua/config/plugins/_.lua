@@ -94,7 +94,28 @@ return {
     'MarcWeber/vim-addon-local-vimrc',
     enabled = vim.fn.has('nvim-0.9.0') == 0,
   },
-  { 'junegunn/goyo.vim', lazy = true, cmd = { 'Goyo' } },
+  {
+    'folke/zen-mode.nvim',
+    lazy = true,
+    cmd = { 'ZenMode' },
+    config = function()
+      require('zen-mode').setup({
+        plugins = {
+          options = {
+            enabled = true,
+            nu = false,
+            rnu = false,
+          },
+          gitsigns = {
+            enabled = true,
+          },
+          diagnostics = {
+            enabled = true,
+          },
+        },
+      })
+    end,
+  },
   { 'windwp/nvim-autopairs', mod = 'autopairs' },
   { 'tpope/vim-repeat', lazy = true, event = 'InsertEnter' },
   {
