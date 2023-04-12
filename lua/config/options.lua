@@ -1,5 +1,4 @@
-local font_size = 9
-if has('mac') then font_size = 11 end
+local font_size = has('mac') and 11 or 10
 
 local options = {
   autoread = true,
@@ -28,7 +27,7 @@ local options = {
   colorcolumn = '80',
   cursorline = true,
   omnifunc = 'v:lua.vim.lsp.omnifunc',
-  guifont = 'Hack Nerd Font Mono:h' .. font_size,
+  guifont = 'monospace:h' .. font_size,
   laststatus = 3,
   showmode = false,
 }
