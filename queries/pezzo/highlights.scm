@@ -9,8 +9,9 @@
 
 (variable_name) @constant
 
+(exec_rule . "rule" @keyword)
+
 [
- "rule"
  (askpass)
  (keepenv)
  (origin)
@@ -18,7 +19,7 @@
  (timeout)
  (setenv)
  (exe)
-] @keyword
+] @function.builtin
 
 (bool) @boolean
 
