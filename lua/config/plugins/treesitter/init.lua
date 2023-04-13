@@ -16,7 +16,7 @@ _M.cmd = {
 
 _M.dependencies = 'nvim-treesitter/nvim-treesitter-textobjects'
 
-function _M.buid()
+local function add_parsers()
   local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
   parser_config.prolog = {
     install_info = {
@@ -27,6 +27,18 @@ function _M.buid()
     filetype = 'prolog',
   }
 
+  parser_config.pezzo = {
+    install_info = {
+      url = 'https://github.com/shurizzle/tree-sitter-pezzo',
+      files = { 'src/parser.c' },
+      revision = '782d4b528ed5b8d21909ff2c174c595f8dd02d09',
+    },
+    filetype = 'pezzo',
+  }
+end
+
+function _M.build()
+  add_parsers()
   local platform = require('config.platform')
   local ts_update = require('nvim-treesitter.install').update({
     with_sync = platform.is.headless,
@@ -35,6 +47,7 @@ function _M.buid()
 end
 
 function _M.config()
+  add_parsers()
   require('nvim-treesitter.configs').setup({
     ensure_installed = 'all',
     sync_install = require('config.platform').is.headless,

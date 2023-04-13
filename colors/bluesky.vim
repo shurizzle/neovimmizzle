@@ -188,6 +188,7 @@ highlight! link VisualNOS Visual
 highlight WarningMsg guifg=#CA213D guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight Whitespace guifg=#545454 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight prologClause guifg=#EDEDED guibg=NONE guisp=NONE blend=NONE gui=NONE
+highlight @embedded guifg=#EDEDED guibg=NONE guisp=NONE blend=NONE gui=NONE
 let g:terminal_color_fg = "#eeeeee"
 let g:terminal_color_bg = "#282828"
 let g:terminal_color_0 = "#282828"
