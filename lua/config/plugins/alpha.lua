@@ -78,16 +78,29 @@ function _M.config()
   }
 
   local message = '🎉 Have fun with neovim'
-  -- TODO: use lazy.nvim
-  -- if packer_plugins ~= nil then
-  --   message = '🎉 neovim loaded '
-  --     .. vim.tbl_count(
-  --       vim.tbl_filter(function(p) return p.loaded end, packer_plugins)
-  --     )
-  --     .. '/'
-  --     .. vim.tbl_count(packer_plugins)
-  --     .. ' plugins'
-  -- end
+
+  ---@diagnostic disable-next-line: undefined-field
+  if _G.packer_plugins ~= nil then
+    message = '🎉 neovim loaded '
+      .. vim.tbl_count(
+        ---@diagnostic disable-next-line: undefined-field
+        vim.tbl_filter(function(p) return p.loaded end, _G.packer_plugins)
+      )
+      .. '/'
+      .. vim.tbl_count(packer_plugins)
+      .. ' plugins'
+  end
+
+  local ok, cfg = pcall(require, 'lazy.core.config')
+  if ok then
+    local total = 0
+    local loaded = 0
+    for _, p in pairs(cfg.plugins) do
+      total = total + 1
+      if p._.loaded then loaded = loaded + 1 end
+    end
+    message = '🎉 neovim loaded ' .. loaded .. '/' .. total .. ' plugins'
+  end
 
   local footer = {
     type = 'text',
