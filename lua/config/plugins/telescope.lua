@@ -15,7 +15,7 @@ _M.dependencies = {
   'ahmedkhalf/project.nvim',
   {
     'nvim-telescope/telescope-fzf-native.nvim',
-    build = platform.is.bsd and 'gmake' or 'make',
+    build = (platform.is.bsd and not platform.is.macos) and 'gmake' or 'make',
   },
   'nvim-telescope/telescope-ui-select.nvim',
 }

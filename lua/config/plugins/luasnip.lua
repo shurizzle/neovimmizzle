@@ -4,7 +4,8 @@ local _M = {}
 
 _M.lazy = true
 
-_M.build = (platform.is.bsd and 'gmake' or 'make') .. ' install_jsregexp'
+_M.build = ((platform.is.bsd and not platform.is.macos) and 'gmake' or 'make')
+  .. ' install_jsregexp'
 
 _M.dependencies = { 'rafamadriz/friendly-snippets' }
 
