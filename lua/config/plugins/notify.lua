@@ -1,8 +1,6 @@
 local _M = {}
 
-_M.lazy = true
-
-_M.event = 'VeryLazy'
+_M.lazy = false
 
 _M.cond = function() return not require('config.platform').is.headless end
 
