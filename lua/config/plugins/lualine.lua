@@ -37,6 +37,12 @@ function _M.config()
       readonly = '[-]',
       unnamed = '[No Name]',
     },
+    diagnostics = {
+      error = 'E:',
+      warn = 'W:',
+      info = 'I:',
+      hint = 'H:',
+    },
   }
 
   if opts.nerdfont then
@@ -54,6 +60,13 @@ function _M.config()
       modified = '',
       readonly = '',
       unnamed = '',
+    }
+
+    symbols.diagnostics = {
+      error = ' ',
+      warn = ' ',
+      info = ' ',
+      hint = ' ',
     }
   end
 
@@ -97,7 +110,7 @@ function _M.config()
     },
     sections = {
       lualine_a = { 'mode' },
-      lualine_b = { 'branch', 'diagnostics' },
+      lualine_b = { 'branch', { 'diagnostics', symbols = symbols.diagnostics } },
       lualine_c = {
         file_status,
       },

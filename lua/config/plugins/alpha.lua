@@ -68,9 +68,9 @@ function _M.config()
     type = 'group',
     val = {
       d.button('e', '  New file', '<cmd>ene <CR>'),
-      d.button('COMMA f f', '  Find file'),
-      d.button('COMMA f h', '  Help'),
-      d.button('COMMA f g', '  Find word'),
+      d.button('COMMA f f', '󰈞  Find file'),
+      d.button('COMMA f h', '󰡯  Help'),
+      d.button('COMMA f g', '󰈬  Find word'),
     },
     opts = {
       spacing = 1,

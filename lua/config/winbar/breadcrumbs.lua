@@ -169,7 +169,9 @@ function _M.setup()
     callback = function() return change_cursor(vim.api.nvim_get_current_win()) end,
   })
   vim.api.nvim_create_autocmd({ 'BufWinEnter' }, {
-    callback = function(opts) change_buffer(vim.api.nvim_get_current_win(), opts.buf) end,
+    callback = function(opts)
+      change_buffer(vim.api.nvim_get_current_win(), opts.buf)
+    end,
   })
   vim.api.nvim_create_autocmd('User', {
     pattern = 'NewDocumentSymbols',
@@ -193,32 +195,32 @@ function _M.get(winid)
 end
 
 _M.icons = {
-  File = '',
-  Module = '',
-  Namespace = '',
-  Package = '',
-  Class = '',
-  Method = '',
-  Property = '',
-  Field = '',
-  Constructor = '',
-  Enum = '練',
-  Interface = '練',
-  Function = '',
-  Variable = '',
-  Constant = '',
-  String = '',
-  Number = '',
-  Boolean = '◩',
-  Array = '',
-  Object = '',
-  Key = '',
-  Null = 'ﳠ',
-  EnumMember = '',
-  Struct = '',
-  Event = '',
-  Operator = '',
-  TypeParameter = '',
+  File = '',
+  Module = '',
+  Namespace = '',
+  Package = '',
+  Class = '',
+  Method = '',
+  Property = '',
+  Field = '',
+  Constructor = '',
+  Enum = '',
+  Interface = '',
+  Function = '',
+  Variable = '',
+  Constant = '',
+  String = '',
+  Number = '',
+  Boolean = '',
+  Array = '',
+  Object = '',
+  Key = '',
+  Null = '󰟢',
+  EnumMember = '',
+  Struct = '',
+  Event = '',
+  Operator = '',
+  TypeParameter = '',
 }
 
 ---@param data breadcrumbs.Breadcrumb
