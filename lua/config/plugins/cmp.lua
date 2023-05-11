@@ -12,6 +12,7 @@ _M.dependencies = {
   'nvim-treesitter/nvim-treesitter',
   'ray-x/cmp-treesitter',
   'saadparwaiz1/cmp_luasnip',
+  'hrsh7th/cmp-cmdline',
   'L3MON4D3/LuaSnip',
   'ahmedkhalf/project.nvim',
 }
@@ -174,6 +175,22 @@ function _M.config()
     sources = cmp.config.sources({}, {
       { name = 'buffer' },
     }),
+  })
+
+  cmp.setup.cmdline(':', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+      { name = 'path' },
+    }, {
+      { name = 'cmdline' },
+    }),
+  })
+
+  cmp.setup.cmdline({ '/', '?' }, {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+      { name = 'buffer' },
+    },
   })
 end
 
