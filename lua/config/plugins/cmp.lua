@@ -5,7 +5,8 @@ _M.lazy = true
 _M.dependencies = {
   'hrsh7th/cmp-nvim-lsp',
   'hrsh7th/cmp-buffer',
-  'hrsh7th/cmp-path',
+  'FelipeLema/cmp-async-path',
+  -- 'hrsh7th/cmp-path',
   'hrsh7th/cmp-calc',
   'hrsh7th/cmp-emoji',
   'nvim-treesitter/nvim-treesitter',
@@ -109,7 +110,7 @@ function _M.config()
       { name = 'luasnip' },
       { name = 'treesitter' },
       { name = 'buffer' },
-      { name = 'path' },
+      { name = 'async_path' },
       { name = 'calc' },
       { name = 'emoji' },
       { name = 'orgmode' },
