@@ -75,10 +75,10 @@ function _M.config()
   local duplicates = {
     buffer = 1,
     path = 1,
-    nvim_lsp = 0,
+    nvim_lsp = nil,
     luasnip = 1,
   }
-  local duplicates_default = 0
+  local duplicates_default = nil
 
   vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
 
@@ -87,7 +87,6 @@ function _M.config()
       keyword_length = 1,
     },
     experimental = {
-      ghost_text = true,
       native_menu = false,
     },
     formatting = {
@@ -118,7 +117,7 @@ function _M.config()
     snippet = {
       expand = function(args) luasnip.lsp_expand(args.body) end,
     },
-    preselect = true,
+    preselect = 'None',
     mapping = {
       ['<C-u>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
       ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
@@ -145,7 +144,7 @@ function _M.config()
           fallback()
         end
       end, { 'i', 's' }),
-      ['<Esc>'] = cmp.mapping.abort(),
+      ['<Esc>'] = { c = cmp.mapping.abort() },
       ['<CR>'] = cmp.mapping({
         i = function(fallback)
           if cmp.visible() then
