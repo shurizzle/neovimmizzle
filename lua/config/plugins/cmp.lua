@@ -169,6 +169,12 @@ function _M.config()
       }),
     },
   })
+
+  cmp.setup.filetype('gitcommit', {
+    sources = cmp.config.sources({}, {
+      { name = 'buffer' },
+    }),
+  })
 end
 
 return _M
