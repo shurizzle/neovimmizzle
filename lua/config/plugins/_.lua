@@ -155,7 +155,7 @@ return {
   { 'ojroques/nvim-osc52', mod = 'osc52' },
   { 'folke/neodev.nvim', mod = 'neodev' },
   { 'rafcamlet/nvim-luapad', mod = 'luapad' },
-  { 'j-hui/fidget.nvim', mod = 'fidget' },
+  { 'j-hui/fidget.nvim', branch = 'legacy', mod = 'fidget' },
   { 'lvimuser/lsp-inlayhints.nvim', mod = 'inlayhints' },
   { 'LhKipp/nvim-nu', mod = 'nu' },
   { 'b0o/schemastore.nvim', lazy = true },
