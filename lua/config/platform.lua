@@ -67,6 +67,7 @@ _is.dragonflybsd = _is.dfbsd
 _is.netbsd = _is.nbsd
 _is.openbsd = _is.obsd
 _is.bsd = _is.mac or _is.fbsd or _is.dfbsd or _is.nbsd or _is.obsd
+_is.termux = vim.env.TERMUX_APP_PID ~= nil
 
 setmetatable(is, { __index = function(_, key) return _is[key] end })
 

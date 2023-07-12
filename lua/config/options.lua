@@ -81,6 +81,20 @@ then
   }
 end
 
+if require('config.platform').is.termux then
+  vim.g.clipboard = {
+    name = 'termux',
+    copy = {
+      ['+'] = { 'termux-clipboard-set' },
+      ['*'] = { 'termux-clipboard-set' },
+    },
+    paste = {
+      ['+'] = { 'termux-clipboard-get' },
+      ['*'] = { 'termux-clipboard-get' },
+    },
+  }
+end
+
 -- Disable provides
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
