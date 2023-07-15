@@ -10,3 +10,21 @@ vim.filetype.add({
     nu = 'nu',
   },
 })
+
+vim.filetype.add({
+  extension = {
+    vert = 'glsl',
+    tesc = 'glsl',
+    tese = 'glsl',
+    glsl = 'glsl',
+    geom = 'glsl',
+    frag = 'glsl',
+    comp = 'glsl',
+    rgen = 'glsl',
+    rint = 'glsl',
+    rchit = 'glsl',
+    rahit = 'glsl',
+    rmiss = 'glsl',
+    rcall = 'glsl',
+  },
+})
