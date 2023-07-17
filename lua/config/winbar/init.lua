@@ -154,9 +154,12 @@ endfunction
     end,
   })
 
-  vim.api.nvim_create_autocmd({ 'BufWinEnter', 'BufWritePost', 'BufReadPost' }, {
-    callback = function(opts) buf_changed({ buf = opts.buf }) end,
-  })
+  vim.api.nvim_create_autocmd(
+    { 'BufWinEnter', 'BufWritePost', 'BufReadPost' },
+    {
+      callback = function(opts) buf_changed({ buf = opts.buf }) end,
+    }
+  )
 
   vim.api.nvim_create_autocmd({ 'BufNew' }, {
     callback = function(opts)

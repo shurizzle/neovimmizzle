@@ -114,18 +114,21 @@ FORMATTERS['upper'] = function(str)
   )
 end
 
-FORMATTERS['snake'] =
-  function(str) return table.concat({ split_words(str) }, '_') end
+FORMATTERS['snake'] = function(str)
+  return table.concat({ split_words(str) }, '_')
+end
 
-FORMATTERS['kebab'] =
-  function(str) return table.concat({ split_words(str) }, '-') end
+FORMATTERS['kebab'] = function(str)
+  return table.concat({ split_words(str) }, '-')
+end
 
 FORMATTERS['pascal'] = function(str)
   return table.concat(vim.tbl_map(capitalize, { split_words(str) }), '')
 end
 
-FORMATTERS['camel'] =
-  function(str) return uncapitalize(FORMATTERS['pascal'](str)) end
+FORMATTERS['camel'] = function(str)
+  return uncapitalize(FORMATTERS['pascal'](str))
+end
 
 _G.convertcase = function(fmt, str)
   if not str or type(str) ~= 'string' then return end
