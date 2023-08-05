@@ -159,4 +159,5 @@ return {
   { 'lvimuser/lsp-inlayhints.nvim', mod = 'inlayhints' },
   { 'LhKipp/nvim-nu', mod = 'nu' },
   { 'b0o/schemastore.nvim', lazy = true },
+  { 'mfussenegger/nvim-jdtls', lazy = true },
 }
