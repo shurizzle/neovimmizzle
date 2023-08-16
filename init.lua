@@ -106,39 +106,49 @@ do
   local build = hotpot.api.make.build
   local uv = vim.loop
   local init_file = path_join(init_dir, "init.fnl")
-  local build_init
-  local function _18_()
-    local _let_19_ = require("fennel.compiler")
-    local global_unmangling = _let_19_["global-unmangling"]
-    local allowed_globals
-    local function _20_()
-      local tbl_14_auto = {}
-      for n, _ in pairs(_G) do
-        local k_15_auto, v_16_auto = global_unmangling(n), true
-        if ((k_15_auto ~= nil) and (v_16_auto ~= nil)) then
-          tbl_14_auto[k_15_auto] = v_16_auto
-        else
-        end
+  local fnl_lualine_theme = path_join(init_dir, "fnl", "lualine", "themes", "bluesky.fnl")
+  local lua_lualine_theme = path_join(init_dir, "lua", "lualine", "themes", "bluesky.fnl")
+  local _let_18_ = require("fennel.compiler")
+  local global_unmangling = _let_18_["global-unmangling"]
+  local allowed_globals
+  local function _19_(...)
+    local tbl_14_auto = {}
+    for n, _ in pairs(_G) do
+      local k_15_auto, v_16_auto = global_unmangling(n), true
+      if ((k_15_auto ~= nil) and (v_16_auto ~= nil)) then
+        tbl_14_auto[k_15_auto] = v_16_auto
+      else
       end
-      return tbl_14_auto
     end
-    allowed_globals = vim.tbl_keys(_20_())
-    local opts = {verbosity = 0, compiler = {modules = {allowedGlobals = allowed_globals}}}
-    local function _22_(_241)
+    return tbl_14_auto
+  end
+  allowed_globals = vim.tbl_keys(_19_(...))
+  local compiler_opts = {verbosity = 0, compiler = {modules = {allowedGlobals = allowed_globals}}}
+  local function watch(file, callback)
+    local handle = uv.new_fs_event()
+    local function _21_()
+      return vim.schedule(callback)
+    end
+    uv.fs_event_start(handle, file, {}, _21_)
+    local function _22_()
+      return uv.close(handle)
+    end
+    return vim.api.nvim_create_autocmd("VimLeavePre", {callback = _22_})
+  end
+  local function build_init()
+    local function _23_(_241)
       return _241
     end
-    return build(init_file, opts, ".+", _22_)
+    return build(init_file, compiler_opts, ".+", _23_)
   end
-  build_init = _18_
-  local handle = uv.new_fs_event()
-  local function _23_()
-    return vim.schedule(build_init)
+  local function build_lualine()
+    local function _24_()
+      return lua_lualine_theme
+    end
+    return build(fnl_lualine_theme, compiler_opts, ".+", _24_)
   end
-  uv.fs_event_start(handle, init_file, {}, _23_)
-  local function _24_()
-    return uv.close(handle)
-  end
-  vim.api.nvim_create_autocmd("VimLeavePre", {callback = _24_})
+  watch(init_file, build_init)
+  watch(fnl_lualine_theme, build_lualine)
 end
 require("config.ft")
 require("config.utils")

@@ -80,16 +80,25 @@
 
 (let [build hotpot.api.make.build
       uv vim.loop
-      init-file (path-join init-dir "init.fnl")
-      build-init (fn []
-                   (let [{: global-unmangling} (require :fennel.compiler)
-                         allowed-globals (vim.tbl_keys (collect [n _ (pairs _G)] (values (global-unmangling n) true)))
-                         opts {:verbosity 0
-                               :compiler {:modules {:allowedGlobals allowed-globals}}}]
-                     (build init-file opts ".+" #(values $1))))]
-  (let [handle (uv.new_fs_event)]
-    (uv.fs_event_start handle init-file {} #(vim.schedule build-init))
-    (vim.api.nvim_create_autocmd :VimLeavePre {:callback #(uv.close handle)})))
+      init-file (path-join init-dir :init.fnl)
+      fnl-lualine-theme (path-join init-dir :fnl :lualine :themes :bluesky.fnl)
+      lua-lualine-theme (path-join init-dir :lua :lualine :themes :bluesky.fnl)
+      {: global-unmangling} (require :fennel.compiler)
+      allowed-globals (vim.tbl_keys (collect [n _ (pairs _G)] (values (global-unmangling n) true)))
+      compiler-opts {:verbosity 0
+                     :compiler {:modules {:allowedGlobals allowed-globals}}}]
+  (fn watch [file callback]
+    (let [handle (uv.new_fs_event)]
+      (uv.fs_event_start handle file {} #(vim.schedule callback))
+      (vim.api.nvim_create_autocmd :VimLeavePre {:callback #(uv.close handle)})))
+
+  (fn build-init []
+    (build init-file compiler-opts ".+" #(values $1)))
+  (fn build-lualine []
+    (build fnl-lualine-theme compiler-opts ".+" #(values lua-lualine-theme)))
+
+  (watch init-file build-init)
+  (watch fnl-lualine-theme build-lualine))
 
 (require :config.ft)
 (require :config.utils)
