@@ -54,8 +54,11 @@ table.insert(config, {
   cmd = { 'LushRunQuickstart', 'LushRunTutorial', 'Lushify' },
 })
 
-table.insert(config, 1, { 'lewis6991/impatient.nvim', lazy = true })
-table.insert(config, 1, { 'folke/lazy.nvim', lazy = true })
+if vim.fn.has('nvim-0.9.0') == 0 then
+  table.insert(config, 1, { 'lewis6991/impatient.nvim', lazy = false })
+end
+table.insert(config, 1, { 'rktjmp/hotpot.nvim', lazy = false })
+table.insert(config, 1, { 'folke/lazy.nvim', lazy = false })
 table.insert(config, 1, {
   'williamboman/mason.nvim',
   lazy = true,
