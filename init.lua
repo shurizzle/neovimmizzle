@@ -88,7 +88,7 @@ do
     return (vim.fn.executable(what) ~= 0)
   end
   local function _15_(t)
-    _G.assert((nil ~= t), "Missing argument t on /home/shura/.config/nvim/init.fnl:80")
+    _G.assert((nil ~= t), "Missing argument t on /home/shura/.config/nvim/init.fnl:75")
     local function _16_(_241, _242)
       return t[_242]
     end
@@ -112,36 +112,39 @@ do
     local global_unmangling = _let_19_["global-unmangling"]
     local allowed_globals
     local function _20_()
-      local keys = {}
+      local tbl_14_auto = {}
       for n, _ in pairs(_G) do
-        keys[global_unmangling(n)] = true
-        keys = keys
+        local k_15_auto, v_16_auto = global_unmangling(n), true
+        if ((k_15_auto ~= nil) and (v_16_auto ~= nil)) then
+          tbl_14_auto[k_15_auto] = v_16_auto
+        else
+        end
       end
-      return keys
+      return tbl_14_auto
     end
     allowed_globals = vim.tbl_keys(_20_())
     local opts = {verbosity = 0, compiler = {modules = {allowedGlobals = allowed_globals}}}
-    local function _21_(_241)
+    local function _22_(_241)
       return _241
     end
-    return build(init_file, opts, ".+", _21_)
+    return build(init_file, opts, ".+", _22_)
   end
   build_init = _18_
   local handle = uv.new_fs_event()
-  local function _22_()
+  local function _23_()
     return vim.schedule(build_init)
   end
-  uv.fs_event_start(handle, init_file, {}, _22_)
-  local function _23_()
+  uv.fs_event_start(handle, init_file, {}, _23_)
+  local function _24_()
     return uv.close(handle)
   end
-  vim.api.nvim_create_autocmd("VimLeavePre", {callback = _23_})
+  vim.api.nvim_create_autocmd("VimLeavePre", {callback = _24_})
 end
 require("config.ft")
 require("config.utils")
+require("config.options")
 do end (require("config.colors")).setup()
 require("config.keymaps")
-require("config.options")
 do end (require("config.winbar")).setup()
 require("config.plugins")
 require("config.rust")

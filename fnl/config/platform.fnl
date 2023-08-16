@@ -32,7 +32,7 @@
           :obsd     (= os :openbsd)
           :ssh      (not= nil ssh-remote)
           :headless (vim.tbl_isempty (vim.api.nvim_list_uis))
-          :termux   (not= nil (. vim.env :TERMUX_APP_PID))})
+          :termux   (not= nil vim.env.TERMUX_APP_PID)})
 
 (each [k v (pairs {:windows      :win
                    :linux        :lin

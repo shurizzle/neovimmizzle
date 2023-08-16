@@ -69,14 +69,9 @@
                                :compilerEnv _G}}}))
 (require :hotpot.fennel)
 
-(let [fns {:inspect        (fn [what]
-                             (-> what
-                                 (vim.inspect)
-                                 (print)))
-           :has            (fn [what]
-                             (not= (vim.fn.has what) 0))
-           :executable     (fn [what]
-                             (not= (vim.fn.executable what) 0))
+(let [fns {:inspect        (fn [what] (-> what (vim.inspect) (print)))
+           :has            (fn [what] (not= (vim.fn.has what) 0))
+           :executable     (fn [what] (not= (vim.fn.executable what) 0))
            :readonly-table (lambda [t] (setmetatable {} {:__index #(. t $2)}))}
       {: global-mangling}  (require :fennel.compiler)]
   (each [name f (pairs fns)]
@@ -88,12 +83,7 @@
       init-file (path-join init-dir "init.fnl")
       build-init (fn []
                    (let [{: global-unmangling} (require :fennel.compiler)
-                         allowed-globals (->
-                                           (accumulate [keys {} n _ (pairs _G)]
-                                             (do
-                                               (tset keys (global-unmangling n) true)
-                                               keys))
-                                           vim.tbl_keys)
+                         allowed-globals (vim.tbl_keys (collect [n _ (pairs _G)] (values (global-unmangling n) true)))
                          opts {:verbosity 0
                                :compiler {:modules {:allowedGlobals allowed-globals}}}]
                      (build init-file opts ".+" #(values $1))))]
@@ -103,9 +93,9 @@
 
 (require :config.ft)
 (require :config.utils)
+(require :config.options)
 ((. (require :config.colors) :setup))
 (require :config.keymaps)
-(require :config.options)
 ((. (require :config.winbar) :setup))
 (require :config.plugins)
 (require :config.rust)
