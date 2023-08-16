@@ -22,8 +22,7 @@
                       :lazy true
                       :cmd [:LushRunQuickstart :LushRunTutorial :Lushify]})
 
-(if (not (has :nvim-0.9.0))
-    (table.insert config 1 {1 :lewis6991/impatient.nvim :lazy false}))
+(table.insert config 1 {1 :lewis6991/impatient.nvim :lazy false :cond (not (has :nvim-0.9.0))})
 (table.insert config 1 {1 :rktjmp/hotpot.nvim :lazy false})
 (table.insert config 1 {1 :folke/lazy.nvim :lazy false})
 (table.insert config 1 {1 :williamboman/mason.nvim

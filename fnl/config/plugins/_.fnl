@@ -45,8 +45,7 @@
     :lazy true
     :cmd [:ZenMode]
     :config (fn []
-              ((. (require :zen-mode) :setup) {:plugins {
-                                                         :options {:enabled true
+              ((. (require :zen-mode) :setup) {:plugins {:options {:enabled true
                                                                    :nu false
                                                                    :rnu false}
                                                          :gitsigns {:enabled true}
@@ -79,5 +78,4 @@
    {_ :lvimuser/lsp-inlayhints.nvim :mod :inlayhints}
    {_ :LhKipp/nvim-nu :mod :nu}
    {_ :b0o/schemastore.nvim :lazy :true}
-   {_ :mfussenegger/nvim-jdtls :lazy :true}
-  ])
+   {_ :mfussenegger/nvim-jdtls :lazy :true}])

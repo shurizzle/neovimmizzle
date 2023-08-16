@@ -1,3 +1,5 @@
+(local {: is} (require :config.platform))
+
 (macro opt [& opts]
   (assert-compile (= (% (length opts) 2) 0) "Invalid options syntax" opts)
   (fcollect [i 1 (length opts) 2]
@@ -29,7 +31,7 @@
      :colorcolumn :80
      :cursorline true
      :omnifunc "v:lua.vim.lsp.omnifunc"
-     :guifont (.. :monospace:h (if (has :mac) 11 10))
+     :guifont (.. :monospace:h (if is.macos 11 10))
      :laststatus 3
      :showmode false)
 
@@ -38,7 +40,7 @@
 (set vim.g.himalaya_mailbox_picker :telescope)
 (set vim.g.himalaya_telescope_preview_enabled true)
 
-(when (has :win32)
+(when is.windows
   (opt :shell :powershell
        :shellcmdflag "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;"
        :shellredir "2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode"
@@ -47,7 +49,9 @@
        :shellxquote ""))
 
 (when (has :termguicolors) (opt :termguicolors true))
-(when (has :nvim-0.9.0) (opt :exrc true))
+(when (has :nvim-0.9.0)
+  (opt :exrc true)
+  (set vim.g.editorconfig true))
 
 (vim.cmd "set nocompatible")
 (vim.cmd "set t_ut=")
@@ -56,7 +60,7 @@
 (vim.opt.shortmess:append :c)
 (vim.opt.fillchars:append "eob: ")
 
-(when (and (has :unix) (executable :lemonade) (. (require :config.platform) :is :ssh))
+(when (and (has :unix) (executable :lemonade) is.ssh)
   (set vim.g.clipboard {:name :lemonade
                         :copy  {:+ [:lemonade :copy]
                                 :* [:lemonade :copy]}
@@ -64,7 +68,7 @@
                                 :* [:lemonade :paste]}
                         :cache_enabled true}))
 
-(when (. (require :config.platform) :is :termux)
+(when is.termux
   (set vim.g.clipboard {:name :termux
                         :copy  {:+ [:termux-clipboard-set]
                                 :* [:termux-clipboard-set]}
