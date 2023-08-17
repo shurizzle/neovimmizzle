@@ -10,11 +10,11 @@
            :join (fn [...] (table.concat [...] dir-sep))
            :real vim.loop.fs_realpath
            :canonical (lambda [path] (vim.fn.fnamemodify path ::p))
-           :file (lambda [path] (vim.fn.fnamemodify path ::h))
+           :dirname (lambda [path] (vim.fn.fnamemodify path ::h))
+           :file (lambda [path] (vim.fn.fnamemodify path ::t))
            :ext (lambda [path] (vim.fn.fnamemodify path ::e))
      })
 (tset path :extension path.ext)
-(tset path :dirname path.file)
 (tset path :init_dir (-> (filename path)
                          (path.dirname)
                          (path.join :.. :..)
