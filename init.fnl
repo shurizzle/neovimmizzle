@@ -59,7 +59,6 @@
   :hotpot.nvim
   [:--filter=blob:none :--single-branch])
 
-
 (local hotpot (require :hotpot))
 (let [setup hotpot.setup]
   (setup {:provide_require_fennel true
@@ -68,6 +67,12 @@
                      :macros  {:env :_COMPILER
                                :compilerEnv _G}}}))
 (require :hotpot.fennel)
+
+(let [{: global-mangling} (require :fennel.compiler)]
+  (each [name f (pairs (require :config.stdlib))]
+    (tset _G (global-mangling name) f)
+    (tset _G name f)))
+
 
 (let [fns {:inspect        (fn [what] (-> what (vim.inspect) (print)))
            :has            (fn [what] (not= (vim.fn.has what) 0))

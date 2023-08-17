@@ -77,26 +77,34 @@ do
 end
 require("hotpot.fennel")
 do
+  local _let_12_ = require("fennel.compiler")
+  local global_mangling = _let_12_["global-mangling"]
+  for name, f in pairs(require("config.stdlib")) do
+    _G[global_mangling(name)] = f
+    _G[name] = f
+  end
+end
+do
   local fns
-  local function _12_(what)
+  local function _13_(what)
     return print(vim.inspect(what))
   end
-  local function _13_(what)
+  local function _14_(what)
     return (vim.fn.has(what) ~= 0)
   end
-  local function _14_(what)
+  local function _15_(what)
     return (vim.fn.executable(what) ~= 0)
   end
-  local function _15_(t)
-    _G.assert((nil ~= t), "Missing argument t on /home/shura/.config/nvim/init.fnl:75")
-    local function _16_(_241, _242)
+  local function _16_(t)
+    _G.assert((nil ~= t), "Missing argument t on /home/shura/.config/nvim/init.fnl:80")
+    local function _17_(_241, _242)
       return t[_242]
     end
-    return setmetatable({}, {__index = _16_})
+    return setmetatable({}, {__index = _17_})
   end
-  fns = {inspect = _12_, has = _13_, executable = _14_, ["readonly-table"] = _15_}
-  local _let_17_ = require("fennel.compiler")
-  local global_mangling = _let_17_["global-mangling"]
+  fns = {inspect = _13_, has = _14_, executable = _15_, ["readonly-table"] = _16_}
+  local _let_18_ = require("fennel.compiler")
+  local global_mangling = _let_18_["global-mangling"]
   for name, f in pairs(fns) do
     _G[global_mangling(name)] = f
     _G[name] = f
@@ -108,10 +116,10 @@ do
   local init_file = path_join(init_dir, "init.fnl")
   local fnl_lualine_theme = path_join(init_dir, "fnl", "lualine", "themes", "bluesky.fnl")
   local lua_lualine_theme = path_join(init_dir, "lua", "lualine", "themes", "bluesky.fnl")
-  local _let_18_ = require("fennel.compiler")
-  local global_unmangling = _let_18_["global-unmangling"]
+  local _let_19_ = require("fennel.compiler")
+  local global_unmangling = _let_19_["global-unmangling"]
   local allowed_globals
-  local function _19_(...)
+  local function _20_(...)
     local tbl_14_auto = {}
     for n, _ in pairs(_G) do
       local k_15_auto, v_16_auto = global_unmangling(n), true
@@ -122,30 +130,30 @@ do
     end
     return tbl_14_auto
   end
-  allowed_globals = vim.tbl_keys(_19_(...))
+  allowed_globals = vim.tbl_keys(_20_(...))
   local compiler_opts = {verbosity = 0, compiler = {modules = {allowedGlobals = allowed_globals}}}
   local function watch(file, callback)
     local handle = uv.new_fs_event()
-    local function _21_()
+    local function _22_()
       return vim.schedule(callback)
     end
-    uv.fs_event_start(handle, file, {}, _21_)
-    local function _22_()
+    uv.fs_event_start(handle, file, {}, _22_)
+    local function _23_()
       return uv.close(handle)
     end
-    return vim.api.nvim_create_autocmd("VimLeavePre", {callback = _22_})
+    return vim.api.nvim_create_autocmd("VimLeavePre", {callback = _23_})
   end
   local function build_init()
-    local function _23_(_241)
+    local function _24_(_241)
       return _241
     end
-    return build(init_file, compiler_opts, ".+", _23_)
+    return build(init_file, compiler_opts, ".+", _24_)
   end
   local function build_lualine()
-    local function _24_()
+    local function _25_()
       return lua_lualine_theme
     end
-    return build(fnl_lualine_theme, compiler_opts, ".+", _24_)
+    return build(fnl_lualine_theme, compiler_opts, ".+", _25_)
   end
   watch(init_file, build_init)
   watch(fnl_lualine_theme, build_lualine)
