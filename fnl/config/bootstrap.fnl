@@ -78,41 +78,48 @@
                :macros   {:env :_COMPILER
                           :compiler-env _G}}})
 
-(let [{: build} hotpot.api.make
-      {: compile-file} hotpot.api.compile
-      {: search} (require :hotpot.searcher)
-      uv vim.loop
-      init-file (path-join init-dir :init.fnl)
-      fnl-lualine-theme (path-join init-dir :fnl :lualine :themes :bluesky.fnl)
-      lua-lualine-theme (path-join init-dir :lua :lualine :themes :bluesky.fnl)
-      bootstrap-file (case (search {:prefix :fnl :extension :fnl :modnames [:config.bootstrap.init :config.bootstrap]})
-                           [path] path
-                           nil (error "Cannot find bootstrap"))
-      {: global-unmangling} (require :fennel.compiler)
-      allowed-globals (vim.tbl_keys (collect [n _ (pairs _G)] (values (global-unmangling n) true)))
-      compiler-opts {:verbosity 0
-                     :compiler {:modules {:allowedGlobals allowed-globals :env :_COMPILER}}}]
-  (fn watch [file callback]
-    (let [handle (uv.new_fs_event)]
-      (uv.fs_event_start handle file {} #(vim.schedule callback))
-      (vim.api.nvim_create_autocmd :VimLeavePre {:callback #(uv.close handle)})))
+;; HACK: placeholder
+(let [fc (require :fennel.compiler)]
+  (tset fc.scopes.global.includes :config.bootstrap "(function(...) end)"))
 
-  (fn compile-bootstrap []
-    (match (compile-file bootstrap-file compiler-opts)
-      (true code) (let [fc (require :fennel.compiler)]
-                    (tset fc.scopes.global.includes :config.bootstrap (.. "(function(...) " code " end)()")))
-      (false err) (error err)))
+(fn watcher []
+  (let [{: build} hotpot.api.make
+        {: compile-file} hotpot.api.compile
+        {: search} (require :hotpot.searcher)
+        uv vim.loop
+        init-file (path-join init-dir :init.fnl)
+        fnl-lualine-theme (path-join init-dir :fnl :lualine :themes :bluesky.fnl)
+        lua-lualine-theme (path-join init-dir :lua :lualine :themes :bluesky.fnl)
+        bootstrap-file (case (search {:prefix :fnl :extension :fnl :modnames [:config.bootstrap.init :config.bootstrap]})
+                             [path] path
+                             nil (error "Cannot find config.bootstrap"))
+        {: global-unmangling} (require :fennel.compiler)
+        allowed-globals (vim.tbl_keys (collect [n _ (pairs _G)] (values (global-unmangling n) true)))
+        compiler-opts {:verbosity 0
+                       :compiler {:modules {:allowedGlobals allowed-globals :env :_COMPILER}}}]
+    (fn watch [file callback]
+      (let [handle (uv.new_fs_event)]
+        (uv.fs_event_start handle file {} #(vim.schedule callback))
+        (vim.api.nvim_create_autocmd :VimLeavePre {:callback #(uv.close handle)})))
 
-  (compile-bootstrap)
+    (fn compile-bootstrap []
+      (match (compile-file bootstrap-file compiler-opts)
+        (true code) (let [fc (require :fennel.compiler)]
+                      (tset fc.scopes.global.includes :config.bootstrap (.. "(function(...) " code " end)()")))
+        (false err) (error err)))
 
-  (fn build-init []
-    (build init-file compiler-opts ".+" #(values $1)))
-  (fn build-init-bootstrap []
     (compile-bootstrap)
-    (build init-file compiler-opts ".+" #(values $1)))
-  (fn build-lualine []
-    (build fnl-lualine-theme compiler-opts ".+" #(values lua-lualine-theme)))
 
-  (watch bootstrap-file build-init-bootstrap)
-  (watch init-file build-init)
-  (watch fnl-lualine-theme build-lualine))
+    (fn build-init []
+      (build init-file compiler-opts ".+" #(values $1)))
+    (fn build-init-bootstrap []
+      (compile-bootstrap)
+      (build init-file compiler-opts ".+" #(values $1)))
+    (fn build-lualine []
+      (build fnl-lualine-theme compiler-opts ".+" #(values lua-lualine-theme)))
+
+    (watch bootstrap-file build-init-bootstrap)
+    (watch init-file build-init)
+    (watch fnl-lualine-theme build-lualine)))
+
+(vim.schedule watcher)

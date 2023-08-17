@@ -82,92 +82,99 @@ do
   fc.scopes.global.macros = vim.tbl_deep_extend("force", fc.scopes.global.macros, additional_macros())
 end
 hotpot.setup({provide_require_fennel = true, enable_hotpot_diagnostics = true, compiler = {modules = {correlate = true}, macros = {env = "_COMPILER", ["compiler-env"] = _G}}})
-local _let_12_ = hotpot.api.make
-local build = _let_12_["build"]
-local _let_13_ = hotpot.api.compile
-local compile_file = _let_13_["compile-file"]
-local _let_14_ = require("hotpot.searcher")
-local search = _let_14_["search"]
-local uv = vim.loop
-local init_file = path_join(init_dir, "init.fnl")
-local fnl_lualine_theme = path_join(init_dir, "fnl", "lualine", "themes", "bluesky.fnl")
-local lua_lualine_theme = path_join(init_dir, "lua", "lualine", "themes", "bluesky.fnl")
-local bootstrap_file
 do
-  local _15_ = search({prefix = "fnl", extension = "fnl", modnames = {"config.bootstrap.init", "config.bootstrap"}})
-  if ((_G.type(_15_) == "table") and (nil ~= (_15_)[1])) then
-    local path = (_15_)[1]
-    bootstrap_file = path
-  elseif (_15_ == nil) then
-    bootstrap_file = error("Cannot find bootstrap")
-  else
-    bootstrap_file = nil
-  end
+  local fc = require("fennel.compiler")
+  do end (fc.scopes.global.includes)["config.bootstrap"] = "(function(...) end)"
 end
-local _let_17_ = require("fennel.compiler")
-local global_unmangling = _let_17_["global-unmangling"]
-local allowed_globals
-local function _18_(...)
-  local tbl_14_auto = {}
-  for n, _ in pairs(_G) do
-    local k_15_auto, v_16_auto = global_unmangling(n), true
-    if ((k_15_auto ~= nil) and (v_16_auto ~= nil)) then
-      tbl_14_auto[k_15_auto] = v_16_auto
+local function watcher()
+  local _let_12_ = hotpot.api.make
+  local build = _let_12_["build"]
+  local _let_13_ = hotpot.api.compile
+  local compile_file = _let_13_["compile-file"]
+  local _let_14_ = require("hotpot.searcher")
+  local search = _let_14_["search"]
+  local uv = vim.loop
+  local init_file = path_join(init_dir, "init.fnl")
+  local fnl_lualine_theme = path_join(init_dir, "fnl", "lualine", "themes", "bluesky.fnl")
+  local lua_lualine_theme = path_join(init_dir, "lua", "lualine", "themes", "bluesky.fnl")
+  local bootstrap_file
+  do
+    local _15_ = search({prefix = "fnl", extension = "fnl", modnames = {"config.bootstrap.init", "config.bootstrap"}})
+    if ((_G.type(_15_) == "table") and (nil ~= (_15_)[1])) then
+      local path = (_15_)[1]
+      bootstrap_file = path
+    elseif (_15_ == nil) then
+      bootstrap_file = error("Cannot find bootstrap")
     else
+      bootstrap_file = nil
     end
   end
-  return tbl_14_auto
-end
-allowed_globals = vim.tbl_keys(_18_(...))
-local compiler_opts = {verbosity = 0, compiler = {modules = {allowedGlobals = allowed_globals, env = "_COMPILER"}}}
-local function watch(file, callback)
-  local handle = uv.new_fs_event()
-  local function _20_()
-    return vim.schedule(callback)
+  local _let_17_ = require("fennel.compiler")
+  local global_unmangling = _let_17_["global-unmangling"]
+  local allowed_globals
+  local function _18_()
+    local tbl_14_auto = {}
+    for n, _ in pairs(_G) do
+      local k_15_auto, v_16_auto = global_unmangling(n), true
+      if ((k_15_auto ~= nil) and (v_16_auto ~= nil)) then
+        tbl_14_auto[k_15_auto] = v_16_auto
+      else
+      end
+    end
+    return tbl_14_auto
   end
-  uv.fs_event_start(handle, file, {}, _20_)
-  local function _21_()
-    return uv.close(handle)
+  allowed_globals = vim.tbl_keys(_18_())
+  local compiler_opts = {verbosity = 0, compiler = {modules = {allowedGlobals = allowed_globals, env = "_COMPILER"}}}
+  local function watch(file, callback)
+    local handle = uv.new_fs_event()
+    local function _20_()
+      return vim.schedule(callback)
+    end
+    uv.fs_event_start(handle, file, {}, _20_)
+    local function _21_()
+      return uv.close(handle)
+    end
+    return vim.api.nvim_create_autocmd("VimLeavePre", {callback = _21_})
   end
-  return vim.api.nvim_create_autocmd("VimLeavePre", {callback = _21_})
-end
-local function compile_bootstrap()
-  local _22_, _23_ = compile_file(bootstrap_file, compiler_opts)
-  if ((_22_ == true) and (nil ~= _23_)) then
-    local code = _23_
-    local fc = require("fennel.compiler")
-    do end (fc.scopes.global.includes)["config.bootstrap"] = ("(function(...) " .. code .. " end)()")
-    return nil
-  elseif ((_22_ == false) and (nil ~= _23_)) then
-    local err = _23_
-    return error(err)
-  else
-    return nil
+  local function compile_bootstrap()
+    local _22_, _23_ = compile_file(bootstrap_file, compiler_opts)
+    if ((_22_ == true) and (nil ~= _23_)) then
+      local code = _23_
+      local fc = require("fennel.compiler")
+      do end (fc.scopes.global.includes)["config.bootstrap"] = ("(function(...) " .. code .. " end)()")
+      return nil
+    elseif ((_22_ == false) and (nil ~= _23_)) then
+      local err = _23_
+      return error(err)
+    else
+      return nil
+    end
   end
-end
-compile_bootstrap()
-local function build_init()
-  local function _25_(_241)
-    return _241
-  end
-  return build(init_file, compiler_opts, ".+", _25_)
-end
-local function build_init_bootstrap()
   compile_bootstrap()
-  local function _26_(_241)
-    return _241
+  local function build_init()
+    local function _25_(_241)
+      return _241
+    end
+    return build(init_file, compiler_opts, ".+", _25_)
   end
-  return build(init_file, compiler_opts, ".+", _26_)
-end
-local function build_lualine()
-  local function _27_()
-    return lua_lualine_theme
+  local function build_init_bootstrap()
+    compile_bootstrap()
+    local function _26_(_241)
+      return _241
+    end
+    return build(init_file, compiler_opts, ".+", _26_)
   end
-  return build(fnl_lualine_theme, compiler_opts, ".+", _27_)
+  local function build_lualine()
+    local function _27_()
+      return lua_lualine_theme
+    end
+    return build(fnl_lualine_theme, compiler_opts, ".+", _27_)
+  end
+  watch(bootstrap_file, build_init_bootstrap)
+  watch(init_file, build_init)
+  return watch(fnl_lualine_theme, build_lualine)
 end
-watch(bootstrap_file, build_init_bootstrap)
-watch(init_file, build_init)
-return watch(fnl_lualine_theme, build_lualine) end)() end
+return vim.schedule(watcher) end)() end
 do
   local _let_1_ = require("fennel.compiler")
   local global_mangling = _let_1_["global-mangling"]
