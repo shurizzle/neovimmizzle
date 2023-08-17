@@ -209,7 +209,6 @@ let g:terminal_color_14 = "#48FFFF"
 let g:terminal_color_15 = "#FFFFFF"
 augroup set_highlight_colors
   au!
-  autocmd VimEnter * lua require"config.colors".set_highlight_colors()
-  autocmd ColorScheme * lua require"config.colors".set_highlight_colors()
+  autocmd VimEnter * lua require"config.colors"['set-highlight-colors']()
+  autocmd ColorScheme * lua require"config.colors"['set-highlight-colors']()
 augroup END
-    
