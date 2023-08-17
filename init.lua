@@ -104,7 +104,7 @@ local function watcher()
       local path = (_15_)[1]
       bootstrap_file = path
     elseif (_15_ == nil) then
-      bootstrap_file = error("Cannot find bootstrap")
+      bootstrap_file = error("Cannot find config.bootstrap")
     else
       bootstrap_file = nil
     end
@@ -199,11 +199,14 @@ do
     local function _6_(_241, _242)
       return t[_242]
     end
-    return setmetatable({}, {__index = _6_})
+    local function _7_()
+      return nil
+    end
+    return setmetatable({}, {__index = _6_, __newindex = _7_})
   end
   fns = {inspect = _2_, has = _3_, executable = _4_, ["readonly-table"] = _5_}
-  local _let_7_ = require("fennel.compiler")
-  local global_mangling = _let_7_["global-mangling"]
+  local _let_8_ = require("fennel.compiler")
+  local global_mangling = _let_8_["global-mangling"]
   for name, f in pairs(fns) do
     _G[global_mangling(name)] = f
     _G[name] = f

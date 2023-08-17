@@ -72,7 +72,9 @@
     :mod :flutter
     :dependencies :nvim-lua/plenary.nvim}
    {_ :ojroques/nvim-osc52 :mod :osc52}
-   {_ :folke/neodev.nvim :mod :neodev}
+   {_ :folke/neodev.nvim
+    :lazy true
+    :config (fn [] ((. (require :neodev) :setup)))}
    {_ :rafcamlet/nvim-luapad :mod :luapad}
    {_ :j-hui/fidget.nvim :branch :legacy :mod :fidget}
    {_ :lvimuser/lsp-inlayhints.nvim :mod :inlayhints}
