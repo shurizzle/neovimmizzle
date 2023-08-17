@@ -1,8 +1,12 @@
 (macro match-os [& args]
-  (assert-compile (= (% (length args) 2) 0) "Invalid match-os syntax" args)
+  (assert-compile (= 0 (% (length args) 2)) "Invalid match-os syntax" args)
   `(let [os# (. (vim.loop.os_uname) :sysname)]
-     ,(faccumulate [expr :unknown i (length args) 2 -2]
-        `(if (: os# :match ,(. args (- i 1))) ,(. args i) ,expr))))
+     ,(let [exprs `(if)]
+        (for [i (length args) 2 -2]
+          (table.insert exprs `(: os# :match ,(. args (- i 1))))
+          (table.insert exprs (. args i)))
+        (table.insert exprs :unknown)
+        exprs)))
 
 (local os (match-os
             :Windows   :windows
@@ -32,7 +36,8 @@
           :obsd     (= os :openbsd)
           :ssh      (not= nil ssh-remote)
           :headless (vim.tbl_isempty (vim.api.nvim_list_uis))
-          :termux   (not= nil vim.env.TERMUX_APP_PID)})
+          :termux   (not= nil vim.env.TERMUX_APP_PID)
+          :unknown  (= os :unknown)})
 
 (each [k v (pairs {:windows      :win
                    :linux        :lin
@@ -45,4 +50,4 @@
 
 (tset _is :bsd (or _is.mac _is.fbsd _is.dfbsd _is.nbsd _is.obsd))
 
-(readonly-table {:is (readonly-table _is) :ssh ssh-remote})
+(readonly-table {:os os :is (readonly-table _is) :ssh ssh-remote})
