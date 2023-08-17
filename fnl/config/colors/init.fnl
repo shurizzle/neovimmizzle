@@ -70,8 +70,9 @@
     (values key (tostring value))))
 
 (fn generate-palette []
-  (let [(ok err) (write-file (path.join path.init-dir :lua :config :colors :palette.lua)
-                             (.. "return " (vim.inspect (get-palette))))]
+  (let [{: view} (require :fennel)
+        (ok err) (write-file (path.join path.init-dir :fnl :config :colors :palette.fnl)
+                             (view (get-palette)))]
     (if (not ok) (error err))))
 
 (fn -sync []
