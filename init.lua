@@ -5,11 +5,11 @@ else
   path_sep = "/"
 end
 local function path_join(base, ...)
-  _G.assert((nil ~= base), "Missing argument base on /home/shura/.config/nvim/init.fnl:3")
+  _G.assert((nil ~= base), "Missing argument base on /Users/shura/.config/nvim/init.fnl:3")
   return table.concat({base, ...}, path_sep)
 end
 local function dirname(path)
-  _G.assert((nil ~= path), "Missing argument path on /home/shura/.config/nvim/init.fnl:6")
+  _G.assert((nil ~= path), "Missing argument path on /Users/shura/.config/nvim/init.fnl:6")
   return vim.fn.fnamemodify(path, ":h")
 end
 local init_dir
@@ -22,8 +22,8 @@ if not vim.tbl_contains((vim.opt.rtp):get(), init_dir) then
 else
 end
 local function git_clone(url, dir, _3fparams, _3fcallback)
-  _G.assert((nil ~= dir), "Missing argument dir on /home/shura/.config/nvim/init.fnl:19")
-  _G.assert((nil ~= url), "Missing argument url on /home/shura/.config/nvim/init.fnl:19")
+  _G.assert((nil ~= dir), "Missing argument dir on /Users/shura/.config/nvim/init.fnl:19")
+  _G.assert((nil ~= url), "Missing argument url on /Users/shura/.config/nvim/init.fnl:19")
   local install_path = path_join(vim.fn.stdpath("data"), "lazy", dir)
   if not vim.loop.fs_stat(install_path) then
     do
@@ -71,11 +71,17 @@ end
 git_clone("https://github.com/folke/lazy.nvim.git", "lazy.nvim", {"--filter=blob:none", "--branch=stable"})
 git_clone("https://github.com/rktjmp/hotpot.nvim.git", "hotpot.nvim", {"--filter=blob:none", "--single-branch"})
 local hotpot = require("hotpot")
-do
-  local setup = hotpot.setup
-  setup({provide_require_fennel = true, enable_hotpot_diagnostics = true, compiler = {modules = {correlate = true}, macros = {env = "_COMPILER", compilerEnv = _G}}})
-end
 require("hotpot.fennel")
+local function additional_macros()
+  local f = require("hotpot.fennel")
+  local fc = require("fennel.compiler")
+  return f.eval("(fn test-notify [] `(vim.notify :test :info {:title :macro})) {: test-notify}", {env = "_COMPILER", scope = fc.scopes.compiler})
+end
+do
+  local fc = require("fennel.compiler")
+  fc.scopes.global.macros = vim.tbl_deep_extend("force", fc.scopes.global.macros, additional_macros())
+end
+hotpot.setup({provide_require_fennel = true, enable_hotpot_diagnostics = true, compiler = {modules = {correlate = true}, macros = {env = "_COMPILER", ["compiler-env"] = _G}}})
 do
   local _let_12_ = require("fennel.compiler")
   local global_mangling = _let_12_["global-mangling"]
@@ -96,7 +102,7 @@ do
     return (vim.fn.executable(what) ~= 0)
   end
   local function _16_(t)
-    _G.assert((nil ~= t), "Missing argument t on /home/shura/.config/nvim/init.fnl:80")
+    _G.assert((nil ~= t), "Missing argument t on /Users/shura/.config/nvim/init.fnl:90")
     local function _17_(_241, _242)
       return t[_242]
     end

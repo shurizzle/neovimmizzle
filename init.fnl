@@ -60,13 +60,23 @@
   [:--filter=blob:none :--single-branch])
 
 (local hotpot (require :hotpot))
-(let [setup hotpot.setup]
-  (setup {:provide_require_fennel true
-          :enable_hotpot_diagnostics true
-          :compiler {:modules {:correlate true}
-                     :macros  {:env :_COMPILER
-                               :compilerEnv _G}}}))
 (require :hotpot.fennel)
+
+(fn additional-macros []
+  (local f (require :hotpot.fennel))
+  (local fc (require :fennel.compiler))
+  (f.eval "(fn test-notify [] `(vim.notify :test :info {:title :macro})) {: test-notify}"
+          {:env :_COMPILER :scope fc.scopes.compiler}))
+
+(let [fc (require :fennel.compiler)]
+  (set fc.scopes.global.macros
+       (vim.tbl_deep_extend :force fc.scopes.global.macros (additional-macros))))
+
+(hotpot.setup {:provide_require_fennel true
+               :enable_hotpot_diagnostics true
+               :compiler {:modules {:correlate true}
+               :macros   {:env :_COMPILER
+                          :compiler-env _G}}})
 
 (let [{: global-mangling} (require :fennel.compiler)]
   (each [name f (pairs (require :config.stdlib))]
