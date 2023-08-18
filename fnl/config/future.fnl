@@ -92,7 +92,7 @@
 (fn Future.join [futures]
   (vim.validate {:futures [futures :t]})
 
-  (local len (length futures))
+  (local len (count futures))
   (if (= 0 len)
       (Future.resolved [])
       (do
@@ -104,7 +104,7 @@
              ((fn [i]
                 (fn [ok res]
                   (tset results i [ok res])
-                  (if (= len (length results)) (resolve results)))) index)))
+                  (if (= len (count results)) (resolve results)))) index)))
         joined)))
 
 Future

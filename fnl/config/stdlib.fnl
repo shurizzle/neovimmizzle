@@ -37,6 +37,13 @@
     (not xs) true
     (= 0 (length xs))))
 
+(fn count [xs]
+  "Returns the number of elments in object."
+  (if
+    (table? xs) (vim.tbl_count xs)
+    (not xs) 0
+    (length xs)))
+
 (fn inc [n]
   "Increment n by 1."
   (+ n 1))
@@ -58,7 +65,7 @@
   x)
 
 (fn some [f xs]
-  "Return the first truthy result from (f x) or nil."
+  "Returns the first truthy result from (f x) or nil."
   (each [_ x (pairs xs)]
     (var result (f x))
     (if result (lua "return result")))
@@ -92,6 +99,7 @@
  : keys
  : vals
  : empty?
+ : count
  : inc
  : dec
  : even?
