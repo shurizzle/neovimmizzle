@@ -38,7 +38,7 @@
         (edit :edit node)))
 
     (fn collapse [node]
-      (if (and node (not (nil? node.nodes)))
+      (if (and node (not (nil? node.nodes)) node.open)
           (lib.expand_or_collapse node)))
 
     (fn enter [node]
