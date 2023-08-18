@@ -21,12 +21,15 @@
                                        :info  "I:"
                                        :hint  "H:"}})
 
-  (if opts.nerdfont
+  (when opts.nerdfont
       (set symbols.fileformat         {:unix ""
                                        :dos  ""
                                        :mac  ""})
       (set symbols.line               "")
       (set symbols.section_separators {:left "" :right ""})
+      (set symbols.filename           {:modified ""
+                                       :readonly ""
+                                       :unnamed ""})
       (set symbols.diagnostics        {:error " "
                                        :warn  " "
                                        :info  " "
