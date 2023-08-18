@@ -46,9 +46,11 @@
   (- n 1))
 
 (fn even? [n]
+  "True if the value is even."
   (= (% n 2) 0))
 
 (fn odd? [n]
+  "True if the value is odd."
   (not= (% n 2) 0))
 
 (fn identity [x]
@@ -77,6 +79,10 @@
   "Removes whitespaces from both ends of string."
   (string.gsub s "^%s*(.-)%s*$" "%1"))
 
+(fn copy [x]
+  "Returns a deep copy of the given object."
+  (vim.deepcopy x))
+
 {: nil?
  : number?
  : boolean?
@@ -95,4 +101,5 @@
  : const
  : triml
  : trimr
- : trim}
+ : trim
+ : copy}
