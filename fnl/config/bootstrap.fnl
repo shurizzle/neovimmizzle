@@ -3,6 +3,8 @@
 (lambda path-join [base ...]
   (table.concat [base ...] path-sep))
 
+(local realpath vim.loop.fs_realpath)
+
 (lambda dirname [path]
   (vim.fn.fnamemodify path ":h"))
 
@@ -11,7 +13,7 @@
                     ((fn [s] [(: s :gsub "^@" "")]))
                     (. 1)
                     (dirname)
-                    (vim.loop.fs_realpath)))
+                    (realpath)))
 
 (if (not (vim.tbl_contains (vim.opt.rtp:get) init-dir))
     (vim.opt.rtp:append init-dir))
@@ -72,11 +74,20 @@
   (set fc.scopes.global.macros
        (vim.tbl_deep_extend :force fc.scopes.global.macros (additional-macros))))
 
+(fn preprocessor [src {: path : macro?}]
+  (local prefix (path-join init-dir :fnl :config :lang :_ ""))
+  (if (and (not macro?) (vim.startswith (realpath path) prefix))
+    (..
+      "(import-macros {: mkconfig} :config.lang.macros)\n"
+      src)
+    src))
+
 (hotpot.setup {:provide_require_fennel true
                :enable_hotpot_diagnostics true
                :compiler {:modules {:correlate true}
-               :macros   {:env :_COMPILER
-                          :compiler-env _G}}})
+                          :macros   {:env :_COMPILER
+                                     :compiler-env _G}
+                          : preprocessor}})
 
 ;; HACK: placeholder
 (let [fc (require :fennel.compiler)]
