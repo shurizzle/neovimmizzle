@@ -96,6 +96,7 @@
         {: global-unmangling} (require :fennel.compiler)
         allowed-globals (vim.tbl_keys (collect [n _ (pairs _G)] (values (global-unmangling n) true)))
         compiler-opts {:verbosity 0
+                       :force? true
                        :compiler {:modules {:allowedGlobals allowed-globals :env :_COMPILER}}}]
     (fn watch [file callback]
       (let [handle (uv.new_fs_event)]

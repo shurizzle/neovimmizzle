@@ -5,25 +5,26 @@ else
   path_sep = "/"
 end
 local function path_join(base, ...)
-  _G.assert((nil ~= base), "Missing argument base on /Users/shura/.config/nvim/fnl/config/bootstrap.fnl:3")
+  _G.assert((nil ~= base), "Missing argument base on /home/shura/.config/nvim/fnl/config/bootstrap.fnl:3")
   return table.concat({base, ...}, path_sep)
 end
+local realpath = vim.loop.fs_realpath
 local function dirname(path)
-  _G.assert((nil ~= path), "Missing argument path on /Users/shura/.config/nvim/fnl/config/bootstrap.fnl:6")
+  _G.assert((nil ~= path), "Missing argument path on /home/shura/.config/nvim/fnl/config/bootstrap.fnl:8")
   return vim.fn.fnamemodify(path, ":h")
 end
 local init_dir
 local function _2_(s)
   return {s:gsub("^@", "")}
 end
-init_dir = vim.loop.fs_realpath(dirname((_2_((debug.getinfo(1, "S")).source))[1]))
+init_dir = realpath(dirname((_2_((debug.getinfo(1, "S")).source))[1]))
 if not vim.tbl_contains((vim.opt.rtp):get(), init_dir) then
   do end (vim.opt.rtp):append(init_dir)
 else
 end
 local function git_clone(url, dir, _3fparams, _3fcallback)
-  _G.assert((nil ~= dir), "Missing argument dir on /Users/shura/.config/nvim/fnl/config/bootstrap.fnl:19")
-  _G.assert((nil ~= url), "Missing argument url on /Users/shura/.config/nvim/fnl/config/bootstrap.fnl:19")
+  _G.assert((nil ~= dir), "Missing argument dir on /home/shura/.config/nvim/fnl/config/bootstrap.fnl:21")
+  _G.assert((nil ~= url), "Missing argument url on /home/shura/.config/nvim/fnl/config/bootstrap.fnl:21")
   local install_path = path_join(vim.fn.stdpath("data"), "lazy", dir)
   if not vim.loop.fs_stat(install_path) then
     do
@@ -81,38 +82,49 @@ do
   local fc = require("fennel.compiler")
   fc.scopes.global.macros = vim.tbl_deep_extend("force", fc.scopes.global.macros, additional_macros())
 end
-hotpot.setup({provide_require_fennel = true, enable_hotpot_diagnostics = true, compiler = {modules = {correlate = true}, macros = {env = "_COMPILER", ["compiler-env"] = _G}}})
+local function preprocessor(src, _12_)
+  local _arg_13_ = _12_
+  local path = _arg_13_["path"]
+  local macro_3f = _arg_13_["macro?"]
+  local prefix = path_join(init_dir, "fnl", "config", "lang", "_", "")
+  if (not macro_3f and vim.startswith(realpath(path), prefix)) then
+    return ("(import-macros {: mkconfig} :config.lang.macros)\n" .. src)
+  else
+    return src
+  end
+end
+hotpot.setup({provide_require_fennel = true, enable_hotpot_diagnostics = true, compiler = {modules = {correlate = true}, macros = {env = "_COMPILER", ["compiler-env"] = _G}, preprocessor = preprocessor}})
 do
   local fc = require("fennel.compiler")
   do end (fc.scopes.global.includes)["config.bootstrap"] = "(function(...) end)"
 end
 local function watcher()
-  local _let_12_ = hotpot.api.make
-  local build = _let_12_["build"]
-  local _let_13_ = hotpot.api.compile
-  local compile_file = _let_13_["compile-file"]
-  local _let_14_ = require("hotpot.searcher")
-  local search = _let_14_["search"]
+  local _let_15_ = hotpot.api.make
+  local build = _let_15_["build"]
+  local _let_16_ = hotpot.api.compile
+  local compile_file = _let_16_["compile-file"]
+  local _let_17_ = require("hotpot.searcher")
+  local search = _let_17_["search"]
   local uv = vim.loop
   local init_file = path_join(init_dir, "init.fnl")
   local fnl_lualine_theme = path_join(init_dir, "fnl", "lualine", "themes", "bluesky.fnl")
   local lua_lualine_theme = path_join(init_dir, "lua", "lualine", "themes", "bluesky.fnl")
   local bootstrap_file
   do
-    local _15_ = search({prefix = "fnl", extension = "fnl", modnames = {"config.bootstrap.init", "config.bootstrap"}})
-    if ((_G.type(_15_) == "table") and (nil ~= (_15_)[1])) then
-      local path = (_15_)[1]
+    local _18_ = search({prefix = "fnl", extension = "fnl", modnames = {"config.bootstrap.init", "config.bootstrap"}})
+    if ((_G.type(_18_) == "table") and (nil ~= (_18_)[1])) then
+      local path = (_18_)[1]
       bootstrap_file = path
-    elseif (_15_ == nil) then
+    elseif (_18_ == nil) then
       bootstrap_file = error("Cannot find config.bootstrap")
     else
       bootstrap_file = nil
     end
   end
-  local _let_17_ = require("fennel.compiler")
-  local global_unmangling = _let_17_["global-unmangling"]
+  local _let_20_ = require("fennel.compiler")
+  local global_unmangling = _let_20_["global-unmangling"]
   local allowed_globals
-  local function _18_()
+  local function _21_()
     local tbl_14_auto = {}
     for n, _ in pairs(_G) do
       local k_15_auto, v_16_auto = global_unmangling(n), true
@@ -123,28 +135,28 @@ local function watcher()
     end
     return tbl_14_auto
   end
-  allowed_globals = vim.tbl_keys(_18_())
-  local compiler_opts = {verbosity = 0, compiler = {modules = {allowedGlobals = allowed_globals, env = "_COMPILER"}}}
+  allowed_globals = vim.tbl_keys(_21_())
+  local compiler_opts = {verbosity = 0, ["force?"] = true, compiler = {modules = {allowedGlobals = allowed_globals, env = "_COMPILER"}}}
   local function watch(file, callback)
     local handle = uv.new_fs_event()
-    local function _20_()
+    local function _23_()
       return vim.schedule(callback)
     end
-    uv.fs_event_start(handle, file, {}, _20_)
-    local function _21_()
+    uv.fs_event_start(handle, file, {}, _23_)
+    local function _24_()
       return uv.close(handle)
     end
-    return vim.api.nvim_create_autocmd("VimLeavePre", {callback = _21_})
+    return vim.api.nvim_create_autocmd("VimLeavePre", {callback = _24_})
   end
   local function compile_bootstrap()
-    local _22_, _23_ = compile_file(bootstrap_file, compiler_opts)
-    if ((_22_ == true) and (nil ~= _23_)) then
-      local code = _23_
+    local _25_, _26_ = compile_file(bootstrap_file, compiler_opts)
+    if ((_25_ == true) and (nil ~= _26_)) then
+      local code = _26_
       local fc = require("fennel.compiler")
       do end (fc.scopes.global.includes)["config.bootstrap"] = ("(function(...) " .. code .. " end)()")
       return nil
-    elseif ((_22_ == false) and (nil ~= _23_)) then
-      local err = _23_
+    elseif ((_25_ == false) and (nil ~= _26_)) then
+      local err = _26_
       return error(err)
     else
       return nil
@@ -152,23 +164,23 @@ local function watcher()
   end
   compile_bootstrap()
   local function build_init()
-    local function _25_(_241)
+    local function _28_(_241)
       return _241
     end
-    return build(init_file, compiler_opts, ".+", _25_)
+    return build(init_file, compiler_opts, ".+", _28_)
   end
   local function build_init_bootstrap()
     compile_bootstrap()
-    local function _26_(_241)
+    local function _29_(_241)
       return _241
     end
-    return build(init_file, compiler_opts, ".+", _26_)
+    return build(init_file, compiler_opts, ".+", _29_)
   end
   local function build_lualine()
-    local function _27_()
+    local function _30_()
       return lua_lualine_theme
     end
-    return build(fnl_lualine_theme, compiler_opts, ".+", _27_)
+    return build(fnl_lualine_theme, compiler_opts, ".+", _30_)
   end
   watch(bootstrap_file, build_init_bootstrap)
   watch(init_file, build_init)
@@ -195,7 +207,7 @@ do
     return (vim.fn.executable(what) ~= 0)
   end
   local function _5_(t)
-    _G.assert((nil ~= t), "Missing argument t on /Users/shura/.config/nvim/init.fnl:11")
+    _G.assert((nil ~= t), "Missing argument t on /home/shura/.config/nvim/init.fnl:11")
     local function _6_(_241, _242)
       return t[_242]
     end
