@@ -159,7 +159,7 @@
         symbols {: f-join : resolved : rejected : f : l : lsp : res}]
     (wrap-requires state symbols (compose-futures state symbols))))
 
-(fn config [...]
+(fn mkconfig [...]
   (var args [...])
   (assert-compile (not= 0 (length args)) "Invalid arguments for config" args)
   (local name (when (sym? (. args 1))
@@ -177,4 +177,4 @@
       `(fn ,name [] ,gen-body)
       `(fn [] ,gen-body)))
 
-{: config}
+{: mkconfig}
