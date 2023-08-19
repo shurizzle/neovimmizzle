@@ -1,4 +1,4 @@
-{:lazy true
+{:lazy false
  :cond (not (. (require :config.platform) :is :headless))
  :config (fn []
            (let [notify (require :notify)] 
