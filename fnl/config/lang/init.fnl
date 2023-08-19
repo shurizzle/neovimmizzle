@@ -20,10 +20,12 @@
                         :finally
                         (fn [ok res0]
                           (if (not ok)
-                              (let [res (if (not= :string (type res0))
-                                            (vim.inspect res0)
-                                            res0)]
-                                (vim.notify (.. lang ": " res) vim.log.levels.ERROR {:title :LSP})))
+                              (let [res (if (string? res0)
+                                            res0
+                                            (vim.inspect res0))]
+                                (vim.notify (.. lang ": " res)
+                                            vim.log.levels.ERROR
+                                            {:title :LSP})))
                           (pcall vim.api.nvim_del_augroup_by_name auname)
                           (launch bufnr)))))
        :group auname
