@@ -1,10 +1,9 @@
 (let [_ 1 devicons :kyazdani42/nvim-web-devicons]
-  [
+  [{_ :rcarriga/nvim-notify :mod :notify}
    {_ :nvim-lua/plenary.nvim :lazy true}
    {_ :goolord/alpha-nvim :mod :alpha}
    {_ devicons :mod :devicons}
    {_ :folke/which-key.nvim :mod :which-key}
-   {_ :rcarriga/nvim-notify :mod :notify}
    {_ :stevearc/dressing.nvim :mod :dressing}
    {_ :nvim-treesitter/nvim-treesitter :mod :treesitter}
    {_ :nvim-treesitter/nvim-treesitter-textobjects :mod :treesitter.textobjects}
