@@ -22,6 +22,16 @@ end
 function _M.name(bufnr)
   local name = vim.api.nvim_buf_get_name(bufnr)
   if name ~= nil and name ~= '' then name = vim.fn.fnamemodify(name, ':.') end
+  if vim.startswith(name, 'term://') then
+    local first, second = unpack(vim.split(name, ';', { trimempty = true }))
+    if vim.startswith(second, '#toggleterm#') then
+      local last = nil
+      for n in vim.gsplit(first, ':', { trimempty = true }) do
+        last = n
+      end
+      if last then name = last end
+    end
+  end
   if name then name = u.stl_escape(name) end
   return name or ''
 end
