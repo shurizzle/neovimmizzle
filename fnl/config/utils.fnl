@@ -4,9 +4,8 @@
   (tset _G (global-mangling name) what))
 
 (if (has :terminal)
-  (fn _G.term_run [cmd] (vim.api.nvim_command (.. "terminal " cmd)))
-  (fn _G.term_run [cmd] (vim.api.nvim_command (.. "noautocmd new | terminal " cmd))))
-(global-set :term-run _G.term_run)
+  (fn _G.term-run [cmd] (vim.api.nvim_command (.. "terminal " cmd)))
+  (fn _G.term-run [cmd] (vim.api.nvim_command (.. "noautocmd new | terminal " cmd))))
 
 (fn _G.colorscheme [...]
   (if (= (length [...]) 0)

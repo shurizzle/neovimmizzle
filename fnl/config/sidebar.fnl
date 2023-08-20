@@ -45,10 +45,7 @@
            (cb {: resize :close async-close}))))
 
 {: get-name
- :get_name get-name
  : on-resize
- :on_resize on-resize
  : on-close
- :on_close on-close
  : close
  : register}

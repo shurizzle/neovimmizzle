@@ -5,7 +5,6 @@
 (local dir-sep (if platform.is.win :\ :/))
 
 (var path {:dir-sep dir-sep
-           :dir_sep dir-sep
            :sep (if platform.is.win ";" ::)
            :join (fn [...] (table.concat [...] dir-sep))
            :real vim.loop.fs_realpath
@@ -15,11 +14,10 @@
            :ext (lambda [path] (vim.fn.fnamemodify path ::e))
      })
 (tset path :extension path.ext)
-(tset path :init_dir (-> (filename path)
+(tset path :init-dir (-> (filename path)
                          (path.dirname)
                          (path.join :.. :..)
                          (path.real)))
-(tset path :init-dir path.init_dir)
 
 (fn path.dirs []
   (vim.tbl_map (fn [x] (x:gsub (.. (vim.pesc path.dir-sep) :+$) ""))

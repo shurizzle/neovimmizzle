@@ -34,5 +34,4 @@
               (finally (fn [...] (f-cb notify-edit ...)))
               (and-then resolve reject))))))))
 
-{: notify-progress
- :notify_progress notify-progress}
+{: notify-progress}
