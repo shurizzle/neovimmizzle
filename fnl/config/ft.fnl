@@ -9,4 +9,8 @@
                                         :comp :rgen :rint :rchit :rahit :rmiss
                                         :rcall])]
                    (values k :glsl))})
+
+(add {:extension {:zig :zig
+                  :zir :zir}})
+
 nil
