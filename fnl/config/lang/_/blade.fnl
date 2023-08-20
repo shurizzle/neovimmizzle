@@ -1,1 +1,1 @@
-{:config (fn [] (. (require :config.lang.formatters) :blade-formatter))}
+{:config (mkconfig :formatters :blade-formatter)}
