@@ -64,10 +64,17 @@
 (local hotpot (require :hotpot))
 (require :hotpot.fennel)
 
+(fn slurp [path]
+  (match (io.open path "r")
+    (nil _msg) nil
+    f (let [content (f:read "*all")]
+        (f:close)
+        content)))
+
 (fn additional-macros []
   (local f (require :hotpot.fennel))
   (local fc (require :fennel.compiler))
-  (f.eval "(fn test-notify [] `(vim.notify :test :info {:title :macro})) {: test-notify}"
+  (f.eval (slurp (path-join init-dir :fnl :config :init-macros.fnl))
           {:env :_COMPILER :scope fc.scopes.compiler}))
 
 (let [fc (require :fennel.compiler)]

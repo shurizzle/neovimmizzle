@@ -90,6 +90,34 @@
   "Returns a deep copy of the given object."
   (vim.deepcopy x))
 
+(fn starts-with? [s prefix]
+  "True if string `s` starts with string `prefix`."
+  (vim.startswith s prefix))
+
+(fn strip-prefix [s prefix]
+  "Returns string `s` without string `prefix` if `s` starts with `prefix`, else
+  returns nil."
+  (when (starts-with? s prefix)
+    (string.sub s (inc (length prefix)))))
+
+(fn ends-with? [s suffix]
+  "True if string `s` ends with string `suffix`."
+  (vim.endswith s suffix))
+
+(fn strip-suffix [s suffix]
+  "Returns string `s` without string `suffix` if `s` ends with `suffix`, else
+  returns nil."
+  (when (ends-with? s suffix)
+    (string.sub s 1 (- (length s) (length suffix)))))
+
+(fn slurp [path]
+  "Read the file into a string."
+  (match (io.open path "r")
+    (nil _msg) nil
+    f (let [content (f:read "*all")]
+        (f:close)
+        content)))
+
 {: nil?
  : number?
  : boolean?
@@ -110,4 +138,9 @@
  : triml
  : trimr
  : trim
- : copy}
+ : copy
+ : starts-with?
+ : strip-prefix
+ : ends-with?
+ : strip-suffix
+ : slurp}
