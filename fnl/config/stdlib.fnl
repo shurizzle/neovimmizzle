@@ -118,6 +118,14 @@
         (f:close)
         content)))
 
+(fn once [f]
+  (vim.validate {:f [f :f]})
+  (var called false)
+  (fn [...]
+    (when (not called)
+      (set called true)
+      (f ...))))
+
 {: nil?
  : number?
  : boolean?
@@ -143,4 +151,5 @@
  : strip-prefix
  : ends-with?
  : strip-suffix
- : slurp}
+ : slurp
+ : once}
