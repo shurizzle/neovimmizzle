@@ -53,6 +53,10 @@
   (local space {1 (fn [] (if opts.nerdfont " " ""))
                 :padding false})
 
+  (local toggleterm
+    {:sections {:lualine_a [(fn [] (.. "TERMINAL " vim.b.toggle_number))]}
+     :filetypes [:toggleterm]})
+
   ((. (require :lualine) :setup)
    {:options           {:icons_enabled        opts.nerdfont
                         :theme                :bluesky
@@ -80,7 +84,8 @@
                  (fixed-text "Scopes" "dapui_scopes")
                  (fixed-text "Breakpoints" "dapui_breakpoints")
                  (fixed-text "Stacks" "dapui_stacks")
-                 (fixed-text "Watches" "dapui_watches")]}))
+                 (fixed-text "Watches" "dapui_watches")
+                 toggleterm]}))
 
 
 {:lazy false

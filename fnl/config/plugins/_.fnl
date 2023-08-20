@@ -80,4 +80,5 @@
    {_ :lvimuser/lsp-inlayhints.nvim :mod :inlayhints}
    {_ :LhKipp/nvim-nu :mod :nu}
    {_ :b0o/schemastore.nvim :lazy :true}
-   {_ :mfussenegger/nvim-jdtls :lazy :true}])
+   {_ :mfussenegger/nvim-jdtls :lazy :true}
+   {_ :akinsho/toggleterm.nvim :mod :toggleterm}])

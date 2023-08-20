@@ -93,15 +93,21 @@ nnoremap gm <cmd>call SynGroup()<CR>
                        :ZZ ["<cmd>BufferClose<CR>" "Close current buffer"]
                        :ZQ ["<cmd>BufferClose!<CR>"
                             "Close current buffer without saving"]
-                       :<C-h> ["<cmd>wincmd h<CR>"]
-                       :<C-j> ["<cmd>wincmd j<CR>"]
-                       :<C-k> ["<cmd>wincmd k<CR>"]
-                       :<C-l> ["<cmd>wincmd l<CR>"]
                        :Y ["y$" "Yank untill the end of the line"]
                        ; Make Y behave like the other capitals
                        :<leader>ca [vim.lsp.buf.code_action
                                     "Show available code actions"] })]
   (kset :n k f {:silent true :noremap true :desc d}))
+
+(each [k [f d] (pairs {:<C-h> ["<cmd>wincmd h<CR>"]
+                       :<C-j> ["<cmd>wincmd j<CR>"]
+                       :<C-k> ["<cmd>wincmd k<CR>"]
+                       :<C-l> ["<cmd>wincmd l<CR>"]})]
+  (kset :t k f {:silent true :noremap true :desc d})
+  (kset :n k f {:silent true :noremap true :desc d}))
+
+(kset :t "<C-,>" "<cmd>stopinsert!<cr>" {:silent true :noremap true})
+; (kset :t :jk "<cmd>stopinsert!<cr>" {:silent true :noremap true})
 
 (each [k [f d] (pairs {:<leader>ca [vim.lsp.buf.code_action
                                     "Show available code actions"]})]
