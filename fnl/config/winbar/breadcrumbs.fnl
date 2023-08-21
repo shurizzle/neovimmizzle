@@ -45,7 +45,7 @@
       breadcrumbs))
 
 (fn create-breadcrumbs [bufnr cursor]
-  (-?>> ((. (require :config.winbar.lsp) :get_data) bufnr)
+  (-?>> ((. (require :config.winbar.lsp) :get-data) bufnr)
         (extract-breadcrumbs cursor)))
 
 (fn get-or-create-state [winid ?bufnr]
@@ -142,10 +142,10 @@
                    kind-name (.. "%#BreadcrumbIcon" kind-name :#)
                    (not= 0 i) "%#BreadcrumbsBar#"
                    "")
-                 (u.stl_escape (if kind-name (. icons kind-name) :?))
+                 (u.stl-escape (if kind-name (. icons kind-name) :?))
                  (match (-?> data.name (trim))
                    (where name (not (empty? name)))
-                     (.. " %#BreadcrumbText#" (u.stl_escape name))
+                     (.. " %#BreadcrumbText#" (u.stl-escape name))
                    _ "")))
   (if (not (empty? res))
       (.. "%" i "@GoToDocumentSymbol@" res "%X")
@@ -162,7 +162,7 @@
       res))
 
 (fn render [?winid]
-  (local winid (u.ensure_winnr (or ?winid 0)))
+  (local winid (u.ensure-winnr (or ?winid 0)))
   (when (not (. cache winid))
     (tset cache winid (or (-?> (. states winid)
                             (. :breadcrumbs)
@@ -172,7 +172,7 @@
 
 (fn jump [i _ mouse]
   (when (not= :l mouse)
-    (local winid (u.ensure_winnr 0))
+    (local winid (u.ensure-winnr 0))
     (local symbol (.? (get winid) i))
     (when symbol
       (vim.api.nvim_win_set_cursor winid [(inc symbol.range.start.line)

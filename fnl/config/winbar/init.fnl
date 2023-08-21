@@ -34,7 +34,7 @@
 
 (fn winbar [?winid]
   (let [u (require :config.winbar.util)
-        winid (u.ensure_winnr (or ?winid 0))]
+        winid (u.ensure-winnr (or ?winid 0))]
     (.. (name (vim.api.nvim_win_get_buf winid))
         (match (breadcrumbs winid)
           (where n (not (empty? n))) (.. " %#BreadcrumbsSeparator#>%* " n)

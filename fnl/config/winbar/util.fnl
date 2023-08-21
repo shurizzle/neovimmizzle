@@ -31,6 +31,21 @@
       (select 1 (str:gsub "%%" "%%%%"))
       str))
 
+(lambda trace-callback [f]
+  (vim.validate {:f [f :f]})
+  (fn on-error [err]
+    (vim.api.nvim_echo [[(if (string? err) err (vim.inspect err))
+                         :ErrorMsg]]
+                       true
+                       []))
+  (fn [& args]
+    (let [[ok & res] [(pcall (fn [] (f (unpack args))))]]
+      (if ok
+          (unpack res)
+          (do
+            (on-error (. res 1))
+            (error (unpack res)))))))
+
 {: ensure-bufnr
  : ensure-winnr
  : ensure-tabnr
@@ -38,13 +53,4 @@
  : buf-get-tabpages
  : win-is-visible
  : buf-is-visible
- : stl-escape
- :ensure_bufnr ensure-bufnr
- :ensure_winnr ensure-winnr
- :ensure_tabnr ensure-tabnr
- :buf_get_windows buf-get-windows
- :buf_get_tabpages buf-get-tabpages
- :win_is_visible win-is-visible
- :buf_is_visible buf-is-visible
- :stl_escape stl-escape
- :call_once once}
+ : stl-escape}
