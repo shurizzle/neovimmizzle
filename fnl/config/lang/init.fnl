@@ -1,4 +1,4 @@
-(local Future (require :config.future))
+(autoload [Future :config.future])
 
 (lambda deferred-config [lang]
   (vim.validate {:lang [lang :s]})

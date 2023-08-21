@@ -52,17 +52,17 @@
         true)))
 
 (var internal-states [])
-(local u (require :config.winbar.util))
+(autoload [{: ensure-bufnr} :config.winbar.util])
 
-(fn get [bufnr] (. internal-states (u.ensure-bufnr bufnr)))
+(fn get [bufnr] (. internal-states (ensure-bufnr bufnr)))
 
 (fn get-or-create [?bufnr]
-  (local bufnr (u.ensure-bufnr ?bufnr))
+  (local bufnr (ensure-bufnr ?bufnr))
   (tset internal-states bufnr (or (. internal-states bufnr) (State:new)))
   (. internal-states bufnr))
 
 (fn delete [bufnr]
-  (tset internal-states (u.ensure-bufnr bufnr) nil))
+  (tset internal-states (ensure-bufnr bufnr) nil))
 
 {: get
  : get-or-create

@@ -1,3 +1,7 @@
+(autoload [{:pcall f-pcall : future : and-then} :config.future
+           {: notify-progress} :config.lang.util
+           mr :mason-registry])
+
 (fn do-install [p version]
   (fn start [notify]
     (notify
@@ -6,10 +10,9 @@
           (.. p.name ": installing"))
       vim.log.levels.INFO
       {:title :Mason})
-    (let [{: future} (require :config.future)]
-      (future (fn [resolve reject]
-                (p:once :install:success (fn [] (resolve p)))
-                (p:once :install:failed reject)))))
+    (future (fn [resolve reject]
+              (p:once :install:success (fn [] (resolve p)))
+              (p:once :install:failed reject))))
   (fn finish [notify ok]
     (if ok
         (notify
@@ -21,17 +24,14 @@
           vim.log.levels.ERROR
           {:title :Mason})))
 
-  (let [{: notify-progress} (require :config.lang.util)
-        f (notify-progress start finish)]
+  (let [f (notify-progress start finish)]
     (p:install {: version})
     f))
 
 (fn install-or-upgrade [what]
-  (local {:pcall f-pcall : future : and-then} (require :config.future))
   (f-pcall
     (fn []
-      (let [mr (require :mason-registry)
-            p (mr.get_package what)]
+      (let [p (mr.get_package what)]
         (if (p:is_installed)
             (future
               (fn [resolve reject]

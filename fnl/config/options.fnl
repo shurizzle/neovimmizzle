@@ -1,4 +1,4 @@
-(local {: is} (require :config.platform))
+(autoload [{: is} :config.platform])
 
 (macro opt [& opts]
   (assert-compile (= (% (length opts) 2) 0) "Invalid options syntax" opts)

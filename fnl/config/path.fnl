@@ -1,11 +1,11 @@
 (macro filename [x]
   (. x :filename))
 
-(local platform (require :config.platform))
-(local dir-sep (if platform.is.win :\ :/))
+(autoload [{: is} :config.platform])
+(local dir-sep (if is.win :\ :/))
 
 (var path {:dir-sep dir-sep
-           :sep (if platform.is.win ";" ::)
+           :sep (if is.win ";" ::)
            :join (fn [...] (table.concat [...] dir-sep))
            :real vim.loop.fs_realpath
            :canonical (lambda [path] (vim.fn.fnamemodify path ::p))

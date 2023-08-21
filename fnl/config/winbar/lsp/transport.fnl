@@ -26,8 +26,8 @@
                                     :Operator 25
                                     :TypeParameter 26}))
 (local SymbolTag {:Deprecated 1})
-(local u (require :config.winbar.util))
-(local s (require :config.winbar.lsp.state))
+(autoload [{: ensure-bufnr} :config.winbar.util
+           {: get} :config.winbar.lsp.state])
 (local METHOD "textDocument/documentSymbol")
 
 (fn symbol-compare [{:selectionRange r1} {:selectionRange r2}]
@@ -97,8 +97,8 @@
       tree)))
 
 (fn request [?bufnr handler]
-  (local bufnr (u.ensure-bufnr ?bufnr))
-  (local state (s.get bufnr))
+  (local bufnr (ensure-bufnr ?bufnr))
+  (local state (get bufnr))
   (if (not state)
       false
       (do

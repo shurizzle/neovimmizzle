@@ -1,3 +1,5 @@
+(autoload [{: ensure-winnr : buf-get-windows : stl-escape} :config.winbar.util])
+
 (local excluded-buftypes [:nofile
                           :help])
 (local excluded-filetypes [])
@@ -22,8 +24,7 @@
     (when (not (empty? name))
       (vim.fn.fnamemodify name ::.)))
 
-  (let [name (vim.api.nvim_buf_get_name bufnr)
-        {: stl-escape} (require :config.winbar.util)]
+  (let [name (vim.api.nvim_buf_get_name bufnr)]
     (when name
       (-?> (or (toggleterm name) (fallback name)) (stl-escape)))))
 
@@ -33,8 +34,7 @@
       0))
 
 (fn winbar [?winid]
-  (let [u (require :config.winbar.util)
-        winid (u.ensure-winnr (or ?winid 0))]
+  (let [winid (ensure-winnr (or ?winid 0))]
     (.. (name (vim.api.nvim_win_get_buf winid))
         (match (breadcrumbs winid)
           (where n (not (empty? n))) (.. " %#BreadcrumbsSeparator#>%* " n)
@@ -59,13 +59,11 @@
     (redraw-status winnr)))
 
 (fn buf-set-winbar [bufnr]
-  (each [_ winnr (ipairs ((. (require :config.winbar.util) :buf-get-windows)
-                          bufnr))]
+  (each [_ winnr (ipairs (buf-get-windows bufnr))]
     (set-winbar winnr)))
 
 (fn buf-unset-winbar [bufnr]
-  (each [_ winnr (ipairs ((. (require :config.winbar.util) :buf-get-windows)
-                          bufnr))]
+  (each [_ winnr (ipairs (buf-get-windows bufnr))]
     (unset-winbar winnr)))
 
 (fn options [?opts]
