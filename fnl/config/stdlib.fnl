@@ -66,8 +66,8 @@
 
 (fn some [f xs]
   "Returns the first truthy result from (f x) or nil."
-  (each [_ x (pairs xs)]
-    (var result (f x))
+  (each [k x (pairs xs)]
+    (var result (f x k xs))
     (if result (lua "return result")))
   nil)
 
