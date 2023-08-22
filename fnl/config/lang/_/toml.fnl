@@ -1,2 +1,2 @@
 {:config (fn [] (: (. (require :config.lang.lsp) :taplo) :catch
-                   ((require :config.lang.fallback) :taplo)))}
+                   (fn [] ((require :config.lang.fallback) :taplo))))}
