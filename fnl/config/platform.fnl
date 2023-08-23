@@ -18,14 +18,12 @@
             :OpenBSD   :openbsd))
 
 (fn extract [env]
-  (-?>> (-?> env (: :find "%s") (- 1)) (: env :sub 0)))
+  (-?>> (-?> env (: :find "%s") (- 1))
+        (: env :sub 0)
+        ((. (require :ip) :parse))))
 
-(fn coalesce-map [map & rest]
-  (each [_ name (ipairs rest)]
-    (let [res (map name)]
-      (if res (lua "return res")))))
-
-(local ssh-remote (coalesce-map #(extract (. vim.env $1)) :SSH_CLIENT :SSH_CONNECTION))
+(local ssh-remote (some #(extract (. vim.env $1))
+                        [:SSH_CLIENT :SSH_CONNECTION]))
 
 (var _is {:win      (= os :windows)
           :lin      (= os :linux)
