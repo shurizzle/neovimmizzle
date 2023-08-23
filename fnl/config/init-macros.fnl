@@ -102,8 +102,40 @@
      ,(lazy-var bindings)
      ,...))
 
+(local *mod-mappings* {:def   :var
+                       :def-  :var
+                       :defn  :lambda
+                       :defn- :lambda})
+
+(fn transform-expression [mod-sym expr]
+  (if (list? expr)
+      (let [call-name (-?> (. expr 1) (tostring))
+            rep-name (-?>> call-name (. *mod-mappings*) (sym))
+            name (. expr 2)]
+        (if rep-name
+            (do
+              (assert-compile (sym? name) (.. "Invalid " call-name " syntax") name)
+              (tset expr 1 rep-name)
+              (if (or (= call-name :def) (= call-name :defn))
+                  [expr `(tset ,mod-sym ,(tostring name) ,name)]
+                  [expr]))
+            [expr]))
+      [expr]))
+
+(fn module [& exprs]
+  (let [mod-sym (gensym)
+        mod []]
+    (each [_ expr (ipairs exprs)]
+      (each [_ new-expr (ipairs (transform-expression mod-sym expr))]
+        (table.insert mod new-expr)))
+    (table.insert mod mod-sym)
+    `(let [,mod-sym []]
+       ,mod
+       ,mod-sym)))
+
 {: inc!
  : dec!
  : autoload
  : lazy-var
- : lazy-let}
+ : lazy-let
+ : module}
