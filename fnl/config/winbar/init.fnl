@@ -1,9 +1,11 @@
-(autoload [{: ensure-winnr : buf-get-windows : stl-escape} :config.winbar.util])
+(autoload [{: ensure-winnr : buf-get-windows : stl-escape} :config.winbar.util
+           {: is} :config.platform])
 
 (local excluded-buftypes [:nofile
                           :help])
 (local excluded-filetypes [])
 (local winbar-fmt "%{%v:lua.require\'config.winbar\'()%}")
+(local *cmd-sep* (if is.win "&" ";"))
 
 (fn breadcrumbs [?winid]
   ((. (require :config.winbar.breadcrumbs) :render) ?winid))
@@ -11,14 +13,22 @@
 (fn name [bufnr]
   (vim.validate {:bufnr [bufnr :n]})
 
-  (fn toggleterm [name]
-    (case (strip-prefix name "term://")
-      (where name (not (nil? name)))
-        (let [(first second) (string.match name "(.*);(.*)")]
-          (when (and first second (starts-with? second "#toggleterm#"))
-            (match (select 2 (string.match first "(.*):(.*)"))
-              "" nil
-              other other)))))
+  (fn term [name]
+    (fn base [name]
+      (case (strip-prefix name "term://")
+        (where name (not (nil? name)))
+          (let [(_ second) (string.match name "([^:]*):(.*)")]
+            (if (not (empty? second))
+                second
+                name))))
+    (fn toggleterm [name]
+      (let [(first second) (string.match name (.. "([^" *cmd-sep* "]*)"
+                                                  *cmd-sep* "(.*)"))]
+        (if (and first second (starts-with? second "#toggleterm#"))
+            first
+            name)))
+    (-?> name (base) (toggleterm)))
+
 
   (fn fallback [name]
     (when (not (empty? name))
@@ -26,7 +36,7 @@
 
   (let [name (vim.api.nvim_buf_get_name bufnr)]
     (when name
-      (-?> (or (toggleterm name) (fallback name)) (stl-escape)))))
+      (-?> (or (term name) (fallback name)) (stl-escape)))))
 
 (fn len [?str]
   (if ?str
