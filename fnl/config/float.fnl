@@ -39,7 +39,7 @@
 
 (fn close-win []
   (let [res (let [winid (?. state :winid)]
-              (if (vim.api.nvim_win_is_valid winid)
+              (if (-?> winid (vim.api.nvim_win_is_valid))
                   (do
                     (vim.api.nvim_win_close winid true)
                     true)
@@ -62,8 +62,8 @@
 
 (fn is-open [?term]
   (and state
-       (vim.api.nvim_win_is_valid state.winid)
-       (vim.api.nvim_buf_is_valid state.bufnr)
+       (-?> state.winid (vim.api.nvim_win_is_valid))
+       (-?> state.bufnr (vim.api.nvim_buf_is_valid))
        (or (not ?term) (=
                          (let [(ok bufnr) (pcall extract-bufnr :?term ?term)]
                            (if ok bufnr nil))
@@ -176,11 +176,12 @@
 
 (lambda term-open [term]
   (fn on_exit []
-    (set term.jobid nil)
-    (close term)
-    (if term.on-exit (term:on-exit))
-    (when (select 1 (validate-bufnr term.bufnr))
-      (vim.api.nvim_buf_delete term.bufnr {:force true})))
+    (when term.jobid
+      (set term.jobid nil)
+      (close term)
+      (if term.on-exit (term:on-exit))
+      (when (select 1 (validate-bufnr term.bufnr))
+        (vim.api.nvim_buf_delete term.bufnr {:force true}))))
 
   (when (not term.jobid)
     (let [cmd   (make-cmd term.cmd)
@@ -190,12 +191,16 @@
                   (fn []
                     (vim.fn.termopen
                       cmd
-                      {:detach 1
+                      {:detach 0
                        : on_exit
                        :cwd term.cwd
                        :env term.env
                        :clear_env term.clear-env})))]
-      (set term.jobid jobid)))
+      (set term.jobid jobid)
+      (vim.api.nvim_create_autocmd
+        :TermClose
+        {:buffer bufnr
+         :callback on_exit})))
   (set-term term)
   nil)
 
