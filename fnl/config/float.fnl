@@ -5,7 +5,6 @@
 
 ; TODO:
 ; set focus on open
-; handle VimResized event
 ; close on unfocus
 
 ; manager
@@ -236,6 +235,20 @@
                 on-open)
      :on-close (merge-fn term-close on-close)
      :toggle term-toggle}))
+
+(vim.api.nvim_create_autocmd
+  :VimResized
+  {:callback (fn []
+               (when (-?> state (. :winid) (vim.api.nvim_win_is_valid))
+                 (let [[row col width height] (mksize)
+                       opts (vim.api.nvim_win_get_config state.winid)]
+                   (set opts.row row)
+                   (set opts.col col)
+                   (set opts.width width)
+                   (set opts.height height)
+                   (vim.api.nvim_win_set_config state.winid opts)
+                   (vim.cmd :redraw!)))
+               false)})
 
 {: close
  : is-open
