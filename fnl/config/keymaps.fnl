@@ -107,8 +107,39 @@ nnoremap gm <cmd>call SynGroup()<CR>
   (kset :n k f {:silent true :noremap true :desc d}))
 
 (kset :t "<C-,>" "<cmd>stopinsert!<cr>" {:silent true :noremap true})
-; (kset :t :jk "<cmd>stopinsert!<cr>" {:silent true :noremap true})
 
 (each [k [f d] (pairs {:<leader>ca [vim.lsp.buf.code_action
                                     "Show available code actions"]})]
   (kset :x k f {:silent true :noremap true :desc d}))
+
+; floating temporary windows
+(do
+  (local float (require :config.float))
+
+  (var lazygit nil)
+  (set lazygit (float.make-term
+                 {:cmd :lazygit
+                  :behaviour :restart
+                  :on-open (fn [{:bufnr buffer}]
+                             (vim.keymap.set
+                               :n :q (fn [] (lazygit:close))
+                               {:noremap true :silent true : buffer}))}))
+  (kset :n :<space>g #(lazygit:toggle)
+        {:noremap true :silent true :desc "Toggle floating lazygit."})
+
+  (var temp nil)
+  (set temp (float.make-term {:behaviour :restart}))
+  (kset :n :<space>t #(temp:toggle)
+        {:noremap true :silent true :desc "Toggle floating term."})
+
+  (var elinks nil)
+  (set elinks
+         (float.make-term
+           {:cmd :elinks
+            :on-open (fn [{:bufnr buffer}]
+                       (vim.keymap.set
+                         :n :q (fn [] (elinks:close))
+                         {:noremap true :silent true : buffer}))}))
+  (vim.keymap.set :n :<space>b
+                  #(elinks:toggle)
+                  {:noremap true :silent true :desc "Toggle tui browser."}))
