@@ -46,21 +46,28 @@
                   false))]
     (or (close-current-term) res)))
 
-(fn extract-bufnr [name term]
-  (if
-    (and (table? term) (select 1 (validate-bufnr term.bufnr)))
-      term.bufnr
-    (and (number? term) (select 1 (validate-bufnr term.bufnr)))
-      term
-    (error (.. name ": expected bufnr or term, got " (type term)))))
-
 (fn close [?term]
-  (match (-?>> ?term (extract-bufnr :?term))
-    nil (close-win)
-    (where bufnr (= bufnr (?. state :bufnr))) (close-win)
-    _ false))
+  (fn extract-bufnr [?term]
+    (if
+      (number? (?. ?term :bufnr)) ?term.bufnr
+      (number? ?term) ?term
+      nil))
+
+  (if (nil? ?term)
+      (close-win)
+      (match (extract-bufnr ?term)
+        (where bufnr (= bufnr (?. state :bufnr))) (close-win)
+        _ false)))
 
 (fn is-open [?term]
+  (fn extract-bufnr [name term]
+    (if
+      (and (table? term) (select 1 (validate-bufnr term.bufnr)))
+        term.bufnr
+      (and (number? term) (select 1 (validate-bufnr term)))
+        term
+      (error (.. name ": expected bufnr or term, got " (type term)))))
+
   (and state
        (-?> state.winid (vim.api.nvim_win_is_valid))
        (-?> state.bufnr (vim.api.nvim_buf_is_valid))
@@ -147,21 +154,13 @@
     bufnr))
 
 (fn term-bufnr [term]
-  (fn register-unload [term]
-    (vim.api.nvim_create_autocmd
-      :BufDelete
-      {:buffer term.bufnr
-       :callback (fn []
-                   (close term)
-                   (if term.on-exit (term:on-exit))
-                   (set term.bufnr nil))}))
-
   (if (or (not term.bufnr) (not (vim.api.nvim_buf_is_valid term.bufnr)))
       (let [bufnr (mkbuf)]
         (set term.bufnr bufnr)
-        (register-unload term)
         bufnr)
-      term.bufnr))
+      (do
+        (vim.notify :reusing)
+        term.bufnr)))
 
 (fn merge-fn [a b ...]
   (let [merged (if
@@ -178,10 +177,14 @@
   (fn on_exit []
     (when term.jobid
       (set term.jobid nil)
-      (close term)
-      (if term.on-exit (term:on-exit))
-      (when (select 1 (validate-bufnr term.bufnr))
-        (vim.api.nvim_buf_delete term.bufnr {:force true}))))
+      (if term.on-exit (pcall term.on-exit term)))
+    (when (-?> term.bufnr (vim.api.nvim_buf_is_valid))
+      (let [(ok err) (pcall (fn []
+                              (vim.api.nvim_buf_delete term.bufnr {:force true})
+                              (close term)))]
+        (set term.bufnr nil)
+        (if (not ok) (error err))))
+    nil)
 
   (when (not term.jobid)
     (let [cmd   (make-cmd term.cmd)
@@ -206,13 +209,16 @@
 
 (local term-is-open is-open)
 
-(lambda term-close [term]
+(lambda -term-close [term ?close]
   (if (= term.behaviour :restart)
       (let [jobid term.jobid]
         (set term.jobid nil)
         (-?> jobid (vim.fn.jobstop)))
-      (close term))
+      (if ?close (?close term)))
   nil)
+
+(lambda term-close [term]
+  (-term-close term close))
 
 (lambda term-toggle [term]
   ((if (term-is-open term) term-close term-open) term))
@@ -246,7 +252,7 @@
                 (fn [term]
                   (run-in-buffer term.bufnr (fn [] (vim.cmd :startinsert!))))
                 on-open)
-     :on-close (merge-fn term-close on-close)
+     :on-close (merge-fn -term-close on-close)
      :toggle term-toggle}))
 
 (vim.api.nvim_create_autocmd
