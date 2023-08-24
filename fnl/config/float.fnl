@@ -3,10 +3,6 @@
                        :style :minimal
                        :border *curved-borders*})
 
-; TODO:
-; set focus on open
-; close on unfocus
-
 ; manager
 
 (var state nil)
@@ -42,12 +38,13 @@
       false))
 
 (fn close-win []
-  (let [winid (?. state :winid)]
-    (if (vim.api.nvim_win_is_valid winid)
-        (do
-          (vim.api.nvim_win_close winid true)
-          true)
-        false)))
+  (let [res (let [winid (?. state :winid)]
+              (if (vim.api.nvim_win_is_valid winid)
+                  (do
+                    (vim.api.nvim_win_close winid true)
+                    true)
+                  false))]
+    (or (close-current-term) res)))
 
 (fn extract-bufnr [name term]
   (if
@@ -93,7 +90,7 @@
         {:bufnr term}
       (error (.. "buffer: expected bufnr or term, got " (type term)))))
 
-  (fn mkwin [bufnr]
+  (fn -mkwin [bufnr]
     (match (?. state :winid)
       (where winid (and (not (nil? winid))
                         (not= 0 winid)
@@ -109,6 +106,17 @@
           (when (not state) (set state []))
           (set state.winid winid)
           winid)))
+
+  (fn mkwin [bufnr]
+    (let [winid (-mkwin bufnr)]
+      (vim.api.nvim_set_current_win winid)
+      (vim.api.nvim_create_autocmd
+        :WinLeave
+        {:callback (fn []
+                     (close-win)
+                     false)
+         :once true})
+      winid))
 
   (let [{: bufnr : on-close} (extract-state term)]
     (when (not= bufnr (?. state :bufnr))
