@@ -83,18 +83,36 @@
 
 (fn preprocessor [src {: path : macro?}]
   (local prefix (path-join init-dir :fnl :config :lang :_ ""))
-  (if (and (not macro?) (vim.startswith (realpath path) prefix))
+  (if (and (not macro?) (-?> path (realpath) (vim.startswith prefix)))
     (..
       "(import-macros {: mkconfig} :config.lang.macros)\n"
       src)
     src))
+
+(fn has-bit-operators []
+  (fn version-has-bit-operators [[major minor]]
+    (if
+      (> major 5) true
+      (< major 5) false
+      (> minor 2) true
+      false))
+
+  (if
+    (= :table (type _G.jit)) true
+    (-?> (if _G._VERSION
+             (icollect [_ n (ipairs [(_G._VERSION:match "Lua (%d+)%.(%d+)")])]
+               (tonumber n))
+             nil)
+         (version-has-bit-operators))))
+(local use-bit-lib (not (has-bit-operators)))
 
 (hotpot.setup {:provide_require_fennel true
                :enable_hotpot_diagnostics true
                :compiler {:modules {:correlate true}
                           :macros   {:env :_COMPILER
                                      :compiler-env _G}
-                          : preprocessor}})
+                          : preprocessor
+                          : use-bit-lib}})
 
 ;; HACK: placeholder
 (let [fc (require :fennel.compiler)]
@@ -115,7 +133,7 @@
         allowed-globals (vim.tbl_keys (collect [n _ (pairs _G)] (values (global-unmangling n) true)))
         compiler-opts {:verbosity 0
                        :force? true
-                       :compiler {:modules {:allowedGlobals allowed-globals :env :_COMPILER}}}]
+                       :compiler {:modules {:allowedGlobals allowed-globals :env :_COMPILER} : use-bit-lib}}]
     (fn watch [file callback]
       (let [handle (uv.new_fs_event)]
         (uv.fs_event_start handle file {} #(vim.schedule callback))

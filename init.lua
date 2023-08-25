@@ -101,44 +101,99 @@ local function preprocessor(src, _15_)
   local path = _arg_16_["path"]
   local macro_3f = _arg_16_["macro?"]
   local prefix = path_join(init_dir, "fnl", "config", "lang", "_", "")
-  if (not macro_3f and vim.startswith(realpath(path), prefix)) then
+  local function _17_()
+    local _18_ = path
+    if (nil ~= _18_) then
+      local _19_ = realpath(_18_)
+      if (nil ~= _19_) then
+        return vim.startswith(_19_, prefix)
+      else
+        return _19_
+      end
+    else
+      return _18_
+    end
+  end
+  if (not macro_3f and _17_()) then
     return ("(import-macros {: mkconfig} :config.lang.macros)\n" .. src)
   else
     return src
   end
 end
-hotpot.setup({provide_require_fennel = true, enable_hotpot_diagnostics = true, compiler = {modules = {correlate = true}, macros = {env = "_COMPILER", ["compiler-env"] = _G}, preprocessor = preprocessor}})
+local function has_bit_operators()
+  local function version_has_bit_operators(_23_)
+    local _arg_24_ = _23_
+    local major = _arg_24_[1]
+    local minor = _arg_24_[2]
+    if (major > 5) then
+      return true
+    elseif (major < 5) then
+      return false
+    elseif (minor > 2) then
+      return true
+    else
+      return false
+    end
+  end
+  if ("table" == type(_G.jit)) then
+    return true
+  else
+    local _26_
+    if _G._VERSION then
+      local tbl_17_auto = {}
+      local i_18_auto = #tbl_17_auto
+      for _, n in ipairs({(_G._VERSION):match("Lua (%d+)%.(%d+)")}) do
+        local val_19_auto = tonumber(n)
+        if (nil ~= val_19_auto) then
+          i_18_auto = (i_18_auto + 1)
+          do end (tbl_17_auto)[i_18_auto] = val_19_auto
+        else
+        end
+      end
+      _26_ = tbl_17_auto
+    else
+      _26_ = nil
+    end
+    if (nil ~= _26_) then
+      return version_has_bit_operators(_26_)
+    else
+      return _26_
+    end
+  end
+end
+local use_bit_lib = not has_bit_operators()
+hotpot.setup({provide_require_fennel = true, enable_hotpot_diagnostics = true, compiler = {modules = {correlate = true}, macros = {env = "_COMPILER", ["compiler-env"] = _G}, preprocessor = preprocessor, ["use-bit-lib"] = use_bit_lib}})
 do
   local fc = require("fennel.compiler")
   do end (fc.scopes.global.includes)["config.bootstrap"] = "(function(...) end)"
 end
 local function watcher()
-  local _let_18_ = hotpot.api.make
-  local build = _let_18_["build"]
-  local _let_19_ = hotpot.api.compile
-  local compile_file = _let_19_["compile-file"]
-  local _let_20_ = require("hotpot.searcher")
-  local search = _let_20_["search"]
+  local _let_31_ = hotpot.api.make
+  local build = _let_31_["build"]
+  local _let_32_ = hotpot.api.compile
+  local compile_file = _let_32_["compile-file"]
+  local _let_33_ = require("hotpot.searcher")
+  local search = _let_33_["search"]
   local uv = vim.loop
   local init_file = path_join(init_dir, "init.fnl")
   local fnl_lualine_theme = path_join(init_dir, "fnl", "lualine", "themes", "bluesky.fnl")
   local lua_lualine_theme = path_join(init_dir, "lua", "lualine", "themes", "bluesky.fnl")
   local bootstrap_file
   do
-    local _21_ = search({prefix = "fnl", extension = "fnl", modnames = {"config.bootstrap.init", "config.bootstrap"}})
-    if ((_G.type(_21_) == "table") and (nil ~= (_21_)[1])) then
-      local path = (_21_)[1]
+    local _34_ = search({prefix = "fnl", extension = "fnl", modnames = {"config.bootstrap.init", "config.bootstrap"}})
+    if ((_G.type(_34_) == "table") and (nil ~= (_34_)[1])) then
+      local path = (_34_)[1]
       bootstrap_file = path
-    elseif (_21_ == nil) then
+    elseif (_34_ == nil) then
       bootstrap_file = error("Cannot find config.bootstrap")
     else
       bootstrap_file = nil
     end
   end
-  local _let_23_ = require("fennel.compiler")
-  local global_unmangling = _let_23_["global-unmangling"]
+  local _let_36_ = require("fennel.compiler")
+  local global_unmangling = _let_36_["global-unmangling"]
   local allowed_globals
-  local function _24_()
+  local function _37_()
     local tbl_14_auto = {}
     for n, _ in pairs(_G) do
       local k_15_auto, v_16_auto = global_unmangling(n), true
@@ -149,28 +204,28 @@ local function watcher()
     end
     return tbl_14_auto
   end
-  allowed_globals = vim.tbl_keys(_24_())
-  local compiler_opts = {verbosity = 0, ["force?"] = true, compiler = {modules = {allowedGlobals = allowed_globals, env = "_COMPILER"}}}
+  allowed_globals = vim.tbl_keys(_37_())
+  local compiler_opts = {verbosity = 0, ["force?"] = true, compiler = {modules = {allowedGlobals = allowed_globals, env = "_COMPILER"}, ["use-bit-lib"] = use_bit_lib}}
   local function watch(file, callback)
     local handle = uv.new_fs_event()
-    local function _26_()
+    local function _39_()
       return vim.schedule(callback)
     end
-    uv.fs_event_start(handle, file, {}, _26_)
-    local function _27_()
+    uv.fs_event_start(handle, file, {}, _39_)
+    local function _40_()
       return uv.close(handle)
     end
-    return vim.api.nvim_create_autocmd("VimLeavePre", {callback = _27_})
+    return vim.api.nvim_create_autocmd("VimLeavePre", {callback = _40_})
   end
   local function compile_bootstrap()
-    local _28_, _29_ = compile_file(bootstrap_file, compiler_opts)
-    if ((_28_ == true) and (nil ~= _29_)) then
-      local code = _29_
+    local _41_, _42_ = compile_file(bootstrap_file, compiler_opts)
+    if ((_41_ == true) and (nil ~= _42_)) then
+      local code = _42_
       local fc = require("fennel.compiler")
       do end (fc.scopes.global.includes)["config.bootstrap"] = ("(function(...) " .. code .. " end)()")
       return nil
-    elseif ((_28_ == false) and (nil ~= _29_)) then
-      local err = _29_
+    elseif ((_41_ == false) and (nil ~= _42_)) then
+      local err = _42_
       return error(err)
     else
       return nil
@@ -178,23 +233,23 @@ local function watcher()
   end
   compile_bootstrap()
   local function build_init()
-    local function _31_(_241)
+    local function _44_(_241)
       return _241
     end
-    return build(init_file, compiler_opts, ".+", _31_)
+    return build(init_file, compiler_opts, ".+", _44_)
   end
   local function build_init_bootstrap()
     compile_bootstrap()
-    local function _32_(_241)
+    local function _45_(_241)
       return _241
     end
-    return build(init_file, compiler_opts, ".+", _32_)
+    return build(init_file, compiler_opts, ".+", _45_)
   end
   local function build_lualine()
-    local function _33_()
+    local function _46_()
       return lua_lualine_theme
     end
-    return build(fnl_lualine_theme, compiler_opts, ".+", _33_)
+    return build(fnl_lualine_theme, compiler_opts, ".+", _46_)
   end
   watch(bootstrap_file, build_init_bootstrap)
   watch(init_file, build_init)

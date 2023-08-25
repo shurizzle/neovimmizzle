@@ -57,8 +57,8 @@
           (when ipv4
             (.. (str:sub 0 i)
                 (string.format :%x:%x
-                               (bit.bor (bit.lshift (. ipv4 1) 8) (. ipv4 2))
-                               (bit.bor (bit.lshift (. ipv4 3) 8) (. ipv4 4))))))
+                               (bor (lshift (. ipv4 1) 8) (. ipv4 2))
+                               (bor (lshift (. ipv4 3) 8) (. ipv4 4))))))
         str)))
 
   (fn nil-if-empty [x]
