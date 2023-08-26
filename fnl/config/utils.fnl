@@ -3,9 +3,16 @@
   (tset _G name what)
   (tset _G (global-mangling name) what))
 
-(if (has :terminal)
-  (fn _G.term-run [cmd] (vim.api.nvim_command (.. "terminal " cmd)))
-  (fn _G.term-run [cmd] (vim.api.nvim_command (.. "noautocmd new | terminal " cmd))))
+(let [prefix (if (has :terminal)
+                 "terminal "
+                 "noautocmd new | terminal ")
+      fennel (require :fennel)
+      f (fn [cmd]
+          (let [(ok tt) (pcall require :toggleterm)]
+            (if ok
+                (tt.exec cmd)
+                (vim.api.nvim_command (.. prefix cmd)))))]
+  (global-set :term-run f))
 
 (fn _G.colorscheme [...]
   (if (= (length [...]) 0)
@@ -67,7 +74,7 @@
 
 (set _G.operatorfunction nil)
 (fn _G.operatorfunction_apply [vmode]
-  (if (= :function (type _G.operatorfunction))
+  (if (function? _G.operatorfunction)
       (let [f _G.operatorfunction]
         (set _G.operatorfunction nil)
         (f vmode))))
