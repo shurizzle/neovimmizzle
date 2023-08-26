@@ -68,7 +68,8 @@
          :server {: on_attach
                   :settings {:rust-analyzer {:allFeatures true
                                              :checkOnSave {:command :clippy}}}
-                  :dap {: adapter}}}))))
+                  :dap {: adapter}}})
+       nil)))
 
 (fn config []
   (if (not *installer*)
