@@ -1,11 +1,12 @@
 (local path-sep (if (: (. (vim.loop.os_uname) :sysname) :match :Windows) :\ :/))
 
-(lambda path-join [base ...]
-  (table.concat [base ...] path-sep))
+(fn path-join [...]
+  (table.concat [...] path-sep))
 
 (local realpath vim.loop.fs_realpath)
 
-(lambda dirname [path]
+(fn dirname [path]
+  (vim.validate {:path [path :s]})
   (vim.fn.fnamemodify path ":h"))
 
 (local init-dir (-> (debug.getinfo 1 :S)
@@ -18,7 +19,9 @@
 (if (not (vim.tbl_contains (vim.opt.rtp:get) init-dir))
     (vim.opt.rtp:append init-dir))
 
-(lambda git-clone [url dir ?params ?callback]
+(fn git-clone [url dir ?params ?callback]
+  (vim.validate {:url [url :s]
+                 :dir [dir :s]})
   (let [install-path (path-join (vim.fn.stdpath :data) :lazy dir)]
     (if (not (vim.loop.fs_stat install-path))
         (do

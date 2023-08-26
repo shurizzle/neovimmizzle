@@ -4,13 +4,12 @@ if (vim.loop.os_uname().sysname):match("Windows") then
 else
   path_sep = "/"
 end
-local function path_join(base, ...)
-  _G.assert((nil ~= base), "Missing argument base on /Users/shura/.config/nvim/fnl/config/bootstrap.fnl:3")
-  return table.concat({base, ...}, path_sep)
+local function path_join(...)
+  return table.concat({...}, path_sep)
 end
 local realpath = vim.loop.fs_realpath
 local function dirname(path)
-  _G.assert((nil ~= path), "Missing argument path on /Users/shura/.config/nvim/fnl/config/bootstrap.fnl:8")
+  vim.validate({path = {path, "s"}})
   return vim.fn.fnamemodify(path, ":h")
 end
 local init_dir
@@ -23,8 +22,7 @@ if not vim.tbl_contains((vim.opt.rtp):get(), init_dir) then
 else
 end
 local function git_clone(url, dir, _3fparams, _3fcallback)
-  _G.assert((nil ~= dir), "Missing argument dir on /Users/shura/.config/nvim/fnl/config/bootstrap.fnl:21")
-  _G.assert((nil ~= url), "Missing argument url on /Users/shura/.config/nvim/fnl/config/bootstrap.fnl:21")
+  vim.validate({url = {url, "s"}, dir = {dir, "s"}})
   local install_path = path_join(vim.fn.stdpath("data"), "lazy", dir)
   if not vim.loop.fs_stat(install_path) then
     do
@@ -136,7 +134,7 @@ local function has_bit_operators()
     end
   end
   if ("table" == type(_G.jit)) then
-    return true
+    return false
   else
     local _26_
     if _G._VERSION then
@@ -276,7 +274,7 @@ do
     return (vim.fn.executable(what) ~= 0)
   end
   local function _5_(t)
-    _G.assert((nil ~= t), "Missing argument t on /Users/shura/.config/nvim/init.fnl:11")
+    _G.assert((nil ~= t), "Missing argument t on /home/shura/.config/nvim/init.fnl:11")
     local function _6_(_241, _242)
       return t[_242]
     end
