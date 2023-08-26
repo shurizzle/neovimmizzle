@@ -9,7 +9,8 @@
       (each [_ config (ipairs ((. (require :lspconfig.util)
                                   :get_other_matching_providers)
                                (vim.api.nvim_buf_get_option bufnr :filetype)))]
-        (config.manager.try_add_wrapper bufnr)))
+        (config.manager:try_add_wrapper bufnr)))
+
     (vim.api.nvim_create_augroup auname {:clear true})
     (vim.api.nvim_create_autocmd
       :Filetype
@@ -27,7 +28,10 @@
                                             vim.log.levels.ERROR
                                             {:title :LSP})))
                           (pcall vim.api.nvim_del_augroup_by_name auname)
-                          (launch bufnr)))))
+                          (let [(ok err) (launch bufnr)]
+                            (when (and (not ok) err)
+                              (vim.notify (tostring err)
+                                          vim.log.levels.ERROR)))))))
        :group auname
        :desc (.. "Configure " lang " LSP")})))
 
@@ -37,14 +41,14 @@
     (if l.setup
         (let [(ok res) (pcall l.setup)]
           (if (not ok)
-              (vim.notify (.. lang ": " (if (not= :string (type res)) (vim.inspect res) res))
+              (vim.notify (.. lang ": " (if (not (string? res)) (vim.inspect res) res))
                           vim.log.levels.ERROR
                           {:title :LSP})
-              (if (= :function (type (.? res :finally)))
+              (if (function? (?. res :finally))
                   (res:finally (fn [ok res]
                                  (if (not ok)
                                      (vim.notify (.. lang ": "
-                                                     (if (not= :string (type res))
+                                                     (if (not (string? res))
                                                          (vim.inspect res)
                                                          res))
                                                  vim.log.levels.ERROR
