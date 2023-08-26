@@ -70,8 +70,6 @@
                                              :checkOnSave {:command :clippy}}}
                   :dap {: adapter}}}))))
 
-(vim.inspect :culo)
-
 (fn config []
   (if (not *installer*)
       (set *installer* (make-installer)))
