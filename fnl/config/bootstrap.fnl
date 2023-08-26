@@ -111,11 +111,12 @@
 
 (hotpot.setup {:provide_require_fennel true
                :enable_hotpot_diagnostics true
-               :compiler {:modules {:correlate true}
+               :compiler {:modules {:correlate true
+                                    :useBitLib use-bit-lib}
                           :macros   {:env :_COMPILER
-                                     :compiler-env _G}
-                          : preprocessor
-                          : use-bit-lib}})
+                                     :compiler-env _G
+                                     :useBitLib use-bit-lib}
+                          : preprocessor}})
 
 ;; HACK: placeholder
 (let [fc (require :fennel.compiler)]

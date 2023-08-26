@@ -160,7 +160,7 @@ local function has_bit_operators()
   end
 end
 local use_bit_lib = not has_bit_operators()
-hotpot.setup({provide_require_fennel = true, enable_hotpot_diagnostics = true, compiler = {modules = {correlate = true}, macros = {env = "_COMPILER", ["compiler-env"] = _G}, preprocessor = preprocessor, ["use-bit-lib"] = use_bit_lib}})
+hotpot.setup({provide_require_fennel = true, enable_hotpot_diagnostics = true, compiler = {modules = {correlate = true, useBitLib = use_bit_lib}, macros = {env = "_COMPILER", ["compiler-env"] = _G, useBitLib = use_bit_lib}, preprocessor = preprocessor}})
 do
   local fc = require("fennel.compiler")
   do end (fc.scopes.global.includes)["config.bootstrap"] = "(function(...) end)"
