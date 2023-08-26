@@ -98,7 +98,7 @@
       false))
 
   (if
-    (= :table (type _G.jit)) true
+    (= :table (type _G.jit)) false
     (-?> (if _G._VERSION
              (icollect [_ n (ipairs [(_G._VERSION:match "Lua (%d+)%.(%d+)")])]
                (tonumber n))
