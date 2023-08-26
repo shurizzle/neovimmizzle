@@ -61,10 +61,15 @@
     (vim.keymap.set :n :K "<cmd>RustHoverAction<CR>"
                     {: buffer :silent true}))
 
+  (fn get-executor []
+    (let [(ok _) (require :toggleterm)]
+      (. (require :rust-tools.executors) (if ok :toggleterm :termopen))))
+
   (: (tools-installer) :and-then
      (fn [adapter]
        ((. (require :rust-tools) :setup)
-        {:tools  {:inlay_hints {:auto false}}
+        {:tools  {:inlay_hints {:auto false}
+                  :executor (get-executor)}
          :server {: on_attach
                   :settings {:rust-analyzer {:allFeatures true
                                              :checkOnSave {:command :clippy}}}
