@@ -19,6 +19,8 @@
 (if (not (vim.tbl_contains (vim.opt.rtp:get) init-dir))
     (vim.opt.rtp:append init-dir))
 
+(vim.cmd.helptags (path-join init-dir :doc))
+
 (fn git-clone [url dir ?params ?callback]
   (vim.validate {:url [url :s]
                  :dir [dir :s]})
@@ -26,22 +28,24 @@
     (if (not (vim.loop.fs_stat install-path))
         (do
           (let [cmd [:git :clone]]
-            (if (not= nil ?params)
-                (each [_ value (ipairs ?params)]
-                  (table.insert cmd value)))
+            (when (not= nil ?params)
+              (each [_ value (ipairs ?params)]
+                (table.insert cmd value)))
             (table.insert cmd url)
             (table.insert cmd install-path)
 
             (vim.fn.system cmd))
 
-          (if (= vim.v.shell_error 0)
-              (vim.opt.rtp:append install-path))
-          (if (= :function (type ?callback))
-              (?callback vim.v.shell_error install-path)))
+          (when (= vim.v.shell_error 0)
+            (vim.cmd.helptags (path-join install-path :doc))
+            (vim.opt.rtp:append install-path))
+          (when (= :function (type ?callback))
+            (?callback vim.v.shell_error install-path)))
         (do
+          (vim.cmd.helptags (path-join install-path :doc))
           (vim.opt.rtp:append install-path)
-          (if (= :function (type ?callback))
-              (?callback 0 install-path))))))
+          (when (= :function (type ?callback))
+            (?callback 0 install-path))))))
 
 (if (= (vim.fn.has "nvim-0.9.0") 0)
     (do

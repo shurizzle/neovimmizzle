@@ -21,6 +21,7 @@ if not vim.tbl_contains((vim.opt.rtp):get(), init_dir) then
   do end (vim.opt.rtp):append(init_dir)
 else
 end
+vim.cmd.helptags(path_join(init_dir, "doc"))
 local function git_clone(url, dir, _3fparams, _3fcallback)
   vim.validate({url = {url, "s"}, dir = {dir, "s"}})
   local install_path = path_join(vim.fn.stdpath("data"), "lazy", dir)
@@ -38,6 +39,7 @@ local function git_clone(url, dir, _3fparams, _3fcallback)
       vim.fn.system(cmd)
     end
     if (vim.v.shell_error == 0) then
+      vim.cmd.helptags(path_join(install_path, "doc"))
       do end (vim.opt.rtp):append(install_path)
     else
     end
@@ -47,6 +49,7 @@ local function git_clone(url, dir, _3fparams, _3fcallback)
       return nil
     end
   else
+    vim.cmd.helptags(path_join(install_path, "doc"))
     do end (vim.opt.rtp):append(install_path)
     if ("function" == type(_3fcallback)) then
       return _3fcallback(0, install_path)
@@ -274,7 +277,7 @@ do
     return (vim.fn.executable(what) ~= 0)
   end
   local function _5_(t)
-    _G.assert((nil ~= t), "Missing argument t on /home/shura/.config/nvim/init.fnl:11")
+    _G.assert((nil ~= t), "Missing argument t on /Users/shura/.config/nvim/init.fnl:11")
     local function _6_(_241, _242)
       return t[_242]
     end
