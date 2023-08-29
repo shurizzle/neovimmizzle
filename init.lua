@@ -277,7 +277,6 @@ do
     return (vim.fn.executable(what) ~= 0)
   end
   local function _5_(t)
-    _G.assert((nil ~= t), "Missing argument t on /Users/shura/.config/nvim/init.fnl:11")
     local function _6_(_241, _242)
       return t[_242]
     end

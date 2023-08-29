@@ -8,7 +8,7 @@
 (let [fns {:inspect        (fn [what] (-> what (vim.inspect) (print)))
            :has            (fn [what] (not= (vim.fn.has what) 0))
            :executable     (fn [what] (not= (vim.fn.executable what) 0))
-           :readonly-table (lambda [t] (setmetatable {} {:__index #(. t $2) :__newindex (fn [] nil)}))}
+           :readonly-table (fn [t] (setmetatable {} {:__index #(. t $2) :__newindex (fn [] nil)}))}
       {: global-mangling}  (require :fennel.compiler)]
   (each [name f (pairs fns)]
     (tset _G (global-mangling name) f)
