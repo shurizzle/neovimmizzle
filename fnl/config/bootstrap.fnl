@@ -63,8 +63,12 @@
   :lazy.nvim
   [:--filter=blob:none :--branch=stable])
 
+; (git-clone
+;   "https://github.com/rktjmp/hotpot.nvim.git"
+;   :hotpot.nvim
+;   [:--filter=blob:none :--single-branch])
 (git-clone
-  "https://github.com/rktjmp/hotpot.nvim.git"
+  "https://github.com/shurizzle/hotpot.nvim.git"
   :hotpot.nvim
   [:--filter=blob:none :--single-branch])
 

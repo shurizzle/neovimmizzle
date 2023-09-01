@@ -71,7 +71,7 @@ else
   vim.loader.enable()
 end
 git_clone("https://github.com/folke/lazy.nvim.git", "lazy.nvim", {"--filter=blob:none", "--branch=stable"})
-git_clone("https://github.com/rktjmp/hotpot.nvim.git", "hotpot.nvim", {"--filter=blob:none", "--single-branch"})
+git_clone("https://github.com/shurizzle/hotpot.nvim.git", "hotpot.nvim", {"--filter=blob:none", "--single-branch"})
 local hotpot = require("hotpot")
 require("hotpot.fennel")
 local function slurp(path)
