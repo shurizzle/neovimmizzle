@@ -19,7 +19,7 @@
 (fn config []
   (add-parsers)
   ((. (require :nvim-treesitter.configs) :setup)
-   {:ensure_installed :all
+   {:ensure_installed []
     :sync_install (. (require :config.platform) :is :headless)
     :ignore_install [:comment]
     :autopairs {:enable true}
