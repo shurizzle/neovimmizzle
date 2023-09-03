@@ -66,7 +66,7 @@
 (git-clone
   "https://github.com/rktjmp/hotpot.nvim.git"
   :hotpot.nvim
-  [:-b :api-make-remake :--filter=blob:none :--single-branch])
+  [:--filter=blob:none :--single-branch])
 
 (local hotpot (require :hotpot))
 (require :hotpot.fennel)
