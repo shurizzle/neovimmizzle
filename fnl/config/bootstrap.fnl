@@ -129,18 +129,17 @@
 (fn watcher []
   (let [{: build} hotpot.api.make
         {: compile-file} hotpot.api.compile
-        {: search} (require :hotpot.searcher)
+        {: mod-search} (require :hotpot.searcher)
         uv vim.loop
-        init-file (path-join init-dir :init.fnl)
-        fnl-lualine-theme (path-join init-dir :fnl :lualine :themes :bluesky.fnl)
-        lua-lualine-theme (path-join init-dir :lua :lualine :themes :bluesky.fnl)
-        bootstrap-file (case (search {:prefix :fnl :extension :fnl :modnames [:config.bootstrap.init :config.bootstrap]})
+        fnl-lualine-theme (path-join :fnl :lualine :themes :bluesky.fnl)
+        bootstrap-file (case (mod-search {:prefix :fnl :extension :fnl :modnames [:config.bootstrap.init :config.bootstrap]})
                              [path] path
                              nil (error "Cannot find config.bootstrap"))
         {: global-unmangling} (require :fennel.compiler)
         allowed-globals (vim.tbl_keys (collect [n _ (pairs _G)] (values (global-unmangling n) true)))
-        compiler-opts {:verbosity 0
-                       :force? true
+        compiler-opts {:verbose false
+                       :atomic true
+                       :force true
                        :compiler {:modules {:allowedGlobals allowed-globals :env :_COMPILER} : use-bit-lib}}]
     (fn watch [file callback]
       (let [handle (uv.new_fs_event)]
@@ -156,15 +155,15 @@
     (compile-bootstrap)
 
     (fn build-init []
-      (build init-file compiler-opts ".+" #(values $1)))
+      (build init-dir compiler-opts [[:init.fnl true]]))
     (fn build-init-bootstrap []
       (compile-bootstrap)
-      (build init-file compiler-opts ".+" #(values $1)))
+      (build-init))
     (fn build-lualine []
-      (build fnl-lualine-theme compiler-opts ".+" #(values lua-lualine-theme)))
+      (build init-dir compiler-opts [[fnl-lualine-theme true]]))
 
     (watch bootstrap-file build-init-bootstrap)
-    (watch init-file build-init)
-    (watch fnl-lualine-theme build-lualine)))
+    (watch (path-join init-dir :init.fnl) build-init)
+    (watch (path-join init-dir fnl-lualine-theme) build-lualine)))
 
 (vim.schedule watcher)

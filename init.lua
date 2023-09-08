@@ -174,14 +174,12 @@ local function watcher()
   local _let_32_ = hotpot.api.compile
   local compile_file = _let_32_["compile-file"]
   local _let_33_ = require("hotpot.searcher")
-  local search = _let_33_["search"]
+  local mod_search = _let_33_["mod-search"]
   local uv = vim.loop
-  local init_file = path_join(init_dir, "init.fnl")
-  local fnl_lualine_theme = path_join(init_dir, "fnl", "lualine", "themes", "bluesky.fnl")
-  local lua_lualine_theme = path_join(init_dir, "lua", "lualine", "themes", "bluesky.fnl")
+  local fnl_lualine_theme = path_join("fnl", "lualine", "themes", "bluesky.fnl")
   local bootstrap_file
   do
-    local _34_ = search({prefix = "fnl", extension = "fnl", modnames = {"config.bootstrap.init", "config.bootstrap"}})
+    local _34_ = mod_search({prefix = "fnl", extension = "fnl", modnames = {"config.bootstrap.init", "config.bootstrap"}})
     if ((_G.type(_34_) == "table") and (nil ~= (_34_)[1])) then
       local path = (_34_)[1]
       bootstrap_file = path
@@ -206,7 +204,7 @@ local function watcher()
     return tbl_14_auto
   end
   allowed_globals = vim.tbl_keys(_37_())
-  local compiler_opts = {verbosity = 0, ["force?"] = true, compiler = {modules = {allowedGlobals = allowed_globals, env = "_COMPILER"}, ["use-bit-lib"] = use_bit_lib}}
+  local compiler_opts = {atomic = true, force = true, compiler = {modules = {allowedGlobals = allowed_globals, env = "_COMPILER"}, ["use-bit-lib"] = use_bit_lib}, verbose = false}
   local function watch(file, callback)
     local handle = uv.new_fs_event()
     local function _39_()
@@ -234,27 +232,18 @@ local function watcher()
   end
   compile_bootstrap()
   local function build_init()
-    local function _44_(_241)
-      return _241
-    end
-    return build(init_file, compiler_opts, ".+", _44_)
+    return build(init_dir, compiler_opts, {{"init.fnl", true}})
   end
   local function build_init_bootstrap()
     compile_bootstrap()
-    local function _45_(_241)
-      return _241
-    end
-    return build(init_file, compiler_opts, ".+", _45_)
+    return build_init()
   end
   local function build_lualine()
-    local function _46_()
-      return lua_lualine_theme
-    end
-    return build(fnl_lualine_theme, compiler_opts, ".+", _46_)
+    return build(init_dir, compiler_opts, {{fnl_lualine_theme, true}})
   end
   watch(bootstrap_file, build_init_bootstrap)
-  watch(init_file, build_init)
-  return watch(fnl_lualine_theme, build_lualine)
+  watch(path_join(init_dir, "init.fnl"), build_init)
+  return watch(path_join(init_dir, fnl_lualine_theme), build_lualine)
 end
 return vim.schedule(watcher) end)() end
 do
