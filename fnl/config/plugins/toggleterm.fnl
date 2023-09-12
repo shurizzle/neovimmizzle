@@ -1,8 +1,9 @@
 (fn config []
   ((. (require :toggleterm) :setup)
-   {:open_mapping :<leader>t
+   {:open_mapping    :<leader>t
+    :insert_mappings false
     :shade_terminals false
-    :winbar {:enabled true}})
+    :winbar          {:enabled true}})
 
   (vim.keymap.set :n :<leader>ft
                   "<cmd>TermSelect<cr>"
