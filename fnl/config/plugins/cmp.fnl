@@ -117,13 +117,11 @@
  :dependencies [:hrsh7th/cmp-nvim-lsp
                 :hrsh7th/cmp-buffer
                 :FelipeLema/cmp-async-path
-                ; :hrsh7th/cmp-path
                 :hrsh7th/cmp-calc
                 :hrsh7th/cmp-emoji
                 :nvim-treesitter/nvim-treesitter
                 :ray-x/cmp-treesitter
                 :saadparwaiz1/cmp_luasnip
-                :hrsh7th/cmp-cmdline
                 :L3MON4D3/LuaSnip
                 :ahmedkhalf/project.nvim]
  :event :InsertEnter
