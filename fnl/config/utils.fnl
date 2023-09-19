@@ -6,11 +6,13 @@
 (let [prefix (if (has :terminal)
                  "terminal "
                  "noautocmd new | terminal ")
-      fennel (require :fennel)
       f (fn [cmd]
-          (let [(ok tt) (pcall require :toggleterm)]
+          (let [(ok tt) (pcall require :toggleterm.terminal)]
             (if ok
-                (tt.exec cmd)
+                (: (tt.Terminal:new {: cmd
+                                     :close_on_exit false
+                                     :on_open (fn [] (vim.cmd :stopinsert!))})
+                   :toggle)
                 (vim.api.nvim_command (.. prefix cmd)))))]
   (global-set :term-run f))
 
