@@ -113,6 +113,8 @@ highlight GitSignsChangeNr guifg=#FFE100 guibg=#292929 guisp=NONE blend=NONE gui
 highlight GitSignsDelete guifg=#CA213D guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight GitSignsDeleteLn guifg=#CA213D guibg=#292929 guisp=NONE blend=NONE gui=NONE
 highlight GitSignsDeleteNr guifg=#CA213D guibg=#292929 guisp=NONE blend=NONE gui=NONE
+highlight IblIndent guifg=#303030 guibg=NONE guisp=NONE blend=NONE gui=NONE
+highlight IblScope guifg=#EDEDED guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight Identifier guifg=#EDEDED guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight! link Delimiter Identifier
 highlight! link Tag Identifier
@@ -125,8 +127,6 @@ highlight! link illuminateWordWrite IlluminatedWordText
 highlight IncSearch guifg=#292929 guibg=#FFE100 guisp=NONE blend=NONE gui=NONE
 highlight! link Substitute IncSearch
 highlight Include guifg=#2E8FFF guibg=NONE guisp=NONE blend=NONE gui=italic
-highlight IndentBlanklineChar guifg=#303030 guibg=NONE guisp=NONE blend=NONE gui=NONE
-highlight IndentBlanklineContextChar guifg=#EDEDED guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight Italic guifg=NONE guibg=NONE guisp=NONE blend=NONE gui=italic
 highlight Keyword guifg=#2E8FFF guibg=NONE guisp=NONE blend=NONE gui=italic
 highlight! link @constructor Keyword
