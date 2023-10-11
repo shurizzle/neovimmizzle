@@ -12,8 +12,6 @@
     (when (uv.fs_stat docpath)
       (vim.cmd.helptags docpath))))
 
-(helptags (vim.fn.stdpath :config))
-
 (-> (vim.fn.stdpath :data)
     (join-paths :lazy)
     (vim.fn.mkdir :p))
@@ -41,7 +39,6 @@
           (when (= :function (type ?callback))
             (?callback vim.v.shell_error install-path)))
         (do
-          (helptags install-path)
           (vim.opt.rtp:append install-path)
           (when (= :function (type ?callback))
             (?callback 0 install-path))))))
