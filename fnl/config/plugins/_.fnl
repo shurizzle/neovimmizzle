@@ -228,6 +228,8 @@
 (use-package! :tpope/vim-repeat
               :lazy true
               :event :InsertEnter)
+(use-package! :editorconfig/editorconfig-vim
+              :enabled (not (has :nvim-0.9.0)))
 ;; }}}
 
 *packages*
