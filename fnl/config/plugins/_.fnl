@@ -9,7 +9,7 @@
   (table.insert *packages* spec)
   nil)
 
-;; UI
+;; UI {{{
 (use-package! :kyazdani42/nvim-web-devicons
               :name :devicons
               :lazy true
@@ -39,9 +39,10 @@
                                              :rnu     false}
                                :gitsigns    {:enabled true}
                                :diagnostics {:enabled true}}})
+;; }}}
 
 
-;; UX
+;; UX {{{
 (use-package! :goolord/alpha-nvim
               :name :alpha)
 (use-package! :folke/which-key.nvim
@@ -86,13 +87,15 @@
                          {:filetypes_denylist [:NvimTree :dashboard :alpha
                                                :TelescopePrompt
                                                :DressingInput]})))
+;; }}}
 
-;; project
+;; project {{{
 (use-package! :ahmedkhalf/project.nvim
               :main :project_nvim
               :opts [])
+;; }}}
 
-;; LSP
+;; LSP {{{
 (use-package! :neovim/nvim-lspconfig
               :lazy true
               :cmd  [:LspInfo :LspLog :LspRestart :LspStart :LspStop])
@@ -107,14 +110,16 @@
                      :local_settings_dir :.nlsp-settings
                      :append_default_schemas true
                      :loader :json})
+;; }}}
 
-;; tools
+;; tools {{{
 (use-package! :stevearc/conform.nvim
               :name :conform)
 (use-package! :mfussenegger/nvim-lint
               :name :lint)
+;; }}}
 
-;; completion
+;; completion {{{
 (use-package! :hrsh7th/cmp-nvim-lsp
               :dependencies [:neovim/nvim-lspconfig
                              :hrsh7th/nvim-cmp]
@@ -125,8 +130,9 @@
               :name :cmp
               :dependencies [:hrsh7th/cmp-nvim-lsp]
               :lazy true)
+;; }}}
 
-;; langs
+;; langs {{{
 (use-package! :simrat39/rust-tools.nvim
               :name :rust-tools
               :dependencies [:nvim-lua/plenary.nvim :mfussenegger/nvim-dap
@@ -160,8 +166,9 @@
               :ft   :blade)
 (use-package! :b0o/SchemaStore.nvim
               :lazy true)
+;; }}}
 
-;; editor
+;; editor {{{
 (use-package! :nvim-treesitter/nvim-treesitter
               :name :treesitter)
 (use-package! :JoosepAlviste/nvim-ts-context-commentstring
@@ -180,6 +187,11 @@
                    :glimmer :handlebars :hbs]
               :main :nvim-ts-autotag
               :opts [])
-
+(use-package! :windwp/nvim-autopairs
+              :lazy true
+              :event :InsertEnter
+              :main :nvim-autopairs
+              :opts [])
+;; }}}
 
 *packages*
