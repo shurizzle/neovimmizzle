@@ -75,6 +75,17 @@
                              ((. (require :lsp-inlayhints) :on_attach)
                               opts.buf false)))
                       (vim.api.nvim_create_autocmd :LspAttach {: callback})))
+(use-package! :RRethy/vim-illuminate
+              :lazy true
+              :cmd [:IlluminatePause :IlluminateResume :IlluminateToggle
+                    :IlluminatePauseBuf :IlluminateResumeBuf
+                    :IlluminateToggleBuf]
+              :event :BufRead
+              :config (fn []
+                        ((. (require :illuminate) :configure)
+                         {:filetypes_denylist [:NvimTree :dashboard :alpha
+                                               :TelescopePrompt
+                                               :DressingInput]})))
 
 ;; project
 (use-package! :ahmedkhalf/project.nvim
