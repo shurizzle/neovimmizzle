@@ -225,6 +225,9 @@
               :name :surround)
 (use-package! :MarcWeber/vim-addon-local-vimrc
               :enabled (not (has :nvim-0.9.0)))
+(use-package! :tpope/vim-repeat
+              :lazy true
+              :event :InsertEnter)
 ;; }}}
 
 *packages*
