@@ -62,6 +62,12 @@
                                             :packer :lsp-installer :mason
                                             :DressingInput :rfc :lazy]
                                 :buftypes  [:terminal]}})
+(use-package! :folke/todo-comments.nvim
+              :dependencies :nvim-lua/plenary.nvim
+              :lazy true
+              :event :BufRead
+              :main :todo-comments
+              :opts [])
 ;; }}}
 
 
