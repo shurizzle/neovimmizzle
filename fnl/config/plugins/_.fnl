@@ -142,6 +142,10 @@
               :name :conform)
 (use-package! :mfussenegger/nvim-lint
               :name :lint)
+(use-package! :nvim-treesitter/playground
+              :dependencies :treesitter
+              :lazy true
+              :cmd [:TSPlaygroundToggle :TSHighlightCapturesUnderCursor])
 ;; }}}
 
 ;; completion {{{
