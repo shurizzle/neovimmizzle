@@ -192,6 +192,8 @@
               :event :InsertEnter
               :main :nvim-autopairs
               :opts [])
+(use-package! :kylechui/nvim-surround
+              :name :surround)
 ;; }}}
 
 *packages*
