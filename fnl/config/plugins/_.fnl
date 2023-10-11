@@ -39,6 +39,11 @@
                                              :rnu     false}
                                :gitsigns    {:enabled true}
                                :diagnostics {:enabled true}}})
+(use-package! :norcalli/nvim-colorizer.lua
+              :lazy  true
+              :event :BufRead
+              :main  :colorizer
+              :opts  [:*])
 ;; }}}
 
 
