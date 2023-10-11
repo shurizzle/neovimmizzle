@@ -1,1 +1,1 @@
-{:config (mkconfig :lsp :elixirls)}
+{:lsp :elixir-ls}

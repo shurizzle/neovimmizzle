@@ -1,1 +1,2 @@
-{:config (mkconfig :lsp :zls)}
+{:ft  [:zig :zir]
+ :lsp :zls}

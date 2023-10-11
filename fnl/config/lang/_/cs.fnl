@@ -1,1 +1,3 @@
-{:config (mkconfig :lsp :omnisharp)}
+;; TODO:
+;; - ominisharp
+{:lsp :omnisharp}

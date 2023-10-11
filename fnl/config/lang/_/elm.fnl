@@ -1,1 +1,1 @@
-{:config (mkconfig :lsp :elmls)}
+{:lsp :elm-language-server}

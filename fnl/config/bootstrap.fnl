@@ -1,33 +1,32 @@
-(local path-sep (if (: (. (vim.loop.os_uname) :sysname) :match :Windows) :\ :/))
+(local uv (require :luv))
+(local windows? (-> (uv.os_uname)
+                    (. :version)
+                    (: :match :Windows)))
+(local path-sep (if windows? :\ :/))
 
-(fn path-join [...]
+(fn join-paths [...]
   (table.concat [...] path-sep))
 
-(local realpath vim.loop.fs_realpath)
+(fn helptags [path]
+  (let [docpath (join-paths path :doc)]
+    (when (uv.fs_stat docpath)
+      (vim.cmd.helptags docpath))))
 
-(fn dirname [path]
-  (vim.validate {:path [path :s]})
-  (vim.fn.fnamemodify path ":h"))
+(helptags (vim.fn.stdpath :config))
 
-(local init-dir (-> (debug.getinfo 1 :S)
-                    (. :source)
-                    ((fn [s] [(: s :gsub "^@" "")]))
-                    (. 1)
-                    (dirname)
-                    (realpath)))
-
-(if (not (vim.tbl_contains (vim.opt.rtp:get) init-dir))
-    (vim.opt.rtp:append init-dir))
-
-(vim.cmd.helptags (path-join init-dir :doc))
+(-> (vim.fn.stdpath :data)
+    (join-paths :lazy)
+    (vim.fn.mkdir :p))
 
 (fn git-clone [url dir ?params ?callback]
-  (vim.validate {:url [url :s]
-                 :dir [dir :s]})
-  (let [install-path (path-join (vim.fn.stdpath :data) :lazy dir)]
-    (if (not (vim.loop.fs_stat install-path))
+  (vim.validate {:url       [url       :s]
+                 :dir       [dir       :s]
+                 :?params   [?params   :t true]
+                 :?callback [?callback :f true]})
+  (let [install-path (join-paths (vim.fn.stdpath :data) :lazy dir)]
+    (if (not (uv.fs_stat install-path))
         (do
-          (let [cmd [:git :clone]]
+          (let [cmd [:git :clone :--filter=blob:none]]
             (when (not= nil ?params)
               (each [_ value (ipairs ?params)]
                 (table.insert cmd value)))
@@ -37,12 +36,12 @@
             (vim.fn.system cmd))
 
           (when (= vim.v.shell_error 0)
-            (vim.cmd.helptags (path-join install-path :doc))
+            (helptags install-path)
             (vim.opt.rtp:append install-path))
           (when (= :function (type ?callback))
             (?callback vim.v.shell_error install-path)))
         (do
-          (vim.cmd.helptags (path-join install-path :doc))
+          (helptags install-path)
           (vim.opt.rtp:append install-path)
           (when (= :function (type ?callback))
             (?callback 0 install-path))))))
@@ -51,50 +50,22 @@
     (do
       (git-clone
         "https://github.com/lewis6991/impatient.nvim"
-        :impatient.nvim
-        [:--depth :1])
+        :impatient.nvim)
       (xpcall
         (fn [] (require :impatient))
-        (fn [] (vim.api.nvim_echo [["Error while loading impatient" :ErrorMsg]] true []))))
+        (fn [] (vim.api.nvim_echo [["Error while loading impatient" :ErrorMsg]]
+                                  true []))))
     (vim.loader.enable))
-
-(git-clone
-  "https://github.com/folke/lazy.nvim.git"
-  :lazy.nvim
-  [:--filter=blob:none :--branch=stable])
 
 (git-clone
   "https://github.com/rktjmp/hotpot.nvim.git"
   :hotpot.nvim
-  [:--filter=blob:none :--single-branch])
+  [:--single-branch])
 
-(local hotpot (require :hotpot))
-(require :hotpot.fennel)
-
-(fn slurp [path]
-  (match (io.open path "r")
-    (nil _msg) nil
-    f (let [content (f:read "*all")]
-        (f:close)
-        content)))
-
-(fn additional-macros []
-  (local f (require :hotpot.fennel))
-  (local fc (require :fennel.compiler))
-  (f.eval (slurp (path-join init-dir :fnl :config :init-macros.fnl))
-          {:env :_COMPILER :scope fc.scopes.compiler}))
-
-(let [fc (require :fennel.compiler)]
-  (set fc.scopes.global.macros
-       (vim.tbl_deep_extend :force fc.scopes.global.macros (additional-macros))))
-
-(fn preprocessor [src {: path : macro?}]
-  (local prefix (path-join init-dir :fnl :config :lang :_ ""))
-  (if (and (not macro?) (-?> path (realpath) (vim.startswith prefix)))
-    (..
-      "(import-macros {: mkconfig} :config.lang.macros)\n"
-      src)
-    src))
+(git-clone
+  "https://github.com/folke/lazy.nvim.git"
+  :lazy.nvim
+  [:--branch=stable])
 
 (fn has-bit-operators []
   (fn version-has-bit-operators [[major minor]]
@@ -111,59 +82,79 @@
                (tonumber n))
              nil)
          (version-has-bit-operators))))
-(local use-bit-lib (not (has-bit-operators)))
+(local useBitLib (not (has-bit-operators)))
 
-(hotpot.setup {:provide_require_fennel true
-               :enable_hotpot_diagnostics true
-               :compiler {:modules {:correlate true
-                                    :useBitLib use-bit-lib}
-                          :macros   {:env :_COMPILER
-                                     :compiler-env _G
-                                     :useBitLib use-bit-lib}
-                          : preprocessor}})
+((. (require :hotpot) :setup)
+ {:provide_require_fennel true
+  :enable_hotpot_diagnostics true
+  :compiler {:modules {:correlate true
+                       : useBitLib}
+             :macros  {:env :_COMPILER
+                       :compilerEnv _G
+                       :allowedGlobals false
+                       : useBitLib}
+             :preprocessor nil}})
 
-;; HACK: placeholder
+(let [fennel (require :hotpot.fennel)
+      base (join-paths (vim.fn.stdpath :config) :fnl)]
+  (set fennel.path
+       (table.concat [(join-paths base :?.fnl)
+                      (join-paths base :? :init.fnl)
+                      fennel.path]
+                     ";")))
+
+(fn slurp [path]
+  (match (io.open path "r")
+    (nil _msg) nil
+    f (let [content (f:read "*all")]
+        (f:close)
+        content)))
+
+(fn additional-macros []
+  (local f (require :hotpot.fennel))
+  (local fc (require :fennel.compiler))
+  (f.eval (slurp (join-paths (vim.fn.stdpath :config)
+                             :fnl :config :init-macros.fnl))
+          {:env :_COMPILER :scope fc.scopes.compiler}))
+
 (let [fc (require :fennel.compiler)]
-  (tset fc.scopes.global.includes :config.bootstrap "(function(...) end)"))
+  (set fc.scopes.global.macros
+       (vim.tbl_deep_extend :force fc.scopes.global.macros (additional-macros))))
 
-(fn watcher []
-  (let [{: build} hotpot.api.make
-        {: compile-file} hotpot.api.compile
-        {: mod-search} (require :hotpot.searcher)
-        uv vim.loop
-        fnl-lualine-theme (path-join :fnl :lualine :themes :bluesky.fnl)
-        bootstrap-file (case (mod-search {:prefix :fnl :extension :fnl :modnames [:config.bootstrap.init :config.bootstrap]})
-                             [path] path
-                             nil (error "Cannot find config.bootstrap"))
-        {: global-unmangling} (require :fennel.compiler)
-        allowed-globals (vim.tbl_keys (collect [n _ (pairs _G)] (values (global-unmangling n) true)))
-        compiler-opts {:verbose false
-                       :atomic true
-                       :force true
-                       :compiler {:modules {:allowedGlobals allowed-globals :env :_COMPILER} : use-bit-lib}}]
-    (fn watch [file callback]
-      (let [handle (uv.new_fs_event)]
-        (uv.fs_event_start handle file {} #(vim.schedule callback))
-        (vim.api.nvim_create_autocmd :VimLeavePre {:callback #(uv.close handle)})))
+(do
+  (fn build [files]
+    (local {: build} (require :hotpot.api.make))
+    (local {: global-unmangling} (require :fennel.compiler))
+    (local allowedGlobals (vim.tbl_keys (collect [n _ (pairs _G)]
+                                          (values (global-unmangling n) true))))
+    (build (vim.fn.stdpath :config)
+           {:verbose  true
+            :atomic   true
+            :force    true
+            :compiler {:modules {: allowedGlobals
+                                 :correlate true
+                                 : useBitLib}}}
+           files))
 
-    (fn compile-bootstrap []
-      (match (compile-file bootstrap-file compiler-opts)
-        (true code) (let [fc (require :fennel.compiler)]
-                      (tset fc.scopes.global.includes :config.bootstrap (.. "(function(...) " code " end)()")))
-        (false err) (error err)))
-
-    (compile-bootstrap)
-
-    (fn build-init []
-      (build init-dir compiler-opts [[:init.fnl true]]))
-    (fn build-init-bootstrap []
-      (compile-bootstrap)
-      (build-init))
-    (fn build-lualine []
-      (build init-dir compiler-opts [[fnl-lualine-theme true]]))
-
-    (watch bootstrap-file build-init-bootstrap)
-    (watch (path-join init-dir :init.fnl) build-init)
-    (watch (path-join init-dir fnl-lualine-theme) build-lualine)))
-
-(vim.schedule watcher)
+  (fn hook-init-rebuild [file]
+    (fn rebuild-on-save [{: buf}]
+      (vim.api.nvim_create_autocmd :BufWritePost
+                                   {:buffer   buf
+                                    :callback #(build [[:init.fnl true]])}))
+    (vim.api.nvim_create_autocmd :BufRead
+                                 {:pattern  (-> (vim.fn.stdpath :config)
+                                                (join-paths file)
+                                                (vim.fs.normalize))
+                                  :callback rebuild-on-save}))
+  (hook-init-rebuild :init.fnl)
+  (hook-init-rebuild (join-paths :fnl :config :bootstrap.fnl))
+  (let [path (join-paths :fnl :lualine :themes :bluesky.fnl)]
+    (fn rebuild-on-save [{: buf}]
+      (vim.api.nvim_create_autocmd :BufWritePost
+                                   {:buffer   buf
+                                    :callback #(build [[path true]])}))
+    (vim.api.nvim_create_autocmd :BufRead
+                                 {:pattern (-> (vim.fn.stdpath :config)
+                                               (join-paths path)
+                                               (vim.fs.normalize))
+                                  :callback rebuild-on-save})))

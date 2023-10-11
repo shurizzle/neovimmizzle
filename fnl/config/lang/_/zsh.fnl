@@ -1,1 +1,2 @@
-{:config (mkconfig :lsp :zsh :formatters :beautysh)}
+{:lint :zsh
+ :fmt  :beautysh}

@@ -1,1 +1,2 @@
-{:config (mkconfig :lsp :gopls :linters :staticcheck)}
+{:lsp  :gopls
+ :lint :staticcheck}

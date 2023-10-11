@@ -1,1 +1,1 @@
-{:config (mkconfig :formatters :blade-formatter)}
+{:fmt :blade-formatter}

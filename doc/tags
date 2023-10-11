@@ -1,9 +1,0 @@
-semantic-commit	semantic-commit.txt	/*semantic-commit*
-semantic-commit-body	semantic-commit.txt	/*semantic-commit-body*
-semantic-commit-breaking-changes	semantic-commit.txt	/*semantic-commit-breaking-changes*
-semantic-commit-footer	semantic-commit.txt	/*semantic-commit-footer*
-semantic-commit-format	semantic-commit.txt	/*semantic-commit-format*
-semantic-commit-ref	semantic-commit.txt	/*semantic-commit-ref*
-semantic-commit-scope	semantic-commit.txt	/*semantic-commit-scope*
-semantic-commit-subject	semantic-commit.txt	/*semantic-commit-subject*
-semantic-commit-type	semantic-commit.txt	/*semantic-commit-type*

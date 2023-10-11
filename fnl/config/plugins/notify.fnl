@@ -1,10 +1,9 @@
 (fn lazy-notify [...]
-  (let [notify (require :notify)]
-    (notify.setup [])
+  (let [{: notify} (require :notify)]
     (set vim.notify notify)
     (notify ...)))
 
-{:lazy true
- :cond (not (. (require :config.platform) :is :headless))
- :cmd :Notifications
- :init (fn [] (set vim.notify lazy-notify))}
+{:lazy   false
+ :cond   (not (. (require :config.platform) :is :headless))
+ :cmd    :Notifications
+ :init   (fn [] (set vim.notify lazy-notify))}

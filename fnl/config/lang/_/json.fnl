@@ -1,1 +1,2 @@
-{:config (mkconfig :lsp :jsonls)}
+{:ft [:json :jsonc]
+ :lsp :json-lsp}

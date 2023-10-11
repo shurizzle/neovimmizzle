@@ -1,84 +1,159 @@
-(let [_ 1 devicons :kyazdani42/nvim-web-devicons]
-  [{_ :rcarriga/nvim-notify :mod :notify}
-   {_ :nvim-lua/plenary.nvim :lazy true}
-   {_ :goolord/alpha-nvim :mod :alpha}
-   {_ devicons :mod :devicons}
-   {_ :folke/which-key.nvim :mod :which-key}
-   {_ :stevearc/dressing.nvim :mod :dressing}
-   {_ :nvim-treesitter/nvim-treesitter :mod :treesitter}
-   {_ :nvim-treesitter/nvim-treesitter-textobjects :mod :treesitter.textobjects}
-   {_ :nvim-orgmode/orgmode :mod :org}
-   {_ :windwp/nvim-ts-autotag :mod :autotag}
-   {_ :RRethy/vim-illuminate :mod :illuminate}
-   {_ :tamago324/nlsp-settings.nvim :mod :nlsp-settings}
-   {_ :simrat39/rust-tools.nvim
-    :lazy true
-    :dependencies [:nvim-lua/plenary.nvim :mfussenegger/nvim-dap]}
-   {_ :MrcJkb/haskell-tools.nvim
-    :lazy true
-    :dependencies [:neovim/nvim-lspconfig
-                   :nvim-lua/plenary.nvim
-                   :nvim-telescope/telescope.nvim]}
-   {_ :jose-elias-alvarez/typescript.nvim :mod :typescript}
-   {_ :ray-x/lsp_signature.nvim :mod :signature}
-   {_ :jose-elias-alvarez/null-ls.nvim :mod :lsp.null}
-   {_ :neovim/nvim-lspconfig :mod :lsp.config}
-   {_ :nvim-treesitter/playground
-    :cmd [:TSPlaygroundToggle :TSHighlightCapturesUnderCursor]
-    :dependencies [:nvim-treesitter/nvim-treesitter]}
-   {_ :L3MON4D3/LuaSnip :mod :luasnip}
-   {_ :saecki/crates.nvim
-    :mod :crates
-    :tag :v0.3.0
-    :dependencies [:nvim-lua/plenary.nvim :jose-elias-alvarez/null-ls.nvim]}
-   {_ :hrsh7th/nvim-cmp :mod :cmp}
-   {_ :nvim-telescope/telescope.nvim :mod :telescope}
-   {_ :nvim-lualine/lualine.nvim :mod :lualine :dependencies devicons}
-   {_ :romgrk/barbar.nvim :mod :barbar :dependencies devicons}
-   {_ :kyazdani42/nvim-tree.lua :mod :tree :dependencies devicons}
-   {_ :norcalli/nvim-colorizer.lua :mod :colorizer}
-   {_ :lewis6991/gitsigns.nvim :mod :gitsigns}
-   {_ :lukas-reineke/indent-blankline.nvim :mod :indent-blankline}
-   {_ :MarcWeber/vim-addon-local-vimrc :enabled (not (has :nvim-0.9.0))}
-   {_ :folke/zen-mode.nvim
-    :lazy true
-    :cmd [:ZenMode]
-    :main :zen-mode
-    :opts {:plugins {:options     {:enabled true
-                                   :nu      false
-                                   :rnu     false}
-                     :gitsigns    {:enabled true}
-                     :diagnostics {:enabled true}}}}
-   {_ :windwp/nvim-autopairs :mod :autopairs}
-   {_ :tpope/vim-repeat :lazy true :event :InsertEnter}
-   {_ :JoosepAlviste/nvim-ts-context-commentstring
-    :mod :treesitter.context-commentstring}
-   {_ :numToStr/Comment.nvim
-    :mod :comment
-    :dependencies :JoosepAlviste/nvim-ts-context-commentstring}
-   {_ :kylechui/nvim-surround :mod :surround}
-   {_ :ahmedkhalf/project.nvim :mod :project}
-   {_ :editorconfig/editorconfig-vim :enabled (not (has :nvim-0.9.0))}
-   {_ :instant-markdown/vim-instant-markdown :mod :markdown}
-   {_ :rktjmp/paperplanes.nvim :mod :paperplanes}
-   {_ :jwalton512/vim-blade :lazy true :ft :blade}
-   {_ :mfussenegger/nvim-dap :mod :dap}
-   {_ :rcarriga/nvim-dap-ui :mod :dapui :dependencies :mfussenegger/nvim-dap}
-   {_ :folke/todo-comments.nvim
-    :mod :todo-comments
-    :dependencies :nvim-lua/plenary.nvim}
-   {_ :akinsho/flutter-tools.nvim
-    :mod :flutter
-    :dependencies :nvim-lua/plenary.nvim}
-   {_ :ojroques/nvim-osc52 :mod :osc52}
-   {_ :folke/neodev.nvim
-    :lazy true
-    :config (fn [] ((. (require :neodev) :setup)))}
-   {_ :rafcamlet/nvim-luapad :mod :luapad}
-   {_ :j-hui/fidget.nvim :branch :legacy :mod :fidget}
-   {_ :lvimuser/lsp-inlayhints.nvim :mod :inlayhints}
-   {_ :LhKipp/nvim-nu :mod :nu}
-   {_ :b0o/schemastore.nvim :lazy :true}
-   {_ :mfussenegger/nvim-jdtls :lazy :true}
-   {_ :akinsho/toggleterm.nvim :mod :toggleterm}
-   {_ :LunarVim/bigfile.nvim}])
+(local *packages* [])
+
+(fn use-package! [name & args]
+  (assert (string? name) "Invalid package spec")
+  (assert (= 0 (% (length args) 2)) "Invalid package spec")
+  (local spec [name])
+  (for [i 1 (length args) 2]
+    (tset spec (. args i) (. args (inc i))))
+  (table.insert *packages* spec)
+  nil)
+
+(local devicons :kyazdani42/nvim-web-devicons)
+
+;; UI
+(use-package! devicons
+              :lazy true
+              :main :nvim-web-devicons
+              :opts [])
+(use-package! :rcarriga/nvim-notify
+              :name :notify)
+(use-package! :LunarVim/bigfile.nvim)
+(use-package! :stevearc/dressing.nvim
+              :lazy  true
+              :event [:VeryLazy]
+              :main  :dressing
+              :opts  {:input {:insert_only false
+                              :win_options {:winblend 20}}})
+(use-package! :nvim-lualine/lualine.nvim
+              :dependencies [devicons]
+              :name :lualine)
+(use-package! :romgrk/barbar.nvim
+              :dependencies [devicons]
+              :name :barbar)
+(use-package! :folke/zen-mode.nvim
+              :lazy true
+              :cmd  [:ZenMode]
+              :main :zen-mode
+              :opts {:plugins {:options     {:enabled true
+                                             :nu      false
+                                             :rnu     false}
+                               :gitsigns    {:enabled true}
+                               :diagnostics {:enabled true}}})
+
+
+;; UX
+(use-package! :goolord/alpha-nvim
+              :name :alpha)
+(use-package! :folke/which-key.nvim
+              :lazy  true
+              :event :VeryLazy
+              :main  :which-key
+              :opts  [])
+(use-package! :nvim-telescope/telescope-fzf-native.nvim
+              :build (let [p (require :config.platform)]
+                       (if (and p.is.bsd (not p.is.macos)) :gmake :make)))
+(use-package! :nvim-telescope/telescope.nvim
+              :name :telescope)
+(use-package! :kyazdani42/nvim-tree.lua
+              :dependencies [devicons]
+              :name :tree)
+(use-package! :j-hui/fidget.nvim
+              :name :fidget
+              :branch :legacy
+              :lazy true
+              :event :VeryLazy
+              :main :fidget
+              :opts [])
+(use-package! :lvimuser/lsp-inlayhints.nvim
+              :lazy true
+              :cond (not (has :nvim-0.10.0))
+              :main :lsp-inlayhints
+              :opts []
+              :init (fn []
+                      (fn callback [opts]
+                        (-?> (vim.lsp.get_client_by_id opts.data.client_id)
+                             ((. (require :lsp-inlayhints) :on_attach)
+                              opts.buf false)))
+                      (vim.api.nvim_create_autocmd :LspAttach {: callback})))
+
+;; project
+(use-package! :ahmedkhalf/project.nvim
+              :main :project_nvim
+              :opts [])
+
+;; LSP
+(use-package! :neovim/nvim-lspconfig
+              :lazy true
+              :cmd  [:LspInfo :LspLog :LspRestart :LspStart :LspStop])
+(use-package! :tamago324/nlsp-settings.nvim
+              :dependencies [:neovim/nvim-lspconfig]
+              :lazy true
+              :cmd  [:LspSettings]
+              :main :nlspsettings
+              :opts {:config_home (let [{: join} (require :config.path)]
+                                    (join (vim.fn.stdpath :config)
+                                          :nlsp-settings))
+                     :local_settings_dir :.nlsp-settings
+                     :append_default_schemas true
+                     :loader :json})
+
+;; tools
+(use-package! :stevearc/conform.nvim
+              :name :conform)
+(use-package! :mfussenegger/nvim-lint
+              :name :lint)
+
+;; completion
+(use-package! :hrsh7th/cmp-nvim-lsp
+              :dependencies [:neovim/nvim-lspconfig
+                             :hrsh7th/nvim-cmp]
+              :lazy true)
+(use-package! :L3MON4D3/LuaSnip
+              :name :luasnip)
+(use-package! :hrsh7th/nvim-cmp
+              :name :cmp
+              :dependencies [:hrsh7th/cmp-nvim-lsp]
+              :lazy true)
+
+;; langs
+(use-package! :simrat39/rust-tools.nvim
+              :name :rust-tools
+              :dependencies [:nvim-lua/plenary.nvim :mfussenegger/nvim-dap
+                             :neovim/nvim-lspconfig]
+              :lazy true)
+(use-package! :mrcjkb/haskell-tools.nvim
+              :dependencies [:nvim-lua/plenary.nvim]
+              :name :haskell-tools)
+(use-package! :mfussenegger/nvim-jdtls
+              :name :jdtls)
+(use-package! :pmizio/typescript-tools.nvim
+              :dependencies [:nvim-lua/plenary.nvim :neovim/nvim-lspconfig]
+              :name :typescript-tools
+              :lazy true)
+(use-package! :akinsho/flutter-tools.nvim
+              :name :flutter-tools
+              :lazy true)
+(use-package! :folke/neodev.nvim
+              :lazy true
+              :main :neodev
+              :opts [])
+(use-package! :jwalton512/vim-blade
+              :lazy true
+              :ft   :blade)
+(use-package! :b0o/SchemaStore.nvim
+              :lazy true)
+
+;; editor
+(use-package! :nvim-treesitter/nvim-treesitter
+              :name :treesitter)
+(use-package! :nvim-treesitter/nvim-treesitter-textobjects
+              :lazy true
+              :config (fn []
+                        ((. (require :nvim-treesitter.configs) :setup)
+                         {:context_commentstring {:enable true
+                                                  :enable_autocmd false}})))
+(use-package! :numToStr/Comment.nvim
+              :name :comment)
+
+*packages*

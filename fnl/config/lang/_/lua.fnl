@@ -1,1 +1,2 @@
-{:config (mkconfig :lsp :lua_ls :formatters :stylua)}
+{:lsp :lua-language-server
+ :fmt :stylua}

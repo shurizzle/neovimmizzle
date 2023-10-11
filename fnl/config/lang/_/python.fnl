@@ -1,1 +1,2 @@
-{:config (mkconfig :lsp :pyright :ruff :formatters :black)}
+{:lsp [:pyright :ruff]
+ :fmt :black}

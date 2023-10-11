@@ -1,1 +1,1 @@
-{:config (mkconfig :lsp :ruby_ls :sorbet)}
+{:lsp [:ruby-lsp :sorbet]}

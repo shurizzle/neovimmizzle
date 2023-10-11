@@ -1,2 +1,2 @@
-{:filetypes [:c :cpp :objc :objcpp :cuda]
- :config (mkconfig :lsp :clangd)}
+{:ft  [:c :cpp :objc :objcpp :cuda]
+ :lsp :clangd}

@@ -1,1 +1,1 @@
-{:config (mkconfig :lsp :yamlls)}
+{:lsp :yaml-language-server}

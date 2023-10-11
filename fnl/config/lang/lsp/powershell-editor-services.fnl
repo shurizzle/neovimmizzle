@@ -1,4 +1,14 @@
-(: (. (require :config.lang.installer) :powershell-editor-services) :and-then
-   (fn [p]
-     ((. (require :lspconfig) :powershell_es :setup)
-      {:bundle_path (p:get_install_path)})))
+(autoload [lspconfig :lspconfig
+           installer :config.lang.installer])
+
+(fn config [path]
+  (local opts [])
+  (when path (set opts.bundle_path path))
+  (lspconfig.powershell_es.setup opts)
+  lspconfig.powershell_es)
+
+(fn [cb]
+  (installer.get
+    :powershell-editor-services
+    (fn [_ p]
+      (cb (config (-?> p (: :get_install_path)))))))

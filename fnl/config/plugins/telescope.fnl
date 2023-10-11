@@ -30,11 +30,9 @@
 
 {:keys (icollect [k [_ desc] (pairs bindings)]
          {:mode :n : desc 1 (.. :<leader> k)})
- :cmd :Telescope
+ :cmd  [:Telescope]
  :dependencies [:rcarriga/nvim-notify
                 :ahmedkhalf/project.nvim
-                {1 :nvim-telescope/telescope-fzf-native.nvim
-                 :build (let [p (require :config.platform)]
-                          (if (and p.is.bsd (not p.is.macos)) :gmake :make))}
+                :nvim-telescope/telescope-fzf-native.nvim
                 :nvim-telescope/telescope-ui-select.nvim]
  : config}

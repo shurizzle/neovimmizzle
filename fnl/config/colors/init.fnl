@@ -90,8 +90,8 @@
         (vim.notify err :error {:title :Colors}))))
 
 (fn setup []
-  (colorscheme :bluesky)
-  (vim.cmd "command! ColoSync lua require'config.colors'.sync()<CR>"))
+  (vim.cmd "command! ColoSync lua require'config.colors'.sync()<CR>")
+  (vim.cmd.colorscheme :bluesky))
 
 (fn set-highlight-colors []
   (vim.api.nvim_command "hi def link LspReferenceText CursorLine")

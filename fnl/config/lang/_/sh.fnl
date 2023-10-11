@@ -1,1 +1,3 @@
-{:config (mkconfig :linters :shellcheck :formatters :beautysh)}
+{:ft   [:sh :bash :csh :ksh]
+ :lint :shellcheck
+ :fmt  :beautysh}

@@ -1,1 +1,1 @@
-{:config (mkconfig :lsp :dartls)}
+{:lsp :dart-language-server}

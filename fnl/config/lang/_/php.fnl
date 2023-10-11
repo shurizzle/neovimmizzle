@@ -1,1 +1,2 @@
-{:config (mkconfig :lsp :intelephense :formatters :php-cs-fixer)}
+{:lsp :intelephense
+ :fmt :php-cs-fixer}

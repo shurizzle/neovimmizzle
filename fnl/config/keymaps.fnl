@@ -57,8 +57,8 @@ nnoremap gm <cmd>call SynGroup()<CR>
                              "', getreg('\"'))" (string.char 10)
                              (string.char 27) ::echo (string.char 10))))))
 
-(each [k [f d] (pairs {:<C-n> [_G.tabnext "Go to next tab"]
-                       :<C-p> [_G.tabprev "Go to previous tab"]
+(each [k [f d] (pairs {:<C-n> [_G.bufnext "Go to next tab"]
+                       :<C-p> [_G.bufprev "Go to previous tab"]
                        ; Make Y behave like the other capitals
                        :Y [:y$ "Yank untill the end of the line"]
                        :<leader>cD  [vim.lsp.buf.declaration
@@ -88,8 +88,8 @@ nnoremap gm <cmd>call SynGroup()<CR>
                        :K [vim.lsp.buf.hover "Show under-cursor help"]
                        "[c" [vim.diagnostic.goto_prev "Go to previous diagnostic"]
                        "]c" [vim.diagnostic.goto_next "Go to next diagnostic"]
-                       :<space>d [(. (require :config.debug) :toggle)
-                                  "Toggle dap-ui"]
+                       ; :<space>d [(. (require :config.debug) :toggle)
+                       ;            "Toggle dap-ui"]
                        :ZZ ["<cmd>BufferClose<CR>" "Close current buffer"]
                        :ZQ ["<cmd>BufferClose!<CR>"
                             "Close current buffer without saving"]

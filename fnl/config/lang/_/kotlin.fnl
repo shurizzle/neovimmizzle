@@ -1,4 +1,3 @@
-{:config (mkconfig
-           :lsp :kotlin-language-server
-           :linters :ktlint
-           :formatters :ktlint)}
+{:lsp  :kotlin-language-server
+ :lint :ktlint
+ :fmt  :ktlint}

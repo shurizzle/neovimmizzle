@@ -1,1 +1,1 @@
-{:config (mkconfig :lsp :html)}
+{:lsp :html}

@@ -1,1 +1,1 @@
-{:config (mkconfig :lsp :ocaml_lsp)}
+{:lsp :ocaml-lsp}

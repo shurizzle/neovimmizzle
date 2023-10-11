@@ -1,1 +1,1 @@
-{:config (mkconfig :lsp :powershell-editor-services)}
+{:lsp :powershell-editor-services}

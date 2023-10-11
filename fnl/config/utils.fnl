@@ -22,19 +22,11 @@
                            (= "" path) nil
                            path))))
 
-(fn _G.colorscheme [...]
-  (if (= (length [...]) 0)
-      (vim.api.nvim_exec :colo true)
-      (if (= 1 (length [...]))
-          (not= (vim.api.nvim_exec (.. "try | colo " (select 1 ...) " | catch /E185/ | echo 'fail' | entry") true) :fail)
-          (each [_ name (ipairs [...])]
-            (if (colorscheme name) (lua "return true"))))))
+(fn _G.bufnext []
+  (vim.api.nvim_command (if (not= 0 (vim.fn.exists ::BufferNext)) :BufferNext :bnext)))
 
-(fn _G.tabnext []
-  (vim.api.nvim_command (if (not= 0 (vim.fn.exists ::BufferNext)) :BufferNext :tabn)))
-
-(fn _G.tabprev []
-  (vim.api.nvim_command (if (not= 0 (vim.fn.exists ::BufferPrevious)) :BufferPrevious :tabp)))
+(fn _G.bufprev []
+  (vim.api.nvim_command (if (not= 0 (vim.fn.exists ::BufferPrevious)) :BufferPrevious :bprev)))
 
 (fn capitalize [str]
   (if (= 0 (length str)) 
@@ -91,4 +83,9 @@
   (set _G.operatorfunction f)
   (set vim.o.operatorfunc "v:lua.operatorfunction_apply"))
 (global-set :set-operatorfunc _G.set_operatorfunc)
+
+(fn _G.cargo [args] (term-run (.. "cargo " args)))
+
+(vim.api.nvim_command "command! -nargs=+ Cargo lua cargo(<q-args>)")
+
 nil
