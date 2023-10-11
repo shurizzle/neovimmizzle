@@ -223,6 +223,8 @@
               :opts [])
 (use-package! :kylechui/nvim-surround
               :name :surround)
+(use-package! :MarcWeber/vim-addon-local-vimrc
+              :enabled (not (has :nvim-0.9.0)))
 ;; }}}
 
 *packages*
