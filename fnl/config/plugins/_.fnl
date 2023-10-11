@@ -110,6 +110,8 @@
                      :local_settings_dir :.nlsp-settings
                      :append_default_schemas true
                      :loader :json})
+(use-package! :ray-x/lsp_signature.nvim
+              :name :lsp-signature)
 ;; }}}
 
 ;; tools {{{
