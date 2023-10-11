@@ -44,6 +44,12 @@
               :event :BufRead
               :main  :colorizer
               :opts  [:*])
+(use-package! :lewis6991/gitsigns.nvim
+              :lazy true
+              :event :BufRead
+              :dependencies [:nvim-lua/plenary.nvim]
+              :main :gitsigns
+              :opts [])
 ;; }}}
 
 
