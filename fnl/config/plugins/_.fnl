@@ -9,10 +9,9 @@
   (table.insert *packages* spec)
   nil)
 
-(local devicons :kyazdani42/nvim-web-devicons)
-
 ;; UI
-(use-package! devicons
+(use-package! :kyazdani42/nvim-web-devicons
+              :name :devicons
               :lazy true
               :main :nvim-web-devicons
               :opts [])
@@ -26,10 +25,10 @@
               :opts  {:input {:insert_only false
                               :win_options {:winblend 20}}})
 (use-package! :nvim-lualine/lualine.nvim
-              :dependencies [devicons]
+              :dependencies :devicons
               :name :lualine)
 (use-package! :romgrk/barbar.nvim
-              :dependencies [devicons]
+              :dependencies :devicons
               :name :barbar)
 (use-package! :folke/zen-mode.nvim
               :lazy true
@@ -56,7 +55,7 @@
 (use-package! :nvim-telescope/telescope.nvim
               :name :telescope)
 (use-package! :kyazdani42/nvim-tree.lua
-              :dependencies [devicons]
+              :dependencies :devicons
               :name :tree)
 (use-package! :j-hui/fidget.nvim
               :name :fidget
