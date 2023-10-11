@@ -147,12 +147,12 @@
 ;; editor
 (use-package! :nvim-treesitter/nvim-treesitter
               :name :treesitter)
-(use-package! :nvim-treesitter/nvim-treesitter-textobjects
+(use-package! :JoosepAlviste/nvim-ts-context-commentstring
               :lazy true
-              :config (fn []
-                        ((. (require :nvim-treesitter.configs) :setup)
-                         {:context_commentstring {:enable true
-                                                  :enable_autocmd false}})))
+              :dependencies :treesitter
+              :main :ts_context_commentstring
+              :opts {:enable_autocmd false
+                     :config {:fennel ";; %s"}})
 (use-package! :numToStr/Comment.nvim
               :name :comment)
 

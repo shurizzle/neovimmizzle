@@ -1,7 +1,7 @@
 (fn config []
-  (local {:create_pre_hook pre_hook}
+  (local {: create_pre_hook}
          (require :ts_context_commentstring.integrations.comment_nvim))
-  ((. (require :Comment) :setup) {: pre_hook
+  ((. (require :Comment) :setup) {:pre_hook (create_pre_hook)
                                   :mappings {:basic    false
                                              :extra    false
                                              :extended false}})
