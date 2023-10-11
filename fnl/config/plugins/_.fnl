@@ -118,12 +118,6 @@
                                                :DressingInput]})))
 ;; }}}
 
-;; project {{{
-(use-package! :ahmedkhalf/project.nvim
-              :main :project_nvim
-              :opts [])
-;; }}}
-
 ;; LSP {{{
 (use-package! :neovim/nvim-lspconfig
               :lazy true
@@ -216,6 +210,9 @@
 ;; }}}
 
 ;; editor {{{
+(use-package! :ahmedkhalf/project.nvim
+              :main :project_nvim
+              :opts [])
 (use-package! :nvim-treesitter/nvim-treesitter
               :name :treesitter)
 (use-package! :JoosepAlviste/nvim-ts-context-commentstring
@@ -248,6 +245,8 @@
               :event :InsertEnter)
 (use-package! :editorconfig/editorconfig-vim
               :enabled (not (has :nvim-0.9.0)))
+(use-package! :ojroques/nvim-osc52
+              :name :osc52)
 ;; }}}
 
 
