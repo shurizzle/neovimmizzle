@@ -8,7 +8,7 @@
 (each [_ key (ipairs [:Left :Right :Up :Down :PageUp :PageDown :End :Home :Del])]
   (let [name (if (= key :Del) :Delete key)]
     (each [mode prefix (pairs {:n "<cmd>" :v "<cmd><C-u>" :i "<C-o><cmd>"})]
-      (kset mode (.. :< key :>) (.. prefix "echo \"No " name " for you!<CR>\"") {:noremap false :silent true}))))
+      (kset mode (.. :< key :>) (.. prefix "echo \"No " name " for you!\"<CR>") {:noremap false :silent true}))))
 
 (each [k [f d] (pairs {; Reselect visual selection after indenting
                        :< [:<gv "Indent back"]
