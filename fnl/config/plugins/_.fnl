@@ -153,6 +153,12 @@
                       (set vim.g.nvim_markdown_preview_theme :github)
                       (if (not= 0 (or vim.g.started_by_firenvim 0))
                           (set vim.g.instant_markdown_autostart 0))))
+(use-package! :rktjmp/paperplanes.nvim
+              :lazy true
+              :cmd :PP
+              :main :paperplanes
+              :opts {:register :+
+                     :provider :paste.rs})
 ;; }}}
 
 ;; completion {{{
