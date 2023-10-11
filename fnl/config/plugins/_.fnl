@@ -159,6 +159,8 @@
               :main :paperplanes
               :opts {:register :+
                      :provider :paste.rs})
+(use-package! :rafcamlet/nvim-luapad
+              :name :luapad)
 ;; }}}
 
 ;; completion {{{
