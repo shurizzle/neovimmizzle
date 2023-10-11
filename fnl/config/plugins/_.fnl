@@ -116,6 +116,21 @@
                          {:filetypes_denylist [:NvimTree :dashboard :alpha
                                                :TelescopePrompt
                                                :DressingInput]})))
+(use-package! :akinsho/toggleterm.nvim
+              :lazy true
+              :keys [{:mode :n :desc "Toggle Terminal" 1 :<leader>t}]
+              :cmd  [:TermSelect :TermExec :ToggleTerm :ToggleTermToggleAll
+                     :ToggleTermSendVisualLines :ToggleTermSendCurrentLine
+                     :ToggleTermSetName]
+              :init #(vim.keymap.set
+                       :n :<leader>ft
+                       "<cmd>TermSelect<cr>"
+                       {:noremap true :silent true :desc "Search terminal"})
+              :main :toggleterm
+              :opts {:open_mapping    :<leader>t
+                     :insert_mappings false
+                     :shade_terminals false
+                     :winbar          {:enabled true}})
 ;; }}}
 
 ;; LSP {{{
