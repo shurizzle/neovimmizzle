@@ -28,7 +28,8 @@
 (table.insert config 1 {1 :williamboman/mason.nvim
                         :lazy false
                         :cmd [:Mason :MasonInstall :MasonLog :MasonUninstall :MasonUninstallAll]
-                        :config (fn [] ((. (require :mason) :setup) []))})
+                        :main :mason
+                        :opts []})
 
 ((. (require :lazy) :setup) config)
 (-after-load)

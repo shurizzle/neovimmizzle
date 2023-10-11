@@ -43,12 +43,12 @@
    {_ :folke/zen-mode.nvim
     :lazy true
     :cmd [:ZenMode]
-    :config (fn []
-              ((. (require :zen-mode) :setup) {:plugins {:options {:enabled true
-                                                                   :nu false
-                                                                   :rnu false}
-                                                         :gitsigns {:enabled true}
-                                                         :diagnostics {:enabled true}}}))}
+    :main :zen-mode
+    :opts {:plugins {:options     {:enabled true
+                                   :nu      false
+                                   :rnu     false}
+                     :gitsigns    {:enabled true}
+                     :diagnostics {:enabled true}}}}
    {_ :windwp/nvim-autopairs :mod :autopairs}
    {_ :tpope/vim-repeat :lazy true :event :InsertEnter}
    {_ :JoosepAlviste/nvim-ts-context-commentstring
