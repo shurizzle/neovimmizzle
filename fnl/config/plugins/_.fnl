@@ -122,6 +122,13 @@
               :dependencies [:nvim-lua/plenary.nvim :mfussenegger/nvim-dap
                              :neovim/nvim-lspconfig]
               :lazy true)
+(use-package! :saecki/crates.nvim
+              :lazy true
+              :event "BufRead Cargo.toml"
+              :dependencies [:nvim-lua/plenary.nvim :cmp]
+              :main :crates
+              :opts {:src     {:cmp {:enabled true}}
+                     :null_ls {:enabled false}})
 (use-package! :mrcjkb/haskell-tools.nvim
               :dependencies [:nvim-lua/plenary.nvim]
               :name :haskell-tools)

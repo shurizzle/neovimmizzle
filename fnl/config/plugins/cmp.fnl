@@ -66,14 +66,14 @@
                                        duplicates_default))
                               vim_item)}
      :window    {:documentation {:border ["╭" "─" "╮" "│" "╯" "─" "╰" "│"]}}
-     :sources   [{:name "nvim_lsp"}
-                 {:name "luasnip"}
-                 {:name "treesitter"}
-                 {:name "buffer"}
-                 {:name "async_path"}
-                 {:name "calc"}
-                 {:name "emoji"}
-                 {:name "orgmode"}]
+     :sources   [{:name :nvim_lsp}
+                 {:name :crates}
+                 {:name :luasnip}
+                 {:name :treesitter}
+                 {:name :buffer}
+                 {:name :async_path}
+                 {:name :calc}
+                 {:name :emoji}]
      :snippet   {:expand (fn [args] (luasnip.lsp_expand args.body))}
      :preselect :None
      :mapping   {:<C-u> (cmp.mapping (cmp.mapping.scroll_docs -4) [:i :c])
