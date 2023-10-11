@@ -183,8 +183,7 @@
 ;; langs {{{
 (use-package! :simrat39/rust-tools.nvim
               :name :rust-tools
-              :dependencies [:nvim-lua/plenary.nvim :mfussenegger/nvim-dap
-                             :neovim/nvim-lspconfig]
+              :dependencies [:nvim-lua/plenary.nvim :dap :neovim/nvim-lspconfig]
               :lazy true)
 (use-package! :saecki/crates.nvim
               :lazy true
@@ -249,6 +248,13 @@
               :event :InsertEnter)
 (use-package! :editorconfig/editorconfig-vim
               :enabled (not (has :nvim-0.9.0)))
+;; }}}
+
+
+;; debug {{{
+(use-package! :mfussenegger/nvim-dap
+              :name :dap)
+;; TODO: dap-ui
 ;; }}}
 
 *packages*
