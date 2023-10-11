@@ -1,1 +1,1 @@
-{}
+{:fmt :trim_whitespace}
