@@ -16,6 +16,12 @@
                 (vim.api.nvim_command (.. prefix cmd)))))]
   (global-set :term-run f))
 
+(global-set :exepath (fn [exe]
+                       (let [path (vim.fn.exepath exe)]
+                         (if
+                           (= "" path) nil
+                           path))))
+
 (fn _G.colorscheme [...]
   (if (= (length [...]) 0)
       (vim.api.nvim_exec :colo true)
