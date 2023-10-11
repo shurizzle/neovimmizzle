@@ -62,7 +62,7 @@
                     {: buffer :silent true}))
 
   (fn get-executor []
-    (let [(ok _) (require :toggleterm)]
+    (let [(ok _) (pcall require :toggleterm)]
       (. (require :rust-tools.executors) (if ok :toggleterm :termopen))))
 
   (: (tools-installer) :and-then
