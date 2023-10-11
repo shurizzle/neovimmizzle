@@ -172,5 +172,14 @@
                      :config {:fennel ";; %s"}})
 (use-package! :numToStr/Comment.nvim
               :name :comment)
+(use-package! :windwp/nvim-ts-autotag
+              :dependencies :treesitter
+              :lazy true
+              :ft [:html :javascript :typescript :javascriptreact :xml :php
+                   :typescriptreact :svelte :vue :tsx :jsx :rescript :markdown
+                   :glimmer :handlebars :hbs]
+              :main :nvim-ts-autotag
+              :opts [])
+
 
 *packages*
