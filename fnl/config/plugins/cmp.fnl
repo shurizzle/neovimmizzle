@@ -52,9 +52,22 @@
   (local duplicates_default nil)
   (set vim.opt.completeopt [:menu :menuone :noselect])
 
+  (fn tab [fallback]
+    (if
+      (cmp.visible) (cmp.select_next_item)
+      (luasnip.expand_or_jumpable)
+        (luasnip.expand_or_jump)
+      (has-words-before) (cmp.complete)
+      (fallback)))
+
+  (fn stab [fallback]
+    (if
+      (cmp.visible) (cmp.select_prev_item)
+      (luasnip.jumpable -1) (luasnip.jump -1)
+      (fallback)))
+
   (cmp.setup
     {:completion   {:keyword_length 1}
-     :experimental {:native_menu false}
      :formatting   {:fields [:kind :abbr :menu]
                     :format (fn [entry vim_item]
                               (set vim_item.kind
@@ -81,37 +94,21 @@
                  :<C-y> cmp.config.disable
                  :<C-n> cmp.config.disable
                  :<C-Space> (cmp.mapping (cmp.mapping.complete []) [:i :c])
-                 :<Tab> (cmp.mapping
-                          (fn [fallback]
-                            (if
-                              (cmp.visible) (cmp.select_next_item)
-                              (luasnip.expand_or_jumpable)
-                                (luasnip.expand_or_jump)
-                              (has-words-before) (cmp.complete)
-                              (fallback)))
-                          [:i :s])
-                 :<S-Tab> (cmp.mapping
-                            (fn [fallback]
-                              (if
-                                (cmp.visible) (cmp.select_prev_item)
-                                (luasnip.jumpable -1) (luasnip.jump -1)
-                                (fallback)))
-                            [:i :s])
+                 :<Tab> {:i tab
+                         :s tab}
+                 :<S-Tab> {:i stab
+                           :s stab}
                  :<Esc> {:c (cmp.mapping.abort)}
-                 :<CR> (cmp.mapping
-                         {:i (fn [fallback]
-                               (if (cmp.visible)
-                                   (if (cmp.get_selected_entry)
-                                       (cmp.confirm)
-                                       (cmp.confirm
-                                         {:behaviour cmp.ConfirmBehavior.Replace
-                                          :select false}))
-                                   (fallback)))
-                          :s (cmp.mapping.confirm {:select true})
-                          :c (cmp.mapping.confirm
-                               {:behaviour cmp.ConfirmBehavior.Replace
-                                :select true})
-                         })}})
+                 :<CR> {:i (fn [fallback]
+                             (if (cmp.visible)
+                                 (if (cmp.get_selected_entry)
+                                     (cmp.confirm)
+                                     (cmp.confirm
+                                       {:behaviour cmp.ConfirmBehavior.Replace
+                                        :select false}))
+                                 (fallback)))
+                        :s (cmp.mapping.confirm {:select true})
+                        :c (cmp.mapping.confirm {:select false})}}})
   (cmp.setup.filetype :gitcommit
                       {:sources (cmp.config.sources [] [{:name :buffer}])}))
 {:lazy true
