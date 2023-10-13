@@ -34,5 +34,5 @@
                         :opts {:PATH :skip}})
 (table.insert config 1 {1 :nvim-lua/plenary.nvim :lazy true})
 
-((. (require :lazy) :setup) config)
+((. (require :lazy) :setup) config {:dev {:path "~/p"}})
 (-after-load)
