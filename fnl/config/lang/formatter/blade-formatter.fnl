@@ -3,8 +3,8 @@
 (fn register []
   (local conform (require :conform))
   (set conform.formatters.blade-formatter
-       {:meta    {:url "https://github.com/lovesegfault/beautysh"
-                  :description "A Bash beautifier for the masses."}
+       {:meta    {:url "https://github.com/shufo/blade-formatter"
+                  :description "An opinionated blade template formatter for Laravel that respects readability."}
         :command :blade-formatter
         :args    [:--stdin]
         :stdin   true
