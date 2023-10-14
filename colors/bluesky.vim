@@ -162,6 +162,10 @@ highlight Special guifg=#57A5FF guibg=NONE guisp=NONE blend=NONE gui=italic
 highlight! link luaFunc Special
 highlight SpecialChar guifg=#57A5FF guibg=NONE guisp=NONE blend=NONE gui=italic
 highlight SpecialComment guifg=#57A5FF guibg=NONE guisp=NONE blend=NONE gui=bold,italic
+highlight SpellBad guifg=#EDEDED guibg=#CA213D guisp=NONE blend=NONE gui=NONE
+highlight SpellCap guifg=#EDEDED guibg=#CA213D guisp=NONE blend=NONE gui=NONE
+highlight SpellLocal guifg=#EDEDED guibg=#CA213D guisp=NONE blend=NONE gui=NONE
+highlight SpellRare guifg=#EDEDED guibg=#CA213D guisp=NONE blend=NONE gui=NONE
 highlight Statement guifg=#2E8FFF guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight! link luaFunction Statement
 highlight! link luaOperator Statement

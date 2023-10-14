@@ -33,7 +33,9 @@
      omnifunc "v:lua.vim.lsp.omnifunc"
      guifont (.. :monospace:h (if is.macos 11 10))
      laststatus 3
-     showmode false)
+     showmode false
+     spell true
+     spelllang :en)
 
 (set vim.g.neovide_cursor_vfx_mode :torpedo)
 

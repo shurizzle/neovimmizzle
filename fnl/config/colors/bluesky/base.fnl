@@ -45,10 +45,10 @@
          (QuickFixLine [PmenuSel])
          (Search [PmenuSel])
          ; (SpecialKey []) ; Unprintable characters: text displayed differently from what it really is.  But not 'listchars' whitespace. |hl-Whitespace|
-         ; (SpellBad []) ; Word that is not recognized by the spellchecker. |spell| Combined with the highlighting used otherwise.
-         ; (SpellCap []) ; Word that should start with a capital. |spell| Combined with the highlighting used otherwise.
-         ; (SpellLocal []) ; Word that is recognized by the spellchecker as one that is used in another region. |spell| Combined with the highlighting used otherwise.
-         ; (SpellRare []) ; Word that is recognized by the spellchecker as one that is hardly ever used.  |spell| Combined with the highlighting used otherwise.
+         (SpellBad {:fg cp.white :bg cp.red}) ; Word that is not recognized by the spellchecker. |spell| Combined with the highlighting used otherwise.
+         (SpellCap {:fg cp.white :bg cp.red}) ; Word that should start with a capital. |spell| Combined with the highlighting used otherwise.
+         (SpellLocal {:fg cp.white :bg cp.red}) ; Word that is recognized by the spellchecker as one that is used in another region. |spell| Combined with the highlighting used otherwise.
+         (SpellRare {:fg cp.white :bg cp.red}) ; Word that is recognized by the spellchecker as one that is hardly ever used.  |spell| Combined with the highlighting used otherwise.
          (StatusLine {:fg cp.white :bg cp.blacker})
          (StatusLineNC {:fg cp.white :bg cp.black})
          ; (TabLine []) ; tab pages line, not active tab page label
