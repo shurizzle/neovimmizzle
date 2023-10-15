@@ -13,4 +13,6 @@
 (add {:extension {:zig :zig
                   :zir :zir}})
 
+(add {:extension {:wgsl :wgsl}})
+
 nil
