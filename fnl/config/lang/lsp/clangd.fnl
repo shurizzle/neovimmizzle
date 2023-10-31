@@ -3,7 +3,7 @@
 
 (fn config [bin]
   (local opts [])
-  (when bin (set opts.cmd [bin]))
+  (when bin (set opts.cmd [bin :--clang-tidy :--clang-tidy-checks=*]))
   (lspconfig.clangd.setup opts)
   lspconfig.clangd)
 
