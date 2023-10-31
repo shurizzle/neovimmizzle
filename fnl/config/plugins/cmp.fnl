@@ -8,7 +8,9 @@
 
 (fn config []
   (local cmp (require :cmp))
+  (local compare (require :cmp.config.compare))
   (local luasnip (require :luasnip))
+
   (local kind_icons {:Text          ""
                      :Method        ""
                      :Function      ""
@@ -79,6 +81,17 @@
                                        duplicates_default))
                               vim_item)}
      :window    {:documentation {:border ["╭" "─" "╮" "│" "╯" "─" "╰" "│"]}}
+     :sorting   {:priority_weight 2
+                 :comparators     [compare.offset
+                                   compare.exact
+                                   ;; compare.scopes
+                                   compare.score
+                                   compare.recently_used
+                                   compare.locality
+                                   compare.kind
+                                   compare.sort_text
+                                   compare.length
+                                   compare.order]}
      :sources   [{:name :nvim_lsp}
                  {:name :crates}
                  {:name :luasnip}
