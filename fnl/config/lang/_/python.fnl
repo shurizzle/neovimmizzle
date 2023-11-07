@@ -1,2 +1,1 @@
-{:lsp [:pyright :ruff]
- :fmt :black}
+{:lsp [:pyright :ruff]}
