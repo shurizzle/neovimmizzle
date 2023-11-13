@@ -1,7 +1,10 @@
-(let [{: merge} (require :lush)
-      supports [:gitsigns :indent-blankline :tree :barbar :telescope :lsp 
+(let [unpack (or table.unpack _G.unpack)
+      {: merge : compile} (require :config.colors.blush)
+      supports [:gitsigns :indent-blankline :tree :barbar :telescope :lsp
                 :treesitter :illuminate :breadcrumbs :prolog]]
-  (var theme
-    (icollect [_ name (ipairs supports)] (require (.. :config.colors.bluesky.support. name))))
-  (table.insert theme 1 (require :config.colors.bluesky.base))
-  (merge theme))
+  (compile
+    (merge
+      (pick-values 1 (require :config.colors.bluesky.base))
+      (unpack
+        (icollect [_ name (ipairs supports)]
+          (pick-values 1 (require (.. :config.colors.bluesky.support. name))))))))

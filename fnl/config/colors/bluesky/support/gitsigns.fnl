@@ -1,14 +1,15 @@
-(let [lush (require :lush)
-      cp (require :config.colors.bluesky.palette)]
-  (lush (fn []
-          [(GitSignsAdd {:fg cp.green})
-           (GitSignsChange {:fg cp.yellow})
-           (GitSignsDelete {:fg cp.red})
+(import-macros {: blush} :config.colors.blush.macros)
+(local cp (require :config.colors.bluesky.palette))
 
-           (GitSignsAddNr {:fg cp.green :bg cp.black})
-           (GitSignsChangeNr {:fg cp.yellow :bg cp.black})
-           (GitSignsDeleteNr {:fg cp.red :bg cp.black})
+(blush
+  (GitSignsAdd :fg cp.green)
+  (GitSignsChange :fg cp.yellow)
+  (GitSignsDelete :fg cp.red)
 
-           (GitSignsAddLn {:fg cp.green :bg cp.black})
-           (GitSignsChangeLn {:fg cp.yellow :bg cp.black})
-           (GitSignsDeleteLn {:fg cp.red :bg cp.black})])))
+  (GitSignsAddNr :fg cp.green :bg cp.black)
+  (GitSignsChangeNr :fg cp.yellow :bg cp.black)
+  (GitSignsDeleteNr :fg cp.red :bg cp.black)
+
+  (GitSignsAddLn :fg cp.green :bg cp.black)
+  (GitSignsChangeLn :fg cp.yellow :bg cp.black)
+  (GitSignsDeleteLn :fg cp.red :bg cp.black))

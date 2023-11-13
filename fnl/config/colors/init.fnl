@@ -1,50 +1,51 @@
 (local path (require :config.path))
 
-(local resources {:foreground :#eeeeee
-                  :background :#282828
-                  :color0     :#282828
-                  :color1     :#c8213d
-                  :color2     :#169C51
-                  :color3     :#DAAF19
-                  :color4     :#2F90FE
-                  :color5     :#C14ABE
-                  :color6     :#48C6DB
-                  :color7     :#CBCBCB
-                  :color8     :#505050
-                  :color9     :#C7213D
-                  :color10    :#1ef15f
-                  :color11    :#FFE300
-                  :color12    :#00aeff
-                  :color13    :#FF40BE
-                  :color14    :#48FFFF
-                  :color15    :#FFFFFF})
+(local resources {:fg :#eeeeee
+                  :bg :#282828
+                  0   :#282828
+                  1   :#c8213d
+                  2   :#169C51
+                  3   :#DAAF19
+                  4   :#2F90FE
+                  5   :#C14ABE
+                  6   :#48C6DB
+                  7   :#CBCBCB
+                  8   :#505050
+                  9   :#C7213D
+                  10  :#1ef15f
+                  11  :#FFE300
+                  12  :#00aeff
+                  13  :#FF40BE
+                  14  :#48FFFF
+                  15  :#FFFFFF})
 
 (fn get-highlights []
-  (accumulate [res "" _ value (ipairs
-                                ((require :shipwright.transform.lush.to_vimscript)
-                                 (require :config.colors.bluesky)))]
-    (.. res value "\n")))
+  (let [theme (require :config.colors.bluesky)
+        ->vim (require :config.colors.blush.transpile.vimscript)]
+    (->vim theme)))
 
 (fn compile-terminal-colors []
-  (faccumulate [res (.. "let g:terminal_color_fg = \""
-                        resources.foreground
-                        "\"\nlet g:terminal_color_bg = \""
-                        resources.background
-                        "\"\n")
+  (fn merge [res resources key]
+    (let [value (. resources key)]
+      (if value
+          (let [value (.. "let g:terminal_color_" (tostring key)
+                          " = \"" value "\"")]
+            (if res
+                (.. res "\n" value)
+                value))
+          res)))
+
+  (faccumulate [res (accumulate [res nil _ k (ipairs [:fg :bg])]
+                      (merge res resources k))
                 i 0 15]
-               (.. res
-                   "let g:terminal_color_"
-                   (tostring i)
-                   " = \""
-                   (. resources (.. :color (tostring i)))
-                   "\"\n")))
+               (merge res resources i)))
 
 (fn get-theme []
   (.. "set background=dark\nhi clear\n"
       "if exists(\"syntax\")\n  syntax reset\nendif\n"
       "let g:colors_name=\"bluesky\"\n\n"
-      (get-highlights)
-      (compile-terminal-colors)
+      (or (-?> (get-highlights) (.. "\n")) "")
+      (or (-?> (compile-terminal-colors) (.. "\n")) "")
       "augroup set_highlight_colors\n"
       "  au!\n"
       "  autocmd VimEnter * lua require\"config.colors\"['set-highlight-colors']()\n"

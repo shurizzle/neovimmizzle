@@ -1,5 +1,6 @@
-(let [lush (require :lush)
-      cp (require :config.colors.bluesky.palette)]
-  (lush (fn []
-          [(IblIndent {:fg cp.almostblack})
-           (IblScope {:fg cp.white})])))
+(import-macros {: blush} :config.colors.blush.macros)
+(local cp (require :config.colors.bluesky.palette))
+
+(blush
+  (IblIndent :fg cp.almostblack)
+  (IblScope :fg cp.white))

@@ -1,5 +1,7 @@
-(let [lush (require :lush)]
-  (lush (fn []
-          [(IlluminatedWordText {:gui :underline})
-           (illuminateWordRead [IlluminatedWordText])
-           (illuminateWordWrite [IlluminatedWordText])])))
+(import-macros {: blush} :config.colors.blush.macros)
+(local cp (require :config.colors.bluesky.palette))
+
+(blush
+  (IlluminatedWordText +underline)
+  (illuminateWordRead IlluminatedWordText)
+  (illuminateWordWrite IlluminatedWordText))

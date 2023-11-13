@@ -17,10 +17,6 @@
 (var config (icollect [_ plugin (ipairs (require :config.plugins._))]
               (remap plugin)))
 
-(table.insert config   {1 :rktjmp/lush.nvim
-                        :name :lush
-                        :lazy true
-                        :cmd  [:LushRunQuickstart :LushRunTutorial :Lushify]})
 (table.insert config 1 {1 :lewis6991/impatient.nvim
                         :lazy false
                         :cond (not (has :nvim-0.9.0))})

@@ -1,4 +1,4 @@
-(let [lush (require :lush)
-      cp (require :config.colors.bluesky.palette)]
-  (lush (fn []
-          [(prologClause {:fg cp.white})])))
+(import-macros {: blush} :config.colors.blush.macros)
+(local cp (require :config.colors.bluesky.palette))
+
+(blush (prologClause :fg cp.white))
