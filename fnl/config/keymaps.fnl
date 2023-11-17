@@ -57,6 +57,18 @@ nnoremap gm <cmd>call SynGroup()<CR>
                              "', getreg('\"'))" (string.char 10)
                              (string.char 27) ::echo (string.char 10))))))
 
+(fn show-doc []
+  (let [ft vim.bo.filetype]
+    (if
+      (or (= :vim ft) (= :help ft))
+        (vim.cmd (.. "h " (vim.fn.expand "<cword>")))
+      (= :man ft)
+        (vim.cmd (.. "Man " (vim.fn.expand "<cword>")))
+      (and (= :Cargo.toml (vim.fn.expand "%:t"))
+           ((. (require :crates) :popup_available)))
+        ((. (require :crates) :show_popup))
+      (vim.lsp.buf.hover))))
+
 (each [k [f d] (pairs {:<C-n> [_G.bufnext "Go to next tab"]
                        :<C-p> [_G.bufprev "Go to previous tab"]
                        ; Make Y behave like the other capitals
@@ -85,7 +97,7 @@ nnoremap gm <cmd>call SynGroup()<CR>
                                     "Show under-cursor diagnostics"]
                        :<leader>s   [switch-case
                                      "Switch case of under-cursor word"]
-                       :K [vim.lsp.buf.hover "Show under-cursor help"]
+                       :K [show-doc "Show under-cursor help"]
                        "[c" [vim.diagnostic.goto_prev "Go to previous diagnostic"]
                        "]c" [vim.diagnostic.goto_next "Go to next diagnostic"]
                        ; :<space>d [(. (require :config.debug) :toggle)
