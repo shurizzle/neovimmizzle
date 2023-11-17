@@ -80,7 +80,7 @@
 
 {:lazy true
  :event "BufRead Cargo.toml"
- :dependencies [:nvim-lua/plenary.nvim :cmp]
+ :dependencies [:plenary :cmp]
  :main :crates
  :opts {:src     {:cmp {:enabled true}}
         :null_ls {:enabled false}

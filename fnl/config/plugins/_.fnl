@@ -47,7 +47,7 @@
 (use-package! :lewis6991/gitsigns.nvim
               :lazy true
               :event :BufRead
-              :dependencies [:nvim-lua/plenary.nvim]
+              :dependencies [:plenary]
               :main :gitsigns
               :opts [])
 (use-package! :lukas-reineke/indent-blankline.nvim
@@ -63,7 +63,7 @@
                                             :DressingInput :rfc :lazy]
                                 :buftypes  [:terminal]}})
 (use-package! :folke/todo-comments.nvim
-              :dependencies :nvim-lua/plenary.nvim
+              :dependencies :plenary
               :lazy true
               :event :BufRead
               :main :todo-comments
@@ -194,17 +194,17 @@
 ;; langs {{{
 (use-package! :simrat39/rust-tools.nvim
               :name :rust-tools
-              :dependencies [:nvim-lua/plenary.nvim :dap :neovim/nvim-lspconfig]
+              :dependencies [:plenary :dap :neovim/nvim-lspconfig]
               :lazy true)
 (use-package! :saecki/crates.nvim
               :name :crates)
 (use-package! :mrcjkb/haskell-tools.nvim
-              :dependencies [:nvim-lua/plenary.nvim]
+              :dependencies [:plenary]
               :name :haskell-tools)
 (use-package! :mfussenegger/nvim-jdtls
               :name :jdtls)
 (use-package! :pmizio/typescript-tools.nvim
-              :dependencies [:nvim-lua/plenary.nvim :neovim/nvim-lspconfig]
+              :dependencies [:plenary :neovim/nvim-lspconfig]
               :name :typescript-tools
               :lazy true)
 (use-package! :akinsho/flutter-tools.nvim

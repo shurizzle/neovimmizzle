@@ -28,7 +28,7 @@
                                :MasonUninstallAll]
                         :main :mason
                         :opts {:PATH :skip}})
-(table.insert config 1 {1 :nvim-lua/plenary.nvim :lazy true})
+(table.insert config 1 {1 :nvim-lua/plenary.nvim :lazy true :name :plenary})
 
 ((. (require :lazy) :setup) config {:dev {:path "~/p"}})
 (-after-load)
