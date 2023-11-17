@@ -186,7 +186,6 @@
     (load [:nlsp-settings.nvim :cmp-nvim-lsp :conform :lint]
           {:plugin :lang}))
 
-  (require :config.lang.custom.crates)
   (each [_ lang (ipairs (get-langs))]
     (setup lang)))
 

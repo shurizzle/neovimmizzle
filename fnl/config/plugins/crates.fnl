@@ -1,4 +1,4 @@
-(fn server [opts]
+(fn lsp-server [opts]
   (let [opts (or opts [])
         capabilities (or opts.capabilities [])
         on-request (or opts.on_request #nil)
@@ -53,13 +53,35 @@
        : is_closing
        : terminate})))
 
-(fn enable []
+(fn lsp-enable [bufnr]
   (vim.lsp.start
     {:name :crates-ls
-     :cmd (server {:capabilities {:codeActionProvider true}})}))
+     :cmd (lsp-server {:capabilities {:codeActionProvider true}})}
+    {: bufnr}))
 
-(vim.api.nvim_create_autocmd :BufEnter
-                             {:pattern  :Cargo.toml
-                              :callback #(enable)})
+(fn on_attach [buffer]
+  (local opts {: buffer
+               :silent true
+               :noremap true
+               :nowait true})
+  (local crates (require :crates))
 
-nil
+  (fn km [k f desc]
+    (vim.keymap.set :n (.. :<leader>c k) (. crates f)
+                    {: buffer
+                     :silent true
+                     :noremap true
+                     :nowait true
+                     : desc}))
+  (km :v :show_versions_popup "Show crate versions")
+  (km :f :show_features_popup "Show crate features")
+  (km :d :show_dependencies_popup "Show crate dependencies")
+  (lsp-enable buffer))
+
+{:lazy true
+ :event "BufRead Cargo.toml"
+ :dependencies [:nvim-lua/plenary.nvim :cmp]
+ :main :crates
+ :opts {:src     {:cmp {:enabled true}}
+        :null_ls {:enabled false}
+        : on_attach}}
