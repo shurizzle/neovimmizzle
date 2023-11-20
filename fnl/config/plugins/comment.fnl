@@ -5,6 +5,10 @@
                                   :mappings {:basic    false
                                              :extra    false
                                              :extended false}})
+
+  (let [ft (require :Comment.ft)]
+    (ft.set :wgsl ["//%s" "/*%s*/"]))
+
   (each [_ [mode f] (ipairs [[:n :comment_toggle_linewise_current]
                              [:x :comment_toggle_linewise_visual]])]
     (vim.keymap.set
