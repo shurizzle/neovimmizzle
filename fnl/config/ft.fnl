@@ -15,4 +15,6 @@
 
 (add {:extension {:wgsl :wgsl}})
 
+(add {:extension {:roc :roc}})
+
 nil
