@@ -1,5 +1,12 @@
 (autoload [{: is} :config.platform])
 
+(when (has :nvim-0.10.0)
+  (fn callback [{: buf}]
+    (vim.lsp.inlay_hint.enable buf true))
+  (vim.api.nvim_create_autocmd :BufAdd {: callback})
+  (each [_ buf (ipairs (vim.api.nvim_list_bufs))]
+    (pcall vim.lsp.inlay_hint.enable buf true)))
+
 (macro opt [& opts]
   (assert-compile (= (% (length opts) 2) 0) "Invalid options syntax" opts)
   (fcollect [i 1 (length opts) 2]
