@@ -42,7 +42,8 @@
      laststatus 3
      showmode false
      spell true
-     spelllang :en)
+     spelllang :en
+     signcolumn :yes)
 
 (set vim.g.neovide_cursor_vfx_mode :torpedo)
 
