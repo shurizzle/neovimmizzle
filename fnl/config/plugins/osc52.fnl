@@ -1,7 +1,8 @@
 (fn config []
   ((. (require :osc52) :setup) {:max_length 0
                                 :silent false
-                                :trim false})
+                                :trim false
+                                :tmux_passthrough true})
   (fn copy [lines _] ((. (require :osc52) :copy) (table.concat lines "\n")))
   (fn paste []
     [(icollect [l (vim.gsplit (vim.fn.getreg "") "\n" {:trimempty false})] l)
@@ -10,5 +11,5 @@
                         :copy  {:+ copy :* copy}
                         :paste {:+ paste :* paste}}))
 
-{:cond (. (require :config.platform) :is :ssh)
+{:enabled (not (has :nvim-0.10.0))
  : config}

@@ -70,13 +70,29 @@
 (vim.opt.shortmess:append :c)
 (vim.opt.fillchars:append "eob: ")
 
-(when (and (has :unix) (executable :lemonade) is.ssh)
-  (set vim.g.clipboard {:name :lemonade
-                        :copy  {:+ [:lemonade :copy]
-                                :* [:lemonade :copy]}
-                        :paste {:+ [:lemonade :paste]
-                                :* [:lemonade :paste]}
-                        :cache_enabled true}))
+(when (has :nvim-0.10.0)
+  (fn osc52 [clipboard contents]
+    (let [base (string.format "\027]52;%s;%s\027\\" clipboard contents)]
+      (if (os.getenv :TMUX)
+          (string.format "\27Ptmux;\27%s\27\\" base)
+          base)))
+
+  (fn copy [reg]
+    (local clipboard (if (= reg :+) :c :p))
+    (fn [lines]
+      (->> (table.concat lines "\n")
+           (vim.base64.encode)
+           (osc52 clipboard)
+           (io.stdout:write))))
+
+  (local {: paste} (require :vim.ui.clipboard.osc52))
+
+  (set vim.g.clipboard {:name :osc52
+                        :copy {:+ (copy :+)
+                               :* (copy :*)}
+                        :paste {:+ #0
+                                :* #0}})
+  )
 
 (when is.termux
   (set vim.g.clipboard {:name :termux
