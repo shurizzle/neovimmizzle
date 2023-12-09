@@ -102,7 +102,11 @@
                                 :* [:termux-clipboard-get]}
                         :cache_enabled true}))
 
-; Disable provides
+;; Disable provides
 (set vim.g.loaded_perl_provider 0)
 (set vim.g.loaded_ruby_provider 0)
+
+;; Disable spell in terminals
+(vim.api.nvim_create_autocmd :TermOpen {:pattern "term://*"
+                                        :command "setlocal nospell"})
 nil
