@@ -91,8 +91,7 @@
                         :copy {:+ (copy :+)
                                :* (copy :*)}
                         :paste {:+ #0
-                                :* #0}})
-  )
+                                :* #0}}))
 
 (when is.termux
   (set vim.g.clipboard {:name :termux

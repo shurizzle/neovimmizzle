@@ -128,16 +128,16 @@ nnoremap gm <cmd>call SynGroup()<CR>
 (do
   (local float (require :config.float))
 
-  (var lazygit nil)
-  (set lazygit (float.make-term
-                 {:cmd :lazygit
+  (var gitui nil)
+  (set gitui (float.make-term
+                 {:cmd       :gitui
                   :behaviour :restart
-                  :on-open (fn [{:bufnr buffer}]
-                             (vim.keymap.set
-                               :n :q (fn [] (lazygit:close))
-                               {:noremap true :silent true : buffer}))}))
-  (kset :n :<space>g #(lazygit:toggle)
-        {:noremap true :silent true :desc "Toggle floating lazygit."})
+                  :on-open   (fn [{:bufnr buffer}]
+                               (vim.keymap.set
+                                 :n :q (fn [] (gitui:close))
+                                 {:noremap true :silent true : buffer}))}))
+  (kset :n :<space>g #(gitui:toggle)
+        {:noremap true :silent true :desc "Toggle floating gitui."})
 
   (var temp nil)
   (set temp (float.make-term {:behaviour :restart}))
