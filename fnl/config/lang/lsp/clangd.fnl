@@ -2,8 +2,12 @@
            lspconfig :lspconfig])
 
 (fn config [bin]
-  (local opts [])
-  (when bin (set opts.cmd [bin :--clang-tidy :--clang-tidy-checks=*]))
+  (local opts {:cmd [(or bin :clangd) :--clang-tidy :--completion-style=bundled
+                     :--header-insertion=iwyu]
+               :init_options {:clangdFileStatus     true
+                              :usePlaceholders      true
+                              :completeUnimported   true
+                              :semanticHighlighting true}})
   (lspconfig.clangd.setup opts)
   lspconfig.clangd)
 
