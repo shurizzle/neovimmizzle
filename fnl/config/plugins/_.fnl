@@ -192,9 +192,8 @@
 ;; }}}
 
 ;; langs {{{
-(use-package! :simrat39/rust-tools.nvim
-              :name :rust-tools
-              :dependencies [:plenary :dap :neovim/nvim-lspconfig]
+(use-package! :mrcjkb/rustaceanvim
+              :name :rustaceanvim
               :lazy true)
 (use-package! :saecki/crates.nvim
               :name :crates)
