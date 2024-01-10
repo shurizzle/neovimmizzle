@@ -20,8 +20,6 @@
 (fn configure [rust-analyzer adapter]
   (fn on_attach [_ buffer]
     (vim.keymap.set :n :<leader>ca #(vim.cmd.RustLsp :codeAction)
-                    {: buffer :silent true})
-    (vim.keymap.set :n :<leader>ce #(vim.cmd.RustLsp :explainError)
                     {: buffer :silent true}))
 
   (fn settings [project-root]
