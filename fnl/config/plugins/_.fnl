@@ -18,12 +18,6 @@
 (use-package! :rcarriga/nvim-notify
               :name :notify)
 (use-package! :LunarVim/bigfile.nvim)
-(use-package! :stevearc/dressing.nvim
-              :lazy  true
-              :event [:VeryLazy]
-              :main  :dressing
-              :opts  {:input {:insert_only false
-                              :win_options {:winblend 20}}})
 (use-package! :nvim-lualine/lualine.nvim
               :dependencies :devicons
               :name :lualine)
@@ -68,6 +62,11 @@
               :event :BufRead
               :main :todo-comments
               :opts [])
+(use-package! :folke/noice.nvim
+              :name         :noice
+              :event        :VeryLazy
+              :opts         {:presets {:lsp_doc_border true}}
+              :dependencies [:MunifTanjim/nui.nvim :notify])
 ;; }}}
 
 
@@ -87,13 +86,6 @@
 (use-package! :kyazdani42/nvim-tree.lua
               :dependencies :devicons
               :name :tree)
-(use-package! :j-hui/fidget.nvim
-              :name :fidget
-              :branch :legacy
-              :lazy true
-              :event :VeryLazy
-              :main :fidget
-              :opts [])
 (use-package! :lvimuser/lsp-inlayhints.nvim
               :lazy true
               :cond (not (has :nvim-0.10.0))
@@ -148,8 +140,6 @@
                      :local_settings_dir :.nlsp-settings
                      :append_default_schemas true
                      :loader :json})
-(use-package! :ray-x/lsp_signature.nvim
-              :name :lsp-signature)
 ;; }}}
 
 ;; tools {{{
