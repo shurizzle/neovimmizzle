@@ -65,7 +65,15 @@
 (use-package! :folke/noice.nvim
               :name         :noice
               :event        :VeryLazy
-              :opts         {:presets {:lsp_doc_border true}}
+              :opts         {:presets {:lsp_doc_border true}
+                             :routes  [{:filter {:event :msg_show
+                                                 :kind ""
+                                                 :find :written}
+                                        :opts   {:skip true}}
+                                       {:filter {:event :msg_show
+                                                 :kind [:echo :echomsg]
+                                                 :find "[osc52]"}
+                                        :opts   {:skip true}}]}
               :dependencies [:MunifTanjim/nui.nvim :notify])
 ;; }}}
 
