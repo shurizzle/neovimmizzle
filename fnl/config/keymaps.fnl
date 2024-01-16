@@ -26,18 +26,26 @@
                                     "Show available code actions"]})]
   (kset :v k f {:silent true :noremap true :desc d}))
 
-(vim.cmd "
-function! ExecuteMacroOverVisualRange()
-  echo \"@\".getcmdline()
-  execute \":'<,'>normal @\".nr2char(getchar())
-endfunction
-xnoremap @ :<C-u>call ExecuteMacroOverVisualRange()<CR>
-function! SynGroup()
-    let l:s = synID(line('.'), col('.'), 1)
-    echo synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
-endfun
-nnoremap gm <cmd>call SynGroup()<CR>
-")
+(kset :x "@"
+      (fn []
+        (..  ":<C-u>'<,'>normal @"
+             (vim.fn.nr2char (vim.fn.getchar))
+             "<CR>"))
+      {:silent true
+       :noremap true
+       :desc "Execute macro on multiple lines"
+       :expr true})
+
+(kset :n :gm
+      (fn []
+        (let [s (vim.fn.synID (vim.fn.line :.) (vim.fn.col :.) 1)]
+          (vim.notify (.. (vim.fn.synIDattr s :name)
+                           " -> "
+                           (vim.fn.synIDattr (vim.fn.synIDtrans s) :name)))))
+      {:silent true
+       :noremap true
+       :desc "Execute macro on multiple lines"
+       :expr true})
 
 (fn switch-case []
   (vim.api.nvim_echo [[" [u]pper [s]nake [k]ebab [p]ascal [c]amel" :Normal]] false [])
