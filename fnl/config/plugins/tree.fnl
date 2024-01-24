@@ -126,7 +126,9 @@
 
   (fn open []
     (sidebar.register :Explorer
-                      (fn [close] (set sb {: close}))
+                      (fn [-close]
+                        (set sb {:close -close})
+                        (close))
                       (fn [ssb]
                         (set sb ssb)
                         (raw-open))))
@@ -164,7 +166,7 @@
   (ev.subscribe ev.Event.TreeClose
                 (fn []
                   (vim.api.nvim_create_augroup :NvimTreeResize {:clear true})
-                  (if (and sb sb.close) (sb.close)))))
+                  (when (and sb sb.close) (sb.close)))))
 
 {:cmd [:NvimTreeToggle
        :NvimTreeFocus

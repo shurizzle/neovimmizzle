@@ -219,7 +219,8 @@
 (use-package! :folke/neodev.nvim
               :lazy true
               :main :neodev
-              :opts [])
+              :opts {:library {:plugins [:nvim-dap-ui]
+                               :types   true}})
 (use-package! :jwalton512/vim-blade
               :lazy true
               :ft   :blade)
@@ -271,7 +272,8 @@
 ;; debug {{{
 (use-package! :mfussenegger/nvim-dap
               :name :dap)
-;; TODO: dap-ui
+(use-package! :rcarriga/nvim-dap-ui
+              :name :dapui)
 ;; }}}
 
 *packages*
