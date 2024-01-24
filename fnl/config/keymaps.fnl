@@ -10,6 +10,43 @@
     (each [mode prefix (pairs {:n "<cmd>" :v "<cmd><C-u>" :i "<C-o><cmd>"})]
       (kset mode (.. :< key :>) (.. prefix "echo \"No " name " for you!\"<CR>") {:noremap false :silent true}))))
 
+(fn load-telescope []
+  (pcall #(require :telescope)))
+
+(fn lsp-code-action [...]
+  (load-telescope)
+  (vim.lsp.buf.code_action ...))
+(fn lsp-declaration [...]
+  (load-telescope)
+  (vim.lsp.buf.declaration ...))
+(fn lsp-definition [...]
+  (load-telescope)
+  (vim.lsp.buf.definition ...))
+(fn lsp-hover [...]
+  (load-telescope)
+  (vim.lsp.buf.hover ...))
+(fn lsp-implementation [...]
+  (load-telescope)
+  (vim.lsp.buf.implementation ...))
+(fn lsp-add-workspace-folder [...]
+  (load-telescope)
+  (vim.lsp.buf.add_workspace_folder ...))
+(fn lsp-remove-workspace-folder [...]
+  (load-telescope)
+  (vim.lsp.buf.remove_workspace_folder ...))
+(fn lsp-type-definition [...]
+  (load-telescope)
+  (vim.lsp.buf.type_definition ...))
+(fn lsp-rename [...]
+  (load-telescope)
+  (vim.lsp.buf.rename ...))
+(fn lsp-references [...]
+  (load-telescope)
+  (vim.lsp.buf.references ...))
+(fn diagnostic-open-float [...]
+  (load-telescope)
+  (vim.diagnostic.open_float ...))
+
 (each [k [f d] (pairs {; Reselect visual selection after indenting
                        :< [:<gv "Indent back"]
                        :> [:>gv "Indent"]
@@ -22,7 +59,7 @@
                        ; Search for text in visual selection
                        :* ["\"zy/\\<\\V<C-r>=escape(@z, '/\\')<CR>\\><CR>"
                            "Search for selected text"]
-                       :<leader>ca [vim.lsp.buf.code_action
+                       :<leader>ca [lsp-code-action
                                     "Show available code actions"]})]
   (kset :v k f {:silent true :noremap true :desc d}))
 
@@ -75,33 +112,33 @@
       (and (= :Cargo.toml (vim.fn.expand "%:t"))
            ((. (require :crates) :popup_available)))
         ((. (require :crates) :show_popup))
-      (vim.lsp.buf.hover))))
+      (lsp-hover))))
 
 (each [k [f d] (pairs {:<C-n> [_G.bufnext "Go to next tab"]
                        :<C-p> [_G.bufprev "Go to previous tab"]
                        ; Make Y behave like the other capitals
                        :Y [:y$ "Yank untill the end of the line"]
-                       :<leader>cD  [vim.lsp.buf.declaration
+                       :<leader>cD  [lsp-declaration
                                      "Show under-cursor declaration"]
-                       :<leader>cd  [vim.lsp.buf.definition
+                       :<leader>cd  [lsp-definition
                                      "Show under-cursor definition"]
-                       :<leader>ci  [vim.lsp.buf.implementation
+                       :<leader>ci  [lsp-implementation
                                      "Show under-cursor implementation"]
-                       :<leader>cwa [vim.lsp.buf.add_workspace_folder
+                       :<leader>cwa [lsp-add-workspace-folder
                                      "Add workspace folder"]
-                       :<leader>cwr [vim.lsp.buf.remove_workspace_folder
+                       :<leader>cwr [lsp-remove-workspace-folder
                                      "Remove workspace folder"]
                        :<leader>cwl [#(print (vim.inspect (vim.lsp.buf.list_workspace_folders)))
                                      "List workspace folders"]
-                       :<leader>ct  [vim.lsp.buf.type_definition
+                       :<leader>ct  [lsp-type-definition
                                      "Show under-cursor type definition"]
-                       :<leader>cr  [vim.lsp.buf.rename
+                       :<leader>cr  [lsp-rename
                                      "Rename under-cursor word"]
-                       :<leader>ca  [vim.lsp.buf.code_action
+                       :<leader>ca  [lsp-code-action
                                      "Show available code actions"]
-                       :<leader>cR  [vim.lsp.buf.references
+                       :<leader>cR  [lsp-references
                                      "Show under-cursor references"]
-                       :<leader>ce  [vim.diagnostic.open_float
+                       :<leader>ce  [diagnostic-open-float
                                     "Show under-cursor diagnostics"]
                        :<leader>s   [switch-case
                                      "Switch case of under-cursor word"]
@@ -113,10 +150,8 @@
                        :ZZ ["<cmd>BufferClose<CR>" "Close current buffer"]
                        :ZQ ["<cmd>BufferClose!<CR>"
                             "Close current buffer without saving"]
-                       :Y ["y$" "Yank untill the end of the line"]
                        ; Make Y behave like the other capitals
-                       :<leader>ca [vim.lsp.buf.code_action
-                                    "Show available code actions"] })]
+                       :Y ["y$" "Yank untill the end of the line"]})]
   (kset :n k f {:silent true :noremap true :desc d}))
 
 (each [k [f d] (pairs {:<C-h> ["<cmd>wincmd h<CR>"]
@@ -128,7 +163,7 @@
 
 (kset :t "<C-,>" "<cmd>stopinsert!<cr>" {:silent true :noremap true})
 
-(each [k [f d] (pairs {:<leader>ca [vim.lsp.buf.code_action
+(each [k [f d] (pairs {:<leader>ca [lsp-code-action
                                     "Show available code actions"]})]
   (kset :x k f {:silent true :noremap true :desc d}))
 
