@@ -6,6 +6,11 @@
   (local spec [name])
   (for [i 1 (length args) 2]
     (tset spec (. args i) (. args (inc i))))
+  (assert (not (and spec.deps spec.dependencies))
+          "Both deps and dependencies fields set")
+  (when spec.deps
+    (set spec.dependencies spec.deps)
+    (set spec.deps nil))
   (table.insert *packages* spec)
   nil)
 
@@ -19,10 +24,10 @@
               :name :notify)
 (use-package! :LunarVim/bigfile.nvim)
 (use-package! :nvim-lualine/lualine.nvim
-              :dependencies :devicons
+              :deps :devicons
               :name :lualine)
 (use-package! :romgrk/barbar.nvim
-              :dependencies :devicons
+              :deps :devicons
               :name :barbar)
 (use-package! :folke/zen-mode.nvim
               :lazy true
@@ -41,7 +46,7 @@
 (use-package! :lewis6991/gitsigns.nvim
               :lazy true
               :event :BufRead
-              :dependencies [:plenary]
+              :deps [:plenary]
               :main :gitsigns
               :opts [])
 (use-package! :lukas-reineke/indent-blankline.nvim
@@ -57,24 +62,28 @@
                                             :DressingInput :rfc :lazy]
                                 :buftypes  [:terminal]}})
 (use-package! :folke/todo-comments.nvim
-              :dependencies :plenary
+              :deps :plenary
               :lazy true
               :event :BufRead
               :main :todo-comments
               :opts [])
 (use-package! :folke/noice.nvim
-              :name         :noice
-              :event        :VeryLazy
-              :opts         {:presets {:lsp_doc_border true}
-                             :routes  [{:filter {:event :msg_show
-                                                 :kind ""
-                                                 :find :written}
-                                        :opts   {:skip true}}
-                                       {:filter {:event :msg_show
-                                                 :kind [:echo :echomsg]
-                                                 :find "[osc52]"}
-                                        :opts   {:skip true}}]}
-              :dependencies [:MunifTanjim/nui.nvim :notify])
+              :name  :noice
+              :event :VeryLazy
+              :opts  {:presets {:lsp_doc_border true}
+                      :routes  [{:filter {:event :msg_show
+                                          :kind  ""
+                                          :find  :written}
+                                 :opts   {:skip true}}
+                                {:filter {:event :msg_show
+                                          :kind  [:echo :echomsg]
+                                          :find  "[osc52]"}
+                                 :opts   {:skip true}}]
+                      :cmdline {:enabled true
+                                :format  {:fennel {:pattern "^:%s*Fnl%s+"
+                                                   :icon    ""
+                                                   :lang    :fennel}}}}
+              :deps  [:MunifTanjim/nui.nvim :notify])
 ;; }}}
 
 
@@ -92,7 +101,7 @@
 (use-package! :nvim-telescope/telescope.nvim
               :name :telescope)
 (use-package! :kyazdani42/nvim-tree.lua
-              :dependencies :devicons
+              :deps :devicons
               :name :tree)
 (use-package! :lvimuser/lsp-inlayhints.nvim
               :lazy true
@@ -138,7 +147,7 @@
               :lazy true
               :cmd  [:LspInfo :LspLog :LspRestart :LspStart :LspStop])
 (use-package! :tamago324/nlsp-settings.nvim
-              :dependencies [:neovim/nvim-lspconfig]
+              :deps [:neovim/nvim-lspconfig]
               :lazy true
               :cmd  [:LspSettings]
               :main :nlspsettings
@@ -156,16 +165,16 @@
 (use-package! :mfussenegger/nvim-lint
               :name :lint)
 (use-package! :nvim-treesitter/playground
-              :dependencies :treesitter
+              :deps :treesitter
               :lazy true
               :cmd [:TSPlaygroundToggle :TSHighlightCapturesUnderCursor])
-(use-package! :instant-markdown/vim-instant-markdown
-              :lazy true
-              :ft   :markdown
-              :init (fn []
-                      (set vim.g.nvim_markdown_preview_theme :github)
-                      (if (not= 0 (or vim.g.started_by_firenvim 0))
-                          (set vim.g.instant_markdown_autostart 0))))
+;; (use-package! :instant-markdown/vim-instant-markdown
+;;               :lazy true
+;;               :ft   :markdown
+;;               :init (fn []
+;;                       (set vim.g.nvim_markdown_preview_theme :github)
+;;                       (if (not= 0 (or vim.g.started_by_firenvim 0))
+;;                           (set vim.g.instant_markdown_autostart 0))))
 (use-package! :rktjmp/paperplanes.nvim
               :lazy true
               :cmd :PP
@@ -178,14 +187,14 @@
 
 ;; completion {{{
 (use-package! :hrsh7th/cmp-nvim-lsp
-              :dependencies [:neovim/nvim-lspconfig
-                             :hrsh7th/nvim-cmp]
+              :deps [:neovim/nvim-lspconfig
+                     :hrsh7th/nvim-cmp]
               :lazy true)
 (use-package! :L3MON4D3/LuaSnip
               :name :luasnip)
 (use-package! :hrsh7th/nvim-cmp
               :name :cmp
-              :dependencies [:hrsh7th/cmp-nvim-lsp]
+              :deps [:hrsh7th/cmp-nvim-lsp]
               :lazy true)
 ;; }}}
 
@@ -196,12 +205,12 @@
 (use-package! :saecki/crates.nvim
               :name :crates)
 (use-package! :mrcjkb/haskell-tools.nvim
-              :dependencies [:plenary]
+              :deps [:plenary]
               :name :haskell-tools)
 (use-package! :mfussenegger/nvim-jdtls
               :name :jdtls)
 (use-package! :pmizio/typescript-tools.nvim
-              :dependencies [:plenary :neovim/nvim-lspconfig]
+              :deps [:plenary :neovim/nvim-lspconfig]
               :name :typescript-tools
               :lazy true)
 (use-package! :akinsho/flutter-tools.nvim
@@ -226,14 +235,14 @@
               :name :treesitter)
 (use-package! :JoosepAlviste/nvim-ts-context-commentstring
               :lazy true
-              :dependencies :treesitter
+              :deps :treesitter
               :main :ts_context_commentstring
               :opts {:enable_autocmd false
                      :config {:fennel ";; %s"}})
 (use-package! :numToStr/Comment.nvim
               :name :comment)
 (use-package! :windwp/nvim-ts-autotag
-              :dependencies :treesitter
+              :deps :treesitter
               :lazy true
               :ft [:html :javascript :typescript :javascriptreact :xml :php
                    :typescriptreact :svelte :vue :tsx :jsx :rescript :markdown
