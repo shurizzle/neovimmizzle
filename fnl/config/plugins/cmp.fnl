@@ -7,7 +7,9 @@
                    (: :match "%s"))))))
 
 (fn feedkeys [key ?mode]
-  (vim.api.nvim_feedkeys (vim.api.nvim_replace_termcodes key true true true) (or ?mode "") true))
+  (vim.api.nvim_feedkeys (vim.api.nvim_replace_termcodes key true true true)
+                         (or ?mode "")
+                         false))
 
 (fn config []
   (local cmp (require :cmp))
@@ -73,14 +75,18 @@
       (luasnip.jumpable -1) (luasnip.jump -1)
       (fallback)))
 
-  (fn esc [fallback]
-    (if (cmp.visible)
-        (cmp.abort)
-        (fallback)))
-  (fn cesc []
-    (if (cmp.visible)
-        (cmp.abort)
-        (feedkeys :<C-c>)))
+  (fn abort-or-feed [keys]
+    (fn []
+      (when (not (cmp.abort))
+        (feedkeys keys :n))))
+
+  (local sources [{:name :nvim_lsp}
+                  {:name :luasnip}
+                  {:name :treesitter}
+                  {:name :buffer}
+                  {:name :async_path}
+                  {:name :calc}
+                  {:name :emoji}])
 
   (cmp.setup
     {:completion   {:keyword_length 1}
@@ -106,15 +112,7 @@
                                    compare.sort_text
                                    compare.length
                                    compare.order]}
-     :sources   [{:name :nvim_lsp}
-                 {:name :crates}
-                 {:name :zsh}
-                 {:name :luasnip}
-                 {:name :treesitter}
-                 {:name :buffer}
-                 {:name :async_path}
-                 {:name :calc}
-                 {:name :emoji}]
+     : sources
      :snippet   {:expand (fn [args] (luasnip.lsp_expand args.body))}
      :preselect :None
      :mapping   {:<C-u> (cmp.mapping (cmp.mapping.scroll_docs -4) [:i :c])
@@ -128,7 +126,9 @@
                  :<S-Tab> {:i stab
                            :s stab
                            :c (cmp.mapping.select_prev_item)}
-                 :<Esc> {:i esc :s esc :c cesc}
+                 :<Esc> {:i (abort-or-feed :<Esc>)
+                         :s (abort-or-feed :<Esc>)
+                         :c (abort-or-feed :<Esc>)}
                  :<CR> {:i (fn [fallback]
                              (if (cmp.visible)
                                  (if (cmp.get_selected_entry)
@@ -140,17 +140,25 @@
                         :s (cmp.mapping.confirm {:select true})
                         :c (cmp.mapping.confirm {:select false})}}})
 
-  (cmp.setup.cmdline :/ {:sources [{:name :buffer}]})
+  (cmp.setup.cmdline [:/ :?] {:sources [{:name :buffer}]})
 
   (cmp.setup.cmdline :: {:sources (cmp.config.sources
                                     [{:name   :path}]
-                                    [{:name   :cmdline
-                                      :option [{:ignore_cmds [:Man :!]}]}])})
+                                    [{:name   :cmdline}])})
   (cmp.event:on :confirm_done
     (. (require :nvim-autopairs.completion.cmp) :on_confirm_done))
 
   (cmp.setup.filetype :gitcommit
-                      {:sources (cmp.config.sources [] [{:name :buffer}])}))
+                      {:sources (cmp.config.sources [] [{:name :buffer}])})
+  (cmp.setup.filetype :zsh
+                      {:sources (cmp.config.sources [{:name :zsh}] sources)})
+  (vim.api.nvim_create_autocmd
+    :BufRead
+    {:group (vim.api.nvim_create_augroup :CmpSourceCargo {:clear true})
+     :pattern :Cargo.toml
+     :callback #(cmp.setup.buffer
+                  {:sources (cmp.config.sources [{:name :crates}] sources)})}))
+
 {:lazy true
  :dependencies [:cmp-nvim-lsp
                 :hrsh7th/cmp-buffer
