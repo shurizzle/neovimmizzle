@@ -6,6 +6,9 @@
                    (: :sub col col)
                    (: :match "%s"))))))
 
+(fn feedkeys [key ?mode]
+  (vim.api.nvim_feedkeys (vim.api.nvim_replace_termcodes key true true true) (or ?mode "") true))
+
 (fn config []
   (local cmp (require :cmp))
   (local compare (require :cmp.config.compare))
@@ -36,17 +39,19 @@
                      :Event         ""
                      :Operator      ""
                      :TypeParameter ""})
-  (local source_names {:nvim_lsp  "[Lsp]"
-                      :treesitter "[Tre]"
-                      :luasnip    "[Snp]"
-                      :buffer     "[Buf]"
-                      :nvim_lua   "[Lua]"
-                      :path       "[Pat]"
-                      :calc       "[Clc]"
-                      :emoji      "[Emj]"
-                      :rg1        "[Rg]"
-                      :orgmode    "[Org]"
-                      :crates     "[Crg]"})
+  (local source_names {:nvim_lsp   "[Lsp]"
+                       :treesitter "[Tre]"
+                       :luasnip    "[Snp]"
+                       :buffer     "[Buf]"
+                       :nvim_lua   "[Lua]"
+                       :path       "[Pat]"
+                       :async_path "[Pat]"
+                       :calc       "[Clc]"
+                       :emoji      "[Emj]"
+                       :rg1        "[Rg]"
+                       :orgmode    "[Org]"
+                       :crates     "[Crg]"
+                       :zsh        "[Zsh]"})
   (local duplicates {:buffer   1
                      :path     1
                      :nvim_lsp nil
@@ -67,6 +72,15 @@
       (cmp.visible) (cmp.select_prev_item)
       (luasnip.jumpable -1) (luasnip.jump -1)
       (fallback)))
+
+  (fn esc [fallback]
+    (if (cmp.visible)
+        (cmp.abort)
+        (fallback)))
+  (fn cesc []
+    (if (cmp.visible)
+        (cmp.abort)
+        (feedkeys :<C-c>)))
 
   (cmp.setup
     {:completion   {:keyword_length 1}
@@ -94,6 +108,7 @@
                                    compare.order]}
      :sources   [{:name :nvim_lsp}
                  {:name :crates}
+                 {:name :zsh}
                  {:name :luasnip}
                  {:name :treesitter}
                  {:name :buffer}
@@ -108,10 +123,12 @@
                  :<C-n> cmp.config.disable
                  :<C-Space> (cmp.mapping (cmp.mapping.complete []) [:i :c])
                  :<Tab> {:i tab
-                         :s tab}
+                         :s tab
+                         :c (cmp.mapping.select_next_item)}
                  :<S-Tab> {:i stab
-                           :s stab}
-                 :<Esc> {:c (cmp.mapping.abort)}
+                           :s stab
+                           :c (cmp.mapping.select_prev_item)}
+                 :<Esc> {:i esc :s esc :c cesc}
                  :<CR> {:i (fn [fallback]
                              (if (cmp.visible)
                                  (if (cmp.get_selected_entry)
@@ -122,6 +139,16 @@
                                  (fallback)))
                         :s (cmp.mapping.confirm {:select true})
                         :c (cmp.mapping.confirm {:select false})}}})
+
+  (cmp.setup.cmdline :/ {:sources [{:name :buffer}]})
+
+  (cmp.setup.cmdline :: {:sources (cmp.config.sources
+                                    [{:name   :path}]
+                                    [{:name   :cmdline
+                                      :option [{:ignore_cmds [:Man :!]}]}])})
+  (cmp.event:on :confirm_done
+    (. (require :nvim-autopairs.completion.cmp) :on_confirm_done))
+
   (cmp.setup.filetype :gitcommit
                       {:sources (cmp.config.sources [] [{:name :buffer}])}))
 {:lazy true
@@ -130,10 +157,13 @@
                 :FelipeLema/cmp-async-path
                 :hrsh7th/cmp-calc
                 :hrsh7th/cmp-emoji
+                :hrsh7th/cmp-cmdline
+                :tamago324/cmp-zsh
+                :autopairs
                 ; :nvim-treesitter/nvim-treesitter
                 ; :ray-x/cmp-treesitter
                 :saadparwaiz1/cmp_luasnip
                 :luasnip
                 :project.nvim]
- :event :InsertEnter
+ :event [:InsertEnter :CmdlineEnter]
  : config}

@@ -251,6 +251,7 @@
               :main :nvim-ts-autotag
               :opts [])
 (use-package! :windwp/nvim-autopairs
+              :name :autopairs
               :lazy true
               :event :InsertEnter
               :main :nvim-autopairs
