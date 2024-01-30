@@ -55,13 +55,15 @@
 
   (fn fixed-text [text ?fts]
     (local filetypes (if (string? ?fts) [?fts] ?fts))
-    {:sections          {:lualine_a [(const text)] :lualine_x [noice-mode]}
-     :inactive_sections {:lualine_c [(const text)] :lualine_x [noice-mode]}
+    {:sections          {:lualine_a [(const text)]
+                         :lualine_x [noice-mode :selectioncount]}
+     :inactive_sections {:lualine_c [(const text)]
+                         :lualine_x [noice-mode :selectioncount]}
      : filetypes})
 
   (local toggleterm
     {:sections {:lualine_a [(fn [] (.. "TERMINAL " vim.b.toggle_number))]
-                :lualine_x [noice-mode]}
+                :lualine_x [noice-mode :selectioncount]}
      :filetypes [:toggleterm]})
 
   ((. (require :lualine) :setup)
@@ -74,13 +76,13 @@
                         :lualine_b [:branch {1 :diagnostics
                                              :symbols symbols.diagnostics}]
                         :lualine_c [file-status]
-                        :lualine_x [noice-mode :file_type]
+                        :lualine_x [noice-mode :selectioncount :file_type]
                         :lualine_y [fmt-enc]
                         :lualine_z [pos]}
     :inactive_sections {:lualine_a []
                         :lualine_b []
                         :lualine_c [file-status]
-                        :lualine_x [noice-mode :file_type]
+                        :lualine_x [noice-mode :selectioncount :file_type]
                         :lualine_y [fmt-enc space pos]
                         :lualine_z []}
     :tabline []
