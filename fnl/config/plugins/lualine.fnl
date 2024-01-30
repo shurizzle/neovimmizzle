@@ -49,8 +49,8 @@
 
   (local noice-mode (let [noice (require :noice)
                           palette (require :config.colors.palette)]
-                      {1      noice.api.statusline.mode.get
-                       :cond  noice.api.statusline.mode.has
+                      {1      noice.api.status.mode.get
+                       :cond  noice.api.status.mode.has
                        :color {:fg palette.red}}))
 
   (fn fixed-text [text ?fts]
