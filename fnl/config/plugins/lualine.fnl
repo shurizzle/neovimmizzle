@@ -1,11 +1,5 @@
 (local DEFAULT_OPTS {:nerdfont true})
 
-(fn fixed-text [text ?fts]
-  (local filetypes (if (string? ?fts) [?fts] ?fts))
-  {:sections          {:lualine_a [(const text)]}
-   :inactive_sections {:lualine_c [(const text)]}
-   : filetypes})
-
 (fn config []
   (local opts DEFAULT_OPTS)
 
@@ -53,8 +47,21 @@
   (local space {1 (fn [] (if opts.nerdfont " " ""))
                 :padding false})
 
+  (local noice-mode (let [noice (require :noice)
+                          palette (require :config.colors.palette)]
+                      {1      noice.api.statusline.mode.get
+                       :cond  noice.api.statusline.mode.has
+                       :color {:fg palette.red}}))
+
+  (fn fixed-text [text ?fts]
+    (local filetypes (if (string? ?fts) [?fts] ?fts))
+    {:sections          {:lualine_a [(const text)] :lualine_x [noice-mode]}
+     :inactive_sections {:lualine_c [(const text)] :lualine_x [noice-mode]}
+     : filetypes})
+
   (local toggleterm
-    {:sections {:lualine_a [(fn [] (.. "TERMINAL " vim.b.toggle_number))]}
+    {:sections {:lualine_a [(fn [] (.. "TERMINAL " vim.b.toggle_number))]
+                :lualine_x [noice-mode]}
      :filetypes [:toggleterm]})
 
   ((. (require :lualine) :setup)
@@ -67,13 +74,13 @@
                         :lualine_b [:branch {1 :diagnostics
                                              :symbols symbols.diagnostics}]
                         :lualine_c [file-status]
-                        :lualine_x [:file_type]
+                        :lualine_x [noice-mode :file_type]
                         :lualine_y [fmt-enc]
                         :lualine_z [pos]}
     :inactive_sections {:lualine_a []
                         :lualine_b []
                         :lualine_c [file-status]
-                        :lualine_x [:file_type]
+                        :lualine_x [noice-mode :file_type]
                         :lualine_y [fmt-enc space pos]
                         :lualine_z []}
     :tabline []
