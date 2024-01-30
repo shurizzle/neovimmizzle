@@ -67,6 +67,8 @@
               :event :BufRead
               :main :todo-comments
               :opts [])
+(use-package! :MunifTanjim/nui.nvim
+              :name :nui)
 (use-package! :folke/noice.nvim
               :name  :noice
               :event :VeryLazy
@@ -83,7 +85,7 @@
                                 :format  {:fennel {:pattern "^:%s*Fnl%s+"
                                                    :icon    ""
                                                    :lang    :fennel}}}}
-              :deps  [:MunifTanjim/nui.nvim :notify])
+              :deps  [:nui :notify])
 ;; }}}
 
 
