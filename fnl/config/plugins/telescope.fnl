@@ -28,6 +28,11 @@
     (vim.keymap.set :n (.. :<leader> k) (.. "<cmd>Telescope " cmd "<CR>")
                     {:noremap true :silent true : desc})))
 
+(fn init []
+  (set vim.ui.select (fn [...]
+                       (require :telescope)
+                       (vim.ui.select ...))))
+
 {:keys (icollect [k [_ desc] (pairs bindings)]
          {:mode :n : desc 1 (.. :<leader> k)})
  :cmd  [:Telescope]
@@ -35,4 +40,5 @@
                 :ahmedkhalf/project.nvim
                 :nvim-telescope/telescope-fzf-native.nvim
                 :nvim-telescope/telescope-ui-select.nvim]
+ : init
  : config}

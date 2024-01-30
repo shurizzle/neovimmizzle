@@ -10,41 +10,27 @@
     (each [mode prefix (pairs {:n "<cmd>" :v "<cmd><C-u>" :i "<C-o><cmd>"})]
       (kset mode (.. :< key :>) (.. prefix "echo \"No " name " for you!\"<CR>") {:noremap false :silent true}))))
 
-(fn load-telescope []
-  (pcall #(require :telescope)))
-
 (fn lsp-code-action [...]
-  (load-telescope)
   (vim.lsp.buf.code_action ...))
 (fn lsp-declaration [...]
-  (load-telescope)
   (vim.lsp.buf.declaration ...))
 (fn lsp-definition [...]
-  (load-telescope)
   (vim.lsp.buf.definition ...))
 (fn lsp-hover [...]
-  (load-telescope)
   (vim.lsp.buf.hover ...))
 (fn lsp-implementation [...]
-  (load-telescope)
   (vim.lsp.buf.implementation ...))
 (fn lsp-add-workspace-folder [...]
-  (load-telescope)
   (vim.lsp.buf.add_workspace_folder ...))
 (fn lsp-remove-workspace-folder [...]
-  (load-telescope)
   (vim.lsp.buf.remove_workspace_folder ...))
 (fn lsp-type-definition [...]
-  (load-telescope)
   (vim.lsp.buf.type_definition ...))
 (fn lsp-rename [...]
-  (load-telescope)
   (vim.lsp.buf.rename ...))
 (fn lsp-references [...]
-  (load-telescope)
   (vim.lsp.buf.references ...))
 (fn diagnostic-open-float [...]
-  (load-telescope)
   (vim.diagnostic.open_float ...))
 
 (each [k [f d] (pairs {; Reselect visual selection after indenting
