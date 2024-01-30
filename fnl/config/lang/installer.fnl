@@ -6,9 +6,13 @@
   (let [(ok res) (pcall (fn [] ((. ((. (require :notify) :_config)) :default_timeout))))]
     (or (and ok res) 5000)))
 
+(fn notify* [...]
+  (let [(ok notify) (pcall #(require :notify))]
+    ((if (and ok notify.notify) notify.notify vim.notify) ...)))
+
 (fn do-install [p version cb]
   (local win (vim.api.nvim_get_current_win))
-  (local id (vim.notify
+  (local id (notify*
               (if version
                   (.. p.name ": upgrading to " version)
                   (.. p.name ": installing"))
@@ -19,13 +23,13 @@
   (fn finish [err]
     (fn notify []
       (if err
-          (vim.notify
+          (notify*
             (.. p.name ": failed to " (if version :upgrade :install))
             vim.log.levels.ERROR
             {:title   :Mason
              :timeout (default-timeout)
              :replace id})
-          (vim.notify
+          (notify*
             (.. p.name ": successfully " (if version :upgraded :installed))
             vim.log.levels.INFO
             {:title   :Mason
@@ -52,14 +56,14 @@
                (string.match version "is not outdated"))
             (cb nil p)
           (do
-            (vim.notify (if (string? version) version (vim.inspect version))
+            (notify* (if (string? version) version (vim.inspect version))
                         vim.log.levels.ERROR {:title :Mason})
             (cb version))))))
 
   (fn try-install [p]
     (if
       (not p) (let [err (.. what " not found")]
-                (vim.notify err vim.log.levels.ERROR {:title :Mason})
+                (notify* err vim.log.levels.ERROR {:title :Mason})
                 (cb err))
       (p:is_installed) (try-upgrade p)
       (do-install p nil cb)))
@@ -67,26 +71,30 @@
   (let [p (mr.get_package what)]
     (local (ok err) (pcall try-install p))
     (when (not ok)
-      (vim.notify (if (string? err) err (vim.inspect err))
+      (notify* (if (string? err) err (vim.inspect err))
                   vim.log.levels.ERROR {:title :Mason})
       (cb err))))
 
 (fn get* [what cb]
-  (let [installer (. *installers* what)]
-    (if installer
-        (if installer.result
-            (cb (unpack installer.result))
-            (table.insert installer.callbacks cb))
-        (let [state {:callbacks [cb]}]
-          (tset *installers* what state)
-          (install-or-upgrade
-            what
-            (fn [err res]
-              (set state.result [err res])
-              (local cbs state.callbacks)
-              (set state.callbacks nil)
-              (each [_ cb (ipairs cbs)]
-                (vim.schedule #(cb (unpack state.result)))))))))
+  (fn inner []
+    (let [installer (. *installers* what)]
+      (if installer
+          (if installer.result
+              (cb (unpack installer.result))
+              (table.insert installer.callbacks cb))
+          (let [state {:callbacks [cb]}]
+            (tset *installers* what state)
+            (install-or-upgrade
+              what
+              (fn [err res]
+                (set state.result [err res])
+                (local cbs state.callbacks)
+                (set state.callbacks nil)
+                (each [_ cb (ipairs cbs)]
+                  (vim.schedule #(cb (unpack state.result))))))))))
+  (if (or (vim.in_fast_event) (= 1 (vim.fn.has :vim_starting)))
+      (vim.schedule inner)
+      (inner))
   nil)
 
 (fn get [what ?cb]
