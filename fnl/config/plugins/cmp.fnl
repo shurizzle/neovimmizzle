@@ -128,7 +128,7 @@
                            :c (cmp.mapping.select_prev_item)}
                  :<Esc> {:i (abort-or-feed :<Esc>)
                          :s (abort-or-feed :<Esc>)
-                         :c (abort-or-feed :<Esc>)}
+                         :c (abort-or-feed :<C-c>)}
                  :<CR> {:i (fn [fallback]
                              (if (cmp.visible)
                                  (if (cmp.get_selected_entry)
