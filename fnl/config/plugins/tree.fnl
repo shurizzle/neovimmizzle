@@ -68,6 +68,7 @@
     (km :a api.fs.create "Create")
     (km :d api.fs.remove "Delete")
     (km :D api.fs.trash "Trash")
+    (km :/ api.live_filter.start "Filter")
     (km :f api.live_filter.start "Filter")
     (km :F api.live_filter.clear "Filter Clear")
     (km :g? api.tree.toggle_help "Help")
