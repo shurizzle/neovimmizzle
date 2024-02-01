@@ -78,7 +78,7 @@
   (fn abort-or-feed [keys]
     (fn []
       (when (not (cmp.abort))
-        (feedkeys keys :n))))
+        (feedkeys keys :nt))))
 
   (local sources [{:name :nvim_lsp}
                   {:name :luasnip}
@@ -115,36 +115,36 @@
      : sources
      :snippet   {:expand (fn [args] (luasnip.lsp_expand args.body))}
      :preselect :None
-     :mapping   {:<C-u> (cmp.mapping (cmp.mapping.scroll_docs -4) [:i :c])
-                 :<C-f> (cmp.mapping (cmp.mapping.scroll_docs  4) [:i :c])
-                 :<C-y> cmp.config.disable
-                 :<C-n> cmp.config.disable
+     :mapping   {:<C-u>     (cmp.mapping (cmp.mapping.scroll_docs -4) [:i :c])
+                 :<C-f>     (cmp.mapping (cmp.mapping.scroll_docs  4) [:i :c])
+                 :<C-y>     cmp.config.disable
+                 :<C-n>     cmp.config.disable
                  :<C-Space> (cmp.mapping (cmp.mapping.complete []) [:i :c])
-                 :<Tab> {:i tab
-                         :s tab
-                         :c (cmp.mapping.select_next_item)}
-                 :<S-Tab> {:i stab
-                           :s stab
-                           :c (cmp.mapping.select_prev_item)}
-                 :<Esc> {:i (abort-or-feed :<Esc>)
-                         :s (abort-or-feed :<Esc>)
-                         :c (abort-or-feed :<C-c>)}
+                 :<Tab>     {:i tab
+                             :s tab
+                             :c (cmp.mapping.select_next_item)}
+                 :<S-Tab>   {:i stab
+                             :s stab
+                             :c (cmp.mapping.select_prev_item)}
+                 :<Esc>     {:i (abort-or-feed :<Esc>)
+                             :s (abort-or-feed :<Esc>)
+                             :c (abort-or-feed :<C-c>)}
                  :<CR> {:i (fn [fallback]
                              (if (cmp.visible)
                                  (if (cmp.get_selected_entry)
                                      (cmp.confirm)
                                      (cmp.confirm
                                        {:behaviour cmp.ConfirmBehavior.Replace
-                                        :select false}))
+                                        :select    false}))
                                  (fallback)))
                         :s (cmp.mapping.confirm {:select true})
                         :c (cmp.mapping.confirm {:select false})}}})
 
   (cmp.setup.cmdline [:/ :?] {:sources [{:name :buffer}]})
 
-  (cmp.setup.cmdline :: {:sources (cmp.config.sources
-                                    [{:name   :path}]
-                                    [{:name   :cmdline}])})
+  (cmp.setup.cmdline ::      {:sources (cmp.config.sources
+                                         [{:name :path}]
+                                         [{:name :cmdline}])})
   (cmp.event:on :confirm_done
     (. (require :nvim-autopairs.completion.cmp) :on_confirm_done))
 
@@ -154,24 +154,22 @@
                       {:sources (cmp.config.sources [{:name :zsh}] sources)})
   (vim.api.nvim_create_autocmd
     :BufRead
-    {:group (vim.api.nvim_create_augroup :CmpSourceCargo {:clear true})
-     :pattern :Cargo.toml
+    {:group    (vim.api.nvim_create_augroup :CmpSourceCargo {:clear true})
+     :pattern  :Cargo.toml
      :callback #(cmp.setup.buffer
                   {:sources (cmp.config.sources [{:name :crates}] sources)})}))
 
-{:lazy true
- :dependencies [:cmp-nvim-lsp
-                :hrsh7th/cmp-buffer
-                :FelipeLema/cmp-async-path
-                :hrsh7th/cmp-calc
-                :hrsh7th/cmp-emoji
-                :hrsh7th/cmp-cmdline
-                :tamago324/cmp-zsh
-                :autopairs
-                ; :nvim-treesitter/nvim-treesitter
-                ; :ray-x/cmp-treesitter
-                :saadparwaiz1/cmp_luasnip
-                :luasnip
-                :project.nvim]
+{:lazy  true
+ :deps  [:cmp-nvim-lsp
+         :hrsh7th/cmp-buffer
+         :FelipeLema/cmp-async-path
+         :hrsh7th/cmp-calc
+         :hrsh7th/cmp-emoji
+         :hrsh7th/cmp-cmdline
+         :tamago324/cmp-zsh
+         :autopairs
+         :saadparwaiz1/cmp_luasnip
+         :luasnip
+         :project.nvim]
  :event [:InsertEnter :CmdlineEnter]
  : config}
