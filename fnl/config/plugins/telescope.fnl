@@ -36,9 +36,9 @@
 {:keys (icollect [k [_ desc] (pairs bindings)]
          {:mode :n : desc 1 (.. :<leader> k)})
  :cmd  [:Telescope]
- :dependencies [:rcarriga/nvim-notify
-                :ahmedkhalf/project.nvim
-                :nvim-telescope/telescope-fzf-native.nvim
-                :nvim-telescope/telescope-ui-select.nvim]
+ :deps [:rcarriga/nvim-notify
+        :ahmedkhalf/project.nvim
+        :nvim-telescope/telescope-fzf-native.nvim
+        :nvim-telescope/telescope-ui-select.nvim]
  : init
  : config}

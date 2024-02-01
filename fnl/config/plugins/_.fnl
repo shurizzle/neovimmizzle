@@ -6,11 +6,6 @@
   (local spec [name])
   (for [i 1 (length args) 2]
     (tset spec (. args i) (. args (inc i))))
-  (assert (not (and spec.deps spec.dependencies))
-          "Both deps and dependencies fields set")
-  (when spec.deps
-    (set spec.dependencies spec.deps)
-    (set spec.deps nil))
   (table.insert *packages* spec)
   nil)
 
@@ -189,9 +184,7 @@
 
 ;; completion {{{
 (use-package! :hrsh7th/cmp-nvim-lsp
-              :deps [:neovim/nvim-lspconfig
-                     :hrsh7th/nvim-cmp]
-              :lazy true)
+              :name :cmp-nvim-lsp)
 (use-package! :L3MON4D3/LuaSnip
               :name :luasnip)
 (use-package! :hrsh7th/nvim-cmp

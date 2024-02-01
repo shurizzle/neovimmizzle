@@ -16,13 +16,13 @@
   (km :f :show_features_popup "Show crate features")
   (km :d :show_dependencies_popup "Show crate dependencies"))
 
-{:lazy true
+{:lazy  true
  :event "BufRead Cargo.toml"
- :dependencies [:plenary :cmp]
- :main :crates
- :opts {:src     {:cmp {:enabled true}}
-        :null_ls {:enabled false}
-        :lsp     {:enabled true
-                  :actions true
-                  :completion false
-                  : on_attach}}}
+ :deps  [:plenary :cmp]
+ :main  :crates
+ :opts  {:src     {:cmp {:enabled true}}
+         :null_ls {:enabled false}
+         :lsp     {:enabled true
+                   :actions true
+                   :completion false
+                   : on_attach}}}

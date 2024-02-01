@@ -122,7 +122,7 @@
     {:pattern :rust
      : callback}))
 
-{:lazy true
+{:lazy    true
  :version :^3
- :dependencies [:dap :akinsho/toggleterm.nvim]
+ :deps    [:dap :akinsho/toggleterm.nvim]
  : init}

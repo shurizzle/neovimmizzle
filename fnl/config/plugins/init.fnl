@@ -8,11 +8,20 @@
 (local {:Spec {:get_name plugin-name}} (require :lazy.core.plugin))
 
 (fn remap [plugin]
+  (fn deps [spec]
+    (if (and spec.deps spec.dependencies)
+        (assert false (.. "Both deps and dependencies fields set in "
+                          (. spec 1))))
+    (when spec.deps
+      (set spec.dependencies spec.deps)
+      (set spec.deps nil))
+    spec)
+
   (when (not plugin.name)
     (set plugin.name (plugin-name (. plugin 1))))
-  (match (pcall require (.. :config.plugins. plugin.name))
-    (false _) plugin
-    (true conf) (vim.tbl_deep_extend :force plugin conf)))
+  (deps (match (pcall require (.. :config.plugins. plugin.name))
+          (false _) plugin
+          (true conf) (vim.tbl_deep_extend :force plugin conf))))
 
 (var config (icollect [_ plugin (ipairs (require :config.plugins._))]
               (remap plugin)))

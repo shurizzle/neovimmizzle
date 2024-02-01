@@ -53,6 +53,6 @@
          :TSInstallInfo
          :TSInstallSync
          :TSInstallFromGrammar]
- :dependencies :nvim-treesitter/nvim-treesitter-textobjects
+ :deps  :nvim-treesitter/nvim-treesitter-textobjects
  : build
  : config}
