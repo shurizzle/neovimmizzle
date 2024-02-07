@@ -6,9 +6,9 @@
                    (: :sub col col)
                    (: :match "%s"))))))
 
-(fn feedkeys [key ?mode]
+(fn feedkeys [key]
   (vim.api.nvim_feedkeys (vim.api.nvim_replace_termcodes key true true true)
-                         (or ?mode "")
+                         :nti
                          false))
 
 (fn config []
@@ -78,7 +78,7 @@
   (fn abort-or-feed [keys]
     (fn []
       (when (not (cmp.abort))
-        (feedkeys keys :nt))))
+        (feedkeys keys))))
 
   (local sources [{:name :nvim_lsp}
                   {:name :luasnip}
@@ -126,9 +126,7 @@
                  :<S-Tab>   {:i stab
                              :s stab
                              :c (cmp.mapping.select_prev_item)}
-                 :<Esc>     {:i (abort-or-feed :<Esc>)
-                             :s (abort-or-feed :<Esc>)
-                             :c (abort-or-feed :<C-c>)}
+                 :<Esc>     (cmp.mapping (abort-or-feed :<Esc>) [:i :s :c])
                  :<CR> {:i (fn [fallback]
                              (if (cmp.visible)
                                  (if (cmp.get_selected_entry)
