@@ -2,7 +2,7 @@
   (each [k v (pairs haystack)]
     (when (f v k haystack)
       (lua "return v"))))
-(local *keys* [:fg :bg :bold :italic :underline])
+(local *keys* [:fg :bg :bold :italic :underline :reverse])
 
 (local {: view} (require :fennel))
 (local {: name-beauty} (require :config.colors.blush.color))
@@ -120,7 +120,8 @@
               :fg (validate-color name :fg value.fg)
               :italic (validate-bool name :italic value.italic)
               :bold (validate-bool name :bold value.bold)
-              :underline (validate-bool name :underline value.underline)})
+              :underline (validate-bool name :underline value.underline)
+              :reverse (validate-bool name :reverse value.reverse)})
       (var res nil)
       (each [_ v (ipairs value)]
         (set res (merge! (or res []) (resolve state v))))
@@ -151,7 +152,7 @@
       def
       (let [res {:bg (-?> def.bg (. 1))
                  :fg (-?> def.fg (. 1))}]
-        (each [_ k (ipairs [:bold :italic :underline])]
+        (each [_ k (ipairs [:bold :italic :underline :reverse])]
           (when (. def k)
             (if res.gui
                 (set res.gui (.. res.gui "," k))

@@ -1,5 +1,5 @@
 (local unpack (or table.unpack _G.unpack))
-(local *flags* [:bold :italic :underline])
+(local *flags* [:bold :italic :underline :reverse])
 
 (fn make-iterator [list]
   {:inner list
