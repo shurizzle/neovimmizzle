@@ -141,7 +141,7 @@ highlight NvimTreeSignColumn guifg=#242424 guibg=#242424 guisp=NONE blend=NONE g
 highlight NvimTreeStatusLine guifg=NONE guibg=#242424 guisp=NONE blend=NONE gui=NONE
 highlight NvimTreeStatusLineNC guifg=#242424 guibg=#242424 guisp=NONE blend=NONE gui=NONE
 highlight NvimTreeVertSplit guifg=NONE guibg=#242424 guisp=NONE blend=NONE gui=NONE
-highlight Operator guifg=NONE guibg=NONE guisp=NONE blend=NONE gui=NONE
+highlight clear Operator
 highlight! link Pmenu Normal
 highlight PmenuSbar guifg=NONE guibg=#535353 guisp=NONE blend=NONE gui=NONE
 highlight PmenuSel guifg=#282828 guibg=#82BCFE guisp=NONE blend=NONE gui=NONE
@@ -172,8 +172,8 @@ highlight TSWarning guifg=#282828 guibg=#FFE300 guisp=NONE blend=NONE gui=NONE
 highlight! link Tag Identifier
 highlight TelescopeBorder guifg=#2F90FE guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight TelescopeMatching guifg=NONE guibg=NONE guisp=NONE blend=NONE gui=italic,underline
-highlight! link TermCursor Cursor
-highlight! link TermCursorNC Cursor
+highlight TermCursor guifg=NONE guibg=NONE guisp=NONE blend=NONE gui=reverse
+highlight clear TermCursorNC
 highlight Title guifg=#82BCFE guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight Todo guifg=#282828 guibg=#FFE300 guisp=NONE blend=NONE gui=bold
 highlight Type guifg=#2F90FE guibg=NONE guisp=NONE blend=NONE gui=NONE
