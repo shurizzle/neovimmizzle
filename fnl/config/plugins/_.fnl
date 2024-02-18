@@ -262,6 +262,19 @@
               :enabled (not (has :nvim-0.9.0)))
 (use-package! :ojroques/nvim-osc52
               :name :osc52)
+(use-package! :julienvincent/nvim-paredit
+              :lazy true
+              :ft   :clojure
+              :name :paredit
+              :main :nvim-paredit
+              :opts [])
+(use-package! :julienvincent/nvim-paredit-fennel
+              :lazy true
+              :ft   :fennel
+              :name :paredit-fennel
+              :main :nvim-paredit-fennel
+              :opts []
+              :deps :paredit)
 ;; }}}
 
 
