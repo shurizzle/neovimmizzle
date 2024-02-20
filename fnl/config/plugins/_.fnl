@@ -137,6 +137,8 @@
                      :insert_mappings false
                      :shade_terminals false
                      :winbar          {:enabled true}})
+(use-package! :kndndrj/nvim-dbee
+              :name :dbee)
 ;; }}}
 
 ;; LSP {{{
