@@ -246,11 +246,14 @@
               :main :nvim-ts-autotag
               :opts [])
 (use-package! :windwp/nvim-autopairs
-              :name :autopairs
-              :lazy true
-              :event :InsertEnter
-              :main :nvim-autopairs
-              :opts [])
+              :name   :autopairs
+              :lazy   true
+              :event  :InsertEnter
+              :config #(let [npair (require :nvim-autopairs)]
+                         (npair.setup {:map_cr false})
+                         (vim.keymap.set :i :<CR>
+                                         npair.completion_confirm
+                                         {:expr true :noremap true})))
 (use-package! :kylechui/nvim-surround
               :name :surround)
 (use-package! :MarcWeber/vim-addon-local-vimrc
