@@ -182,6 +182,16 @@
                      :provider :paste.rs})
 (use-package! :rafcamlet/nvim-luapad
               :name :luapad)
+(use-package! :Joakker/lua-json5
+              :name  :json5
+              :lazy  true
+              :build "./install.sh")
+(use-package! :EthanJWright/vs-tasks.nvim
+              :lazy true
+              :deps [:plenary :telescope :nvim-lua/popup.nvim :json5]
+              :main :vstask
+              :opts #{:terminal    :toggleterm
+                      :json_parser (. (require :json5) :parse)})
 ;; }}}
 
 ;; completion {{{
