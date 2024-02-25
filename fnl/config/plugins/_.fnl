@@ -251,11 +251,8 @@
               :name   :autopairs
               :lazy   true
               :event  :InsertEnter
-              :config #(let [npair (require :nvim-autopairs)]
-                         (npair.setup {:map_cr false})
-                         (vim.keymap.set :i :<CR>
-                                         npair.completion_confirm
-                                         {:expr true :noremap true})))
+              :main   :nvim-autopairs
+              :opts   [])
 (use-package! :kylechui/nvim-surround
               :name :surround)
 (use-package! :MarcWeber/vim-addon-local-vimrc
