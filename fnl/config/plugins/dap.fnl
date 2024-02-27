@@ -22,6 +22,7 @@
     (set dap.json_decode (. (require :json5) :parse))))
 
 {:lazy true
+ :deps [:json5]
  :keys (icollect [k [_ desc] (pairs bindings)]
          {:mode :n : desc 1 (.. :<leader> k)})
  : config}
