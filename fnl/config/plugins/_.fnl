@@ -279,6 +279,7 @@
               :ft   :clojure
               :name :paredit
               :main :nvim-paredit
+              :deps [:treesitter]
               :opts [])
 (use-package! :julienvincent/nvim-paredit-fennel
               :lazy true
