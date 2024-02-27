@@ -20,20 +20,21 @@
   (add-parsers)
   ((. (require :nvim-treesitter.configs) :setup)
    {:ensure_installed []
-    :sync_install (. (require :config.platform) :is :headless)
-    :ignore_install [:comment]
-    :auto_install true
-    :autopairs {:enable true}
-    :highlight {:enable true
-                :disable []
-                :additional_vim_regex_highlighting [:org]}
-    :indent {:enable true :disable [:yaml]}
-    :textobjects {:select {:enable true
-                           :lookahead true
-                           :keymaps {:af "@function.outer"
-                                     :if "@function.inner"
-                                     :ac "@class.outer"
-                                     :ic "@class.inner"}}}})
+    :sync_install     (. (require :config.platform) :is :headless)
+    :ignore_install   [:comment]
+    :auto_install     true
+    :autopairs        {:enable true}
+    :highlight        {:enable true
+                       :disable []
+                       :additional_vim_regex_highlighting [:org]}
+    :indent           {:enable true :disable [:yaml]}
+    :textobjects      {:select {:enable    true
+                                :disable   [:fennel]
+                                :lookahead true
+                                :keymaps   {:af "@function.outer"
+                                            :if "@function.inner"
+                                            :ac "@class.outer"
+                                            :ic "@class.inner"}}}})
 
   (set vim.o.foldenable false)
   (set vim.o.foldmethod :expr)
