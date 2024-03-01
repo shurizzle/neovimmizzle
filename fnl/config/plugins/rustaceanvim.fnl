@@ -123,6 +123,6 @@
      : callback}))
 
 {:lazy    true
- :version :^3
+ :version :^4
  :deps    [:dap :akinsho/toggleterm.nvim]
  : init}
