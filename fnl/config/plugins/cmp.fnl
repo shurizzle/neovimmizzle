@@ -141,8 +141,9 @@
   (cmp.setup.cmdline [:/ :?] {:sources [{:name :buffer}]})
 
   (cmp.setup.cmdline ::      {:sources (cmp.config.sources
-                                         [{:name :path}]
-                                         [{:name :cmdline}])})
+                                         [{:name   :path}]
+                                         [{:name   :cmdline
+                                           :option {:ignore_cmds []}}])})
   (cmp.event:on :confirm_done
     (. (require :nvim-autopairs.completion.cmp) :on_confirm_done))
 
