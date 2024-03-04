@@ -29,7 +29,6 @@
                        :additional_vim_regex_highlighting [:org]}
     :indent           {:enable true :disable [:yaml]}
     :textobjects      {:select {:enable    true
-                                :disable   [:fennel]
                                 :lookahead true
                                 :keymaps   {:af "@function.outer"
                                             :if "@function.inner"
