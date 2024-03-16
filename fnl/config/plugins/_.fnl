@@ -88,6 +88,13 @@
               :deps [:telescope :plenary :sindrets/diffview.nvim]
               :cmd  :Neogit
               :opts [])
+(use-package! :NeogitOrg/neogit
+              :name :neogit
+              :lazy true
+              :main :neogit
+              :deps [:telescope :plenary :sindrets/diffview.nvim]
+              :cmd  :Neogit
+              :opts [])
 ;; }}}
 
 
