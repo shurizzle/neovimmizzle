@@ -1,5 +1,4 @@
-(autoload [{: bin-or-install} :config.lang.util
-           lspconfig :lspconfig])
+(autoload [{: bin-or-install} :config.lang.util lspconfig :lspconfig])
 
 (fn config [bin]
   (local opts [])
@@ -8,7 +7,5 @@
   lspconfig.taplo)
 
 (fn [cb]
-  (bin-or-install
-    :taplo
-    (fn [bin]
-      (cb (config bin)))))
+  (bin-or-install :taplo (fn [bin]
+                           (cb (config bin)))))

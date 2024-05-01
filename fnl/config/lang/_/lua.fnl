@@ -1,2 +1,1 @@
-{:lsp :lua-language-server
- :fmt :stylua}
+{:lsp :lua-language-server :fmt :stylua}

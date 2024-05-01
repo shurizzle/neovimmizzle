@@ -1,21 +1,17 @@
 (local {: round : rgb : rgb->hex} (require :config.colors.blush.color.common))
 
 (fn hue->rgb [p q t*]
-  (let [t (if
-            (< t* 0) (+ t* 1)
-            (> t* 1) (- t* 1)
-            t*)]
-    (if
-      (< t (/ 1 6)) (+ p (* (- q p) 6 t))
-      (< t (/ 1 2)) q
-      (< t (/ 2 3)) (+ p (* (- q p) (- (/ 2 3) t) 6))
-      p)))
+  (let [t (if (< t* 0) (+ t* 1)
+              (> t* 1) (- t* 1)
+              t*)]
+    (if (< t (/ 1 6)) (+ p (* (- q p) 6 t))
+        (< t (/ 1 2)) q
+        (< t (/ 2 3)) (+ p (* (- q p) (- (/ 2 3) t) 6))
+        p)))
 
 (fn ->rgb [{: h : s : l}]
   (fn rgb* [r g b]
-    (rgb (round (* r 255))
-         (round (* g 255))
-         (round (* b 255))))
+    (rgb (round (* r 255)) (round (* g 255)) (round (* b 255))))
 
   (if (= 0 s)
       (rgb* l l l)
@@ -23,8 +19,7 @@
                   (* l (+ 1 s))
                   (+ l (- s (* l s))))
             p (- (* 2 l) q)]
-        (rgb* (hue->rgb p q (+ h (/ 1 3)))
-              (hue->rgb p q h)
+        (rgb* (hue->rgb p q (+ h (/ 1 3))) (hue->rgb p q h)
               (hue->rgb p q (- h (/ 1 3)))))))
 
 (fn ->hex [hsl]
@@ -120,23 +115,17 @@
 (setmetatable {: ->rgb
                : ->hex
                :float hslf
-
                : rotate
                : rotate-f
-
                : saturate
                : abs-saturate
                : abs-f-saturate
-
                : desaturate
                : abs-desaturate
                : abs-f-desaturate
-
                : lighten
                : abs-lighten
                : abs-f-lighten
-
                : darken
                : abs-darken
-               : abs-f-darken}
-              {:__call hsl})
+               : abs-f-darken} {:__call hsl})

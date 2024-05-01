@@ -1,21 +1,24 @@
-(autoload [{: bin-or-install : callback-memoize} :config.lang.util
-           {:join path-join} :config.path
-           {: is} :config.platform
-           installer :config.lang.installer
-           {: mason-get : bin-in-dir} :config.lang.util])
+(autoload [{: bin-or-install : callback-memoize}
+           :config.lang.util
+           {:join path-join}
+           :config.path
+           {: is}
+           :config.platform
+           installer
+           :config.lang.installer
+           {: mason-get : bin-in-dir}
+           :config.lang.util])
 
 (var *installer* nil)
 
 (fn get-adapter [package]
-  (let [(exe lib) (if
-                    is.win (values :.exe :.lib)
-                    is.mac (values ""    :.dylib)
-                           (values ""    :.so))
+  (let [(exe lib) (if is.win (values :.exe :.lib)
+                      is.mac (values "" :.dylib)
+                      (values "" :.so))
         p (package:get_install_path)
         {: get_codelldb_adapter} (require :rustaceanvim.config)]
-    (get_codelldb_adapter
-      (path-join p :extension :adapter (.. :codelldb exe))
-      (path-join p :extension :lldb :lib (.. :liblldb lib)))))
+    (get_codelldb_adapter (path-join p :extension :adapter (.. :codelldb exe))
+                          (path-join p :extension :lldb :lib (.. :liblldb lib)))))
 
 (fn configure [rust-analyzer adapter]
   (fn on_attach [_ buffer]
@@ -24,12 +27,11 @@
 
   (fn settings [project-root]
     (local ra (require :rustaceanvim.config.server))
-    (ra.load_rust_analyzer_settings
-      project-root
-      {:settings_file_pattern :rust-analyzer.json}))
+    (ra.load_rust_analyzer_settings project-root
+                                    {:settings_file_pattern :rust-analyzer.json}))
 
-  (local default_settings {:rust-analyzer {:allFeatures true
-                                           :checkOnSave {:command :clippy}}})
+  (local default_settings
+         {:rust-analyzer {:allFeatures true :checkOnSave {:command :clippy}}})
 
   (fn cmd []
     (let [cfg (require :rustaceanvim.config.internal)]
@@ -41,13 +43,10 @@
 
   (set vim.g.rustaceanvim
        (fn []
-         {:tools  {:executor      (get-executor)
-                   :hover_actions {:replace_builtin_hover true}}
-          :server {: settings
-                   : default_settings
-                   : on_attach
-                   : cmd}
-          :dap    {:adapter (-?> adapter get-adapter)}})))
+         {:tools {:executor (get-executor)
+                  :hover_actions {:replace_builtin_hover true}}
+          :server {: settings : default_settings : on_attach : cmd}
+          :dap {:adapter (-?> adapter get-adapter)}})))
 
 (fn check-rust-analyzer [path]
   (vim.fn.system [path :--version])
@@ -81,15 +80,15 @@
       (resolve-local*)))
 
 (fn get-rust-analyzer [cb]
-  (resolve-local
-    (fn [_ bin]
-      (if bin
-          (cb bin)
-          (mason-get :rust-analyzer cb)))))
+  (resolve-local (fn [_ bin]
+                   (if bin
+                       (cb bin)
+                       (mason-get :rust-analyzer cb)))))
 
 (fn install [cb]
   (var rust-analyzer nil)
   (var adapter nil)
+
   (fn conf []
     (when (and rust-analyzer adapter)
       (configure (. rust-analyzer 1) (. adapter 1))
@@ -101,7 +100,6 @@
   (get-rust-analyzer (fn [bin]
                        (set rust-analyzer [bin])
                        (conf)))
-
   (installer.get :codelldb (fn [_ p]
                              (set adapter p)
                              (conf))))
@@ -117,12 +115,6 @@
   ((installer) #nil))
 
 (fn init []
-  (vim.api.nvim_create_autocmd
-    :FileType
-    {:pattern :rust
-     : callback}))
+  (vim.api.nvim_create_autocmd :FileType {:pattern :rust : callback}))
 
-{:lazy    true
- :version :^4
- :deps    [:dap :akinsho/toggleterm.nvim]
- : init}
+{:lazy true :version :^4 :deps [:dap :akinsho/toggleterm.nvim] : init}

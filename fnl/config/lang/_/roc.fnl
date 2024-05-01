@@ -1,2 +1,1 @@
-{:fmt :roc
- :lsp :roc-ls}
+{:fmt :roc :lsp :roc-ls}

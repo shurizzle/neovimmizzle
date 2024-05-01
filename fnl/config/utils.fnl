@@ -3,9 +3,7 @@
   (tset _G name what)
   (tset _G (global-mangling name) what))
 
-(let [prefix (if (has :terminal)
-                 "terminal "
-                 "noautocmd new | terminal ")
+(let [prefix (if (has :terminal) "terminal " "noautocmd new | terminal ")
       f (fn [cmd]
           (let [(ok tt) (pcall require :toggleterm.terminal)]
             (if ok
@@ -18,23 +16,27 @@
 
 (global-set :exepath (fn [exe]
                        (let [path (vim.fn.exepath exe)]
-                         (if
-                           (= "" path) nil
-                           path))))
+                         (if (= "" path)
+                             nil
+                             path))))
 
 (fn _G.bufnext []
-  (vim.api.nvim_command (if (not= 0 (vim.fn.exists ::BufferNext)) :BufferNext :bnext)))
+  (vim.api.nvim_command (if (not= 0 (vim.fn.exists ":BufferNext"))
+                            :BufferNext
+                            :bnext)))
 
 (fn _G.bufprev []
-  (vim.api.nvim_command (if (not= 0 (vim.fn.exists ::BufferPrevious)) :BufferPrevious :bprev)))
+  (vim.api.nvim_command (if (not= 0 (vim.fn.exists ":BufferPrevious"))
+                            :BufferPrevious
+                            :bprev)))
 
 (fn capitalize [str]
-  (if (= 0 (length str)) 
+  (if (= 0 (length str))
       str
       (.. (string.upper (string.sub str 1 1)) (string.sub str 2))))
 
 (fn uncapitalize [str]
-  (if (= 0 (length str)) 
+  (if (= 0 (length str))
       str
       (.. (string.lower (string.sub str 1 1)) (string.sub str 2))))
 
@@ -44,9 +46,8 @@
       (when (not= 0 (length s))
         (let [(start stop) (string.find s "^[^%a%s-_]*[^%l%s-_]*[^%u%s-_]*")]
           (when (> stop 0)
-            (values
-              (string.lower (string.sub s start stop))
-              (if (<= (+ stop 1) (length s)) (string.sub s (+ stop 1))))))))))
+            (values (string.lower (string.sub s start stop))
+                    (if (<= (+ stop 1) (length s)) (string.sub s (+ stop 1))))))))))
 
 (fn split-words [str]
   (when (and str (not= 0 (length str)))
@@ -56,11 +57,20 @@
       (where [nil nil]) nil
       [word rest] (values word (split-words rest)))))
 
-(local FORMATTERS {:upper  (fn [str] (table.concat (vim.tbl_map string.upper [(split-words str)]) :_))
-                   :snake  (fn [str] (table.concat [(split-words str)] :_))
-                   :kebab  (fn [str] (table.concat [(split-words str)] :-))
-                   :pascal (fn [str] (table.concat (vim.tbl_map capitalize [(split-words str)]) ""))})
-(tset FORMATTERS   :camel  (fn [str] (uncapitalize (FORMATTERS.pascal str))))
+(local FORMATTERS {:upper (fn [str]
+                            (table.concat (vim.tbl_map string.upper
+                                                       [(split-words str)])
+                                          "_"))
+                   :snake (fn [str]
+                            (table.concat [(split-words str)] "_"))
+                   :kebab (fn [str]
+                            (table.concat [(split-words str)] "-"))
+                   :pascal (fn [str]
+                             (table.concat (vim.tbl_map capitalize
+                                                        [(split-words str)])
+                                           ""))})
+
+(tset FORMATTERS :camel (fn [str] (uncapitalize (FORMATTERS.pascal str))))
 
 (lambda _G.convertcase [fmt str]
   (if (and (= :string (type str)) (not= 0 (length str)))
@@ -82,6 +92,7 @@
 (fn _G.set_operatorfunc [f]
   (set _G.operatorfunction f)
   (set vim.o.operatorfunc "v:lua.operatorfunction_apply"))
+
 (global-set :set-operatorfunc _G.set_operatorfunc)
 
 (fn _G.cargo [args] (term-run (.. "cargo " args)))

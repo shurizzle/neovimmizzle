@@ -16,8 +16,7 @@
                   (vim.api.nvim_list_wins)))
 
 (fn buf-get-tabpages [bufnr]
-  (vim.tbl_map vim.api.nvim_win_get_tabpage
-               (buf-get-windows bufnr)))
+  (vim.tbl_map vim.api.nvim_win_get_tabpage (buf-get-windows bufnr)))
 
 (fn win-is-visible [winnr tabnr]
   (= (vim.api.nvim_win_get_tabpage winnr) (ensure-tabnr tabnr)))
@@ -33,11 +32,11 @@
 
 (lambda trace-callback [f]
   (vim.validate {:f [f :f]})
+
   (fn on-error [err]
-    (vim.api.nvim_echo [[(if (string? err) err (vim.inspect err))
-                         :ErrorMsg]]
-                       true
-                       []))
+    (vim.api.nvim_echo [[(if (string? err) err (vim.inspect err)) :ErrorMsg]]
+                       true []))
+
   (fn [& args]
     (let [[ok & res] [(pcall (fn [] (f (unpack args))))]]
       (if ok

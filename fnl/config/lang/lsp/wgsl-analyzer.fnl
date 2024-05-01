@@ -1,5 +1,4 @@
-(autoload [{: bin-or-install} :config.lang.util
-           lspconfig :lspconfig])
+(autoload [{: bin-or-install} :config.lang.util lspconfig :lspconfig])
 
 (fn config [bin]
   (local opts [])
@@ -8,9 +7,6 @@
   lspconfig.wgsl_analyzer)
 
 (fn [cb]
-  (bin-or-install
-    [:wgsl-analyzer :wgsl_analyzer]
-    :wgsl-analyzer
-    :wgsl_analyzer
-    (fn [bin]
-      (cb (config bin)))))
+  (bin-or-install [:wgsl-analyzer :wgsl_analyzer] :wgsl-analyzer :wgsl_analyzer
+                  (fn [bin]
+                    (cb (config bin)))))

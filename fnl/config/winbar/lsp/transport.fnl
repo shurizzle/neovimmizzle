@@ -25,29 +25,32 @@
                                     :Event 24
                                     :Operator 25
                                     :TypeParameter 26}))
+
 (local SymbolTag {:Deprecated 1})
-(autoload [{: ensure-bufnr} :config.winbar.util
-           {: get} :config.winbar.lsp.state])
-(local METHOD "textDocument/documentSymbol")
+(autoload [{: ensure-bufnr}
+           :config.winbar.util
+           {: get}
+           :config.winbar.lsp.state])
+
+(local METHOD :textDocument/documentSymbol)
 
 (fn symbol-compare [{:selectionRange r1} {:selectionRange r2}]
-  (if
-    (or (< r2.end.line r1.start.line)
-        (and (=  r2.end.line r1.start.line)
-             (<= r2.end.character r1.start.character)))
+  (if (or (< r2.end.line r1.start.line)
+          (and (= r2.end.line r1.start.line)
+               (<= r2.end.character r1.start.character)))
       :before
-    (or (> r2.start.line r1.end.line)
-        (and (=  r2.start.line r1.end.line)
-             (>= r2.start.character r1.end.character)))
+      (or (> r2.start.line r1.end.line)
+          (and (= r2.start.line r1.end.line)
+               (>= r2.start.character r1.end.character)))
       :after
-    (and (or (< r2.start.line r1.start.line)
-             (and (=  r2.start.line r1.start.line)
-                  (<= r2.start.character r1.start.character)))
-         (or (> r2.end.line r1.end.line)
-             (and (=  r2.end.line r1.end.line)
-                  (>= r2.end.character r1.end.character))))
+      (and (or (< r2.start.line r1.start.line)
+               (and (= r2.start.line r1.start.line)
+                    (<= r2.start.character r1.start.character)))
+           (or (> r2.end.line r1.end.line)
+               (and (= r2.end.line r1.end.line)
+                    (>= r2.end.character r1.end.character))))
       :around
-    :within))
+      :within))
 
 (fn insert [tree node]
   (if (empty? tree)
@@ -69,32 +72,32 @@
                                        (insert node.children
                                                (table.remove root i))
                                        :break)
-                             :after  (do
-                                       (set last i)
-                                       nil)
+                             :after (do
+                                      (set last i)
+                                      nil)
                              :before (do
                                        (table.insert root i node)
-                                       :break)))
-                         root))
+                                       :break))) root))
               (table.insert root (inc last) node)
               (set root nil))))))
 
 (fn transform [data]
-  (if
-    (not data) nil
-    (or (empty? data) (. data 1 :range)) data
-    (do
-      (var tree [])
-      (each [_ info (ipairs data)]
-        (insert tree {:name info.name
-                      :detail nil
-                      :kind info.kind
-                      :tags info.tags
-                      :deprecated info.deprecated
-                      :range info.location.range
-                      :selectionRange info.location.range
-                      :children nil}))
-      tree)))
+  (if (not data)
+      nil
+      (or (empty? data) (. data 1 :range))
+      data
+      (do
+        (var tree [])
+        (each [_ info (ipairs data)]
+          (insert tree {:name info.name
+                        :detail nil
+                        :kind info.kind
+                        :tags info.tags
+                        :deprecated info.deprecated
+                        :range info.location.range
+                        :selectionRange info.location.range
+                        :children nil}))
+        tree)))
 
 (fn request [?bufnr handler]
   (local bufnr (ensure-bufnr ?bufnr))
@@ -107,13 +110,10 @@
             false
             (do
               (local params
-                     {:textDocument (vim.lsp.util.make_text_document_params
-                                      bufnr)})
-              (client.request
-                METHOD params
-                (fn [err data info] (handler err (transform data) info))
-                bufnr))))))
+                     {:textDocument (vim.lsp.util.make_text_document_params bufnr)})
+              (client.request METHOD params
+                              (fn [err data info]
+                                (handler err (transform data) info))
+                              bufnr))))))
 
-{: request
- : SymbolKind
- : SymbolTag}
+{: request : SymbolKind : SymbolTag}

@@ -2,8 +2,8 @@
 (var loaded false)
 (fn -after-load []
   (when (not loaded)
-      (set loaded true)
-      (if (= :function (type after-load)) (after-load))))
+    (set loaded true)
+    (if (= :function (type after-load)) (after-load))))
 
 (local {:Spec {:get_name plugin-name}} (require :lazy.core.plugin))
 
@@ -29,14 +29,19 @@
 (table.insert config 1 {1 :lewis6991/impatient.nvim
                         :lazy false
                         :cond (not (has :nvim-0.9.0))})
+
 (table.insert config 1 {1 :rktjmp/hotpot.nvim :lazy false})
 (table.insert config 1 {1 :folke/lazy.nvim :lazy false :tag :stable})
 (table.insert config 1 {1 :williamboman/mason.nvim
                         :lazy true
-                        :cmd  [:Mason :MasonInstall :MasonLog :MasonUninstall
-                               :MasonUninstallAll]
+                        :cmd [:Mason
+                              :MasonInstall
+                              :MasonLog
+                              :MasonUninstall
+                              :MasonUninstallAll]
                         :main :mason
                         :opts {:PATH :skip}})
+
 (table.insert config 1 {1 :nvim-lua/plenary.nvim :lazy true :name :plenary})
 
 ((. (require :lazy) :setup) config {:dev {:path "~/p"}})

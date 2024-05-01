@@ -7,6 +7,4 @@
 (fn rgb [r g b]
   (setmetatable {: r : g : b} {:__tostring rgb->hex}))
 
-{: round
- : rgb->hex
- : rgb}
+{: round : rgb->hex : rgb}

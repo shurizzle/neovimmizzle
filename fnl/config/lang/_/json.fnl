@@ -1,2 +1,1 @@
-{:ft [:json :jsonc]
- :lsp :json-lsp}
+{:ft [:json :jsonc] :lsp :json-lsp}

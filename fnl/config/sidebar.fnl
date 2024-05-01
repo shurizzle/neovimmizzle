@@ -29,10 +29,12 @@
 
 (fn close [cb]
   (vim.validate {:cb [cb :f]})
+
   (fn on-close []
     (vim.schedule (fn []
                     (raw-close)
                     (cb))))
+
   (if closefn (closefn on-close) (on-close)))
 
 (fn register [widget-name close-function cb]
@@ -44,8 +46,4 @@
            (set closefn close-function)
            (cb {: resize :close async-close}))))
 
-{: get-name
- : on-resize
- : on-close
- : close
- : register}
+{: get-name : on-resize : on-close : close : register}

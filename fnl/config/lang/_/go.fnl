@@ -1,2 +1,1 @@
-{:lsp  :gopls
- :lint :staticcheck}
+{:lsp :gopls :lint :staticcheck}

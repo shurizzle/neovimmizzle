@@ -32,17 +32,15 @@
 
 (fn empty? [xs]
   "Returns true if the arguments is empty."
-  (if
-    (table? xs) (vim.tbl_isempty xs)
-    (not xs) true
-    (= 0 (length xs))))
+  (if (table? xs) (vim.tbl_isempty xs)
+      (not xs) true
+      (= 0 (length xs))))
 
 (fn count [xs]
   "Returns the number of elments in object."
-  (if
-    (table? xs) (vim.tbl_count xs)
-    (not xs) 0
-    (length xs)))
+  (if (table? xs) (vim.tbl_count xs)
+      (not xs) 0
+      (length xs)))
 
 (fn inc [n]
   "Increment n by 1."
@@ -112,9 +110,9 @@
 
 (fn slurp [path]
   "Read the file into a string."
-  (match (io.open path "r")
+  (match (io.open path :r)
     (nil _msg) nil
-    f (let [content (f:read "*all")]
+    f (let [content (f:read :*all)]
         (f:close)
         content)))
 

@@ -1,5 +1,4 @@
-(autoload [{: bin-or-install} :config.lang.util
-           lspconfig :lspconfig])
+(autoload [{: bin-or-install} :config.lang.util lspconfig :lspconfig])
 
 (fn config [bin]
   (local opts
@@ -8,12 +7,10 @@
                                            :documentRangeFormattingProvider])]
                          (tset client.server_capabilities k false)))})
   (when bin (set opts.cmd [bin :--stdio]))
-
   (lspconfig.intelephense.setup opts)
   lspconfig.intelephense)
 
 (fn [cb]
-  (bin-or-install
-    :intelephense
-    (fn [bin]
-      (cb (config bin)))))
+  (bin-or-install :intelephense
+                  (fn [bin]
+                    (cb (config bin)))))

@@ -1,2 +1,1 @@
-{:ft  [:zig :zir]
- :lsp :zls}
+{:ft [:zig :zir] :lsp :zls}

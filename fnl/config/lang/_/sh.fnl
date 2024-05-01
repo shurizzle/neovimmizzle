@@ -1,3 +1,1 @@
-{:ft   [:sh :bash :csh :ksh]
- :lint :shellcheck
- :fmt  :beautysh}
+{:ft [:sh :bash :csh :ksh] :lint :shellcheck :fmt :beautysh}

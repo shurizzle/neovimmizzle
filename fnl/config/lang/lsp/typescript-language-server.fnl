@@ -1,5 +1,4 @@
-(autoload [{:join path-join} :config.path
-           installer :config.lang.installer])
+(autoload [{:join path-join} :config.path installer :config.lang.installer])
 
 (fn config []
   ((. (require :typescript-tools) :setup) [])
@@ -9,9 +8,8 @@
   (let [tsserver (exepath :tsserver)]
     (if tsserver
         (cb (config))
-        (installer.get
-          :typescript-language-server
-          (fn [err p]
-            (if (and (not err) p)
-                (cb (config))
-                (cb (config))))))))
+        (installer.get :typescript-language-server
+                       (fn [err p]
+                         (if (and (not err) p)
+                             (cb (config))
+                             (cb (config))))))))

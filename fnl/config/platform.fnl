@@ -8,44 +8,39 @@
         (table.insert exprs :unknown)
         exprs)))
 
-(local os (match-os
-            :Windows   :windows
-            :Linux     :linux
-            :Darwin    :macos
-            :FreeBSD   :freebsd
-            :DragonFly :dragonflybsd
-            :NetBSD    :netbsd
-            :OpenBSD   :openbsd))
+(local os (match-os :Windows :windows :Linux :linux :Darwin :macos :FreeBSD
+                    :freebsd :DragonFly :dragonflybsd :NetBSD :netbsd :OpenBSD
+                    :openbsd))
 
 (fn extract [env]
   (-?>> (-?> env (: :find "%s") (- 1))
         (: env :sub 0)
         ((. (require :ip) :parse))))
 
-(local ssh-remote (some #(extract (. vim.env $1))
-                        [:SSH_CLIENT :SSH_CONNECTION]))
+(local ssh-remote
+       (some #(extract (. vim.env $1)) [:SSH_CLIENT :SSH_CONNECTION]))
 
-(var _is {:win      (= os :windows)
-          :lin      (= os :linux)
-          :mac      (= os :macos)
-          :fbsd     (= os :freebsd)
-          :dfbsd    (= os :dragonflybsd)
-          :nbsd     (= os :netbsd)
-          :obsd     (= os :openbsd)
-          :ssh      (not= nil ssh-remote)
+(var _is {:win (= os :windows)
+          :lin (= os :linux)
+          :mac (= os :macos)
+          :fbsd (= os :freebsd)
+          :dfbsd (= os :dragonflybsd)
+          :nbsd (= os :netbsd)
+          :obsd (= os :openbsd)
+          :ssh (not= nil ssh-remote)
           :headless (vim.tbl_isempty (vim.api.nvim_list_uis))
-          :termux   (not= nil vim.env.TERMUX_APP_PID)
-          :unknown  (= os :unknown)})
+          :termux (not= nil vim.env.TERMUX_APP_PID)
+          :unknown (= os :unknown)})
 
-(each [k v (pairs {:windows      :win
-                   :linux        :lin
-                   :macos        :mac
-                   :freebsd      :fbsd
+(each [k v (pairs {:windows :win
+                   :linux :lin
+                   :macos :mac
+                   :freebsd :fbsd
                    :dragonflybsd :dfbsd
-                   :netbsd       :nbsd
-                   :openbsd      :obsd})]
+                   :netbsd :nbsd
+                   :openbsd :obsd})]
   (tset _is k (. _is v)))
 
 (tset _is :bsd (or _is.mac _is.fbsd _is.dfbsd _is.nbsd _is.obsd))
 
-(readonly-table {:os os :is (readonly-table _is) :ssh ssh-remote})
+(readonly-table {: os :is (readonly-table _is) :ssh ssh-remote})

@@ -3,5 +3,4 @@
   (set conform.formatters_by_ft.svelte [[:prettierd :prettier]])
   (cb))
 
-{:lsp [:svelte :eslint-lsp]
- : config}
+{:lsp [:svelte :eslint-lsp] : config}

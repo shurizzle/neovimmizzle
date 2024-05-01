@@ -1,5 +1,4 @@
-(autoload [{: bin-or-install} :config.lang.util
-           lspconfig :lspconfig])
+(autoload [{: bin-or-install} :config.lang.util lspconfig :lspconfig])
 
 (fn config [bin]
   (local opts [])
@@ -8,9 +7,7 @@
   lspconfig.eslint)
 
 (fn [cb]
-  (bin-or-install
-    [:eslint-language-server :vscode-eslint-language-server]
-    :eslint-lsp
-    :vscode-eslint-language-server
-    (fn [bin]
-      (cb (config bin)))))
+  (bin-or-install [:eslint-language-server :vscode-eslint-language-server]
+                  :eslint-lsp :vscode-eslint-language-server
+                  (fn [bin]
+                    (cb (config bin)))))

@@ -1,2 +1,1 @@
-{:lint :zsh
- :fmt  :beautysh}
+{:lint :zsh :fmt :beautysh}

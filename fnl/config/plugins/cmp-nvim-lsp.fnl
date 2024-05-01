@@ -7,6 +7,4 @@
        (lsputil.add_hook_before lsputil.on_setup)
        (tset lsputil :on_setup)))
 
-{:lazy true
- :deps [:neovim/nvim-lspconfig]
- : config}
+{:lazy true :deps [:neovim/nvim-lspconfig] : config}

@@ -11,6 +11,4 @@
       (tset conform.formatters_by_ft f [[:prettierd :prettier]])))
   (cb))
 
-{: ft
- :lsp [:typescript-language-server :eslint-lsp]
- : config}
+{: ft :lsp [:typescript-language-server :eslint-lsp] : config}

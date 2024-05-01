@@ -1,13 +1,10 @@
-(local State {:servers {}
-              :changedtick 0
-              :requesting false})
+(local State {:servers {} :changedtick 0 :requesting false})
 
 (fn State.new [self]
   (local o (setmetatable {:servers {}
                           :data nil
                           :changedtick 0
-                          :requesting false}
-                         self))
+                          :requesting false} self))
   (set self.__index self)
   o)
 
@@ -31,8 +28,7 @@
   (if (self:get-server-by-id id)
       false
       (do
-        (table.insert self.servers {: id : name})
-        true)))
+        (table.insert self.servers {: id : name}) true)))
 
 (fn State.get-lsp-client [self]
   (var res nil)
@@ -45,11 +41,9 @@
   res)
 
 (fn State.set-data [self data]
-  (if (vim.deep_equal self.data data)
-      false
+  (if (vim.deep_equal self.data data) false
       (do
-        (set self.data data)
-        true)))
+        (set self.data data) true)))
 
 (var internal-states [])
 (autoload [{: ensure-bufnr} :config.winbar.util])
@@ -64,6 +58,4 @@
 (fn delete [bufnr]
   (tset internal-states (ensure-bufnr bufnr) nil))
 
-{: get
- : get-or-create
- : delete}
+{: get : get-or-create : delete}

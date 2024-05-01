@@ -1,23 +1,23 @@
 (local path (require :config.path))
 
-(local resources {:fg :#eeeeee
-                  :bg :#282828
-                  0   :#282828
-                  1   :#c8213d
-                  2   :#169C51
-                  3   :#DAAF19
-                  4   :#2F90FE
-                  5   :#C14ABE
-                  6   :#48C6DB
-                  7   :#CBCBCB
-                  8   :#505050
-                  9   :#C7213D
-                  10  :#1ef15f
-                  11  :#FFE300
-                  12  :#00aeff
-                  13  :#FF40BE
-                  14  :#48FFFF
-                  15  :#FFFFFF})
+(local resources {:fg "#eeeeee"
+                  :bg "#282828"
+                  0 "#282828"
+                  1 "#c8213d"
+                  2 "#169C51"
+                  3 "#DAAF19"
+                  4 "#2F90FE"
+                  5 "#C14ABE"
+                  6 "#48C6DB"
+                  7 "#CBCBCB"
+                  8 "#505050"
+                  9 "#C7213D"
+                  10 "#1ef15f"
+                  11 "#FFE300"
+                  12 "#00aeff"
+                  13 "#FF40BE"
+                  14 "#48FFFF"
+                  15 "#FFFFFF"})
 
 (fn get-highlights []
   (let [theme (require :config.colors.bluesky)
@@ -28,28 +28,27 @@
   (fn merge [res resources key]
     (let [value (. resources key)]
       (if value
-          (let [value (.. "let g:terminal_color_" (tostring key)
-                          " = \"" value "\"")]
+          (let [value (.. "let g:terminal_color_" (tostring key) " = \"" value
+                          "\"")]
             (if res
                 (.. res "\n" value)
                 value))
           res)))
 
   (faccumulate [res (accumulate [res nil _ k (ipairs [:fg :bg])]
-                      (merge res resources k))
-                i 0 15]
-               (merge res resources i)))
+                      (merge res resources k)) i 0 15]
+    (merge res resources i)))
 
 (fn get-theme []
-  (.. "set background=dark\nhi clear\n"
-      "if exists(\"syntax\")\n  syntax reset\nendif\n"
-      "let g:colors_name=\"bluesky\"\n\n"
+  (.. "set background=dark\nhi clear\n" "if exists(\"syntax\")
+  syntax reset
+endif
+" "let g:colors_name=\"bluesky\"\n\n"
       (or (-?> (get-highlights) (.. "\n")) "")
-      (or (-?> (compile-terminal-colors) (.. "\n")) "")
-      "augroup set_highlight_colors\n"
-      "  au!\n"
-      "  autocmd VimEnter * lua require\"config.colors\"['set-highlight-colors']()\n"
-      "  autocmd ColorScheme * lua require\"config.colors\"['set-highlight-colors']()\n"
+      (or (-?> (compile-terminal-colors) (.. "\n")) "") "augroup set_highlight_colors
+" "  au!\n" "  autocmd VimEnter * lua require\"config.colors\"['set-highlight-colors']()
+" "  autocmd ColorScheme * lua require\"config.colors\"['set-highlight-colors']()
+"
       "augroup END"))
 
 (fn write-file [file content]
@@ -72,7 +71,8 @@
 
 (fn generate-palette []
   (let [{: view} (require :fennel)
-        (ok err) (write-file (path.join path.init-dir :fnl :config :colors :palette.fnl)
+        (ok err) (write-file (path.join path.init-dir :fnl :config :colors
+                                        :palette.fnl)
                              (view (get-palette)))]
     (if (not ok) (error err))))
 
@@ -100,6 +100,4 @@
   (vim.api.nvim_command "hi def link LspReferenceRead CursorLine")
   (vim.api.nvim_command "hi def link illuminatedWord CursorLine"))
 
-{: sync
- : setup
- : set-highlight-colors}
+{: sync : setup : set-highlight-colors}

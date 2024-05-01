@@ -1,5 +1,4 @@
-(autoload [{: bin-or-install} :config.lang.util
-           lspconfig :lspconfig])
+(autoload [{: bin-or-install} :config.lang.util lspconfig :lspconfig])
 
 (fn config [bin]
   (local opts [])
@@ -8,9 +7,7 @@
   lspconfig.html)
 
 (fn [cb]
-  (bin-or-install
-    [:vscode-html-language-server :vscode-html-languageserver]
-    :html-lsp
-    :vscode-html-language-server
-    (fn [bin]
-      (cb (config bin)))))
+  (bin-or-install [:vscode-html-language-server :vscode-html-languageserver]
+                  :html-lsp :vscode-html-language-server
+                  (fn [bin]
+                    (cb (config bin)))))

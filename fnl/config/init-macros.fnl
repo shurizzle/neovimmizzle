@@ -8,9 +8,7 @@
 
 (fn chunks2 [seq]
   (lambda next [seq ?index]
-    (if (and (not= nil ?index)
-             (or (not= :number (type ?index))
-                 (< ?index 0)))
+    (if (and (not= nil ?index) (or (not= :number (type ?index)) (< ?index 0)))
         (error "invalid ?index parameter"))
     (let [index (or ?index 0)
           base (+ 1 (* 2 index))
@@ -22,37 +20,38 @@
 (fn transform-sym [bind lib]
   (let [ensure (gensym)]
     [`(var ,bind nil)
-     `(fn ,ensure []
+     `(fn ,ensure
+        []
         (let [required# ,lib]
           (set ,bind required#)
           required#))
      `(set ,bind
-           (setmetatable
-             {}
-             ; TODO: map more metamethods
-             {:__call (fn [_# ...]
-                        ((,ensure) ...))
-             :__index (fn [_# k#]
-                        (. (,ensure) k#))
-             :__newindex (fn [_# k# v#]
-                           (tset (,ensure) k# v#))
-             :__tostring (fn [_#]
-                           (tostring (,ensure)))}))]))
+           (setmetatable {} ; TODO: map more metamethods
+                         {:__call (fn [_# ...]
+                                    ((,ensure) ...))
+                          :__index (fn [_# k#]
+                                     (. (,ensure) k#))
+                          :__newindex (fn [_# k# v#]
+                                        (tset (,ensure) k# v#))
+                          :__tostring (fn [_#]
+                                        (tostring (,ensure)))}))]))
 
-(fn copy [v] (icollect [_ v (ipairs v)] v))
+(fn copy [v]
+  (icollect [_ v (ipairs v)] v))
 (fn merge! [a b]
   (each [_ v (ipairs b)]
     (table.insert a v))
   a)
+
 (fn merge [a b] (merge! (copy a) b))
 
 (fn extract-symbols [t pref res]
-  (if
-    (sym? t) (tset res t pref)
-    (or (table? t) (sequence? t))
+  (if (sym? t)
+      (tset res t pref)
+      (or (table? t) (sequence? t))
       (each [k v (pairs t)]
         (extract-symbols v (merge (copy pref) [k]) res))
-    (assert-compile false "invalid binding structure" t)))
+      (assert-compile false "invalid binding structure" t)))
 
 (fn lazy-bind-table [t expr]
   (var symbols [])
@@ -72,14 +71,15 @@
     res))
 
 (fn transform [bind expr]
-  (if
-    (sym? bind) (transform-sym bind expr)
-    (or (table? bind) (sequence? bind)) (transform-table bind expr)
-    (assert-compile false "invalid binding structure" bind)))
+  (if (sym? bind)
+      (transform-sym bind expr)
+      (or (table? bind) (sequence? bind))
+      (transform-table bind expr)
+      (assert-compile false "invalid binding structure" bind)))
 
 (fn lazy-bind [bindings transform]
-  (assert-compile (sequence? bindings)
-                  "invalid arguments for autoload" bindings)
+  (assert-compile (sequence? bindings) "invalid arguments for autoload"
+                  bindings)
   (assert-compile (and (= 0 (% (length bindings) 2)) (not= 0 (length bindings)))
                   "invalid arguments for autoload" bindings)
   (var res [])
@@ -102,10 +102,7 @@
      ,(lazy-var bindings)
      ,...))
 
-(local *mod-mappings* {:def   :var
-                       :def-  :var
-                       :defn  :lambda
-                       :defn- :lambda})
+(local *mod-mappings* {:def :var :def- :var :defn :lambda :defn- :lambda})
 
 (fn transform-expression [mod-sym expr]
   (if (list? expr)
@@ -114,7 +111,8 @@
             name (. expr 2)]
         (if rep-name
             (do
-              (assert-compile (sym? name) (.. "Invalid " call-name " syntax") name)
+              (assert-compile (sym? name) (.. "Invalid " call-name " syntax")
+                              name)
               (tset expr 1 rep-name)
               (if (or (= call-name :def) (= call-name :defn))
                   [expr `(tset ,mod-sym ,(tostring name) ,name)]
@@ -133,9 +131,4 @@
        ,mod
        ,mod-sym)))
 
-{: inc!
- : dec!
- : autoload
- : lazy-var
- : lazy-let
- : module}
+{: inc! : dec! : autoload : lazy-var : lazy-let : module}

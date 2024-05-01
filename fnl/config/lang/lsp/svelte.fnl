@@ -1,5 +1,4 @@
-(autoload [{: bin-or-install} :config.lang.util
-           lspconfig :lspconfig])
+(autoload [{: bin-or-install} :config.lang.util lspconfig :lspconfig])
 
 (fn config [bin]
   (local opts [])
@@ -8,9 +7,6 @@
   lspconfig.svelte)
 
 (fn [cb]
-  (bin-or-install
-    :svelteserver
-    :svelte-language-server
-    :svelteserver
-    (fn [bin]
-      (cb (config bin)))))
+  (bin-or-install :svelteserver :svelte-language-server :svelteserver
+                  (fn [bin]
+                    (cb (config bin)))))

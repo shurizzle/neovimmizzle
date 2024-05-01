@@ -1,5 +1,4 @@
-(autoload [{: bin-or-install} :config.lang.util
-           lspconfig :lspconfig])
+(autoload [{: bin-or-install} :config.lang.util lspconfig :lspconfig])
 
 (fn config [bin]
   (local opts [])
@@ -8,7 +7,5 @@
   lspconfig.omnisharp)
 
 (fn [cb]
-  (bin-or-install
-    :omnisharp
-    (fn [bin]
-      (cb (config bin)))))
+  (bin-or-install :omnisharp (fn [bin]
+                               (cb (config bin)))))

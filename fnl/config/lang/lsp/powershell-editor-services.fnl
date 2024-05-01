@@ -1,5 +1,4 @@
-(autoload [lspconfig :lspconfig
-           installer :config.lang.installer])
+(autoload [lspconfig :lspconfig installer :config.lang.installer])
 
 (fn config [path]
   (local opts [])
@@ -8,7 +7,6 @@
   lspconfig.powershell_es)
 
 (fn [cb]
-  (installer.get
-    :powershell-editor-services
-    (fn [_ p]
-      (cb (config (-?> p (: :get_install_path)))))))
+  (installer.get :powershell-editor-services
+                 (fn [_ p]
+                   (cb (config (-?> p (: :get_install_path)))))))

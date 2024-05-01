@@ -12,5 +12,4 @@
               (tset *installers* what inst)
               inst))))))
 
-(setmetatable {} {:__index    (fn [_ name] (get* name))
-                  :__newindex (fn [])})
+(setmetatable {} {:__index (fn [_ name] (get* name)) :__newindex (fn [])})

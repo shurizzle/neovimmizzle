@@ -1,3 +1,1 @@
-{:ft   [:c :cpp :objc :objcpp :cuda]
- :lsp  :clangd
- :lint :clang-tidy}
+{:ft [:c :cpp :objc :objcpp :cuda] :lsp :clangd :lint :clang-tidy}
