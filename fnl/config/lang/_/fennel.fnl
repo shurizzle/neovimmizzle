@@ -1,2 +1,2 @@
-{:fmt :fnlfmt}
+{:lsp :fennel-ls :fmt :fnlfmt}
 

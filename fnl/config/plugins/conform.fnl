@@ -22,7 +22,7 @@
 (fn format_on_save [bufnr]
   (var timeout_ms 500)
   (match (. vim :bo bufnr :filetype)
-    (where (or :blade :kotlin :prettier)) (set timeout_ms 2000))
+    (where (or :blade :kotlin :prettier :fnlfmt)) (set timeout_ms 2000))
   {: timeout_ms :lsp_fallback true})
 
 {:lazy true
