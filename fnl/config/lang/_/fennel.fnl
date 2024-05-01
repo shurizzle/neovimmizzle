@@ -1,1 +1,2 @@
-{:fmt :trim_whitespace}
+{:fmt :fnlfmt}
+
