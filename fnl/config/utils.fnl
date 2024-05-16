@@ -99,4 +99,16 @@
 
 (vim.api.nvim_command "command! -nargs=+ Cargo lua cargo(<q-args>)")
 
+(when (has :nvim-0.10)
+  (let [sn (. (vim.loop.os_uname) :sysname)]
+    (when (and (not= sn :Darwin) (not= sn :Windows_NT) (executable :fswatch))
+      (let [old vim.lsp.protocol.make_client_capabilities]
+        (set vim.lsp.protocol.make_client_capabilities
+             (fn []
+               (let [cfg (old)]
+                 (set cfg.workspace.didChangeWatchedFiles.dynamicRegistration
+                      true)
+                 cfg)))))))
+
 nil
+

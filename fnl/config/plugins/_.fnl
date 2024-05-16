@@ -31,7 +31,8 @@
 (use-package! :lewis6991/gitsigns.nvim :lazy true :event :BufRead :deps
               [:plenary] :main :gitsigns :opts [])
 
-(use-package! :lukas-reineke/indent-blankline.nvim :lazy true :event :BufRead
+(use-package! :lukas-reineke/indent-blankline.nvim :tag
+              (when (not (has :nvim-0.10)) :v3.5.4) :lazy true :event :BufRead
               :main :ibl :opts
               {:scope {:enabled true
                        :show_start true
@@ -68,13 +69,10 @@
                                            :lang :fennel}}}} :deps
               [:nui :notify])
 
-(use-package! :NeogitOrg/neogit :name :neogit :lazy true :main :neogit :deps
-              [:telescope :plenary :sindrets/diffview.nvim] :cmd :Neogit :opts
-              [])
-
-(use-package! :NeogitOrg/neogit :name :neogit :lazy true :main :neogit :deps
-              [:telescope :plenary :sindrets/diffview.nvim] :cmd :Neogit :opts
-              [])
+(use-package! :NeogitOrg/neogit :name :neogit :tag
+              (when (not (has :nvim-0.10)) :v0.0.1) :lazy true :main :neogit
+              :deps [:telescope :plenary :sindrets/diffview.nvim] :cmd :Neogit
+              :opts [])
 
 ;; }}}
 
@@ -156,9 +154,6 @@
 (use-package! :stevearc/conform.nvim :name :conform)
 
 (use-package! :mfussenegger/nvim-lint :name :lint)
-
-(use-package! :nvim-treesitter/playground :deps :treesitter :lazy true :cmd
-              [:TSPlaygroundToggle :TSHighlightCapturesUnderCursor])
 
 ;; (use-package! :instant-markdown/vim-instant-markdown
 ;;               :lazy true
@@ -255,7 +250,7 @@
 
 (use-package! :editorconfig/editorconfig-vim :enabled (not (has :nvim-0.9.0)))
 
-(use-package! :ojroques/nvim-osc52 :name :osc52)
+(use-package! :ojroques/nvim-osc52 :name :osc52 :enabled (not (has :nvim-0.10)))
 
 (use-package! :julienvincent/nvim-paredit :lazy true :ft :clojure :name
               :paredit :main :nvim-paredit :deps [:treesitter] :opts [])
@@ -273,3 +268,4 @@
 ;; }}}
 
 *packages*
+
