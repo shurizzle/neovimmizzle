@@ -90,7 +90,7 @@
 
 (use-package! :kyazdani42/nvim-tree.lua :deps :devicons :name :tree)
 
-(use-package! :lvimuser/lsp-inlayhints.nvim :lazy true :cond
+(use-package! :lvimuser/lsp-inlayhints.nvim :lazy true :enabled
               (not (has :nvim-0.10.0)) :main :lsp-inlayhints :opts [] :init
               (fn []
                 (fn callback [opts]

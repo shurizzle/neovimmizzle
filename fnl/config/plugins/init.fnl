@@ -26,9 +26,10 @@
 (var config (icollect [_ plugin (ipairs (require :config.plugins._))]
               (remap plugin)))
 
-(table.insert config 1 {1 :lewis6991/impatient.nvim
-                        :lazy false
-                        :cond (not (has :nvim-0.9.0))})
+(table.insert config 1
+              {1 :lewis6991/impatient.nvim
+               :lazy false
+               :enabled (not (has :nvim-0.9.0))})
 
 (table.insert config 1 {1 :rktjmp/hotpot.nvim :lazy false})
 (table.insert config 1 {1 :folke/lazy.nvim :lazy false :tag :stable})
@@ -46,3 +47,4 @@
 
 ((. (require :lazy) :setup) config {:dev {:path "~/p"}})
 (-after-load)
+
