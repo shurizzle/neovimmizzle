@@ -6,7 +6,7 @@
                                              :extra false
                                              :extended false}})
   (let [ft (require :Comment.ft)]
-    (ft.set :wgsl ["//%s" "/*%s*/"]))
+    (ft.set :wgsl ["// %s" "/*%s*/"]))
   (each [_ [mode f] (ipairs [[:n :comment_toggle_linewise_current]
                              [:x :comment_toggle_linewise_visual]])]
     (vim.keymap.set mode :<leader>c/ (.. "<Plug>(" f ")")
@@ -15,7 +15,9 @@
                      :expr false
                      :desc "Toggle comments"})))
 
-{:lazy true
+{:enabled (not (has :nvim-0.10))
+ :lazy true
  :deps :JoosepAlviste/nvim-ts-context-commentstring
  :keys [{:mode :n 1 :<leader>c/} {:mode :x 1 :<leader>c/}]
  : config}
+

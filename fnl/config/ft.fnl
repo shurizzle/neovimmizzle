@@ -25,4 +25,26 @@
 
 (add {:extension {:roc :roc}})
 
+(vim.api.nvim_create_autocmd :FileType
+                             {:pattern :wgsl
+                              :callback (fn [{: buf}]
+                                          (tset (. vim.bo buf) :commentstring
+                                                "/*%s*/"))})
+
+(vim.api.nvim_create_autocmd :FileType
+                             {:pattern :fennel
+                              :callback (fn [{: buf}]
+                                          (tset (. vim.bo buf) :commentstring
+                                                ";;%s"))})
+
+(vim.api.nvim_create_autocmd :FileType
+                             {:desc "Force commentstring to include spaces"
+                              :callback (fn [{: buf}]
+                                          (tset (. vim.bo buf) :commentstring
+                                                (-> (. vim.bo buf
+                                                       :commentstring)
+                                                    (: :gsub "(%S)%%s" "%1 %%s")
+                                                    (: :gsub "%%s(%S)" "%%s %1"))))})
+
 nil
+

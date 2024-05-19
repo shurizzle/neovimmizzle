@@ -45,6 +45,29 @@
 (fn diagnostic-open-float [...]
   (vim.diagnostic.open_float ...))
 
+(when (has :nvim-0.10)
+  (let [{: toggle_lines} (require :vim._comment)
+        esc (vim.api.nvim_replace_termcodes :<ESC> true false true)]
+    (fn toggle-normal []
+      (let [[row col] (vim.api.nvim_win_get_cursor 0)]
+        (toggle_lines row row [row col])))
+
+    (fn toggle-visual []
+      (vim.api.nvim_feedkeys esc :nx false)
+      (let [lnum-from (vim.fn.line "'<")
+            col-from (vim.fn.col "'<")
+            lnum-to (vim.fn.line "'>")
+            col-to (vim.fn.col "'>")]
+        (when (not (or (> lnum-from lnum-to)
+                       (and (= lnum-from lnum-to) (> col-from col-to))))
+          (vim.notify (.. lnum-from ":" lnum-to))
+          (toggle_lines lnum-from lnum-to (vim.api.nvim_win_get_cursor 0)))))
+
+    (kset :x :<leader>c/ toggle-visual
+          {:silent true :noremap true :desc "Toggle comments"})
+    (kset :n :<leader>c/ toggle-normal
+          {:silent true :noremap true :desc "Toggle comments"})))
+
 (each [k [f d] (pairs {; Reselect visual selection after indenting
                        :< [:<gv "Indent back"]
                        :> [:>gv :Indent]
@@ -107,8 +130,7 @@
 
 (each [k [f d] (pairs {:<C-n> [_G.bufnext "Go to next tab"]
                        :<C-p> [_G.bufprev "Go to previous tab"]
-                       ; Make Y behave like the other capitals
-                       ; Make Y behave like the other capitals
+                       ;; Make Y behave like the other capitals
                        :Y [:y$ "Yank untill the end of the line"]
                        :<leader>cD [lsp-declaration
                                     "Show under-cursor declaration"]
@@ -137,14 +159,11 @@
                        "[c" [vim.diagnostic.goto_prev
                              "Go to previous diagnostic"]
                        "]c" [vim.diagnostic.goto_next "Go to next diagnostic"]
-                       ; :<space>d [(. (require :config.debug) :toggle)
-                       ;            "Toggle dap-ui"]
+                       ;; :<space>d [(. (require :config.debug) :toggle)
+                       ;;            "Toggle dap-ui"]
                        :ZZ [:<cmd>BufferClose<CR> "Close current buffer"]
                        :ZQ [:<cmd>BufferClose!<CR>
-                            "Close current buffer without saving"]
-                       ; Make Y behave like the other capitals
-                       ; Make Y behave like the other capitals
-                       :Y [:y$ "Yank untill the end of the line"]})]
+                            "Close current buffer without saving"]})]
   (kset :n k f {:silent true :noremap true :desc d}))
 
 (each [k [f d] (pairs {:<C-h> ["<cmd>wincmd h<CR>"]
@@ -160,7 +179,7 @@
                                     "Show available code actions"]})]
   (kset :x k f {:silent true :noremap true :desc d}))
 
-; floating temporary windows
+;; floating temporary windows
 (do
   (local float (require :config.float))
   (var gitui nil)
@@ -189,3 +208,4 @@
                                                      : buffer}))}))
   (vim.keymap.set :n :<space>b #(elinks:toggle)
                   {:noremap true :silent true :desc "Toggle tui browser."}))
+

@@ -215,8 +215,9 @@
 
 (use-package! :nvim-treesitter/nvim-treesitter :name :treesitter)
 
-(use-package! :JoosepAlviste/nvim-ts-context-commentstring :lazy true :deps
-              :treesitter :main :ts_context_commentstring :opts
+(use-package! :JoosepAlviste/nvim-ts-context-commentstring :enabled
+              (not (has :nvim-0.10)) :lazy true :deps :treesitter :main
+              :ts_context_commentstring :opts
               {:enable_autocmd false :config {:fennel ";; %s"}})
 
 (use-package! :numToStr/Comment.nvim :name :comment)
