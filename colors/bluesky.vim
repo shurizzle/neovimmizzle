@@ -184,6 +184,8 @@ highlight Visual guifg=#282828 guibg=#82BCFE guisp=NONE blend=NONE gui=NONE
 highlight! link VisualNOS Visual
 highlight WarningMsg guifg=#C8213D guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight Whitespace guifg=#535353 guibg=NONE guisp=NONE blend=NONE gui=NONE
+highlight! link WinBar Normal
+highlight! link WinBarNC NormalNC
 highlight! link illuminateWordRead IlluminatedWordText
 highlight! link illuminateWordWrite IlluminatedWordText
 highlight! link lCursor Cursor

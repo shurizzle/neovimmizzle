@@ -2,8 +2,8 @@
 (local cp (require :config.colors.bluesky.palette))
 
 (blush (Normal :fg cp.white :bg cp.black) (NormalFloat Normal)
-       (NormalNC Normal) (Comment :fg cp.secondary +italic)
-       (ColorColumn :bg cp.almostblack)
+       (NormalNC Normal) (WinBar Normal) (WinBarNC NormalNC)
+       (Comment :fg cp.secondary +italic) (ColorColumn :bg cp.almostblack)
        ;; (Conceal) ;; placeholder characters substituted for concealed text (see 'conceallevel')
        (Cursor :fg cp.black :bg cp.white) (lCursor Cursor) (CursorIM Cursor)
        (CursorColumn :bg cp.almostblack) (CursorLine CursorColumn)
@@ -63,3 +63,4 @@
        ;; (preferred) anything that needs extra attention; mostly the keywords TODO FIXME and XXX
        (vimHiTerm Identifier) (luaFunction Statement) (luaOperator Statement)
        (luaSymbolOperator Identifier) (luaFunc Special) ("@constructor" Keyword))
+
