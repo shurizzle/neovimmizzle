@@ -1,0 +1,2 @@
+{:lsp :gleam :fmt :gleam}
+
