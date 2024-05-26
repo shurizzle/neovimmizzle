@@ -14,6 +14,7 @@
  :event "BufRead Cargo.toml"
  :deps [:plenary :cmp]
  :main :crates
- :opts {:src {:cmp {:enabled true}}
+ :opts {:completion {:cmp {:enabled true}}
         :null_ls {:enabled false}
         :lsp {:enabled true :actions true :completion false : on_attach}}}
+
