@@ -1,4 +1,5 @@
 (local *packages* [])
+(local {: is} (require :config.platform))
 
 (fn use-package! [name & args]
   (assert (string? name) "Invalid package spec")
@@ -167,7 +168,7 @@
 
 (use-package! :rafcamlet/nvim-luapad :name :luapad)
 
-(use-package! :Joakker/lua-json5 :name :json5 :lazy true :build :./install.sh)
+(use-package! :Joakker/lua-json5 :name :json5 :lazy true :build (if is.win ".\\install.ps1" :./install.sh))
 
 (use-package! :EthanJWright/vs-tasks.nvim :lazy true :deps
               [:plenary :telescope :nvim-lua/popup.nvim :json5] :main :vstask
