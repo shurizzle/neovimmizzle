@@ -75,6 +75,8 @@
               :deps [:telescope :plenary :sindrets/diffview.nvim] :cmd :Neogit
               :opts [])
 
+(use-package! :NStefan002/screenkey.nvim :lazy true :cmd :Screenkey :config
+              true)
 ;; }}}
 
 ;; UX {{{
