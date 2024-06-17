@@ -63,11 +63,11 @@
   x)
 
 (fn some [f xs]
-  "Returns the first truthy result from (f x) or nil."
-  (each [k x (pairs xs)]
-    (var result (f x k xs))
-    (if result (lua "return result")))
-  nil)
+  "Returns the first truthy result from (f x k xs) or nil."
+  (var result nil)
+  (each [k x (pairs xs) &until result]
+    (set result (f x k xs)))
+  result)
 
 (fn const [v]
   (fn [] v))
@@ -151,3 +151,4 @@
  : strip-suffix
  : slurp
  : once}
+
