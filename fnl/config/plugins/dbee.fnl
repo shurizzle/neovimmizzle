@@ -4,6 +4,8 @@
            :dbee.ui.common
            dbee
            :dbee
+           api_ui
+           :dbee.api.ui
            sidebar
            :config.sidebar])
 
@@ -11,8 +13,10 @@
 
 (fn config []
   (local augroup (vim.api.nvim_create_augroup :dbee-layout {:clear true}))
+  (var open? false)
 
   (fn on-close []
+    (set open? false)
     (when (and *sb* *sb*.close)
       (let [close *sb*.close]
         (set *sb* nil)
@@ -22,29 +26,29 @@
     (when (and *sb* *sb*.resize)
       (*sb*.resize (inc (vim.api.nvim_win_get_width winid)))))
 
-  (fn layout-open [self uis]
+  (fn layout-open [self]
     (set self.egg (tools.save))
     (set self.windows [])
     (tools.make_only 0)
     (local editor-win (vim.api.nvim_get_current_win))
     (table.insert self.windows editor-win)
-    (uis.editor:show editor-win)
+    (api_ui.editor_show editor-win)
     (vim.cmd (.. :bo self.result_height :split))
     (var result-win (vim.api.nvim_get_current_win))
     (table.insert self.windows result-win)
-    (uis.result:show result-win)
+    (api_ui.result_show result-win)
     (common.configure_window_options result-win
                                      {:relativenumber false :spell false})
     (vim.cmd (.. :to self.drawer_width :vsplit))
     (var drawer-win (vim.api.nvim_get_current_win))
     (table.insert self.windows drawer-win)
-    (uis.drawer:show drawer-win)
+    (api_ui.drawer_show drawer-win)
     (common.configure_window_options drawer-win
                                      {:relativenumber false :spell false})
     (vim.cmd (.. "belowright " self.call_log_height :split))
     (var log-win (vim.api.nvim_get_current_win))
     (table.insert self.windows log-win)
-    (uis.call_log:show log-win)
+    (api_ui.call_log_show log-win)
     (common.configure_window_options log-win
                                      {:relativenumber false :spell false})
     (pcall vim.api.nvim_clear_autocmds {:group augroup})
@@ -59,7 +63,8 @@
                                                             (= win log-win))
                                                     (on-win-resize win))))
                                               false)})
-    (vim.api.nvim_set_current_win editor-win))
+    (vim.api.nvim_set_current_win editor-win)
+    (set open? true))
 
   (fn layout-close [self]
     (pcall vim.api.nvim_clear_autocmds {:group augroup})
@@ -79,7 +84,8 @@
      :result_height (or opts.result_height 20)
      :call_log_height (or opts.call_log_height 20)
      :open layout-open
-     :close layout-close})
+     :close layout-close
+     :is_open #open?})
 
   (let [old-open dbee.open]
     (set dbee.open (fn []
@@ -98,3 +104,4 @@
  :cmd :Dbee
  :build #(. (require :dbee) :install)
  : config}
+
