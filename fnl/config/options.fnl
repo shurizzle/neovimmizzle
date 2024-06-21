@@ -8,26 +8,55 @@
   (fcollect [i 1 (length opts) 2]
     `(tset vim.opt ,(tostring (. opts i)) ,(. opts (+ i 1)))))
 
-(opt autoread true fileencoding :UTF-8 mouse :a smartindent true swapfile false
-     undofile false timeoutlen 300 pumheight 10 backup false writebackup false
-     expandtab true shiftwidth 2 tabstop 2 number true relativenumber true wrap
-     true clipboard :unnamedplus list true listchars
-     "tab: ·,trail:×,nbsp:%,eol:·,extends:»,precedes:«" secure true window
-     53 splitbelow true splitright true colorcolumn :80 cursorline true omnifunc
-     "v:lua.vim.lsp.omnifunc" guifont (.. "monospace:h" (if is.macos 11 10))
-     laststatus 3 showmode false spell true spelllang :en signcolumn :yes)
+;; fnlfmt: skip
+(opt
+  autoread true
+  fileencoding :UTF-8
+  mouse :a
+  smartindent true
+  swapfile false
+  undofile false
+  timeoutlen 300
+  pumheight 10
+  backup false
+  writebackup false
+  expandtab true
+  shiftwidth 2
+  tabstop 2
+  number true
+  relativenumber true
+  wrap true
+  clipboard :unnamedplus
+  list true
+  listchars "tab: ·,trail:×,nbsp:%,eol:·,extends:»,precedes:«"
+  secure true
+  window 53
+  splitbelow true
+  splitright true
+  colorcolumn :80
+  cursorline true
+  omnifunc "v:lua.vim.lsp.omnifunc"
+  guifont (.. "monospace:h" (if is.macos 11 10))
+  laststatus 3
+  showmode false
+  spell true
+  spelllang :en
+  signcolumn :yes)
 
 (set vim.g.neovide_cursor_vfx_mode :torpedo)
 
 (set vim.g.himalaya_mailbox_picker :telescope)
 (set vim.g.himalaya_telescope_preview_enabled true)
 
+;; fnlfmt: skip
 (when is.windows
-  (opt shell :powershell shellcmdflag
-       "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;"
-       shellredir "2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode"
-       shellpipe "2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode"
-       shellquote "" shellxquote ""))
+  (opt
+    shell :powershell
+    shellcmdflag "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;"
+    shellredir "2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode"
+    shellpipe "2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode"
+    shellquote ""
+    shellxquote ""))
 
 (when (has :termguicolors) (opt termguicolors true))
 (when (has :nvim-0.9.0)
