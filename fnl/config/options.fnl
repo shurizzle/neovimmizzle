@@ -41,7 +41,8 @@
   showmode false
   spell true
   spelllang :en
-  signcolumn :yes)
+  signcolumn :yes
+  ignorecase true)
 
 (set vim.g.neovide_cursor_vfx_mode :torpedo)
 
