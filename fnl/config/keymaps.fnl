@@ -78,7 +78,7 @@
                        ; Paste replace visual selection without copying it
                        :<leader>p ["\"_dP" "Replace visual selection"]
                        ; Search for text in visual selection
-                       :* ["\"zy/\\<\\V<C-r>=escape(@z, '/\\')<CR>\\><CR>"
+                       :* ["\"zy/\\C\\<\\V<C-r>=escape(@z, '/\\')<CR>\\><CR>"
                            "Search for selected text"]
                        :<leader>ca [lsp-code-action
                                     "Show available code actions"]})]
