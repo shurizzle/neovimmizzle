@@ -67,6 +67,34 @@
     (kset :n :<leader>c/ toggle-normal
           {:silent true :noremap true :desc "Toggle comments"})))
 
+(fn search-word* [char word]
+  ;; TODO: escape control characters
+  (vim.api.nvim_exec2 (.. char "\\C\\<\\V" (vim.fn.escape word "/\\") "\\>") []))
+
+(fn search-word-under-cursor* [char]
+  (search-word* char (vim.fn.expand :<cword>)))
+
+(fn get-visual-selection []
+  (vim.api.nvim_feedkeys (vim.api.nvim_replace_termcodes :<ESC> true false true)
+                         :nx false)
+  (let [s-start (vim.fn.getpos "'<")
+        s-end (vim.fn.getpos "'>")
+        n-lines (math.abs (inc (- (. s-end 2) (. s-start 2))))
+        lines (vim.api.nvim_buf_get_lines 0 (dec (. s-start 2)) (. s-end 2)
+                                          false)]
+    (tset lines 1 (string.sub (. lines 1) (. s-start 3) -1))
+    (if (= 1 n-lines)
+        (tset lines n-lines
+              (string.sub (. lines n-lines) 1
+                          (inc (- (. s-end 3) (. s-start 3)))))
+        (tset lines n-lines (string.sub (. lines n-lines) 1 (. s-end 3))))
+    (table.concat lines "\n")))
+
+(fn search-word-selection* [char]
+  (let [sel (get-visual-selection)]
+    (inspect sel)
+    (search-word* char sel)))
+
 (each [k [f d] (pairs {; Reselect visual selection after indenting
                        :< [:<gv "Indent back"]
                        :> [:>gv :Indent]
@@ -77,8 +105,10 @@
                        ; Paste replace visual selection without copying it
                        :<leader>p ["\"_dP" "Replace visual selection"]
                        ; Search for text in visual selection
-                       :* ["\"zy/\\C\\<\\V<C-r>=escape(@z, '/\\')<CR>\\><CR>"
-                           "Search for selected text"]
+                       :* [(partial search-word-selection* "/")
+                           "Search forward for selected text"]
+                       "#" [(partial search-word-selection* "?")
+                            "Search backward for selected text"]
                        :<leader>ca [lsp-code-action
                                     "Show available code actions"]})]
   (kset :v k f {:silent true :noremap true :desc d}))
@@ -155,6 +185,10 @@
                        :<leader>s [switch-case
                                    "Switch case of under-cursor word"]
                        :K [show-doc "Show under-cursor help"]
+                       :* [(partial search-word-under-cursor* "/")
+                           "Search forward for selected text"]
+                       "#" [(partial search-word-under-cursor* "?")
+                            "Search backward for selected text"]
                        "[c" [vim.diagnostic.goto_prev
                              "Go to previous diagnostic"]
                        "]c" [vim.diagnostic.goto_next "Go to next diagnostic"]
