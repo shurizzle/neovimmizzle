@@ -323,7 +323,8 @@
                 :opts {:enable_autocmd false :config {:fennel ";; %s"}})
 
   (use-package! :numToStr/Comment.nvim
-                :name :comment)
+                :name :comment
+                :enabled (not (has :nvim-0.10)))
 
   (use-package! :windwp/nvim-ts-autotag
                 :deps :treesitter
