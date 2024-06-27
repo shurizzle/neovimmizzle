@@ -38,6 +38,7 @@
 
 (fn copy [v]
   (icollect [_ v (ipairs v)] v))
+
 (fn merge! [a b]
   (each [_ v (ipairs b)]
     (table.insert a v))
@@ -131,4 +132,10 @@
        ,mod
        ,mod-sym)))
 
-{: inc! : dec! : autoload : lazy-var : lazy-let : module}
+(fn matches [v cond]
+  `(match ,v
+     (where ,cond) true
+     _# false))
+
+{: inc! : dec! : autoload : lazy-var : lazy-let : module : matches}
+

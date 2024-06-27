@@ -46,5 +46,13 @@
                                                     (: :gsub "(%S)%%s" "%1 %%s")
                                                     (: :gsub "%%s(%S)" "%%s %1"))))})
 
+(vim.api.nvim_create_autocmd :FileType
+                             {:pattern :rust
+                              :callback (fn [{: buf}]
+                                          (tset (. vim.b buf) :rustfmt_autosave
+                                                false))})
+
+(set vim.g.rustfmt_autosave false)
+
 nil
 
