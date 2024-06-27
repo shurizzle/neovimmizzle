@@ -60,7 +60,6 @@
             col-to (vim.fn.col "'>")]
         (when (not (or (> lnum-from lnum-to)
                        (and (= lnum-from lnum-to) (> col-from col-to))))
-          (vim.notify (.. lnum-from ":" lnum-to))
           (toggle_lines lnum-from lnum-to (vim.api.nvim_win_get_cursor 0)))))
 
     (kset :x :<leader>c/ toggle-visual
