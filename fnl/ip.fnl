@@ -72,22 +72,22 @@
                   rest (nil-if-empty (str:sub len))
                   acc (if ?collected ?collected [])]
               (table.insert acc piece)
-              (if str
-                  (parse-bits rest acc)
+              (if rest
+                  (tail! (parse-bits rest acc))
                   acc)))))))
 
 (fn parse6 [str]
   (vim.validate {:str [str :s]})
-  (var str (convert-ipv4 str))
+  (local str (convert-ipv4 str))
   (when str
-    (let [(head0 tail0) (let [(i j) (str:find "::")]
-                          (if i
-                              (values (nil-if-empty (if (= i 1) ""
-                                                        (str:sub 0 (- i 1))))
-                                      (nil-if-empty (str:sub (+ j 1))))
-                              (values str nil)))
-          head (if head0 (parse-bits head0) [])
-          tail (if tail0 (parse-bits tail0) [])]
+    (let [(head tail) (let [(i j) (str:find "::")]
+                        (if i
+                            (values (nil-if-empty (if (= i 1) ""
+                                                      (str:sub 0 (- i 1))))
+                                    (nil-if-empty (str:sub (+ j 1))))
+                            (values str nil)))
+          head (if head (parse-bits head) [])
+          tail (if tail (parse-bits tail) [])]
       (when (and head tail)
         (for [_ 1 (- 8 (+ (length head) (length tail)))]
           (table.insert head 0))
@@ -102,3 +102,4 @@
     other other))
 
 {: parse4 : parse6 : parse}
+

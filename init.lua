@@ -3,7 +3,9 @@
  do local fns local function _32_(what) return print(vim.inspect(what)) end
  local function _33_(what) return (vim.fn.has(what) ~= 0) end
  local function _34_(what) return (vim.fn.executable(what) ~= 0) end
- local function _35_(t) local function _36_(_241, _242) return t[_242] end
+ local function _35_(t)
+
+ local function _36_(_241, _242) return t[_242] end
  local function _37_() return nil end return setmetatable({}, {__index = _36_, __newindex = _37_}) end fns = {inspect = _32_, has = _33_, executable = _34_, ["readonly-table"] = _35_}
  local _let_38_ = require("fennel.compiler") local global_mangling = _let_38_["global-mangling"]
  for name, f in pairs(require("config.stdlib")) do
@@ -22,4 +24,5 @@
 
 
  local function _39_() return require("config.lang").config() end vim.api.nvim_create_autocmd("User", {pattern = "LazyDone", callback = _39_})
+
  return require("config.plugins")
