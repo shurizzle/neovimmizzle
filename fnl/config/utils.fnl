@@ -110,5 +110,19 @@
                       true)
                  cfg)))))))
 
+(vim.api.nvim_create_user_command :EnableInlayHints
+                                  #(vim.lsp.inlay_hint.enable true) [])
+
+(vim.api.nvim_create_user_command :DisableInlayHints
+                                  #(vim.lsp.inlay_hint.enable false) [])
+
+(vim.api.nvim_create_user_command :BufEnableInlayHints
+                                  #(vim.lsp.inlay_hint.enable true {:bufnr 0})
+                                  [])
+
+(vim.api.nvim_create_user_command :BufDisableInlayHints
+                                  #(vim.lsp.inlay_hint.enable false {:bufnr 0})
+                                  [])
+
 nil
 
