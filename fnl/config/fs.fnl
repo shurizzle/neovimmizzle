@@ -1,4 +1,4 @@
-(autoload [uv :luv])
+(local uv (require :luv))
 
 (fn map-scandir [fs ...]
   (if fs
@@ -55,3 +55,4 @@
             (uv.fs_access path mode)))))
 
 {: scandir : stat : access}
+

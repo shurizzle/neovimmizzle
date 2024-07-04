@@ -1,4 +1,4 @@
-(autoload [{: bin-or-install : conform} :config.lang.util])
+(local {: bin-or-install : conform} (require :config.lang.util))
 
 (local rules "@PSR12,ordered_imports,no_unused_imports")
 

@@ -1,9 +1,6 @@
-(autoload [{: bin-or-install}
-           :config.lang.util
-           {:load lazy-load}
-           :lazy.core.loader
-           lspconfig
-           :lspconfig])
+(local {: bin-or-install} (require :config.lang.util))
+(local {:load lazy-load} (require :lazy.core.loader))
+(local lspconfig (require :lspconfig))
 
 (fn config [bin]
   (lazy-load :neodev.nvim [])

@@ -46,7 +46,7 @@
         (set self.data data) true)))
 
 (var internal-states [])
-(autoload [{: ensure-bufnr} :config.winbar.util])
+(local {: ensure-bufnr} (require :config.winbar.util))
 
 (fn get [bufnr] (. internal-states (ensure-bufnr bufnr)))
 

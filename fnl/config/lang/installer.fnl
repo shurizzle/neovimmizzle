@@ -1,5 +1,3 @@
-(autoload [mr :mason-registry])
-
 (local *installers* [])
 
 (fn default-timeout []
@@ -64,7 +62,8 @@
         (try-upgrade p)
         (do-install p nil cb)))
 
-  (let [p (mr.get_package what)]
+  (let [mr (require :mason-registry)
+        p (mr.get_package what)]
     (local (ok err) (pcall try-install p))
     (when (not ok)
       (notify* (if (string? err) err (vim.inspect err)) vim.log.levels.ERROR

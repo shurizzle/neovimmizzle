@@ -1,15 +1,15 @@
-(autoload [dapui :dapui windows :dapui.windows sidebar :config.sidebar])
-
 (var *vertical-wins* [])
 (var *sb* nil)
 
 (fn is-open []
+(local windows (require :dapui.windows))
   (each [_ w (ipairs windows.layouts)]
     (when (w:is_open)
       (lua "return true")))
   false)
 
 (fn get-vertical-windows []
+(local windows (require :dapui.windows))
   (var ws [])
   (each [_ l (ipairs windows.layouts)]
     (when (and (= l.layout_type :vertical) (l:is_open))
@@ -18,6 +18,10 @@
   ws)
 
 (fn config []
+  (local dapui (require :dapui))
+  (local windows (require :dapui.windows))
+  (local sidebar (require :config.sidebar))
+
   (fn on-close []
     (when (and *sb* *sb*.close)
       (let [close *sb*.close]
@@ -76,6 +80,7 @@
   (dapui.setup))
 
 (fn init []
+  (local dapui (require :dapui))
   (vim.keymap.set :n :<space>d dapui.toggle
                   {:silent true :noremap true :desc "Toggle dapui"}))
 

@@ -27,10 +27,8 @@
                                     :TypeParameter 26}))
 
 (local SymbolTag {:Deprecated 1})
-(autoload [{: ensure-bufnr}
-           :config.winbar.util
-           {: get}
-           :config.winbar.lsp.state])
+(local {: ensure-bufnr} (require :config.winbar.util))
+(local {: get} (require :config.winbar.lsp.state))
 
 (local METHOD :textDocument/documentSymbol)
 

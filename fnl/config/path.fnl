@@ -1,7 +1,7 @@
 (macro filename [x]
   (. x :filename))
 
-(autoload [{: is} :config.platform])
+(local {: is} (require :config.platform))
 (local dir-sep (if is.win "\\" "/"))
 
 (var path {: dir-sep

@@ -87,7 +87,7 @@
   (each [_ [bind lib] (chunks2 bindings)]
     (each [_ x (ipairs (transform bind lib))]
       (table.insert res x)))
-  res)
+  (list `eval (unpack res)))
 
 (fn autoload-transform [bind lib]
   (transform bind `(require ,lib)))

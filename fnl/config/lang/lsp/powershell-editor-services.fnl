@@ -1,4 +1,5 @@
-(autoload [lspconfig :lspconfig installer :config.lang.installer])
+(local lspconfig (require :lspconfig))
+(local installer (require :config.lang.installer))
 
 (fn config [path]
   (local opts [])

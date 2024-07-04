@@ -1,11 +1,7 @@
-(autoload [{:join path-join}
-           :config.path
-           installer
-           :config.lang.installer
-           {: bin-or-install}
-           :config.lang.util
-           lspconfig
-           :lspconfig])
+(local {:join path-join} (require :config.path))
+(local installer (require :config.lang.installer))
+(local {: bin-or-install} (require :config.lang.util))
+(local lspconfig (require :lspconfig))
 
 (fn config [bin fmt]
   (local opts [])

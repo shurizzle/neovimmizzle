@@ -1,4 +1,4 @@
-(autoload [{: is} :config.platform])
+(local {: is} (require :config.platform))
 
 (when (has :nvim-0.10.0)
   (vim.lsp.inlay_hint.enable))

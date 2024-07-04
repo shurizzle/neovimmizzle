@@ -1,4 +1,4 @@
-(autoload [lspconfig :lspconfig])
+(local lspconfig (require :lspconfig))
 
 (fn [cb]
   (lspconfig.fennel_ls.setup [])

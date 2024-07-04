@@ -1,4 +1,5 @@
-(autoload [lspconfig :lspconfig util :lspconfig.util])
+(local lspconfig (require :lspconfig))
+(local util (require :lspconfig.util))
 
 (fn register []
   (local root_dir "root_pattern(\"main.roc\", \".git\")")

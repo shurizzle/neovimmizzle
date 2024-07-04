@@ -1,17 +1,12 @@
-(autoload [tools
-           :dbee.layouts.tools
-           common
-           :dbee.ui.common
-           dbee
-           :dbee
-           api_ui
-           :dbee.api.ui
-           sidebar
-           :config.sidebar])
-
 (var *sb* nil)
 
 (fn config []
+  (local tools (require :dbee.layouts.tools))
+  (local common (require :dbee.ui.common))
+  (local dbee (require :dbee))
+  (local api_ui (require :dbee.api.ui))
+  (local sidebar (require :config.sidebar))
+
   (local augroup (vim.api.nvim_create_augroup :dbee-layout {:clear true}))
   (var open? false)
 

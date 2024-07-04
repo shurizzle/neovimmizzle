@@ -1,4 +1,5 @@
-(autoload [{:join path-join} :config.path installer :config.lang.installer])
+(local {:join path-join} (require :config.path))
+(local installer (require :config.lang.installer))
 
 (fn config []
   ((. (require :typescript-tools) :setup) [])

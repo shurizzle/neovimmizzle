@@ -1,4 +1,4 @@
-(autoload [lspconfig :lspconfig])
+(local lspconfig (require :lspconfig))
 
 (fn [cb]
   (lspconfig.ruby_ls.setup {:cmd [:bundle :exec :ruby-lsp]

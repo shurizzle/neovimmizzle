@@ -1,9 +1,6 @@
-(autoload [{: ensure-bufnr : buf-is-visible}
-           :config.winbar.util
-           {: get : get-or-create : delete}
-           :config.winbar.lsp.state
-           {:request send-request}
-           :config.winbar.lsp.transport])
+(local {: ensure-bufnr : buf-is-visible} (require :config.winbar.util))
+(local {: get : get-or-create : delete} (require :config.winbar.lsp.state))
+(local {:request send-request} (require :config.winbar.lsp.transport))
 
 (var request nil)
 (var augroup nil)

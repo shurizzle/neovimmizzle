@@ -1,13 +1,5 @@
-(autoload [{: bin-or-install : callback-memoize}
-           :config.lang.util
-           {:join path-join}
-           :config.path
-           {: is}
-           :config.platform
-           installer
-           :config.lang.installer
-           {: mason-get : bin-in-dir}
-           :config.lang.util])
+(local {: is} (require :config.platform))
+(local {:join path-join} (require :config.path))
 
 (var *installer* nil)
 
@@ -65,10 +57,11 @@
                            (check-rust-analyzer))]
     (if rust-analyzer
         rust-analyzer
-        (-?> (get-sysroot-path)
-             (path-join :bin)
-             (bin-in-dir :rust-analyzer)
-             (check-rust-analyzer)))))
+        (let [{: mason-get : bin-in-dir} (require :config.lang.util)]
+          (-?> (get-sysroot-path)
+                 (path-join :bin)
+                 (bin-in-dir :rust-analyzer)
+                 (check-rust-analyzer))))))
 
 (fn resolve-local [?cb]
   (vim.validate {:?cb [?cb :f true]})
@@ -83,7 +76,8 @@
   (resolve-local (fn [_ bin]
                    (if bin
                        (cb bin)
-                       (mason-get :rust-analyzer cb)))))
+                       (let [{: mason-get} (require :config.lang.util)]
+                         (mason-get :rust-analyzer cb))))))
 
 (fn install [cb]
   (var rust-analyzer nil)
@@ -100,6 +94,7 @@
   (get-rust-analyzer (fn [bin]
                        (set rust-analyzer [bin])
                        (conf)))
+  (local installer (require :config.lang.installer))
   (installer.get :codelldb (fn [_ p]
                              (set adapter p)
                              (conf))))
@@ -107,7 +102,8 @@
 (fn installer []
   (if *installer*
       *installer*
-      (let [inst (callback-memoize install)]
+      (let [{: callback-memoize} (require :config.lang.util)
+            inst (callback-memoize install)]
         (set *installer* inst)
         inst)))
 

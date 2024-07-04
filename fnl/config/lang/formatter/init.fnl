@@ -1,4 +1,4 @@
-(autoload [{: callback-memoize} :config.lang.util])
+(local {: callback-memoize} (require :config.lang.util))
 
 (local *installers* [])
 

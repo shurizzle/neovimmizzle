@@ -1,4 +1,4 @@
-(autoload [{: lint} :config.lang.util])
+(local {: lint} (require :config.lang.util))
 
 (fn register []
   (local lint (require :lint))

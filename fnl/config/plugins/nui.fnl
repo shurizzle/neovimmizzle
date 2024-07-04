@@ -1,5 +1,3 @@
-(autoload [Input :nui.input {: event} :nui.utils.autocmd])
-
 (fn get-prompt-text [prompt default-prompt]
   (let [prompt-text (or prompt default-prompt)]
     (if (= ":" (prompt-text:sub -1))
@@ -7,6 +5,7 @@
         prompt-text)))
 
 (fn override-ui-input []
+  (local Input (require :nui.input))
   (local ui-input (Input:extend :UIInput))
 
   (fn init [self opts on-done]
@@ -24,6 +23,7 @@
                          {:default_value default-value
                           :on_close #(on-done nil)
                           :on_submit #(on-done $1)})
+    (local {: event} (require :nui.utils.autocmd))
     (self:on event.BufLeave #(on-done nil) {:once true})
     (self:map :n :<Esc> #(on-done nil) {:noremap true :nowait true}))
 

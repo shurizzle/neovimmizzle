@@ -1,4 +1,5 @@
-(autoload [{: bin-or-install} :config.lang.util lspconfig :lspconfig])
+(local {: bin-or-install} (require :config.lang.util))
+(local lspconfig (require :lspconfig))
 
 (fn config [bin]
   (local opts

@@ -1,4 +1,4 @@
-(autoload [{: conform} :config.lang.util])
+(local {: conform} (require :config.lang.util))
 
 (fn register [bin]
   (local conform (require :conform))

@@ -1,15 +1,7 @@
-(autoload [{:bin_prefix mason-bin-prefix}
-           :mason-core.path
-           {:join path-join}
-           :config.path
-           {: access : scandir : stat}
-           :config.fs
-           installer
-           :config.lang.installer
-           {: split : filter : filter-map}
-           :config.iter
-           {: is}
-           :config.platform])
+(local {:join path-join} (require :config.path))
+(local {: access : scandir : stat} (require :config.fs))
+(local {: split : filter : filter-map} (require :config.iter))
+(local {: is} (require :config.platform))
 
 (fn callback-memoize [generator]
   (local state {:callbacks []})
@@ -88,6 +80,7 @@
 
 (fn mason-bin [file]
   (vim.validate {:file [file :s true]})
+  (local {:bin_prefix mason-bin-prefix} (require :mason-core.path))
   (if file
       (bin-in-dir (path-join (mason-bin-prefix) file))
       (mason-bin-prefix)))
@@ -100,9 +93,10 @@
                  :?bin-name [?bin-name* :s true]
                  :cb [cb* :f]})
   (local bin-name (or ?bin-name* package-name))
-  (installer.get package-name
-                 (fn [err]
-                   (cb* (when (not err) (mason-bin bin-name))))))
+  (let [installer (require :config.lang.installer)]
+    (installer.get package-name
+                   (fn [err]
+                     (cb* (when (not err) (mason-bin bin-name)))))))
 
 (fn bin-or-install [bins ?package-name ?bin-name cb]
   (var package-name ?package-name)

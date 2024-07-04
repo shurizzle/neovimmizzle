@@ -1,17 +1,10 @@
-(autoload [{: scandir : stat}
-           :config.fs
-           {:join join-paths}
-           :config.path
-           {: get_other_matching_providers}
-           :lspconfig.util
-           lsp
-           :config.lang.lsp
-           formatter
-           :config.lang.formatter
-           linter
-           :config.lang.linter
-           {: callback-memoize}
-           :config.lang.util])
+(local {: scandir : stat} (require :config.fs))
+(local {:join join-paths} (require :config.path))
+(local {: get_other_matching_providers} (require :lspconfig.util))
+(local lsp (require :config.lang.lsp))
+(local formatter (require :config.lang.formatter))
+(local linter (require :config.lang.linter))
+(local {: callback-memoize} (require :config.lang.util))
 
 (fn require-lang [name]
   (vim.validate {:name [name :s]})

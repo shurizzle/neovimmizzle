@@ -1,4 +1,4 @@
-(autoload [{: global-mangling} :fennel.compiler])
+(local {: global-mangling} (require :fennel.compiler))
 (fn global-set [name what]
   (tset _G name what)
   (tset _G (global-mangling name) what))

@@ -1,6 +1,6 @@
 (var states [])
 (var cache [])
-(autoload [{: ensure-winnr : stl-escape} :config.winbar.util])
+(local {: ensure-winnr : stl-escape} (require :config.winbar.util))
 
 (fn fire-event [winid]
   (tset cache winid nil)
@@ -164,7 +164,7 @@
 (fn jump [i _ mouse]
   (when (not= :l mouse)
     (local winid (ensure-winnr 0))
-    (local symbol (.? (get winid) i))
+    (local symbol (?. (get winid) i))
     (when symbol
       (vim.api.nvim_win_set_cursor winid
                                    [(inc symbol.range.start.line)

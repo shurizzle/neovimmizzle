@@ -1,7 +1,5 @@
-(autoload [{: ensure-winnr : buf-get-windows : stl-escape}
-           :config.winbar.util
-           {: is}
-           :config.platform])
+(local {: ensure-winnr : buf-get-windows : stl-escape} (require :config.winbar.util))
+(local {: is} (require :config.platform))
 
 (local excluded-buftypes [:nofile :help])
 

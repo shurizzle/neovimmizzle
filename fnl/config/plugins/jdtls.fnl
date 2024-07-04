@@ -1,4 +1,4 @@
-(autoload [{: bin-or-install : callback-memoize} :config.lang.util])
+(local {: bin-or-install : callback-memoize} (require :config.lang.util))
 
 (local *config* [])
 (var *installer* nil)
