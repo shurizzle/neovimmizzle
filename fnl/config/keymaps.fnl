@@ -1,6 +1,7 @@
 (set vim.g.mapleader ",")
 (set vim.g.maplocalleader ",")
 (local {:set kset} vim.keymap)
+(local {: is} (require :config.platform))
 
 (kset :n "<leader>," "," {:noremap true :silent true})
 
@@ -198,6 +199,18 @@
                        :ZQ [:<cmd>BufferClose!<CR>
                             "Close current buffer without saving"]})]
   (kset :n k f {:silent true :noremap true :desc d}))
+
+;; simlate my tmux behaviour
+(when (and (not is.tmux) (= 0 (vim.fn.exists :$NVIM)))
+  (each [k [f d] (pairs {:<C-a><C-l> [:<CMD>tabnext<CR> "Go to next tab"]
+                         :<C-a><C-h> [:<CMD>tabprevious<CR> "Go to prev tab"]
+                         :<C-a>c ["<CMD>tab term<CR>"
+                                  "Open a term in a new tab"]
+                         :<C-a>k [:<CMD>tabclose<CR> "Close current tab"]
+                         :<C-a><C-a> [:<C-a>]
+                         :<C-a> [:<Nop>]})]
+    (kset :n k f {:silent true :noremap true :desc d})
+    (kset :t k f {:silent true :noremap true :desc d})))
 
 (each [k [f d] (pairs {:<C-h> ["<cmd>wincmd h<CR>"]
                        :<C-j> ["<cmd>wincmd j<CR>"]

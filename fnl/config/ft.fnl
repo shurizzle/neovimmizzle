@@ -52,6 +52,9 @@
                                           (tset (. vim.b buf) :rustfmt_autosave
                                                 false))})
 
+(vim.api.nvim_create_autocmd :TermOpen
+                             {:command "setlocal nonumber norelativenumber"})
+
 (set vim.g.rustfmt_autosave false)
 
 nil
