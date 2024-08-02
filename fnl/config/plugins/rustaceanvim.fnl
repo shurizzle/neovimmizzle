@@ -59,9 +59,9 @@
         rust-analyzer
         (let [{: mason-get : bin-in-dir} (require :config.lang.util)]
           (-?> (get-sysroot-path)
-                 (path-join :bin)
-                 (bin-in-dir :rust-analyzer)
-                 (check-rust-analyzer))))))
+               (path-join :bin)
+               (bin-in-dir :rust-analyzer)
+               (check-rust-analyzer))))))
 
 (fn resolve-local [?cb]
   (vim.validate {:?cb [?cb :f true]})
@@ -113,4 +113,5 @@
 (fn init []
   (vim.api.nvim_create_autocmd :FileType {:pattern :rust : callback}))
 
-{:lazy true :version :^4 :deps [:dap :akinsho/toggleterm.nvim] : init}
+{:lazy true :version :^5 :deps [:dap :akinsho/toggleterm.nvim] : init}
+
