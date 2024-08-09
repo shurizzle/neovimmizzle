@@ -1,5 +1,6 @@
 (local {: ensure-bufnr : buf-is-visible} (require :config.winbar.util))
-(local {: get : get-or-create : delete} (require :config.winbar.lsp.state))
+(local {: get : get-or-create :delete *delete}
+       (require :config.winbar.lsp.state))
 (local {:request send-request} (require :config.winbar.lsp.transport))
 
 (var request nil)
@@ -7,10 +8,10 @@
 
 (fn fire-event [?bufnr]
   (local bufnr (ensure-bufnr ?bufnr))
-  (vim.api.nvim_buf_call bufnr
-                         (fn []
-                           (vim.api.nvim_exec_autocmds :User
-                                                       {:pattern :NewDocumentSymbols}))))
+  (pcall #(vim.api.nvim_buf_call bufnr
+                                 #(vim.api.nvim_exec_autocmds :User
+                                                              {:pattern :NewDocumentSymbols})))
+  nil)
 
 (fn handler [changedtick err data info]
   (var defer 0)
@@ -68,7 +69,7 @@
     (set state.data nil)
     (set state.changedtick 0)
     (set state.requesting false)
-    (delete bufnr))
+    (*delete bufnr))
   false)
 
 (fn detach [client ?bufnr]
@@ -140,3 +141,4 @@
 (fn get-data [bufnr] (-?> (get bufnr) (. :data)))
 
 {: setup : get-data}
+
