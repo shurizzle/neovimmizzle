@@ -29,6 +29,7 @@
             :obsd (= os :openbsd)
             :ssh (not= nil ssh-remote)
             :tmux (not= 0 (vim.fn.exists :$TMUX))
+            :wezterm (not= 0 (vim.fn.exists :$WEZTERM_UNIX_SOCKET))
             :headless (vim.tbl_isempty (vim.api.nvim_list_uis))
             :termux (not= nil vim.env.TERMUX_APP_PID)
             :unknown (= os :unknown)})
