@@ -1,3 +1,6 @@
+(local min :0.8)
+(local max :0.10)
+
 (fn format [args]
   (local range
          (when (not= -1 args.count)
@@ -47,5 +50,9 @@
  :cmd [:ConformInfo]
  : init
  :main :conform
- :opts {:formatters_by_ft {:_ [:trim_whitespace]} : format_on_save}}
+ :opts {:formatters_by_ft {:_ [:trim_whitespace]} : format_on_save}
+ :enabled (has (.. :nvim- min))
+ :branch (when (not (has (.. :nvim- max)))
+           (let [{: major : minor} (vim.version)]
+             (.. :nvim- major "." minor)))}
 
