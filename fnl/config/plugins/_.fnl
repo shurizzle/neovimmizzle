@@ -144,12 +144,24 @@
                 :enabled (not (has :nvim-0.10.0))
                 :main :lsp-inlayhints
                 :opts []
-                :init (fn []
-                        (fn callback [opts]
+                :init #((fn callback [opts]
                           (-?> (vim.lsp.get_client_by_id opts.data.client_id)
                                ((. (require :lsp-inlayhints) :on_attach)
                                 opts.buf false)))
                         (vim.api.nvim_create_autocmd :LspAttach {: callback})))
+
+  (use-package! :chrisgrieser/nvim-lsp-endhints
+                :lazy true
+                :cmd [:EnableEndInlayHints :DisableEndInlayHints]
+                :enabled (has :nvim-0.10.0)
+                :init #(let [callback #(do (require :lsp-endhints) nil)]
+                        (vim.api.nvim_create_autocmd :LspAttach {: callback}))
+                :config #(let [h (require :lsp-endhints)]
+                          (vim.api.nvim_create_user_command :EnableEndInlayHints
+                                                            h.enable [])
+                          (vim.api.nvim_create_user_command :DisableEndInlayHints
+                                                            h.disable [])
+                          (h.setup {:autoEnableHints false})))
 
   (use-package! :RRethy/vim-illuminate
                 :lazy true
