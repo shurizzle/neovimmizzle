@@ -1,9 +1,8 @@
-(local {:join path-join} (require :config.path))
 (local installer (require :config.lang.installer))
 
 (fn config []
   ((. (require :typescript-tools) :setup) [])
-  (. (require :lspconfig) :tsserver))
+  (. (require :lspconfig) :ts_ls))
 
 (fn [cb]
   (let [tsserver (exepath :tsserver)]
@@ -14,3 +13,4 @@
                          (if (and (not err) p)
                              (cb (config))
                              (cb (config))))))))
+
