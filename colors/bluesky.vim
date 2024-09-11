@@ -103,18 +103,18 @@ highlight FoldColumn guifg=#82BCFE guibg=NONE guisp=NONE blend=NONE gui=italic
 highlight Folded guifg=#82BCFE guibg=NONE guisp=NONE blend=NONE gui=italic
 highlight Function guifg=#EEEEEE guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight GitSignsAdd guifg=#169C51 guibg=NONE guisp=NONE blend=NONE gui=NONE
-highlight GitSignsAddLn guifg=#169C51 guibg=#282828 guisp=NONE blend=NONE gui=NONE
-highlight GitSignsAddNr guifg=#169C51 guibg=#282828 guisp=NONE blend=NONE gui=NONE
+highlight GitSignsAddLn guifg=#169C51 guibg=NONE guisp=NONE blend=NONE gui=NONE
+highlight GitSignsAddNr guifg=#169C51 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight GitSignsChange guifg=#FFE300 guibg=NONE guisp=NONE blend=NONE gui=NONE
-highlight GitSignsChangeLn guifg=#FFE300 guibg=#282828 guisp=NONE blend=NONE gui=NONE
-highlight GitSignsChangeNr guifg=#FFE300 guibg=#282828 guisp=NONE blend=NONE gui=NONE
+highlight GitSignsChangeLn guifg=#FFE300 guibg=NONE guisp=NONE blend=NONE gui=NONE
+highlight GitSignsChangeNr guifg=#FFE300 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight GitSignsDelete guifg=#C8213D guibg=NONE guisp=NONE blend=NONE gui=NONE
-highlight GitSignsDeleteLn guifg=#C8213D guibg=#282828 guisp=NONE blend=NONE gui=NONE
-highlight GitSignsDeleteNr guifg=#C8213D guibg=#282828 guisp=NONE blend=NONE gui=NONE
+highlight GitSignsDeleteLn guifg=#C8213D guibg=NONE guisp=NONE blend=NONE gui=NONE
+highlight GitSignsDeleteNr guifg=#C8213D guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight IblIndent guifg=#2E2E2E guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight IblScope guifg=#EEEEEE guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight Identifier guifg=#EEEEEE guibg=NONE guisp=NONE blend=NONE gui=NONE
-highlight Ignore guifg=#282828 guibg=#282828 guisp=NONE blend=NONE gui=NONE
+highlight Ignore guifg=#282828 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight IlluminatedWordText guifg=NONE guibg=NONE guisp=NONE blend=NONE gui=underline
 highlight IncSearch guifg=#282828 guibg=#FFE300 guisp=NONE blend=NONE gui=NONE
 highlight Include guifg=#2F90FE guibg=NONE guisp=NONE blend=NONE gui=italic
@@ -127,7 +127,7 @@ highlight MatchParen guifg=#FFE300 guibg=NONE guisp=NONE blend=NONE gui=bold
 highlight ModeMsg guifg=#2F90FE guibg=NONE guisp=NONE blend=NONE gui=bold
 highlight MoreMsg guifg=NONE guibg=NONE guisp=NONE blend=NONE gui=bold
 highlight NonText guifg=#535353 guibg=NONE guisp=NONE blend=NONE gui=NONE
-highlight Normal guifg=#EEEEEE guibg=#282828 guisp=NONE blend=NONE gui=NONE
+highlight Normal guifg=#EEEEEE guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight! link NormalFloat Normal
 highlight! link NormalNC Normal
 highlight! link Number String
@@ -162,7 +162,7 @@ highlight SpellLocal guifg=#EEEEEE guibg=#C8213D guisp=NONE blend=NONE gui=NONE
 highlight SpellRare guifg=#EEEEEE guibg=#C8213D guisp=NONE blend=NONE gui=NONE
 highlight Statement guifg=#2F90FE guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight StatusLine guifg=#EEEEEE guibg=#242424 guisp=NONE blend=NONE gui=NONE
-highlight StatusLineNC guifg=#EEEEEE guibg=#282828 guisp=NONE blend=NONE gui=NONE
+highlight StatusLineNC guifg=#EEEEEE guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight StorageClass guifg=#2F90FE guibg=NONE guisp=NONE blend=NONE gui=italic
 highlight String guifg=#82BCFE guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight Structure guifg=#2F90FE guibg=NONE guisp=NONE blend=NONE gui=italic
@@ -179,7 +179,7 @@ highlight Todo guifg=#282828 guibg=#FFE300 guisp=NONE blend=NONE gui=bold
 highlight Type guifg=#2F90FE guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight! link Typedef Type
 highlight Underlined guifg=NONE guibg=NONE guisp=NONE blend=NONE gui=underline
-highlight VertSplit guifg=#EEEEEE guibg=#282828 guisp=NONE blend=NONE gui=NONE
+highlight VertSplit guifg=#EEEEEE guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight Visual guifg=#282828 guibg=#82BCFE guisp=NONE blend=NONE gui=NONE
 highlight! link VisualNOS Visual
 highlight WarningMsg guifg=#C8213D guibg=NONE guisp=NONE blend=NONE gui=NONE

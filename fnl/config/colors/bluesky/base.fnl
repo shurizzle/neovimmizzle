@@ -3,7 +3,7 @@
 
 ;; fnlfmt: skip
 (blush
-  (Normal :fg cp.white :bg cp.black)
+  (Normal :fg cp.white)
   (NormalFloat Normal)
   (NormalNC Normal)
   (WinBar Normal)
@@ -25,7 +25,7 @@
   (TermCursor +reverse)
   (TermCursorNC)
   (ErrorMsg :fg cp.white :bg cp.red)
-  (VertSplit :fg cp.white :bg cp.black)
+  (VertSplit :fg cp.white)
   (Folded :fg cp.almostwhite +italic)
   (FoldColumn :fg cp.almostwhite +italic)
   (SignColumn :fg cp.grey)
@@ -56,7 +56,7 @@
   (SpellRare :fg cp.white :bg cp.red)
   ;; Word that is recognized by the spellchecker as one that is hardly ever used.  |spell| Combined with the highlighting used otherwise.
   (StatusLine :fg cp.white :bg cp.blacker)
-  (StatusLineNC :fg cp.white :bg cp.black)
+  (StatusLineNC :fg cp.white)
   ;; (TabLine) ;; tab pages line, not active tab page label
   ;; (TabLineFill) ;; tab pages line, where there are no labels
   ;; (TabLineSel) ;; tab pages line, active tab page label
@@ -104,7 +104,7 @@
   (Underlined +underline)
   (Bold +bold)
   (Italic +italic)
-  (Ignore :fg cp.black :bg cp.black)
+  (Ignore :fg cp.black)
   (Error :fg cp.black :bg cp.red +bold)
   (Todo :fg cp.black :bg cp.yellow +bold)
   ;; (preferred) anything that needs extra attention; mostly the keywords TODO FIXME and XXX
