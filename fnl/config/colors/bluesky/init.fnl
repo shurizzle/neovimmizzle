@@ -9,9 +9,11 @@
                 :treesitter
                 :illuminate
                 :breadcrumbs
-                :prolog]]
+                :prolog
+                :notify]]
   (compile (merge (pick-values 1 (require :config.colors.bluesky.base))
                   (unpack (icollect [_ name (ipairs supports)]
                             (pick-values 1
                                          (require (.. :config.colors.bluesky.support.
                                                       name))))))))
+

@@ -130,6 +130,7 @@ highlight NonText guifg=#535353 guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight Normal guifg=#EEEEEE guibg=NONE guisp=NONE blend=NONE gui=NONE
 highlight! link NormalFloat Normal
 highlight! link NormalNC Normal
+highlight NotifyBackground guifg=NONE guibg=#242424 guisp=NONE blend=NONE gui=NONE
 highlight! link Number String
 highlight NvimTreeEndOfBuffer guifg=#242424 guibg=#242424 guisp=NONE blend=NONE gui=NONE
 highlight NvimTreeFolderIcon guifg=#2F90FE guibg=NONE guisp=NONE blend=NONE gui=NONE
