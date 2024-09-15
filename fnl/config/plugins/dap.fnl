@@ -5,6 +5,8 @@
                  :dd [:step_over "Step over"]})
 
 (fn config []
+  (pcall #((. (require :overseer) :enable_dap)))
+
   (fn dapui [name ...]
     (let [(ok dapui) (pcall #(require :dapui))]
       (when ok
@@ -25,3 +27,4 @@
  :keys (icollect [k [_ desc] (pairs bindings)]
          {:mode :n : desc 1 (.. :<leader> k)})
  : config}
+

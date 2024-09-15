@@ -255,12 +255,33 @@
                 :lazy true
                 :build (if is.win ".\\install.ps1" :./install.sh))
 
-  (use-package! :EthanJWright/vs-tasks.nvim
+  (use-package! :stevearc/overseer.nvim
                 :lazy true
-                :deps [:plenary :telescope :nvim-lua/popup.nvim :json5]
-                :main :vstask
-                :opts #{:terminal :toggleterm
-                        :json_parser (. (require :json5) :parse)})
+                :cmd (icollect [_ cmd (ipairs [:Run :Info :Open :Build :Close
+                                               :RunCmd :Toggle :ClearCache
+                                               :LoadBundle :SaveBundle
+                                               :TaskAction :QuickAction
+                                               :DeleteBundle])]
+                       (.. :Overseer cmd))
+                :deps [:telescope :notify]
+                :init (fn []
+                        (vim.api.nvim_create_user_command
+                          :OverseerRestartLast
+                          (fn []
+                            (let [overseer (require :overseer)
+                                  tasks (overseer.list_tasks {:recent_first true})]
+                              (if (vim.tbl_isempty tasks)
+                                  (vim.notify "No tasks found" vim.log.levels.WARN)
+                                  (overseer.run_action (. tasks 1) :restart))))
+                          [])
+                        (vim.keymap.set :n :<leader>cc :<cmd>OverseerRun<CR>
+                                        {:noremap false :silent true})
+                        (vim.keymap.set :n :<leader>cl :<cmd>OverseerRestartLast<CR>
+                                        {:noremap false :silent true})
+                        )
+                :main :overseer
+                :opts {:strategy :toggleterm
+                       :dap false})
 
   ;; }}}
 
