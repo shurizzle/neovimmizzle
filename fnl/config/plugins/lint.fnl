@@ -1,8 +1,12 @@
 (fn init []
   (fn callback []
-    ((. (require :lint) :try_lint))
+    (let [{: load} (require :lazy.core.loader)
+          _ (load [:lint] {:plugin :lint})
+          lint (require :lint)]
+      (lint.try_lint))
     nil)
 
   (vim.api.nvim_create_autocmd [:BufWritePost :FileType] {: callback}))
 
 {:lazy true : init :config #(tset (require :lint) :linters_by_ft [])}
+

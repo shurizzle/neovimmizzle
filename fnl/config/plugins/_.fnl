@@ -87,6 +87,7 @@
   (use-package! :folke/noice.nvim
                 :name :noice
                 :event :VeryLazy
+                :deps [:nui :notify]
                 :opts {:presets {:lsp_doc_border true}
                        :routes [{:filter {:event :msg_show
                                           :kind ""
@@ -99,8 +100,7 @@
                        :cmdline {:enabled true
                                  :format {:fennel {:pattern "^:%s*Fnl%s+"
                                                    :icon ""
-                                                   :lang :fennel}}}}
-                :deps [:nui :notify])
+                                                   :lang :fennel}}}})
 
   (use-package! :NeogitOrg/neogit
                 :name :neogit

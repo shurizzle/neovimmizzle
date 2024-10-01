@@ -1,9 +1,7 @@
 (local {: scandir : stat} (require :config.fs))
 (local {:join join-paths} (require :config.path))
-(local {: get_other_matching_providers} (require :lspconfig.util))
 (local lsp (require :config.lang.lsp))
 (local formatter (require :config.lang.formatter))
-(local linter (require :config.lang.linter))
 (local {: callback-memoize} (require :config.lang.util))
 
 (fn require-lang [name]
@@ -25,7 +23,10 @@
 
 (fn run-config [name cb]
   (local lang (require-lang name))
-  (var state {:lsp [] :fmt [] :lint [] :ft (copy lang.ft)})
+  (let [{: load} (require :lazy.core.loader)]
+    (load [:nlsp-settings.nvim :cmp-nvim-lsp :conform :lint]
+          {:plugin (.. :lang/ name)}))
+  (local state {:lsp [] :fmt [] :lint [] :ft (copy lang.ft)})
   (var count 1)
 
   (fn continue []
@@ -62,7 +63,8 @@
           (vim.notify (.. "formatter " fmt " not found") vim.log.levels.ERROR
                       {:title :lang}))))
   (each [_ lint (ipairs lang.lint)]
-    (let [f (. linter lint)]
+    (let [linter (require :config.lang.linter)
+          f (. linter lint)]
       (if f
           (do
             (inc! count)
@@ -89,9 +91,12 @@
   (if (function? lang.init) (lang.init))
 
   (fn launch [bufnr]
-    (each [_ config (ipairs (get_other_matching_providers (vim.api.nvim_buf_get_option bufnr
-                                                                                       :filetype)))]
-      (config.manager:try_add_wrapper bufnr))
+    (let [{: load} (require :lazy.core.loader)
+          _ (pcall #(load [:nvim-lspconfig] {:plugin (.. :lang/ name)}))
+          {: get_other_matching_providers} (require :lspconfig.util)]
+      (each [_ config (ipairs (get_other_matching_providers (vim.api.nvim_buf_get_option bufnr
+                                                                                         :filetype)))]
+        (config.manager:try_add_wrapper bufnr)))
     (vim.api.nvim_buf_call bufnr #((. (require :lint) :try_lint))))
 
   (vim.api.nvim_create_augroup auname {:clear true})
@@ -169,9 +174,9 @@
                                  {:pattern ["*"]
                                   :callback #(vim.lsp.buf.clear_references)
                                   : group}))
-  (let [{: load} (require :lazy.core.loader)]
-    (load [:nlsp-settings.nvim :cmp-nvim-lsp :conform :lint] {:plugin :lang}))
+  ;; TODO: lint
   (each [_ lang (ipairs (get-langs))]
     (setup lang)))
 
 {: config}
+
