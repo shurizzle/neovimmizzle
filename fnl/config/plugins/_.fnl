@@ -336,6 +336,14 @@
   (use-package! :b0o/SchemaStore.nvim
                 :lazy true)
 
+  (use-package! :https://gitlab.com/HiPhish/jinja.vim
+                :lazy false
+                :config (fn []
+                          (vim.api.nvim_create_autocmd
+                            [:BufRead :BufNewFile]
+                            {:pattern :*.html
+                             :callback (. vim.fn "jinja#AdjustFiletype")})))
+
   ;; }}}
 
   ;; editor {{{
