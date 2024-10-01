@@ -43,6 +43,6 @@
 
 (table.insert config 1 {1 :nvim-lua/plenary.nvim :lazy true :name :plenary})
 
-((. (require :lazy) :setup) config {:dev {:path "~/p"}})
+((. (require :lazy) :setup) config {:dev {:path "~/p"} :pkg {:enabled false}})
 (-after-load)
 
