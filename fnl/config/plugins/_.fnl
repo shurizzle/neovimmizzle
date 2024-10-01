@@ -277,10 +277,9 @@
                         (vim.keymap.set :n :<leader>cc :<cmd>OverseerRun<CR>
                                         {:noremap false :silent true})
                         (vim.keymap.set :n :<leader>cl :<cmd>OverseerRestartLast<CR>
-                                        {:noremap false :silent true})
-                        )
+                                        {:noremap false :silent true}))
                 :main :overseer
-                :opts {:strategy :toggleterm
+                :opts {:strategy {1 :toggleterm :use_shell false :auto_scroll true}
                        :dap false})
 
   ;; }}}
