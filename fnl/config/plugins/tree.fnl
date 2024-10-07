@@ -28,7 +28,7 @@
                                                                node.absolute_path)))
 
     (fn expand [node]
-      (if (and node (not node.open)) (lib.expand_or_collapse node)))
+      (if (and node (not node.open)) (node:expand_or_collapse)))
 
     (fn open-or-expand-or-dir-up [node]
       (if (= ".." node.name)
@@ -39,13 +39,13 @@
 
     (fn collapse [node]
       (if (and node (not (nil? node.nodes)) node.open)
-          (lib.expand_or_collapse node)))
+          (node:expand_or_collapse)))
 
     (fn enter [node]
       (if (= node.name "..")
           ((. (require :nvim-tree.actions.root.change-dir) :fn) "..")
           (not (nil? node.nodes))
-          ((. (require :nvim-tree.actions.root.change-dir) :fn) (. (lib.get_last_group_node node)
+          ((. (require :nvim-tree.actions.root.change-dir) :fn) (. (node:last_group_node)
                                                                    :absolute_path))
           (edit :edit node)))
 
@@ -163,3 +163,4 @@
 {:cmd [:NvimTreeToggle :NvimTreeFocus :NvimTreeFindFile :NvimTreeCollapse]
  :keys [{:mode :n :desc "Toggle nvim-tree" 1 :<space>e}]
  : config}
+
