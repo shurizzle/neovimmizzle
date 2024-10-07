@@ -130,6 +130,7 @@
                 :opts [])
 
   (use-package! :nvim-telescope/telescope-fzf-native.nvim
+                :lazy true
                 :build (if (and is.bsd (not is.macos)) :gmake :make))
 
   (use-package! :nvim-telescope/telescope.nvim
