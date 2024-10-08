@@ -6,6 +6,12 @@
   (local sidebar (require :config.sidebar))
   (local ev (require :nvim-tree.events))
   (var sb nil)
+  (local expand-or-collapse
+         (if lib.expand_or_collapse lib.expand_or_collapse
+             (fn [node] (node:expand_or_collapse))))
+  (local last-group-node
+         (if lib.get_last_group_node lib.get_last_group_node
+             (fn [node] (node:last_group_node))))
 
   (fn on_attach [bufnr]
     (fn km [mapping action ?desc]
@@ -28,7 +34,7 @@
                                                                node.absolute_path)))
 
     (fn expand [node]
-      (if (and node (not node.open)) (node:expand_or_collapse)))
+      (if (and node (not node.open)) (expand-or-collapse node)))
 
     (fn open-or-expand-or-dir-up [node]
       (if (= ".." node.name)
@@ -39,13 +45,13 @@
 
     (fn collapse [node]
       (if (and node (not (nil? node.nodes)) node.open)
-          (node:expand_or_collapse)))
+          (expand-or-collapse node)))
 
     (fn enter [node]
       (if (= node.name "..")
           ((. (require :nvim-tree.actions.root.change-dir) :fn) "..")
           (not (nil? node.nodes))
-          ((. (require :nvim-tree.actions.root.change-dir) :fn) (. (node:last_group_node)
+          ((. (require :nvim-tree.actions.root.change-dir) :fn) (. (last-group-node node)
                                                                    :absolute_path))
           (edit :edit node)))
 
