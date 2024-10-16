@@ -1,5 +1,3 @@
-(local {: lint} (require :config.lang.util))
-
 (fn register []
   (local lint (require :lint))
   (local pattern "(.+):(%d+): (.+)")
@@ -19,3 +17,4 @@
 (fn [cb]
   (register)
   (cb :zsh))
+
