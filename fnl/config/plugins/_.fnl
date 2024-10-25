@@ -345,6 +345,24 @@
                             {:pattern :*.html
                              :callback (. vim.fn "jinja#AdjustFiletype")})))
 
+  (use-package! "https://git.sr.ht/~maxgyver83/hare-jump.vim"
+                :lazy true
+                :cmd :HareJumpToDefinition
+                :init (fn []
+                        (vim.api.nvim_create_autocmd
+                          :FileType
+                          {:pattern :hare
+                           :callback (fn [{:buf buffer}]
+                                       (vim.keymap.set
+                                         :n :<leader>cd
+                                         "<cmd>HareJumpToDefinition<CR>"
+                                         {:silent true
+                                          :noremap true
+                                          : buffer}))}))
+                :config (fn []
+                          (set vim.g.hare_jump_use_ripgrep
+                               (vim.fn.executable :rg))))
+
   ;; }}}
 
   ;; editor {{{
