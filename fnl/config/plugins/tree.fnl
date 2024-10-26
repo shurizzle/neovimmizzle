@@ -1,17 +1,25 @@
 (fn config []
+  (fn prequire [what]
+    (local (ok lib) (pcall #(require what)))
+    (when ok lib))
+
   (local api (require :nvim-tree.api))
-  (local lib (require :nvim-tree.lib))
+  (local lib (prequire :nvim-tree.lib))
+  (local core (prequire :nvim-tree.core))
   (local tree (require :nvim-tree))
   (local view (require :nvim-tree.view))
   (local sidebar (require :config.sidebar))
   (local ev (require :nvim-tree.events))
   (var sb nil)
   (local expand-or-collapse
-         (if lib.expand_or_collapse lib.expand_or_collapse
+         (if (?. lib :expand_or_collapse) lib.expand_or_collapse
              (fn [node] (node:expand_or_collapse))))
   (local last-group-node
-         (if lib.get_last_group_node lib.get_last_group_node
+         (if (?. lib :get_last_group_node) lib.get_last_group_node
              (fn [node] (node:last_group_node))))
+  (local get-node-at-cursor
+         (if (?. lib :get_node_at_cursor) lib.get_node_at_cursor
+             (fn [] (-?> (core.get_explorer) (: :get_node_at_cursor)))))
 
   (fn on_attach [bufnr]
     (fn km [mapping action ?desc]
@@ -24,7 +32,7 @@
 
     (fn inject-node [f]
       (fn [?node ...]
-        (f (or ?node (lib.get_node_at_cursor)) ...)))
+        (f (or ?node (get-node-at-cursor)) ...)))
 
     (fn edit [mode node]
       ((. (require :nvim-tree.actions.node.open-file) :fn) mode
