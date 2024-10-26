@@ -439,14 +439,6 @@
                 :deps [:treesitter]
                 :opts [])
 
-  (use-package! :julienvincent/nvim-paredit-fennel
-                :name :paredit-fennel
-                :lazy true
-                :ft :fennel
-                :main :nvim-paredit-fennel
-                :opts []
-                :deps :paredit)
-
   ;; }}}
 
   ;; debug {{{
