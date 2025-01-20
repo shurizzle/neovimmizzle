@@ -8,6 +8,7 @@
   lspconfig.pyright)
 
 (fn [cb]
-  (bin-or-install :pyright-langserver :pyright :pyright-langserver
+  (bin-or-install :pyright :pyright :pyright-langserver
                   (fn [bin]
                     (cb (config bin)))))
+
