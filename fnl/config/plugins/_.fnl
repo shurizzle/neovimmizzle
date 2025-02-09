@@ -283,6 +283,11 @@
                 :opts {:strategy {1 :toggleterm :use_shell false :auto_scroll true :open_on_start false}
                        :dap false})
 
+  (use-package! :shurizzle/vim-rfc
+                :lazy true
+                :cmd :Rfc
+                :ft  :rfc)
+
   ;; }}}
 
   ;; completion {{{
