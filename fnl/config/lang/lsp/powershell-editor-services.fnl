@@ -1,5 +1,6 @@
 (local lspconfig (require :lspconfig))
 (local installer (require :config.lang.installer))
+(local {: mason-get-install-path} (require :config.lang.util))
 
 (fn config [path]
   (local opts [])
@@ -10,4 +11,5 @@
 (fn [cb]
   (installer.get :powershell-editor-services
                  (fn [_ p]
-                   (cb (config (-?> p (: :get_install_path)))))))
+                   (cb (config (-?> p (mason-get-install-path)))))))
+

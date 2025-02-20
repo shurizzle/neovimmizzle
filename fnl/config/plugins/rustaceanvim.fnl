@@ -1,5 +1,6 @@
 (local {: is} (require :config.platform))
 (local {:join path-join} (require :config.path))
+(local {: mason-get-install-path} (require :config.lang.util))
 
 (var *installer* nil)
 
@@ -7,7 +8,7 @@
   (let [(exe lib) (if is.win (values :.exe :.lib)
                       is.mac (values "" :.dylib)
                       (values "" :.so))
-        p (package:get_install_path)
+        p (mason-get-install-path package)
         {: get_codelldb_adapter} (require :rustaceanvim.config)]
     (get_codelldb_adapter (path-join p :extension :adapter (.. :codelldb exe))
                           (path-join p :extension :lldb :lib (.. :liblldb lib)))))
@@ -38,7 +39,7 @@
          {:tools {:executor (get-executor)
                   :hover_actions {:replace_builtin_hover true}}
           :server {: settings : default_settings : on_attach : cmd}
-          :dap {:adapter (-?> adapter get-adapter)}})))
+          :dap {:adapter (or (-?> adapter get-adapter) false)}})))
 
 (fn check-rust-analyzer [path]
   (vim.fn.system [path :--version])
@@ -57,7 +58,7 @@
                            (check-rust-analyzer))]
     (if rust-analyzer
         rust-analyzer
-        (let [{: mason-get : bin-in-dir} (require :config.lang.util)]
+        (let [{: bin-in-dir} (require :config.lang.util)]
           (-?> (get-sysroot-path)
                (path-join :bin)
                (bin-in-dir :rust-analyzer)
@@ -96,7 +97,7 @@
                        (conf)))
   (local installer (require :config.lang.installer))
   (installer.get :codelldb (fn [_ p]
-                             (set adapter p)
+                             (set adapter [p])
                              (conf))))
 
 (fn installer []

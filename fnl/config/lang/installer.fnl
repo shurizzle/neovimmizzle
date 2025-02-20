@@ -39,36 +39,63 @@
             (vim.schedule #(finish (unpack args)))))
   (p:install {: version}))
 
+(fn mason-is2? []
+  (= 2 (. (require :mason.version) :MAJOR_VERSION)))
+
 (fn install-or-upgrade [what cb]
   (fn try-upgrade [p]
-    (p:check_new_version (fn [ok version]
-                           (if ok
-                               (do-install p version.latest_version cb)
-                               (and (string? version)
-                                    (string.match version "is not outdated"))
-                               (cb nil p)
-                               (do
-                                 (notify* (if (string? version) version
-                                              (vim.inspect version))
-                                          vim.log.levels.ERROR {:title :Mason})
-                                 (cb version))))))
+    (if (mason-is2?)
+        (let [current (p:get_installed_version)
+              (ok latest) (pcall #(p:get_latest_version))]
+          (if ok
+              (if current
+                  (if (= latest current)
+                      (cb nil p)
+                      (do-install p latest cb))
+                  (do-install p latest cb))
+              (do
+                (notify* (if (string? latest) latest (vim.inspect latest))
+                         vim.log.levels.ERROR {:title :Mason})
+                (cb latest))))
+        (p:check_new_version (fn [ok version]
+                               (if ok
+                                   (do-install p version.latest_version cb)
+                                   (and (string? version)
+                                        (string.match version "is not outdated"))
+                                   (cb nil p)
+                                   (do
+                                     (notify* (if (string? version) version
+                                                  (vim.inspect version))
+                                              vim.log.levels.ERROR
+                                              {:title :Mason})
+                                     (cb version)))))))
 
-  (fn try-install [p]
-    (if (not p)
-        (let [err (.. what " not found")]
-          (notify* err vim.log.levels.ERROR {:title :Mason})
-          (cb err))
-        (p:is_installed)
-        (try-upgrade p)
-        (do-install p nil cb)))
-
-  (let [mr (require :mason-registry)
-        p (mr.get_package what)]
-    (local (ok err) (pcall try-install p))
-    (when (not ok)
-      (notify* (if (string? err) err (vim.inspect err)) vim.log.levels.ERROR
-               {:title :Mason})
-      (cb err))))
+  (if (mason-is2?)
+      (let [mr (require :mason-registry)
+            (ok p) (pcall #(mr.get_package what))]
+        (if ok
+            (if (p:is_installed)
+                (try-upgrade p)
+                (do-install p nil cb))
+            (let [err (.. what " not found")]
+              (notify* (.. "DIOC " err) vim.log.levels.ERROR {:title :Mason})
+              (cb err))))
+      (do
+        (fn try-install [p]
+          (if (not p)
+              (let [err (.. what " not found")]
+                (notify* err vim.log.levels.ERROR {:title :Mason})
+                (cb err))
+              (if (p:is_installed)
+                  (try-upgrade p)
+                  (do-install p nil cb))))
+        (let [mr (require :mason-registry)
+              p (mr.get_package what)]
+          (local (ok err) (pcall try-install p))
+          (when (not ok)
+            (notify* (if (string? err) err (vim.inspect err))
+                     vim.log.levels.ERROR {:title :Mason})
+            (cb err))))))
 
 (fn get* [what cb]
   (fn inner []
@@ -124,3 +151,4 @@
                                  (= :map name) map
                                  (get name)))
                   :__newindex (fn [])})
+

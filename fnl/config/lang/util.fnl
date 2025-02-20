@@ -1,6 +1,6 @@
 (local {:join path-join} (require :config.path))
 (local {: access : scandir : stat} (require :config.fs))
-(local {: split : filter : filter-map} (require :config.iter))
+(local {: split : filter-map} (require :config.iter))
 (local {: is} (require :config.platform))
 
 (fn callback-memoize [generator]
@@ -24,13 +24,13 @@
 
 (fn executable? [path]
   (fn file? [path]
-    (match (stat path)
+    (case (stat path)
       (nil _ :ENOENT) false
       (nil err _) (error err)
       md (= md.type :file)))
 
   (fn exe? [path]
-    (match (access path :X)
+    (case (access path :X)
       (nil _ :ENOENT) false
       (nil err _) (error err)
       res res))
@@ -78,9 +78,21 @@
                           (when (executable? full-path)
                             full-path)))))
 
+(fn mason-is2? []
+  (= 2 (. (require :mason.version) :MAJOR_VERSION)))
+
+(fn mason-bin-prefix []
+  (if (mason-is2?)
+      (vim.fn.expand :$MASON/bin)
+      ((. (require :mason-core.path) :bin_prefix))))
+
+(fn mason-get-install-path [p]
+  (if (mason-is2?)
+      (vim.fn.expand (.. :$MASON/packages/ p.name))
+      (p:get_install_path)))
+
 (fn mason-bin [file]
   (vim.validate {:file [file :s true]})
-  (local {:bin_prefix mason-bin-prefix} (require :mason-core.path))
   (if file
       (bin-in-dir (path-join (mason-bin-prefix) file))
       (mason-bin-prefix)))
@@ -143,9 +155,9 @@
                                            (.. :conform.formatters. name))]
                        (when ok fmt)))))
     (when (and bin fmt)
-      (tset fmt :command bin))
+      (set fmt.command bin))
     (when (and ?opts* fmt)
-      (tset fmt :args ?opts*))
+      (set fmt.args ?opts*))
     (cb* name)))
 
 (fn lint [name ?opts cb]
@@ -166,9 +178,9 @@
                       (let [(ok lint) (pcall require (.. :lint.linters. name))]
                         (when ok lint)))))
     (when (and bin lint)
-      (tset lint :cmd bin))
+      (set lint.cmd bin))
     (when (and ?opts* lint)
-      (tset lint :args ?opts*))
+      (set lint.args ?opts*))
     (cb* name)))
 
 {: callback-memoize
@@ -177,4 +189,6 @@
  : bin-in-dir
  : bin-or-install
  : conform
- : lint}
+ : lint
+ : mason-get-install-path}
+

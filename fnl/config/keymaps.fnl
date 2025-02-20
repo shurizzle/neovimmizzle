@@ -201,7 +201,8 @@
   (kset :n k f {:silent true :noremap true :desc d}))
 
 ;; simlate my tmux behaviour
-(when (and (not is.tmux) (not is.wezterm) (= 0 (vim.fn.exists :$NVIM)))
+(when (and (not is.tmux) (not is.wezterm) (not is.ghostty)
+           (= 0 (vim.fn.exists :$NVIM)))
   (each [k [f d] (pairs {:<C-a><C-l> [:<CMD>tabnext<CR> "Go to next tab"]
                          :<C-a><C-h> [:<CMD>tabprevious<CR> "Go to prev tab"]
                          :<C-a>c ["<CMD>tab term<CR>"

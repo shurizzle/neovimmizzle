@@ -1,6 +1,6 @@
 (local {:join path-join} (require :config.path))
 (local installer (require :config.lang.installer))
-(local {: bin-or-install} (require :config.lang.util))
+(local {: bin-or-install : mason-get-install-path} (require :config.lang.util))
 (local lspconfig (require :lspconfig))
 
 (fn config [bin fmt]
@@ -21,7 +21,7 @@
       (installer.get :ocamlformat
                      (fn [err package]
                        (cb (when (not err)
-                             (-?> (package:get_install_path)
+                             (-?> (mason-get-install-path package)
                                   (path-join :bin))))))))
 
 (fn [cb]
@@ -39,3 +39,4 @@
   (get-ocamlformat (fn [path]
                      (set ocamlformat-path [path])
                      (conf))))
+
