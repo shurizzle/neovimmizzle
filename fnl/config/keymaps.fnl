@@ -136,11 +136,11 @@
   (vim.api.nvim_echo [[" [u]pper [s]nake [k]ebab [p]ascal [c]amel" :Normal]]
                      false [])
   (local map {:u :upper :s :snake :k :kebab :p :pascal :c :camel})
-  (let [choice-c (match (vim.fn.getchar)
+  (let [choice-c (case (vim.fn.getchar)
                    27 27
                    other (string.char other))
         choice (if (= choice-c 27) 27 (. map choice-c))]
-    (match choice
+    (case choice
       27 (vim.api.nvim_echo [["" :Normal]] false [])
       nil (vim.api.nvim_echo [["Invalid choice" :Error]] false [])
       _ (vim.fn.feedkeys (.. :ciw (string.char 18) "=v:lua.convertcase('"
@@ -153,6 +153,9 @@
         (vim.cmd (.. "h " (vim.fn.expand :<cword>)))
         (= :man ft)
         (vim.cmd (.. "Man " (vim.fn.expand :<cword>)))
+        (and (some #(= $1.name :rust-analyzer) (vim.lsp.buf_get_clients))
+             (not= 0 (vim.fn.exists ":RustLsp")))
+        (vim.cmd.RustLsp [:hover :actions])
         (and (= :Cargo.toml (vim.fn.expand "%:t"))
              ((. (require :crates) :popup_available)))
         ((. (require :crates) :show_popup))

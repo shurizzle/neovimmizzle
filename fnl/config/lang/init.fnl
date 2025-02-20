@@ -161,10 +161,10 @@
                                   :source :always
                                   :header ""
                                   :prefix ""}})
-  (tset vim.lsp.handlers :textDocument/hover
-        (vim.lsp.with vim.lsp.handlers.hover {:border :rounded}))
-  (tset vim.lsp.handlers :textDocument/signatureHelp
-        (vim.lsp.with vim.lsp.handlers.signature_help {:border :rounded}))
+  (set vim.lsp.handlers.textDocument/hover
+       (vim.lsp.with vim.lsp.handlers.hover {:border :rounded}))
+  (set vim.lsp.handlers.textDocument/signatureHelp
+       (vim.lsp.with vim.lsp.handlers.signature_help {:border :rounded}))
   (let [group (vim.api.nvim_create_augroup :lsp_document {:clear true})]
     (vim.api.nvim_create_autocmd :CursorHold
                                  {:pattern ["*"]
