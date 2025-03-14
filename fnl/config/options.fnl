@@ -45,6 +45,7 @@
   ignorecase true)
 
 (set vim.g.neovide_cursor_vfx_mode :torpedo)
+(if vim.g.neovide (set vim.opt.gfn "monospace:h9"))
 
 (set vim.g.himalaya_mailbox_picker :telescope)
 (set vim.g.himalaya_telescope_preview_enabled true)

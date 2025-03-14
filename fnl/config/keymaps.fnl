@@ -259,3 +259,16 @@
   (vim.keymap.set :n :<space>b #(elinks:toggle)
                   {:noremap true :silent true :desc "Toggle tui browser."}))
 
+(when vim.g.neovide
+  (var *font-size* 9)
+  (vim.keymap.set :n :<C--> (fn []
+                              (set *font-size* (- *font-size* 1))
+                              (set vim.o.gfn (.. "monospace:h" *font-size*))
+                              nil)
+                  {:noremap true :silent true})
+  (vim.keymap.set :n :<C-+> (fn []
+                              (set *font-size* (+ *font-size* 1))
+                              (set vim.o.gfn (.. "monospace:h" *font-size*))
+                              nil)
+                  {:noremap true :silent true}))
+
