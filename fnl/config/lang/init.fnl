@@ -5,7 +5,7 @@
 (local {: callback-memoize} (require :config.lang.util))
 
 (fn require-lang [name]
-  (vim.validate {:name [name :s]})
+  (vim.validate :name name :string)
   (local lang (require (.. :config.lang._. name)))
   (set lang.ft (if (not lang.ft) [name]
                    (not (table? lang.ft)) [lang.ft]
@@ -121,7 +121,7 @@
   (var langs [])
 
   (fn scan [dir ?ext]
-    (vim.validate {:?ext [?ext :s true]})
+    (vim.validate :?ext ?ext :string true)
     (local ext (or ?ext (.. "." dir)))
     (local base (join-paths (vim.fn.stdpath :config) dir :config :lang "_"))
     (local offset (- (length ext)))

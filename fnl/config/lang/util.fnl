@@ -39,7 +39,8 @@
 
 ;; TODO: test
 (fn bin-in-dir-win [dir bin]
-  (vim.validate {:dir [dir :s] :bin [bin :s]})
+  (vim.validate :dir dir :string)
+  (vim.validate :bin bin :string)
   (local exts (icollect [e (filter-map #(when (> (length $1) 0)
                                           (string.upper $1))
                                        (split (os.getenv :PATHEXT) ";+"))]
@@ -92,7 +93,7 @@
       (p:get_install_path)))
 
 (fn mason-bin [file]
-  (vim.validate {:file [file :s true]})
+  (vim.validate :file file :s true)
   (if file
       (bin-in-dir (path-join (mason-bin-prefix) file))
       (mason-bin-prefix)))
@@ -101,9 +102,9 @@
   (local (?bin-name* cb*) (if (not cb)
                               (values nil ?bin-name)
                               (values ?bin-name cb)))
-  (vim.validate {:package-name [package-name :s]
-                 :?bin-name [?bin-name* :s true]
-                 :cb [cb* :f]})
+  (vim.validate :package-name package-name :string)
+  (vim.validate :?bin-name ?bin-name* :string true)
+  (vim.validate :cb cb* :function)
   (local bin-name (or ?bin-name* package-name))
   (let [installer (require :config.lang.installer)]
     (installer.get package-name
@@ -127,10 +128,10 @@
   (when (not bin-name)
     (set bin-name package-name))
   (local bins* (if (not (table? bins)) [bins] bins))
-  (vim.validate {:bins [bins* :t]
-                 :?package-name [package-name :s]
-                 :?bin-name [bin-name :s]
-                 :cb [cb* :f]})
+  (vim.validate :bins bins* :table)
+  (vim.validate :?package-name package-name :string)
+  (vim.validate :?bin-name bin-name :string)
+  (vim.validate :cb cb* :function)
   (local bin (some exepath bins*))
   (if bin
       (cb* bin)
@@ -144,7 +145,9 @@
       (do
         (set ?opts* ?opts)
         (set cb* cb)))
-  (vim.validate {:name [name :s] :?opts [?opts* [:t :s] true] :cb [cb* :f]})
+  (vim.validate :name name :string)
+  (vim.validate :?opts ?opts* [:table :string] true)
+  (vim.validate :cb cb* :function)
   (when (string? ?opts*)
     (set ?opts* [?opts*]))
   (fn [bin]
@@ -168,7 +171,9 @@
       (do
         (set ?opts* ?opts)
         (set cb* cb)))
-  (vim.validate {:name [name :s] :?opts [?opts* [:t :s] true] :cb [cb* :f]})
+  (vim.validate :name name :string)
+  (vim.validate :?opts ?opts* [:table :string] true)
+  (vim.validate :cb cb* :function)
   (when (string? ?opts*)
     (set ?opts* [?opts*]))
   (fn [bin]

@@ -25,7 +25,7 @@
                (vim.split vim.env.PATH (vim.pesc path.sep) {:trimempty true})))
 
 (lambda set-path [paths]
-  (vim.validate {:paths [paths :t]})
+  (vim.validate :paths paths :table)
   (set vim.env.PATH (table.concat paths path.sep)))
 
 (lambda path.prepend [dir]
@@ -39,7 +39,7 @@
     (set-path dirs)))
 
 (lambda path.which [bin]
-  (vim.validate {:bin [bin :s]})
+  (vim.validate :bin bin :string)
   (each [_ dir (ipairs (path.dirs))]
     (let [p (path.join dir bin)]
       (if (executable p) (lua "return p")))))

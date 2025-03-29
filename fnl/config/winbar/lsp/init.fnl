@@ -134,9 +134,9 @@
 
 (fn setup []
   (init)
-  (each [_ b (ipairs (vim.api.nvim_list_bufs))]
-    (vim.lsp.for_each_buffer_client b
-                                    (fn [client _ bufnr] (attach client bufnr)))))
+  (each [_ bufnr (ipairs (vim.api.nvim_list_bufs))]
+    (each [_ client (ipairs (vim.lsp.get_clients {: bufnr}))]
+      (attach client bufnr))))
 
 (fn get-data [bufnr] (-?> (get bufnr) (. :data)))
 

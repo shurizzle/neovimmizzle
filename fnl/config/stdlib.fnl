@@ -117,7 +117,7 @@
         content)))
 
 (fn once [f]
-  (vim.validate {:f [f :f]})
+  (vim.validate :f f :function)
   (var called false)
   (fn [...]
     (when (not called)

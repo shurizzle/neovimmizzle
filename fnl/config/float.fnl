@@ -127,7 +127,8 @@
 ;; term
 
 (fn run-in-buffer [bufnr f]
-  (vim.validate {:bufnr [bufnr validate-bufnr] :f [f :f]})
+  (vim.validate :bufnr bufnr validate-bufnr)
+  (vim.validate :f f :function)
   (if (not= bufnr (vim.api.nvim_get_current_buf))
       (vim.api.nvim_buf_call bufnr f)
       (f)))
@@ -215,14 +216,14 @@
                 : on-close
                 : on-create
                 : on-exit}]
-  (vim.validate {:opts.env [env :t true]
-                 :opts.clear-env [clear-env :b true]
-                 :cwd [cwd :s true]
-                 :behaviour [behaviour :s true]
-                 :opts.on-open [on-open :f true]
-                 :opts.on-close [on-close :f true]
-                 :opts.on-create [on-create :f true]
-                 :opts.on-exit [on-exit :f true]})
+  (vim.validate :opts.env env :table true)
+  (vim.validate :opts.clear-env clear-env :boolean true)
+  (vim.validate :cwd cwd :string true)
+  (vim.validate :behaviour behaviour :string true)
+  (vim.validate :opts.on-open on-open :function true)
+  (vim.validate :opts.on-close on-close :function true)
+  (vim.validate :opts.on-create on-create :function true)
+  (vim.validate :opts.on-exit on-exit :function true)
   (let [cmd (if (nil? ?cmd) nil
                 (string? ?cmd) ?cmd
                 (function? ?cmd) ?cmd

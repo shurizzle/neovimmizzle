@@ -11,7 +11,7 @@
   ((. (require :config.winbar.breadcrumbs) :render) ?winid))
 
 (fn name [bufnr]
-  (vim.validate {:bufnr [bufnr :n]})
+  (vim.validate :bufnr bufnr :number)
 
   (fn term [name]
     (fn base [name]

@@ -18,10 +18,10 @@
     (vim.fn.mkdir :p))
 
 (fn git-clone [url dir ?params ?callback]
-  (vim.validate {:url [url :s]
-                 :dir [dir :s]
-                 :?params [?params :t true]
-                 :?callback [?callback :f true]})
+  (vim.validate :url url :string)
+  (vim.validate :dir dir :string)
+  (vim.validate :?params ?params :table true)
+  (vim.validate :?callback ?callback :function true)
   (let [install-path (join-paths (vim.fn.stdpath :data) :lazy dir)]
     (if (not (uv.fs_stat install-path))
         (do

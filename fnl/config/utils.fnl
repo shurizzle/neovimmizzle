@@ -75,7 +75,7 @@
 (lambda _G.convertcase [fmt str]
   (if (and (= :string (type str)) (not= 0 (length str)))
       (do
-        (vim.validate {:fmt [fmt :s]})
+        (vim.validate :fmt fmt :string)
         (let [formatter (. FORMATTERS fmt)]
           (if (= :function (type formatter))
               (formatter str)

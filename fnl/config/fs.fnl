@@ -9,7 +9,8 @@
       (values fs ...)))
 
 (fn scandir [path ?callback]
-  (vim.validate {:path [path :s] :?callback [?callback :f true]})
+  (vim.validate :path path :string)
+  (vim.validate :?callback ?callback :function true)
   (if ?callback
       (uv.fs_scandir path
                      (fn [err fs]
@@ -27,7 +28,8 @@
             (map-scandir (uv.fs_scandir path))))))
 
 (fn stat [path ?callback]
-  (vim.validate {:path [path :s] :?callback [?callback :f true]})
+  (vim.validate :path path :string)
+  (vim.validate :?callback ?callback :function true)
   (if ?callback
       (uv.fs_stat path ?callback)
       (let [co (coroutine.running)]
@@ -41,7 +43,9 @@
             (uv.fs_stat path)))))
 
 (fn access [path mode ?cb]
-  (vim.validate {:path [path :s] :mode [mode :s] :?cb [?cb :f true]})
+  (vim.validate :path path :string)
+  (vim.validate :mode mode :string)
+  (vim.validate :?cb ?cb :function true)
   (if ?cb
       (uv.fs_access path mode ?cb)
       (let [co (coroutine.running)]

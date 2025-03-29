@@ -65,7 +65,7 @@
                (check-rust-analyzer))))))
 
 (fn resolve-local [?cb]
-  (vim.validate {:?cb [?cb :f true]})
+  (vim.validate :?cb ?cb :function true)
   (if ?cb
       (let [(ok res) (pcall resolve-local*)]
         (if ok

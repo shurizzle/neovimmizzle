@@ -4,7 +4,7 @@
 (var closefn nil)
 
 (fn resize [width]
-  (vim.validate {:width [width :n]})
+  (vim.validate :width width :number)
   (vim.schedule (fn []
                   (each [_ cb (ipairs resize-callbacks)]
                     (cb width)))))
@@ -20,15 +20,15 @@
 (fn get-name [] name)
 
 (fn on-resize [cb]
-  (vim.validate {:cb [cb :f]})
+  (vim.validate :cb cb :function)
   (table.insert resize-callbacks cb))
 
 (fn on-close [cb]
-  (vim.validate {:cb [cb :f]})
+  (vim.validate :cb cb :function)
   (table.insert close-callbacks cb))
 
 (fn close [cb]
-  (vim.validate {:cb [cb :f]})
+  (vim.validate :cb cb :function)
 
   (fn on-close []
     (vim.schedule (fn []
@@ -38,9 +38,9 @@
   (if closefn (closefn on-close) (on-close)))
 
 (fn register [widget-name close-function cb]
-  (vim.validate {:widget-name [widget-name :s]
-                 :close-function [close-function :f]
-                 :cb [cb :f]})
+  (vim.validate :widget-name widget-name :string)
+  (vim.validate :close-function close-function :function)
+  (vim.validate :cb cb :function)
   (close (fn []
            (set name widget-name)
            (set closefn close-function)

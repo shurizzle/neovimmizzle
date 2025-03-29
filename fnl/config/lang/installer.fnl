@@ -120,7 +120,8 @@
   nil)
 
 (fn get [what ?cb]
-  (vim.validate {:what [what :s] :?cb [?cb :f true]})
+  (vim.validate :what what :string)
+  (vim.validate :?cb ?cb :function true)
   (if ?cb
       (get* what ?cb)
       (let [co (assert (coroutine.running) "not in coroutine")]
@@ -137,9 +138,10 @@
                    (cb err)))))
 
 (fn map [what mapper]
-  (vim.validate {:what [what :s] :mapper [mapper :f]})
+  (vim.validate :what what :string)
+  (vim.validate :mapper mapper :function)
   (fn [?cb]
-    (vim.validate {:?cb [?cb :f true]})
+    (vim.validate :?cb ?cb :function true)
     (if ?cb
         (map* what mapper ?cb)
         (let [co (assert (coroutine.running) "not in coroutine")]

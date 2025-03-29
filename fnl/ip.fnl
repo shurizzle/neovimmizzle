@@ -23,7 +23,7 @@
 
 (fn parse4 [str]
   "Parse IPv4"
-  (vim.validate {:str [str :s]})
+  (vim.validate :str str :string)
   (let [octects [(str:match "^(%d?%d?%d)%.(%d?%d?%d)%.(%d?%d?%d)%.(%d?%d?%d)$")]]
     (when (and (= (length octects) 4)
                (not= :break (some (fn [raw i l]
@@ -37,7 +37,7 @@
       octects)))
 
 (fn hex->int [hex]
-  (vim.validate {:hex [hex :s]})
+  (vim.validate :hex hex :string)
   (var res 0)
   (for [i 1 (length hex)]
     (let [v (. HEXMAP (hex:sub i i))]
@@ -47,7 +47,7 @@
   res)
 
 (fn convert-ipv4 [str]
-  (vim.validate {:str [str :s]})
+  (vim.validate :str str :string)
   (let [(i j) (str:find ":%d?%d?%d%.%d?%d?%d%.%d?%d?%d%.%d?%d?%d$")]
     (if i
         (let [ipv4 (parse4 (str:sub (+ i 1) j))]
@@ -61,7 +61,8 @@
   (if (empty? x) nil x))
 
 (fn parse-bits [str ?collected]
-  (vim.validate {:str [str :s] :?collected [?collected :t true]})
+  (vim.validate :str str :string)
+  (vim.validate :?collected ?collected :table true)
   (let [matches (str:match "^(%x?%x?%x?%x)")]
     (if matches
         (let [piece (hex->int matches)]
@@ -77,7 +78,7 @@
                   acc)))))))
 
 (fn parse6 [str]
-  (vim.validate {:str [str :s]})
+  (vim.validate :str str :string)
   (local str (convert-ipv4 str))
   (when str
     (let [(head tail) (let [(i j) (str:find "::")]
@@ -96,7 +97,7 @@
         head))))
 
 (fn parse [str]
-  (vim.validate {:str [str :s]})
+  (vim.validate :str str :string)
   (match (parse4 str)
     nil (parse6 str)
     other other))

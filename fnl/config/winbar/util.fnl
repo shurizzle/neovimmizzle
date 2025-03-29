@@ -1,13 +1,13 @@
 (fn ensure-bufnr [bufnr]
-  (vim.validate {:bufnr [bufnr :n]})
+  (vim.validate :bufnr bufnr :number)
   (if (= 0 bufnr) (vim.api.nvim_get_current_buf) bufnr))
 
 (fn ensure-winnr [winnr]
-  (vim.validate {:winnr [winnr :n]})
+  (vim.validate :winnr winnr :number)
   (if (= 0 winnr) (vim.api.nvim_get_current_win) winnr))
 
 (fn ensure-tabnr [tabnr]
-  (vim.validate {:tabnr [tabnr :n]})
+  (vim.validate :tabnr tabnr :number)
   (if (= 0 tabnr) (vim.api.nvim_get_current_tabpage) tabnr))
 
 (fn buf-get-windows [?bufnr]
