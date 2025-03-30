@@ -93,7 +93,7 @@
       (p:get_install_path)))
 
 (fn mason-bin [file]
-  (vim.validate :file file :s true)
+  (vim.validate :file file :string true)
   (if file
       (bin-in-dir (path-join (mason-bin-prefix) file))
       (mason-bin-prefix)))

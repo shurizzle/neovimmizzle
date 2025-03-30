@@ -92,7 +92,9 @@ endif
 
 (fn setup []
   (vim.cmd "command! ColoSync lua require'config.colors'.sync()<CR>")
-  (vim.cmd.colorscheme :bluesky))
+  (pcall #(vim.cmd.colorscheme :habamax))
+  ;; (pcall #(vim.cmd.colorscheme :bluesky))
+  )
 
 (fn set-highlight-colors []
   (vim.api.nvim_command "hi def link LspReferenceText CursorLine")
@@ -101,3 +103,4 @@ endif
   (vim.api.nvim_command "hi def link illuminatedWord CursorLine"))
 
 {: sync : setup : set-highlight-colors}
+
