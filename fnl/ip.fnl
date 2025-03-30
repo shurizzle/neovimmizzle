@@ -63,11 +63,11 @@
 (fn parse-bits [str ?collected]
   (vim.validate :str str :string)
   (vim.validate :?collected ?collected :table true)
-  (let [matches (str:match "^(%x?%x?%x?%x)")]
-    (if matches
-        (let [piece (hex->int matches)]
+  (let [ms (str:match "^(%x?%x?%x?%x)")]
+    (if ms
+        (let [piece (hex->int ms)]
           (when piece
-            (let [len (match (+ (length matches) 1)
+            (let [len (match (+ (length ms) 1)
                         (where n (= (str:sub n n) ":")) (+ n 1)
                         other other)
                   rest (nil-if-empty (str:sub len))
