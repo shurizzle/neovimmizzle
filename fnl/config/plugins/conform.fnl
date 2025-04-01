@@ -1,5 +1,4 @@
-(local min :0.8)
-(local max :0.10)
+(local lsp_fallback (when (not (has :nvim-0.11)) true))
 
 (fn format [args]
   (local range
@@ -8,7 +7,7 @@
                                                          args.line2 true)
                              1)]
              {:start [args.line1 0] :end [args.line2 (end-line:len)]})))
-  ((. (require :conform) :format) {:async true :lsp_fallback true : range}))
+  ((. (require :conform) :format) {:async true : lsp_fallback : range}))
 
 (fn disable-autoformat []
   (set vim.g.autoformat false))
@@ -44,15 +43,23 @@
     (let [timeout_ms (match (?. vim :bo bufnr :filetype)
                        (where (or :blade :kotlin :prettier :fnlfmt)) 2000
                        _ 500)]
-      {: timeout_ms :lsp_fallback true})))
+      {: timeout_ms : lsp_fallback})))
 
 {:lazy true
  :cmd [:ConformInfo]
  : init
  :main :conform
- :opts {:formatters_by_ft {:_ [:trim_whitespace]} : format_on_save}
- :enabled (has (.. :nvim- min))
- :branch (when (not (has (.. :nvim- max)))
-           (let [{: major : minor} (vim.version)]
-             (.. :nvim- major "." minor)))}
+ :opts (if (has :nvim-0.11) {:formatters_by_ft {:_ {1 :trim_whitespace
+                                                    :lsp_format :prefer}
+                                                :rust {1 :rustfmt
+                                                       :lsp_format :prefer}}
+                             :default_format_opts {:lsp_format :fallback}
+                             : format_on_save}
+           {:formatters_by_ft {:_ [:trim_whitespace]} : format_on_save})
+ :enabled (has :nvim-0.8)
+ :branch (if (has :nvim-0.11) nil
+             (has :nvim-0.10) :v8.4.0
+             (has :nvim-0.9) :nvim-0.9
+             (has :nvim-0.8) :nvim-0.8
+             (error :unreachable))}
 
