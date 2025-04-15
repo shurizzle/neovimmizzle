@@ -1,7 +1,6 @@
 (local {: view} (require :fennel))
 (local color (require :config.colors.blush.color))
 (local {: compile} (require :config.colors.blush.compile))
-(local unpack (or table.unpack _G.unpack))
 
 (fn merge! [res & args]
   (each [_ map (ipairs args)]
@@ -16,3 +15,4 @@
 (local merge (partial merge! []))
 
 (merge! {: merge! : merge : compile} color)
+

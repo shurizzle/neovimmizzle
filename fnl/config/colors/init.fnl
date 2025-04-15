@@ -1,23 +1,25 @@
 (local path (require :config.path))
 
-(local resources {:fg "#eeeeee"
-                  :bg "#282828"
-                  0 "#282828"
-                  1 "#c8213d"
-                  2 "#169C51"
-                  3 "#DAAF19"
-                  4 "#2F90FE"
-                  5 "#C14ABE"
-                  6 "#48C6DB"
-                  7 "#CBCBCB"
-                  8 "#505050"
-                  9 "#C7213D"
-                  10 "#1ef15f"
-                  11 "#FFE300"
-                  12 "#00aeff"
-                  13 "#FF40BE"
-                  14 "#48FFFF"
-                  15 "#FFFFFF"})
+(local base-colors ["#282828"
+                    "#c8213d"
+                    "#169C51"
+                    "#DAAF19"
+                    "#2F90FE"
+                    "#C14ABE"
+                    "#48C6DB"
+                    "#CBCBCB"
+                    "#505050"
+                    "#C7213D"
+                    "#1ef15f"
+                    "#FFE300"
+                    "#00aeff"
+                    "#FF40BE"
+                    "#48FFFF"
+                    "#FFFFFF"])
+
+(local resources (collect [k v (ipairs base-colors)] (values (- k 1) v)))
+(set resources.fg "#eeeeee")
+(set resources.bg (. base-colors 1))
 
 (fn get-highlights []
   (let [theme (require :config.colors.bluesky)

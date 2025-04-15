@@ -2,7 +2,8 @@
 (local cp (require :config.colors.bluesky.palette))
 
 ;; fnlfmt: skip
-(blush
-  (IblIndent :fg cp.almostblack)
-  (IblScope :fg cp.white))
+(fn [cp]
+  (blush
+    (IblIndent :fg cp.almostblack)
+    (IblScope :fg cp.white)))
 

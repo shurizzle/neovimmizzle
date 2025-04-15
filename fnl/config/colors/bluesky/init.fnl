@@ -10,10 +10,9 @@
                 :illuminate
                 :breadcrumbs
                 :prolog
-                :notify]]
-  (compile (merge (pick-values 1 (require :config.colors.bluesky.base))
+                :notify]
+      cp (require :config.colors.bluesky.palette)]
+  (compile (merge ((require :config.colors.bluesky.base) cp)
                   (unpack (icollect [_ name (ipairs supports)]
-                            (pick-values 1
-                                         (require (.. :config.colors.bluesky.support.
-                                                      name))))))))
+                            ((require (.. :config.colors.bluesky.support. name)) cp))))))
 
