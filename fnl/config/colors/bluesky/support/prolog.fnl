@@ -3,5 +3,5 @@
 ;; fnlfmt: skip
 (fn [cp]
   (blush
-    (prologClause :fg cp.white)))
+    (prologClause :fg cp.fg)))
 

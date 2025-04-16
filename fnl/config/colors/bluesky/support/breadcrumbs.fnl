@@ -30,6 +30,6 @@
     (BreadcrumbIconEvent BreadcrumbIconFile)
     (BreadcrumbIconOperator BreadcrumbIconFile)
     (BreadcrumbIconTypeParameter BreadcrumbIconFile)
-    (BreadcrumbText :fg cp.white :bg cp.blacker +italic)
+    (BreadcrumbText :fg cp.fg :bg cp.blacker +italic)
     (BreadcrumbsSeparator :fg cp.yellow :bg cp.blacker +bold)))
 

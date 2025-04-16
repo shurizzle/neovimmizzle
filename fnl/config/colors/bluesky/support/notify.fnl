@@ -3,5 +3,5 @@
 ;; fnlfmt: skip
 (fn [cp] 
   (blush
-    (NotifyBackground :bg cp.blacker)))
+    (NotifyBackground :bg cp.bg+)))
 

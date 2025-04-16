@@ -4,6 +4,6 @@
 ;; fnlfmt: skip
 (fn [cp]
   (blush
-    (IblIndent :fg cp.almostblack)
-    (IblScope :fg cp.white)))
+    (IblIndent :fg cp.almostbg)
+    (IblScope :fg cp.fg)))
 

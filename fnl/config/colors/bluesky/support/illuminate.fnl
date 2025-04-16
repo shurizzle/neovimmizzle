@@ -5,5 +5,6 @@
   (blush
     (IlluminatedWordText +underline)
     (illuminateWordRead IlluminatedWordText)
-    (illuminateWordWrite IlluminatedWordText)))
+    (illuminateWordWrite IlluminatedWordText)
+    (illuminatedWord CursorLine)))
 

@@ -24,7 +24,8 @@
 (fn get-highlights []
   (let [theme (require :config.colors.bluesky)
         ->vim (require :config.colors.blush.transpile.vimscript)]
-    (->vim theme)))
+    (.. "if &background ==# 'light'\n" (->vim theme.light "\t") "\nelse\n"
+        (->vim theme.dark "\t") "\nendif")))
 
 (fn compile-terminal-colors []
   (fn merge [res resources key]
@@ -42,16 +43,11 @@
     (merge res resources i)))
 
 (fn get-theme []
-  (.. "set background=dark\nhi clear\n" "if exists(\"syntax\")
-  syntax reset
-endif
-" "let g:colors_name=\"bluesky\"\n\n"
-      (or (-?> (get-highlights) (.. "\n")) "")
-      (or (-?> (compile-terminal-colors) (.. "\n")) "") "augroup set_highlight_colors
-" "  au!\n" "  autocmd VimEnter * lua require\"config.colors\"['set-highlight-colors']()
-" "  autocmd ColorScheme * lua require\"config.colors\"['set-highlight-colors']()
+  (.. "hi clear\n" "if exists(\"syntax\")\n  syntax reset\nendif\n" "let g:colors_name=\"bluesky\"
+
 "
-      "augroup END"))
+      (or (-?> (get-highlights) (.. "\n")) "")
+      (or (-?> (compile-terminal-colors) (.. "\n")) "")))
 
 (fn write-file [file content]
   (let [(f err) (io.open file :w+b)]
@@ -69,7 +65,8 @@ endif
 
 (fn get-palette []
   (collect [key value (pairs (require :config.colors.bluesky.palette))]
-    (values key (tostring value))))
+    (values key (collect [k v (pairs value)]
+                  (values k (tostring v))))))
 
 (fn generate-palette []
   (let [{: view} (require :fennel)
@@ -83,8 +80,7 @@ endif
         (ok err) (write-file (get-colo-file) (get-theme))]
     (if (not ok) (error err))
     (generate-palette)
-    (vim.api.nvim_exec theme false)
-    (vim.cmd "doautocmd ColorScheme")))
+    (vim.api.nvim_exec theme false)))
 
 (fn sync []
   (let [(ok err) (pcall -sync)]
@@ -98,11 +94,5 @@ endif
   ;; (pcall #(vim.cmd.colorscheme :bluesky))
   )
 
-(fn set-highlight-colors []
-  (vim.api.nvim_command "hi def link LspReferenceText CursorLine")
-  (vim.api.nvim_command "hi def link LspReferenceWrite CursorLine")
-  (vim.api.nvim_command "hi def link LspReferenceRead CursorLine")
-  (vim.api.nvim_command "hi def link illuminatedWord CursorLine"))
-
-{: sync : setup : set-highlight-colors}
+{: sync : setup}
 

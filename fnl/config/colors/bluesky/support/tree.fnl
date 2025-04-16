@@ -4,13 +4,13 @@
 (fn [cp]
   (blush
     (NvimTreeRootFolder :fg cp.almostwhite)
-    (NvimTreeNormal :bg cp.blacker)
-    (NvimTreeNormalNC :bg cp.blacker)
-    (NvimTreeVertSplit :bg cp.blacker)
+    (NvimTreeNormal :bg cp.bg+)
+    (NvimTreeNormalNC :bg cp.bg+)
+    (NvimTreeVertSplit :bg cp.bg+)
     (NvimTreeFolderIcon :fg cp.blue)
     (NvimTreeIndentMarker :fg cp.grey)
-    (NvimTreeStatusLine :bg cp.blacker)
-    (NvimTreeStatusLineNC :fg cp.blacker :bg cp.blacker)
-    (NvimTreeEndOfBuffer :fg cp.blacker :bg cp.blacker)
-    (NvimTreeSignColumn :fg cp.blacker :bg cp.blacker)))
+    (NvimTreeStatusLine :bg cp.bg+)
+    (NvimTreeStatusLineNC :fg cp.bg+ :bg cp.bg+)
+    (NvimTreeEndOfBuffer :fg cp.bg+ :bg cp.bg+)
+    (NvimTreeSignColumn :fg cp.bg+ :bg cp.bg+)))
 
