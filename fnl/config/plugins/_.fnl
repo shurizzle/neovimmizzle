@@ -204,17 +204,10 @@
   (use-package! :kndndrj/nvim-dbee
                 :name :dbee)
 
-  (use-package! :zenbones-theme/zenbones.nvim
-                :lazy true
-                :name :zenbones
-                :deps [:rktjmp/lush.nvim]
-                :config #(vim.cmd.colorscheme :zenbones))
-
   (use-package! :f-person/auto-dark-mode.nvim
                 :lazy true
                 :event :VeryLazy
-                :opts []
-                :deps [:zenbones])
+                :opts [])
 
   ;; }}}
 

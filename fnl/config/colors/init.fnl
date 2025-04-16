@@ -115,9 +115,7 @@ endif"))
 
 (fn setup []
   (vim.cmd "command! ColoSync lua require'config.colors'.sync()<CR>")
-  (pcall #(vim.cmd.colorscheme :habamax))
-  ;; (pcall #(vim.cmd.colorscheme :bluesky))
-  )
+  (pcall #(vim.cmd.colorscheme :bluesky)))
 
 {: sync : setup}
 

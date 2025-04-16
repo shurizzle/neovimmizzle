@@ -1,4 +1,4 @@
-(let [cp (require :config.colors.palette)]
+(let [cp (. (require :config.colors.palette) :dark)]
   {:normal {:a {:fg cp.black :bg cp.white :gui :bold}
             :b {:fg cp.white :bg cp.grey}
             :c {:fg cp.white :bg cp.blacker}}
@@ -8,3 +8,4 @@
    :inactive {:a {:fg cp.almostwhite :bg cp.grey :gui :bold}
               :b {:fg cp.grey :bg cp.blacker}
               :c {:fg cp.grey :bg cp.blacker}}})
+
