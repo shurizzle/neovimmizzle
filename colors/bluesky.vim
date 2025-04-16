@@ -1,4 +1,4 @@
-hi clear
+highlight clear
 if exists("syntax")
   syntax reset
 endif
@@ -200,6 +200,23 @@ if &background ==# 'light'
 	highlight! link luaSymbolOperator Identifier
 	highlight prologClause guifg=#282828 guibg=NONE guisp=NONE blend=NONE gui=NONE
 	highlight! link vimHiTerm Identifier
+
+	let g:terminal_color_0 = "#282828"
+	let g:terminal_color_1 = "#c8213d"
+	let g:terminal_color_2 = "#169C51"
+	let g:terminal_color_3 = "#DAAF19"
+	let g:terminal_color_4 = "#2F90FE"
+	let g:terminal_color_5 = "#C14ABE"
+	let g:terminal_color_6 = "#48C6DB"
+	let g:terminal_color_7 = "#CBCBCB"
+	let g:terminal_color_8 = "#505050"
+	let g:terminal_color_9 = "#C7213D"
+	let g:terminal_color_10 = "#1ef15f"
+	let g:terminal_color_11 = "#FFE300"
+	let g:terminal_color_12 = "#00aeff"
+	let g:terminal_color_13 = "#FF40BE"
+	let g:terminal_color_14 = "#48FFFF"
+	let g:terminal_color_15 = "#FFFFFF"
 else
 	highlight! link @constructor Keyword
 	highlight @embedded guifg=#EEEEEE guibg=NONE guisp=NONE blend=NONE gui=NONE
@@ -396,22 +413,44 @@ else
 	highlight! link luaSymbolOperator Identifier
 	highlight prologClause guifg=#EEEEEE guibg=NONE guisp=NONE blend=NONE gui=NONE
 	highlight! link vimHiTerm Identifier
+
+	let g:terminal_color_0 = "#282828"
+	let g:terminal_color_1 = "#c8213d"
+	let g:terminal_color_2 = "#169C51"
+	let g:terminal_color_3 = "#DAAF19"
+	let g:terminal_color_4 = "#2F90FE"
+	let g:terminal_color_5 = "#C14ABE"
+	let g:terminal_color_6 = "#48C6DB"
+	let g:terminal_color_7 = "#CBCBCB"
+	let g:terminal_color_8 = "#505050"
+	let g:terminal_color_9 = "#C7213D"
+	let g:terminal_color_10 = "#1ef15f"
+	let g:terminal_color_11 = "#FFE300"
+	let g:terminal_color_12 = "#00aeff"
+	let g:terminal_color_13 = "#FF40BE"
+	let g:terminal_color_14 = "#48FFFF"
+	let g:terminal_color_15 = "#FFFFFF"
 endif
-let g:terminal_color_fg = "#eeeeee"
-let g:terminal_color_bg = "#282828"
-let g:terminal_color_0 = "#282828"
-let g:terminal_color_1 = "#c8213d"
-let g:terminal_color_2 = "#169C51"
-let g:terminal_color_3 = "#DAAF19"
-let g:terminal_color_4 = "#2F90FE"
-let g:terminal_color_5 = "#C14ABE"
-let g:terminal_color_6 = "#48C6DB"
-let g:terminal_color_7 = "#CBCBCB"
-let g:terminal_color_8 = "#505050"
-let g:terminal_color_9 = "#C7213D"
-let g:terminal_color_10 = "#1ef15f"
-let g:terminal_color_11 = "#FFE300"
-let g:terminal_color_12 = "#00aeff"
-let g:terminal_color_13 = "#FF40BE"
-let g:terminal_color_14 = "#48FFFF"
-let g:terminal_color_15 = "#FFFFFF"
+
+if has('terminal')
+	highlight! link StatusLineTerm StatusLine
+	highlight! link StatusLineTermNC StatusLineNC
+	let g:terminal_ansi_colors = [
+		\ g:terminal_color_0,
+		\ g:terminal_color_1,
+		\ g:terminal_color_2,
+		\ g:terminal_color_3,
+		\ g:terminal_color_4,
+		\ g:terminal_color_5,
+		\ g:terminal_color_6,
+		\ g:terminal_color_7,
+		\ g:terminal_color_8,
+		\ g:terminal_color_9,
+		\ g:terminal_color_10,
+		\ g:terminal_color_11,
+		\ g:terminal_color_12,
+		\ g:terminal_color_13,
+		\ g:terminal_color_14,
+		\ g:terminal_color_15
+		\ ]
+endif
