@@ -1,1 +1,2 @@
-{:lsp :intelephense :fmt :php-cs-fixer}
+{:lsp :phpactor :fmt :php-cs-fixer :lint :phpcs}
+
