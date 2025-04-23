@@ -5,7 +5,7 @@
 
 {:lazy true
  :build (let [p (require :config.platform)]
-          (.. (if (and p.is.bsd (not p.is.macos)) :gmake :make)
+          (.. (if (and p.is.bsd (not p.is.macos)) :gmake (not p.is.win) :make)
               " install_jsregexp"))
  :deps :rafamadriz/friendly-snippets
  : config}
