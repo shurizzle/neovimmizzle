@@ -95,10 +95,10 @@
   (get-rust-analyzer (fn [bin]
                        (set rust-analyzer [bin])
                        (conf)))
-  (local installer (require :config.lang.installer))
-  (installer.get :codelldb (fn [_ p]
+  (let [installer (require :config.lang.installer)]
+    (installer.get :codelldb (fn [_ p]
                              (set adapter [p])
-                             (conf))))
+                             (conf)))))
 
 (fn installer []
   (if *installer*

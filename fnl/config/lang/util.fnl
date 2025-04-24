@@ -37,7 +37,6 @@
 
   (and (file? path) (exe? path)))
 
-;; TODO: test
 (fn bin-in-dir-win [dir bin]
   (vim.validate :dir dir :string)
   (vim.validate :bin bin :string)
@@ -70,7 +69,12 @@
             (when (executable? full-path)
               full-path))))))
 
-  (some (partial (file-matcher bin exts) dir) (assert (scandir dir))))
+  (let [matcher (file-matcher bin exts)]
+    (var result nil)
+    (each [f (scandir dir) &until result]
+      (when (matcher dir f)
+        (set result (path-join dir f))))
+    result))
 
 (local bin-in-dir (if is.win
                       bin-in-dir-win
@@ -95,7 +99,7 @@
 (fn mason-bin [file]
   (vim.validate :file file :string true)
   (if file
-      (bin-in-dir (path-join (mason-bin-prefix) file))
+      (bin-in-dir (mason-bin-prefix) file)
       (mason-bin-prefix)))
 
 (fn mason-get [package-name ?bin-name cb]
