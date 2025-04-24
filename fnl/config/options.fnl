@@ -53,7 +53,7 @@
 ;; fnlfmt: skip
 (when is.windows
   (opt
-    shell :powershell
+    shell (if (executable :pwsh) :pwsh :powershell)
     shellcmdflag "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;"
     shellredir "2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode"
     shellpipe "2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode"
