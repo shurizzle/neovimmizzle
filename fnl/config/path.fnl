@@ -2,8 +2,8 @@
   (. x :filename))
 
 (local {: is} (require :config.platform))
-(local {: split : filter-map} (require :config.iter))
 (local {: access : scandir : stat} (require :config.fs))
+(local {: split : filter-map} (require :config.iter))
 (local dir-sep (if is.win "\\" "/"))
 
 (var path {: dir-sep
@@ -55,6 +55,12 @@
 
   (and (file? p) (exe? p)))
 
+(fn path.dir? [p]
+  (case (stat p)
+    (nil :ENOENT) false
+    (nil err) (error err)
+    md (= md.type :directory)))
+
 (fn unix-bin-in-dir [dir bin]
   (let [full-path (path.join dir bin)]
     (when (path.executable? full-path)
@@ -93,20 +99,28 @@
               full-path))))))
 
   (let [matcher (file-matcher bin exts)]
+    (local dirfd (vim.uv.fs_scandir dir))
+    (fn next* []
+      (when dirfd
+        (match (vim.uv.fs_scandir_next dirfd)
+          (nil err _) (if err (error err) nil)
+          (where entry (not= nil entry)) entry)))
     (var result nil)
-    (each [f (scandir dir) &until result]
+    ;; (each [f (scandir dir) &until result]
+    (each [f next* &until result]
       (when (matcher dir f)
         (set result (path.join dir f))))
     result))
 
 (set path.bin-in-dir (if is.win win-bin-in-dir unix-bin-in-dir))
 
-(lambda path.which [bin]
+(fn path.which [bin]
   (vim.validate :bin bin :string)
   (var result nil)
   (each [_ dir (ipairs (path.dirs)) &until result]
-    (let [p (path.bin-in-dir dir bin)]
-      (when p (set result p))))
+    (when (path.dir? dir)
+      (let [p (path.bin-in-dir dir bin)]
+        (when p (set result p)))))
   result)
 
 (readonly-table path)
