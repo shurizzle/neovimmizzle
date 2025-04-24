@@ -1,4 +1,4 @@
-(local {:join path-join} (require :config.path))
+(local {:join path-join : executable? : bin-in-dir} (require :config.path))
 (local {: access : scandir : stat} (require :config.fs))
 (local {: split : filter-map} (require :config.iter))
 (local {: is} (require :config.platform))
@@ -21,67 +21,6 @@
         (cb (unpack state.result))
         (table.insert state.callbacks cb))
     nil))
-
-(fn executable? [path]
-  (fn file? [path]
-    (case (stat path)
-      (nil _ :ENOENT) false
-      (nil err _) (error err)
-      md (= md.type :file)))
-
-  (fn exe? [path]
-    (case (access path :X)
-      (nil _ :ENOENT) false
-      (nil err _) (error err)
-      res res))
-
-  (and (file? path) (exe? path)))
-
-(fn bin-in-dir-win [dir bin]
-  (vim.validate :dir dir :string)
-  (vim.validate :bin bin :string)
-  (local exts (icollect [e (filter-map #(when (> (length $1) 0)
-                                          (string.upper $1))
-                                       (split (os.getenv :PATHEXT) ";+"))]
-                e))
-
-  (fn strip-suffix [str suff]
-    (when (and (> (length str) (length suff))
-               (= (str:sub (- (length suff))) suff))
-      (str:sub 1 (- (+ 1 (length suff))))))
-
-  (fn file-matcher [bin* exts]
-    (local bin (string.upper bin*))
-
-    (fn match-file [file]
-      (let [name (some (partial strip-suffix file) exts)]
-        (= bin name)))
-
-    (local match-name (if (some (partial strip-suffix bin) exts)
-                          (fn [file]
-                            (or (= bin file) (match-file file)))
-                          (fn [file]
-                            (match-file file))))
-    (fn [path file*]
-      (let [file (string.upper file*)]
-        (when (match-name file)
-          (let [full-path (path-join path file*)]
-            (when (executable? full-path)
-              full-path))))))
-
-  (let [matcher (file-matcher bin exts)]
-    (var result nil)
-    (each [f (scandir dir) &until result]
-      (when (matcher dir f)
-        (set result (path-join dir f))))
-    result))
-
-(local bin-in-dir (if is.win
-                      bin-in-dir-win
-                      (fn [dir bin]
-                        (let [full-path (path-join dir bin)]
-                          (when (executable? full-path)
-                            full-path)))))
 
 (fn mason-is2? []
   (= 2 (. (require :mason.version) :MAJOR_VERSION)))

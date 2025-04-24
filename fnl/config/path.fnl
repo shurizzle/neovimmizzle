@@ -2,6 +2,8 @@
   (. x :filename))
 
 (local {: is} (require :config.platform))
+(local {: split : filter-map} (require :config.iter))
+(local {: access : scandir : stat} (require :config.fs))
 (local dir-sep (if is.win "\\" "/"))
 
 (var path {: dir-sep
@@ -38,10 +40,73 @@
     (table.insert dirs dir)
     (set-path dirs)))
 
+(fn path.executable? [p]
+  (fn file? [p]
+    (case (stat p)
+      (nil _ :ENOENT) false
+      (nil err _) (error err)
+      md (= md.type :file)))
+
+  (fn exe? [p]
+    (case (access p :X)
+      (nil _ :ENOENT) false
+      (nil err _) (error err)
+      res res))
+
+  (and (file? p) (exe? p)))
+
+(fn unix-bin-in-dir [dir bin]
+  (let [full-path (path.join dir bin)]
+    (when (path.executable? full-path)
+      full-path)))
+
+(fn win-bin-in-dir [dir bin]
+  (vim.validate :dir dir :string)
+  (vim.validate :bin bin :string)
+  (local exts (icollect [e (filter-map #(when (> (length $1) 0)
+                                          (string.upper $1))
+                                       (split (os.getenv :PATHEXT) ";+"))]
+                e))
+
+  (fn strip-suffix [str suff]
+    (when (and (> (length str) (length suff))
+               (= (str:sub (- (length suff))) suff))
+      (str:sub 1 (- (+ 1 (length suff))))))
+
+  (fn file-matcher [bin* exts]
+    (local bin (string.upper bin*))
+
+    (fn match-file [file]
+      (let [name (some (partial strip-suffix file) exts)]
+        (= bin name)))
+
+    (local match-name (if (some (partial strip-suffix bin) exts)
+                          (fn [file]
+                            (or (= bin file) (match-file file)))
+                          (fn [file]
+                            (match-file file))))
+    (fn [dir file*]
+      (let [file (string.upper file*)]
+        (when (match-name file)
+          (let [full-path (path.join dir file*)]
+            (when (path.executable? full-path)
+              full-path))))))
+
+  (let [matcher (file-matcher bin exts)]
+    (var result nil)
+    (each [f (scandir dir) &until result]
+      (when (matcher dir f)
+        (set result (path.join dir f))))
+    result))
+
+(set path.bin-in-dir (if is.win win-bin-in-dir unix-bin-in-dir))
+
 (lambda path.which [bin]
   (vim.validate :bin bin :string)
-  (each [_ dir (ipairs (path.dirs))]
-    (let [p (path.join dir bin)]
-      (if (executable p) (lua "return p")))))
+  (var result nil)
+  (each [_ dir (ipairs (path.dirs)) &until result]
+    (let [p (path.bin-in-dir dir bin)]
+      (when p (set result p))))
+  result)
 
 (readonly-table path)
