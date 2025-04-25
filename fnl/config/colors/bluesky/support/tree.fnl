@@ -13,4 +13,3 @@
     (NvimTreeStatusLineNC :fg cp.bg+ :bg cp.bg+)
     (NvimTreeEndOfBuffer :fg cp.bg+ :bg cp.bg+)
     (NvimTreeSignColumn :fg cp.bg+ :bg cp.bg+)))
-

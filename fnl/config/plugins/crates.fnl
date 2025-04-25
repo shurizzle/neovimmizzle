@@ -17,4 +17,3 @@
  :opts {:completion {:cmp {:enabled true}}
         :null_ls {:enabled false}
         :lsp {:enabled true :actions true :completion false : on_attach}}}
-

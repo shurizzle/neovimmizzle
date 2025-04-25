@@ -31,4 +31,3 @@
     (DiagnosticSignWarn DiagnosticWarn)
     (DiagnosticSignInfo DiagnosticInfo)
     (DiagnosticSignHint DiagnosticHint)))
-

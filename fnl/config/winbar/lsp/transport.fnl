@@ -24,6 +24,7 @@
                    :Event 24
                    :Operator 25
                    :TypeParameter 26})
+
 (each [k v (pairs SymbolKind)]
   (tset SymbolKind v k))
 
@@ -116,4 +117,3 @@
                               bufnr))))))
 
 {: request : SymbolKind : SymbolTag}
-

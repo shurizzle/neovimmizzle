@@ -2,4 +2,3 @@
 
 (fn [cb]
   (bin-or-install :phpcs (lint :phpcs cb)))
-

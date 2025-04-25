@@ -10,4 +10,3 @@
 (fn [cb]
   (bin-or-install :ruff-lsp (fn [bin]
                               (cb (config bin)))))
-

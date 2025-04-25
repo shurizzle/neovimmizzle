@@ -27,4 +27,3 @@
  :keys (icollect [k [_ desc] (pairs bindings)]
          {:mode :n : desc 1 (.. :<leader> k)})
  : config}
-

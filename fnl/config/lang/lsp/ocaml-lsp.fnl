@@ -39,4 +39,3 @@
   (get-ocamlformat (fn [path]
                      (set ocamlformat-path [path])
                      (conf))))
-

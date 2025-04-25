@@ -114,4 +114,3 @@
     (luaSymbolOperator Identifier)
     (luaFunc Special)
     ("@constructor" Keyword)))
-

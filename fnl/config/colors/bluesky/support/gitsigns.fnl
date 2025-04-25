@@ -13,4 +13,3 @@
     (GitSignsAddLn :fg cp.green)
     (GitSignsChangeLn :fg cp.yellow)
     (GitSignsDeleteLn :fg cp.red)))
-

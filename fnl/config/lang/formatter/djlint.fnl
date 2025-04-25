@@ -2,4 +2,3 @@
 
 (fn [cb]
   (bin-or-install :djlint (conform :djlint cb)))
-

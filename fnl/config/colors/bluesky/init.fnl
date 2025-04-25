@@ -18,4 +18,3 @@
     (compile (merge! (unpack (icollect [_ gen (ipairs gens)] (gen cp))))))
 
   {:dark (gen* cps.dark) :light (gen* cps.light)})
-

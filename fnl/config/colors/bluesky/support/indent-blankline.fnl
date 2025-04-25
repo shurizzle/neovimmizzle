@@ -6,4 +6,3 @@
   (blush
     (IblIndent :fg cp.almostbg)
     (IblScope :fg cp.fg)))
-

@@ -271,4 +271,3 @@
                               (set vim.o.gfn (.. "monospace:h" *font-size*))
                               nil)
                   {:noremap true :silent true}))
-

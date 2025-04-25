@@ -88,4 +88,3 @@
                                 :opts {:margin 5}}))
 
 {:lazy false : config}
-

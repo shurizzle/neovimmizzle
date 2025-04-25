@@ -45,4 +45,3 @@
 
 ((. (require :lazy) :setup) config {:dev {:path "~/p"} :pkg {:enabled false}})
 (-after-load)
-

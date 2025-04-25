@@ -97,8 +97,8 @@
                        (conf)))
   (let [installer (require :config.lang.installer)]
     (installer.get :codelldb (fn [_ p]
-                             (set adapter [p])
-                             (conf)))))
+                               (set adapter [p])
+                               (conf)))))
 
 (fn installer []
   (if *installer*
@@ -115,4 +115,3 @@
   (vim.api.nvim_create_autocmd :FileType {:pattern :rust : callback}))
 
 {:lazy true :version :^5 :deps [:dap :akinsho/toggleterm.nvim] : init}
-

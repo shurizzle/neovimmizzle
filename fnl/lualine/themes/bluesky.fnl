@@ -8,4 +8,3 @@
    :inactive {:a {:fg cp.almostwhite :bg cp.grey :gui :bold}
               :b {:fg cp.grey :bg cp.blacker}
               :c {:fg cp.grey :bg cp.blacker}}})
-

@@ -4,4 +4,3 @@
 (fn [cp]
   (blush
     (prologClause :fg cp.fg)))
-

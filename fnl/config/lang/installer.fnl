@@ -153,4 +153,3 @@
                                  (= :map name) map
                                  (get name)))
                   :__newindex (fn [])})
-

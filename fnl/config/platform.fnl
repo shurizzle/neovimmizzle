@@ -47,4 +47,3 @@
 (tset _is :bsd (or _is.mac _is.fbsd _is.dfbsd _is.nbsd _is.obsd))
 
 (readonly-table {: os :is (readonly-table _is) :ssh ssh-remote})
-

@@ -12,4 +12,3 @@
   (installer.get :powershell-editor-services
                  (fn [_ p]
                    (cb (config (-?> p (mason-get-install-path)))))))
-

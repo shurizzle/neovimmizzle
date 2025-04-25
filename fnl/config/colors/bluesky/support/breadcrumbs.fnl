@@ -32,4 +32,3 @@
     (BreadcrumbIconTypeParameter BreadcrumbIconFile)
     (BreadcrumbText :fg cp.fg :bg cp.blacker +italic)
     (BreadcrumbsSeparator :fg cp.yellow :bg cp.blacker +bold)))
-

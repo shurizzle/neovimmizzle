@@ -20,4 +20,3 @@
  :deps :JoosepAlviste/nvim-ts-context-commentstring
  :keys [{:mode :n 1 :<leader>c/} {:mode :x 1 :<leader>c/}]
  : config}
-

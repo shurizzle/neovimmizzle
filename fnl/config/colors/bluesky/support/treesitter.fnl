@@ -6,4 +6,3 @@
     (TSWarning :fg cp.bg :bg cp.yellow)
     (TSDanger :fg cp.bg :bg cp.red)
     ("@embedded" :fg cp.fg)))
-

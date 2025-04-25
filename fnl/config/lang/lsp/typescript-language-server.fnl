@@ -13,4 +13,3 @@
                          (if (and (not err) p)
                              (cb (config))
                              (cb (config))))))))
-

@@ -10,4 +10,3 @@
 (fn [cb]
   (bin-or-install :jinja-lsp (fn [bin]
                                (cb (config bin)))))
-

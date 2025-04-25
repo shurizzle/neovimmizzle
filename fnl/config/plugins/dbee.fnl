@@ -6,7 +6,6 @@
   (local dbee (require :dbee))
   (local api_ui (require :dbee.api.ui))
   (local sidebar (require :config.sidebar))
-
   (local augroup (vim.api.nvim_create_augroup :dbee-layout {:clear true}))
   (var open? false)
 
@@ -99,4 +98,3 @@
  :cmd :Dbee
  :build #(. (require :dbee) :install)
  : config}
-

@@ -11,4 +11,3 @@
   (bin-or-install :pyright :pyright :pyright-langserver
                   (fn [bin]
                     (cb (config bin)))))
-

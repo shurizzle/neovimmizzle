@@ -15,4 +15,3 @@
 (local merge (partial merge! []))
 
 (merge! {: merge! : merge : compile} color)
-

@@ -109,4 +109,3 @@
                              {:pattern "term://*" :command "setlocal nospell"})
 
 nil
-

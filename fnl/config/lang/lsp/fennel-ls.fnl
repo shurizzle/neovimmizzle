@@ -9,5 +9,4 @@
 
 (fn [cb]
   (bin-or-install :fennel-ls (fn [bin]
-                           (cb (config bin)))))
-
+                               (cb (config bin)))))

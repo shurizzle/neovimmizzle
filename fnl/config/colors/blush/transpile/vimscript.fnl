@@ -11,4 +11,3 @@
                      (.. pre "highlight clear " name)
                      (.. pre "highlight " name " " (props def)))]
         (if res (.. res "\n" line) line)))))
-

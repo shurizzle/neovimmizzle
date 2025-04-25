@@ -7,4 +7,3 @@
     (illuminateWordRead IlluminatedWordText)
     (illuminateWordWrite IlluminatedWordText)
     (illuminatedWord CursorLine)))
-

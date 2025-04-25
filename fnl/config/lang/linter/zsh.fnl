@@ -17,4 +17,3 @@
 (fn [cb]
   (register)
   (cb :zsh))
-

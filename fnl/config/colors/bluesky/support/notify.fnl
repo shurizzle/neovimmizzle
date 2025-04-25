@@ -4,4 +4,3 @@
 (fn [cp] 
   (blush
     (NotifyBackground :bg cp.bg+)))
-

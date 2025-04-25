@@ -1,6 +1,7 @@
 (local {: ensure-bufnr : buf-is-visible} (require :config.winbar.util))
 (local {: get : get-or-create :delete *delete}
        (require :config.winbar.lsp.state))
+
 (local {:request send-request} (require :config.winbar.lsp.transport))
 
 (var request nil)
@@ -141,4 +142,3 @@
 (fn get-data [bufnr] (-?> (get bufnr) (. :data)))
 
 {: setup : get-data}
-

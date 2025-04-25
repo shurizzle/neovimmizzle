@@ -9,4 +9,3 @@
   (vim.api.nvim_create_autocmd [:BufWritePost :FileType] {: callback}))
 
 {:lazy true : init :config #(tset (require :lint) :linters_by_ft [])}
-

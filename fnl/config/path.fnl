@@ -100,11 +100,13 @@
 
   (let [matcher (file-matcher bin exts)]
     (local dirfd (vim.uv.fs_scandir dir))
+
     (fn next* []
       (when dirfd
         (match (vim.uv.fs_scandir_next dirfd)
           (nil err _) (if err (error err) nil)
           (where entry (not= nil entry)) entry)))
+
     (var result nil)
     ;; (each [f (scandir dir) &until result]
     (each [f next* &until result]

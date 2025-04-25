@@ -62,4 +62,3 @@
              (has :nvim-0.9) :nvim-0.9
              (has :nvim-0.8) :nvim-0.8
              (error :unreachable))}
-

@@ -1,2 +1,1 @@
 {:lsp :gleam :fmt :gleam}
-

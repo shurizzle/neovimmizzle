@@ -10,4 +10,3 @@
          :var-never-set true
          :op-with-no-arguments true
          :multival-in-middle-of-call true}}
-

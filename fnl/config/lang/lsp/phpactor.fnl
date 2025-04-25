@@ -14,4 +14,3 @@
 (fn [cb]
   (bin-or-install :phpactor (fn [bin]
                               (cb (config bin)))))
-

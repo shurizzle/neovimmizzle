@@ -84,4 +84,3 @@
                   {:silent true :noremap true :desc "Toggle dapui"}))
 
 {:lazy true :deps [:dap :nvim-neotest/nvim-nio] : init : config}
-

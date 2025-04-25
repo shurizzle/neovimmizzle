@@ -177,4 +177,3 @@
 {:cmd [:NvimTreeToggle :NvimTreeFocus :NvimTreeFindFile :NvimTreeCollapse]
  :keys [{:mode :n :desc "Toggle nvim-tree" 1 :<space>e}]
  : config}
-

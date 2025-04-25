@@ -139,4 +139,3 @@
  : conform
  : lint
  : mason-get-install-path}
-

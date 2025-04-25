@@ -5,4 +5,3 @@
   (blush
     (TelescopeBorder :fg cp.blue)
     (TelescopeMatching +italic +underline)))
-

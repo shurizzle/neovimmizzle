@@ -118,4 +118,3 @@ endif"))
   (pcall #(vim.cmd.colorscheme :bluesky)))
 
 {: sync : setup}
-

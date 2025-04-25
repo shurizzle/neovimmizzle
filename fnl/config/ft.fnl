@@ -58,4 +58,3 @@
 (set vim.g.rustfmt_autosave false)
 
 nil
-

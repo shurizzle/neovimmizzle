@@ -21,4 +21,3 @@
     (BufferTabpages :bg cp.grey)
     (BufferTabpageFill :bg cp.bg+)
     (BufferOffset :bg cp.bg+ :fg cp.accent)))
-

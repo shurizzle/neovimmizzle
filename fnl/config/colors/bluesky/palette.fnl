@@ -31,4 +31,3 @@
   (set light.bg+ (darken white-hsl 10))
   (set light.almostbg (darken white-hsl 3))
   {: dark : light})
-

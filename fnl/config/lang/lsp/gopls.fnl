@@ -17,4 +17,3 @@
 (fn [cb]
   (bin-or-install :gopls (fn [bin]
                            (cb (config bin)))))
-

@@ -12,4 +12,3 @@
   (cb))
 
 {: ft :lsp [:typescript-language-server :eslint-lsp] : config}
-
