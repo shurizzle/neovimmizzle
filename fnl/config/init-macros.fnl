@@ -1,3 +1,5 @@
+;; fennel-ls: macro-file
+
 (fn inc! [varname]
   (assert-compile (sym? varname) "Invalid variable name" varname)
   `(set ,varname (+ ,varname 1)))
@@ -138,3 +140,4 @@
      _# false))
 
 {: inc! : dec! : autoload : lazy-var : lazy-let : module : matches}
+

@@ -1,3 +1,5 @@
+;; fennel-ls: macro-file
+
 (local unpack (or table.unpack _G.unpack))
 (local *flags* [:bold :italic :underline :reverse])
 
@@ -70,3 +72,4 @@
   res)
 
 {: blush}
+
