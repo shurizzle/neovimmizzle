@@ -96,5 +96,6 @@
 {:lazy true
  :deps :nui
  :cmd :Dbee
- :build #(. (require :dbee) :install)
+ :build #((. (require :dbee) :install))
  : config}
+
