@@ -329,7 +329,13 @@
   (use-package! :pmizio/typescript-tools.nvim
                 :name :typescript-tools
                 :deps [:plenary :neovim/nvim-lspconfig]
-                :lazy true)
+                :lazy true
+                :opts {:settings {:tsserver_file_preferences {:includeInlayParameterNameHints :all
+                                                              :includeInlayEnumMemberValueHints true
+                                                              :includeInlayFunctionLikeReturnTypeHints true
+                                                              :includeInlayFunctionParameterTypeHints true
+                                                              :includeInlayPropertyDeclarationTypeHints true
+                                                              :includeInlayVariableTypeHints true}}})
 
   (use-package! :akinsho/flutter-tools.nvim
                 :name :flutter-tools
@@ -462,3 +468,4 @@
   ;; }}}
 
   *packages*)
+
