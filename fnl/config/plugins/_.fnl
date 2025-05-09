@@ -308,6 +308,10 @@
                 :deps [:hrsh7th/cmp-nvim-lsp]
                 :lazy true)
 
+  (use-package! :Exafunction/windsurf.vim
+                :lazy true
+                :event :BufEnter)
+
   ;; }}}
 
   ;; langs {{{
