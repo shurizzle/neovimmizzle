@@ -310,7 +310,12 @@
 
   (use-package! :Exafunction/windsurf.vim
                 :lazy true
-                :event :BufEnter)
+                :event :BufEnter
+                :init #(set vim.g.codeium_disable_bindings 1)
+                :config #(let [s #(vim.keymap.set :i $1 $2 {:expr true :silent true})]
+                          (s :<C-l> #(vim.fn.codeium#Accept))
+                          (s "<C-,>" #(vim.fn.codeium#CycleCompletions -1))
+                          (s "<C-.>" #(vim.fn.codeium#CycleCompletions 1))))
 
   ;; }}}
 

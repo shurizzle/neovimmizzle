@@ -2,13 +2,13 @@
 
 (fn config []
   (local opts DEFAULT_OPTS)
-  (var symbols
-       {:fileformat []
-        :line :LN
-        :component_separators {:left "" :right ""}
-        :section_separators {:left "" :right ""}
-        :filename {:modified "[+]" :readonly "[-]" :unnamed "[No Name]"}
-        :diagnostics {:error "E:" :warn "W:" :info "I:" :hint "H:"}})
+  (local symbols
+         {:fileformat []
+          :line :LN
+          :component_separators {:left "" :right ""}
+          :section_separators {:left "" :right ""}
+          :filename {:modified "[+]" :readonly "[-]" :unnamed "[No Name]"}
+          :diagnostics {:error "E:" :warn "W:" :info "I:" :hint "H:"}})
   (when opts.nerdfont
     (set symbols.fileformat {:unix "" :dos "" :mac ""})
     (set symbols.line "")
@@ -61,7 +61,8 @@
                                              :lualine_b [:branch
                                                          {1 :diagnostics
                                                           :symbols symbols.diagnostics}]
-                                             :lualine_c [file-status]
+                                             :lualine_c [file-status
+                                                         #(vim.fn.codeium#GetStatusString)]
                                              :lualine_x [noice-mode
                                                          :selectioncount
                                                          :file_type]
@@ -95,3 +96,4 @@
                                                toggleterm]}))
 
 {:lazy false : config}
+
