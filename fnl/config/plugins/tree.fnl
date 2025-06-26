@@ -7,7 +7,6 @@
   (local lib (prequire :nvim-tree.lib))
   (local core (prequire :nvim-tree.core))
   (local tree (require :nvim-tree))
-  (local view (require :nvim-tree.view))
   (local sidebar (require :config.sidebar))
   (local ev (require :nvim-tree.events))
   (var sb nil)
@@ -119,7 +118,8 @@
                                          :file true
                                          :folder_arrow false}}}})
 
-  (fn is-open [] (view.is_visible))
+  (fn open? []
+    (-?> (core.get_explorer) (. :view) (: :is_visible)))
 
   (fn find-file [?bufnr]
     (local bufnr (or ?bufnr (vim.api.nvim_get_current_buf)))
@@ -130,10 +130,11 @@
 
   (fn raw-open []
     (let [bufnr (vim.api.nvim_get_current_buf)]
-      (if (not (is-open)) (api.tree.open))
+      (if (not (open?)) (api.tree.open))
       (find-file bufnr)))
 
-  (fn close [] (view.close))
+  (fn close []
+    (-?> (core.get_explorer) (. :view) (: :close)))
 
   (fn open []
     (sidebar.register :Explorer (fn [-close]
@@ -144,7 +145,7 @@
                         (raw-open))))
 
   (fn toggle []
-    ((if (is-open) close open)))
+    ((if (open?) close open)))
 
   (vim.keymap.set :n :<space>e toggle
                   {:silent true :noremap true :desc "Toggle nvim-tree"})
@@ -152,7 +153,7 @@
                 (fn []
                   (vim.opt_local.fillchars:append "vert: ")
                   (set vim.wo.statusline "%#NvimTreeStatusLine#")
-                  (let [winnr (view.get_winnr)
+                  (let [winnr (-?> (core.get_explorer) (. :view) (: :get_winnr))
                         group (vim.api.nvim_create_augroup :NvimTreeResize
                                                            {:clear true})]
                     (vim.api.nvim_create_autocmd :WinScrolled
@@ -166,7 +167,8 @@
                         (sb.resize (inc (vim.api.nvim_win_get_width winnr)))))))
   (ev.subscribe ev.Event.Resize
                 (fn []
-                  (local winnr (view.get_winnr))
+                  (local winnr
+                         (-?> (core.get_explorer) (. :view) (: :get_winnr)))
                   (if (and sb sb.resize)
                       (sb.resize (inc (vim.api.nvim_win_get_width winnr))))))
   (ev.subscribe ev.Event.TreeClose
@@ -177,3 +179,4 @@
 {:cmd [:NvimTreeToggle :NvimTreeFocus :NvimTreeFindFile :NvimTreeCollapse]
  :keys [{:mode :n :desc "Toggle nvim-tree" 1 :<space>e}]
  : config}
+
