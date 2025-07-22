@@ -339,6 +339,7 @@
                 :name :typescript-tools
                 :deps [:plenary :neovim/nvim-lspconfig]
                 :lazy true
+                :enabled false
                 :opts {:settings {:tsserver_file_preferences {:includeInlayParameterNameHints :all
                                                               :includeInlayEnumMemberValueHints true
                                                               :includeInlayFunctionLikeReturnTypeHints true
