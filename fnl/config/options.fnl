@@ -33,7 +33,7 @@
   window 53
   splitbelow true
   splitright true
-  colorcolumn :80
+  colorcolumn :+0
   cursorline true
   omnifunc "v:lua.vim.lsp.omnifunc"
   guifont (.. "monospace:h" (if is.macos 11 10))
@@ -109,3 +109,4 @@
                              {:pattern "term://*" :command "setlocal nospell"})
 
 nil
+
