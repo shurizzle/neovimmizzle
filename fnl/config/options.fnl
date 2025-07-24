@@ -85,9 +85,8 @@
       (->> (table.concat lines "\n")
            (vim.base64.encode)
            (osc52 clipboard)
-           (io.stdout:write))))
+           (vim.api.nvim_chan_send 2))))
 
-  (local {: paste} (require :vim.ui.clipboard.osc52))
   (set vim.g.clipboard {:name :osc52
                         :copy {:+ (copy "+") :* (copy "*")}
                         :paste {:+ #0 :* #0}}))
