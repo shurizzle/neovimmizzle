@@ -153,7 +153,7 @@
                 (fn []
                   (vim.opt_local.fillchars:append "vert: ")
                   (set vim.wo.statusline "%#NvimTreeStatusLine#")
-                  (let [winnr (-?> (core.get_explorer) (. :view) (: :get_winnr))
+                  (let [winnr (-?> (core.get_explorer) (. :view) (: :get_winid))
                         group (vim.api.nvim_create_augroup :NvimTreeResize
                                                            {:clear true})]
                     (vim.api.nvim_create_autocmd :WinScrolled
@@ -168,7 +168,7 @@
   (ev.subscribe ev.Event.Resize
                 (fn []
                   (local winnr
-                         (-?> (core.get_explorer) (. :view) (: :get_winnr)))
+                         (-?> (core.get_explorer) (. :view) (: :get_winid)))
                   (if (and sb sb.resize)
                       (sb.resize (inc (vim.api.nvim_win_get_width winnr))))))
   (ev.subscribe ev.Event.TreeClose
