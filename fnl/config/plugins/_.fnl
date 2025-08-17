@@ -293,6 +293,19 @@
                 :cmd :Rfc
                 :ft  :rfc)
 
+  (use-package! :kid-icarus/jira.nvim
+                :lazy true
+                :cmd :Jira
+                :main :jira
+                :opts []
+                :init (fn []
+                        (vim.keymap.set :n :<leader>jv "<cmd>Jira issue view<CR>"
+                                        {:noremap false :silent true :desc "Jira view issue"})
+                        (vim.keymap.set :n :<leader>jc "<cmd>Jira issue create<CR>"
+                                        {:noremap false :silent true :desc "Jira create issue"})
+                        (vim.keymap.set :n :<leader>jt #((. (require "jira.pickers.telescope") :transitions))
+                                        {:noremap false :silent true :desc "Jira change status"})))
+
   ;; }}}
 
   ;; completion {{{
@@ -478,4 +491,3 @@
   ;; }}}
 
   *packages*)
-
