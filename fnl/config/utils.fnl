@@ -99,6 +99,16 @@
 
 (vim.api.nvim_command "command! -nargs=+ Cargo lua cargo(<q-args>)")
 
+(fn scratch []
+  (let [bufno (vim.api.nvim_create_buf true true)]
+    (when (not= 0 bufno)
+      (tset (. vim.bo bufno) :buftype :nofile)
+      (tset (. vim.bo bufno) :bufhidden :hide)
+      (tset (. vim.bo bufno) :swapfile false))
+    (vim.api.nvim_set_current_buf bufno)))
+
+(vim.api.nvim_create_user_command :Scratch scratch [])
+
 (when (has :nvim-0.10)
   (let [sn (. (vim.loop.os_uname) :sysname)]
     (when (and (not= sn :Darwin) (not= sn :Windows_NT) (executable :fswatch))
