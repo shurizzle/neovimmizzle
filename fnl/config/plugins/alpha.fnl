@@ -72,7 +72,7 @@
                  :opts {:position :center :hl :Type}})
   (local buttons {:type :group
                   :val (let [{: button} (require :alpha.themes.dashboard)]
-                         [(button :e "  New file" "<cmd>ene <CR>")
+                         [(button :e "  New file" :<cmd>Scratch<CR>)
                           (button "COMMA f f" "󰈞  Find file")
                           (button "COMMA f g" "󰈬  Find word")
                           (button "COMMA f h" "󰡯  Help")])
