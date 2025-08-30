@@ -239,13 +239,14 @@
   (use-package! :mfussenegger/nvim-lint
                 :name :lint)
 
-  ;; (use-package! :instant-markdown/vim-instant-markdown
-  ;;               :lazy true
-  ;;               :ft   :markdown
-  ;;               :init (fn []
-  ;;                       (set vim.g.nvim_markdown_preview_theme :github)
-  ;;                       (if (not= 0 (or vim.g.started_by_firenvim 0))
-  ;;                           (set vim.g.instant_markdown_autostart 0))))
+  (use-package! :iamcco/markdown-preview.nvim
+                :lazy true
+                :cmd [:MarkdownPreviewToggle :MarkdownPreview :MarkdownPreviewStop]
+                :ft :markdown
+                :build (fn []
+                         (let [{: load} (require :lazy.core.loader)]
+                           (load [:markdown-preview.nvim] {:plugin :markdown-preview.nvim})
+                           ((. vim.fn :mkdp#util#install)))))
 
   (use-package! :rktjmp/paperplanes.nvim
                 :lazy true
