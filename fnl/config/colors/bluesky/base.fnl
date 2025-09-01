@@ -3,7 +3,7 @@
 ;; fnlfmt: skip
 (fn [cp]
   (blush
-    (Normal :fg cp.fg)
+    (Normal :fg cp.fg :bg cp.bg)
     (NormalFloat Normal)
     (NormalNC Normal)
     (WinBar Normal)

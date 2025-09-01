@@ -130,7 +130,11 @@ if &background ==# 'light'
 	highlight ModeMsg guifg=#2F90FE guibg=NONE guisp=NONE blend=NONE gui=bold
 	highlight MoreMsg guifg=NONE guibg=NONE guisp=NONE blend=NONE gui=bold
 	highlight NonText guifg=#535353 guibg=NONE guisp=NONE blend=NONE gui=NONE
-	highlight Normal guifg=#282828 guibg=NONE guisp=NONE blend=NONE gui=NONE
+	if get(g:, 'neovide')
+		highlight Normal guifg=#282828 guibg=#EEEEEE guisp=NONE blend=NONE gui=NONE
+	else
+		highlight Normal guifg=#282828 guibg=NONE guisp=NONE blend=NONE gui=NONE
+	endif
 	highlight! link NormalFloat Normal
 	highlight! link NormalNC Normal
 	highlight NotifyBackground guifg=NONE guibg=#D6D6D6 guisp=NONE blend=NONE gui=NONE
@@ -343,7 +347,11 @@ else
 	highlight ModeMsg guifg=#2F90FE guibg=NONE guisp=NONE blend=NONE gui=bold
 	highlight MoreMsg guifg=NONE guibg=NONE guisp=NONE blend=NONE gui=bold
 	highlight NonText guifg=#535353 guibg=NONE guisp=NONE blend=NONE gui=NONE
-	highlight Normal guifg=#EEEEEE guibg=NONE guisp=NONE blend=NONE gui=NONE
+	if get(g:, 'neovide')
+		highlight Normal guifg=#EEEEEE guibg=#282828 guisp=NONE blend=NONE gui=NONE
+	else
+		highlight Normal guifg=#EEEEEE guibg=NONE guisp=NONE blend=NONE gui=NONE
+	endif
 	highlight! link NormalFloat Normal
 	highlight! link NormalNC Normal
 	highlight NotifyBackground guifg=NONE guibg=#242424 guisp=NONE blend=NONE gui=NONE
