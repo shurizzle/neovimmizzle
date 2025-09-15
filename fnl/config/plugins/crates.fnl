@@ -1,5 +1,4 @@
 (fn on_attach [_ buffer]
-  (local opts {: buffer :silent true :noremap true :nowait true})
   (local crates (require :crates))
 
   (fn km [k f desc]
@@ -14,6 +13,8 @@
  :event "BufRead Cargo.toml"
  :deps [:plenary :cmp]
  :main :crates
- :opts {:completion {:cmp {:enabled true}}
-        :null_ls {:enabled false}
-        :lsp {:enabled true :actions true :completion false : on_attach}}}
+ :opts {:lsp {:enabled true
+              :actions true
+              :completion true
+              :hover true
+              : on_attach}}}

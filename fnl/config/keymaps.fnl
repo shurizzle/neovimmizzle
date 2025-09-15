@@ -156,9 +156,6 @@
         (and (some #(= $1.name :rust-analyzer) (vim.lsp.buf_get_clients))
              (not= 0 (vim.fn.exists ":RustLsp")))
         (vim.cmd.RustLsp [:hover :actions])
-        (and (= :Cargo.toml (vim.fn.expand "%:t"))
-             ((. (require :crates) :popup_available)))
-        ((. (require :crates) :show_popup))
         (lsp-hover))))
 
 (each [k [f d] (pairs {:<C-n> [_G.bufnext "Go to next tab"]
