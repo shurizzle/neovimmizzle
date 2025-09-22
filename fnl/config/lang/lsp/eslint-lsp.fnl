@@ -1,10 +1,9 @@
-(local {: bin-or-install} (require :config.lang.util))
-(local lspconfig (require :lspconfig))
+(local {: bin-or-install : lspconfig} (require :config.lang.util))
 
 (fn config [bin]
   (local opts [])
   (when bin (set opts.cmd [bin :--stdio]))
-  (lspconfig.eslint.setup opts)
+  (lspconfig :eslint opts)
   lspconfig.eslint)
 
 (fn [cb]

@@ -1,7 +1,7 @@
 (local {:join path-join} (require :config.path))
 (local installer (require :config.lang.installer))
-(local {: bin-or-install : mason-get-install-path} (require :config.lang.util))
-(local lspconfig (require :lspconfig))
+(local {: bin-or-install : mason-get-install-path : lspconfig}
+       (require :config.lang.util))
 
 (fn config [bin fmt]
   (local opts [])
@@ -12,7 +12,7 @@
                     (.. fmt (. (require :config.path) :sep) path)
                     fmt))
     (set opts.cmd_env {: PATH}))
-  (lspconfig.ocamlls.setup opts)
+  (lspconfig :ocamlls opts)
   lspconfig.ocamlls)
 
 (fn get-ocamlformat [cb]

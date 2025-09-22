@@ -1,6 +1,5 @@
-(local {: bin-or-install} (require :config.lang.util))
+(local {: bin-or-install : lspconfig} (require :config.lang.util))
 (local {:load lazy-load} (require :lazy.core.loader))
-(local lspconfig (require :lspconfig))
 
 (fn config [bin]
   (lazy-load :neodev.nvim [])
@@ -8,7 +7,7 @@
                                               :schemas))
                                  :validate {:enable true}}}})
   (when bin (set opts.cmd [bin :--stdio]))
-  (lspconfig.jsonls.setup opts)
+  (lspconfig :jsonls opts)
   lspconfig.jsonls)
 
 (fn [cb]

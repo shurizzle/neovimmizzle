@@ -1,5 +1,5 @@
-(local lspconfig (require :lspconfig))
+(local {: lspconfig} (require :config.lang.util))
 
 (fn [cb]
-  (lspconfig.sorbet.setup {:cmd [:bundle :exec :srb :tc :--lsp]})
+  (lspconfig :sorbet {:cmd [:bundle :exec :srb :tc :--lsp]})
   (cb lspconfig.sorbet))

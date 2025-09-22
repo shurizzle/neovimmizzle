@@ -1,5 +1,4 @@
-(local {: bin-or-install} (require :config.lang.util))
-(local lspconfig (require :lspconfig))
+(local {: bin-or-install : lspconfig} (require :config.lang.util))
 
 (fn config [bin]
   (local opts
@@ -8,7 +7,7 @@
                                            :documentRangeFormattingProvider])]
                          (tset client.server_capabilities k false)))})
   (when bin (set opts.cmd [bin :language-server]))
-  (lspconfig.phpactor.setup opts)
+  (lspconfig :phpactor opts)
   lspconfig.phpactor)
 
 (fn [cb]

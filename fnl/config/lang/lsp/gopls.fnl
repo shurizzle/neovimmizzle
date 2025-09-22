@@ -1,5 +1,4 @@
-(local {: bin-or-install} (require :config.lang.util))
-(local lspconfig (require :lspconfig))
+(local {: bin-or-install : lspconfig} (require :config.lang.util))
 
 (fn config [bin]
   (local opts
@@ -11,7 +10,7 @@
                                      :parameterNames false
                                      :rangeVariableTypes true}}}})
   (when bin (set opts.cmd [bin]))
-  (lspconfig.gopls.setup opts)
+  (lspconfig :gopls opts)
   lspconfig.gopls)
 
 (fn [cb]

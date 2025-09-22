@@ -89,14 +89,46 @@
   (local lang (require-lang name))
   (local auname (.. :lang-init- name))
   (if (function? lang.init) (lang.init))
+  (local launch-lsps-by-bufnr
+         (if (has :nvim-0.11)
+             (do
+               (fn get-active-clients-list-by-ft [ft]
+                 (let [clients (vim.lsp.get_clients)
+                       res []]
+                   (each [_ client (pairs clients)]
+                     (each [_ lft (pairs (or client.config.filetypes []))]
+                       (when (= ft lft)
+                         (table.insert res client.name))))
+                   res))
+               (fn get-other-matching-providers [ft]
+                 (let [actives (get-active-clients-list-by-ft ft)
+                       res []]
+                   (each [name _ (pairs vim.lsp.config._configs)]
+                     (let [config (. vim.lsp.config name)]
+                       (if (not (vim.tbl_contains actives name))
+                           (each [_ lft (pairs (or config.filetypes []))]
+                             (when (= ft lft)
+                               (table.insert res name))))))
+                   res))
+
+               (fn enable-lsp-on-buf [bufnr name]
+                 (vim.lsp.enable name))
+
+               (fn [bufnr]
+                 (each [_ name (pairs (get-other-matching-providers (vim.api.nvim_buf_get_option bufnr
+                                                                                                 :filetype)))]
+                   (enable-lsp-on-buf bufnr name))))
+             (fn [bufnr]
+               (let [{: load} (require :lazy.core.loader)
+                     _ (pcall #(load [:nvim-lspconfig]
+                                     {:plugin (.. :lang/ name)}))
+                     {: get_other_matching_providers} (require :lspconfig.util)]
+                 (each [_ config (ipairs (get_other_matching_providers (vim.api.nvim_buf_get_option bufnr
+                                                                                                    :filetype)))]
+                   (config.manager:try_add_wrapper bufnr))))))
 
   (fn launch [bufnr]
-    (let [{: load} (require :lazy.core.loader)
-          _ (pcall #(load [:nvim-lspconfig] {:plugin (.. :lang/ name)}))
-          {: get_other_matching_providers} (require :lspconfig.util)]
-      (each [_ config (ipairs (get_other_matching_providers (vim.api.nvim_buf_get_option bufnr
-                                                                                         :filetype)))]
-        (config.manager:try_add_wrapper bufnr)))
+    (launch-lsps-by-bufnr bufnr)
     (vim.api.nvim_buf_call bufnr #((. (require :lint) :try_lint))))
 
   (vim.api.nvim_create_augroup auname {:clear true})
@@ -176,6 +208,10 @@
                                   : group}))
   ;; TODO: lint
   (each [_ lang (ipairs (get-langs))]
-    (setup lang)))
+    (setup lang))
+  (vim.api.nvim_create_autocmd :VimEnter
+                               {:callback #(each [_ buf (ipairs (vim.api.nvim_list_bufs))]
+                                             (vim.api.nvim_buf_call buf
+                                                                    #(vim.cmd.doautoall :FileType)))}))
 
 {: config}

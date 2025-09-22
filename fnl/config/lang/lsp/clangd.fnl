@@ -1,5 +1,4 @@
-(local {: bin-or-install} (require :config.lang.util))
-(local lspconfig (require :lspconfig))
+(local {: bin-or-install : lspconfig} (require :config.lang.util))
 
 (fn config [bin]
   (local opts {:cmd [(or bin :clangd)
@@ -10,9 +9,8 @@
                               :usePlaceholders true
                               :completeUnimported true
                               :semanticHighlighting true}})
-  (lspconfig.clangd.setup opts)
+  (lspconfig :clangd opts)
   lspconfig.clangd)
 
 (fn [cb]
-  (bin-or-install :clangd (fn [bin]
-                            (cb (config bin)))))
+  (bin-or-install :clangd #(cb (config $1))))

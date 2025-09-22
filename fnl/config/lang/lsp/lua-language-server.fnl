@@ -1,6 +1,5 @@
-(local {: bin-or-install} (require :config.lang.util))
+(local {: bin-or-install : lspconfig} (require :config.lang.util))
 (local {:load lazy-load} (require :lazy.core.loader))
-(local lspconfig (require :lspconfig))
 
 (fn config [bin]
   (lazy-load :neodev.nvim [])
@@ -12,7 +11,7 @@
                                 :completion {:callSnippet :Both}
                                 :telemetry {:enable false}}}})
   (when bin (set opts.cmd [bin]))
-  (lspconfig.lua_ls.setup opts)
+  (lspconfig :lua_ls opts)
   lspconfig.lua_ls)
 
 (fn [cb]

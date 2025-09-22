@@ -131,11 +131,44 @@
       (set lint.args ?opts*))
     (cb* name)))
 
-{: callback-memoize
- : mason-bin
- : mason-get
- : bin-in-dir
- : bin-or-install
- : conform
- : lint
- : mason-get-install-path}
+(local exports {: callback-memoize
+                : mason-bin
+                : mason-get
+                : bin-in-dir
+                : bin-or-install
+                : conform
+                : lint
+                : mason-get-install-path})
+
+(fn load-lspconfig []
+  (let [{: load} (require :lazy.core.loader)]
+    (load [:nvim-lspconfig] {:plugin :lang})))
+
+(local lspconfig (if (has :nvim-0.11)
+                     (do
+                       (var lsp nil)
+                       (fn []
+                         (when (not lsp)
+                           (load-lspconfig)
+                           (set lsp vim.lsp.config))
+                         lsp))
+                     (do
+                       (var lsp nil)
+                       (fn []
+                         (when (not lsp)
+                           (load-lspconfig)
+                           (set lsp
+                                (let [lspc (require :lspconfig)]
+                                  (setmetatable {}
+                                                {:__index #(. lspc $2)
+                                                 :__newindex #(tset lspc $2 $3)
+                                                 :__call #((. lspc $2 :setup) $3)}))))
+                         lsp))))
+
+(setmetatable {} {:__index (fn [_ k]
+                             (let [v (. exports k)]
+                               (if ;;
+                                   v v ;;
+                                   (= k :lspconfig) (lspconfig)
+                                   nil)))
+                  :__newindex #nil})

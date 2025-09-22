@@ -1,3 +1,5 @@
+(local {: lspconfig} (require :config.lang.util))
+
 (fn [cb]
-  ((. (require :lspconfig) :gleam :setup) [])
-  (cb (. (require :lspconfig) :gleam)))
+  (lspconfig :gleam [])
+  (cb lspconfig.gleam))
