@@ -98,7 +98,7 @@
 
 (fn parse [str]
   (vim.validate :str str :string)
-  (match (parse4 str)
+  (case (parse4 str)
     nil (parse6 str)
     other other))
 

@@ -6,20 +6,20 @@
 (local {: split : filter-map} (require :config.iter))
 (local dir-sep (if is.win "\\" "/"))
 
-(var path {: dir-sep
-           :sep (if is.win ";" ":")
-           :join (fn [...] (table.concat [...] dir-sep))
-           :real vim.loop.fs_realpath
-           :canonical (lambda [path] (vim.fn.fnamemodify path ":p"))
-           :dirname (lambda [path] (vim.fn.fnamemodify path ":h"))
-           :file (lambda [path] (vim.fn.fnamemodify path ":t"))
-           :ext (lambda [path] (vim.fn.fnamemodify path ":e"))})
+(local path {: dir-sep
+             :sep (if is.win ";" ":")
+             :join (fn [...] (table.concat [...] dir-sep))
+             :real vim.loop.fs_realpath
+             :canonical (lambda [path] (vim.fn.fnamemodify path ":p"))
+             :dirname (lambda [path] (vim.fn.fnamemodify path ":h"))
+             :file (lambda [path] (vim.fn.fnamemodify path ":t"))
+             :ext (lambda [path] (vim.fn.fnamemodify path ":e"))})
 
-(tset path :extension path.ext)
-(tset path :init-dir (-> (filename path)
-                         (path.dirname)
-                         (path.join ".." "..")
-                         (path.real)))
+(set path.extension path.ext)
+(set path.init-dir (-> (filename path)
+                       (path.dirname)
+                       (path.join ".." "..")
+                       (path.real)))
 
 (fn path.dirs []
   (vim.tbl_map (fn [x]

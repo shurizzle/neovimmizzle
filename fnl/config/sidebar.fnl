@@ -1,5 +1,5 @@
-(var resize-callbacks [])
-(var close-callbacks [])
+(local resize-callbacks [])
+(local close-callbacks [])
 (var name nil)
 (var closefn nil)
 

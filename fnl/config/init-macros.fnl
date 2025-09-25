@@ -57,8 +57,8 @@
       (assert-compile false "invalid binding structure" t)))
 
 (fn lazy-bind-table [t expr]
-  (var symbols [])
-  (var res [])
+  (local symbols [])
+  (local res [])
   (extract-symbols t [] symbols)
   (each [name path (pairs symbols)]
     (each [_ v (ipairs (transform-sym name `(. ,expr ,(unpack path))))]
@@ -67,8 +67,8 @@
 
 (fn transform-table [t expr]
   (let [lib-sym (gensym)]
-    (var res (lazy-bind-table t lib-sym))
-    (var main-lib (transform-sym lib-sym expr))
+    (local res (lazy-bind-table t lib-sym))
+    (local main-lib (transform-sym lib-sym expr))
     (for [i (length main-lib) 1 -1]
       (table.insert res 1 (. main-lib i)))
     res))
@@ -85,7 +85,7 @@
                   bindings)
   (assert-compile (and (= 0 (% (length bindings) 2)) (not= 0 (length bindings)))
                   "invalid arguments for autoload" bindings)
-  (var res [])
+  (local res [])
   (each [_ [bind lib] (chunks2 bindings)]
     (each [_ x (ipairs (transform bind lib))]
       (table.insert res x)))
@@ -140,4 +140,3 @@
      _# false))
 
 {: inc! : dec! : autoload : lazy-var : lazy-let : module : matches}
-

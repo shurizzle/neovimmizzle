@@ -1,4 +1,4 @@
-(var after-load nil)
+(local after-load nil)
 (var loaded false)
 (fn -after-load []
   (when (not loaded)
@@ -17,7 +17,7 @@
   (when (not plugin.name)
     (let [{:Spec {:get_name plugin-name}} (require :lazy.core.plugin)]
       (set plugin.name (plugin-name (. plugin 1)))))
-  (deps (match (pcall require (.. :config.plugins. plugin.name))
+  (deps (case (pcall require (.. :config.plugins. plugin.name))
           (false _) plugin
           (true conf) (vim.tbl_deep_extend :force plugin conf))))
 

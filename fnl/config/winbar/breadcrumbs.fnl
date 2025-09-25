@@ -1,5 +1,5 @@
-(var states [])
-(var cache [])
+(local states [])
+(local cache [])
 (local {: ensure-winnr : stl-escape} (require :config.winbar.util))
 
 (fn fire-event [winid]
@@ -23,7 +23,7 @@
       (and (> range.end.line cursor.line) (< range.start.line cursor.line))))
 
 (fn extract-breadcrumbs [cursor symbols]
-  (var breadcrumbs [])
+  (local breadcrumbs [])
 
   (fn traverse [symbols]
     (some (fn [{: range : name : kind : selectionRange : children}]

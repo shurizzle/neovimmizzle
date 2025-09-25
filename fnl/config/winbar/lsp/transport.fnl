@@ -60,7 +60,7 @@
         (while root
           (var last 1)
           (if (not (some (fn [n i]
-                           (match (symbol-compare n node)
+                           (case (symbol-compare n node)
                              :within (do
                                        (when (not n.children)
                                          (set n.children []))
@@ -87,7 +87,7 @@
       (or (empty? data) (. data 1 :range))
       data
       (do
-        (var tree [])
+        (local tree [])
         (each [_ info (ipairs data)]
           (insert tree {:name info.name
                         :detail nil

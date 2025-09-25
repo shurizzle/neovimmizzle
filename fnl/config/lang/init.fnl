@@ -111,7 +111,7 @@
                                (table.insert res name))))))
                    res))
 
-               (fn enable-lsp-on-buf [bufnr name]
+               (fn enable-lsp-on-buf [_ name]
                  (vim.lsp.enable name))
 
                (fn [bufnr]

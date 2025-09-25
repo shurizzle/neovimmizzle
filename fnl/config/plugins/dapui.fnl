@@ -10,7 +10,7 @@
 
 (fn get-vertical-windows []
   (local windows (require :dapui.windows))
-  (var ws [])
+  (local ws [])
   (each [_ l (ipairs windows.layouts)]
     (when (and (= l.layout_type :vertical) (l:is_open))
       (each [_ w (ipairs l.opened_wins)]
@@ -19,7 +19,6 @@
 
 (fn config []
   (local dapui (require :dapui))
-  (local windows (require :dapui.windows))
   (local sidebar (require :config.sidebar))
 
   (fn on-close []
@@ -54,7 +53,7 @@
                        (on-close))))
   (let [old-open dapui.open]
     (set dapui.open
-         (fn open [...]
+         (fn [...]
            (local args [...])
            (sidebar.register :Debug
                              (fn [close]
@@ -71,7 +70,7 @@
                                (old-open (unpack args))
                                (set *vertical-wins* (get-vertical-windows)))))))
   (set dapui.old-toggle dapui.toggle)
-  (set dapui.toggle (fn toggle []
+  (set dapui.toggle (fn []
                       (if (is-open)
                           (if (empty? *vertical-wins*)
                               (dapui.open)

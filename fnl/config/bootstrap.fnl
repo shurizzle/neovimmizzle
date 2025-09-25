@@ -92,7 +92,7 @@
                                  ";")))
 
 (fn slurp [path]
-  (match (io.open path :r)
+  (case (io.open path :r)
     (nil _msg) nil
     f (let [content (f:read :*all)]
         (f:close)

@@ -13,7 +13,7 @@
 
     (while (step))
     (when res
-      (values (unpack res)))))
+      (unpack res))))
 
 (fn map [f iter]
   (fn []
@@ -37,13 +37,13 @@
 
     (while (step))
     (when res
-      (values (unpack res)))))
+      (unpack res))))
 
 (fn split [haystack pattern]
   (var cursor 1)
   (fn []
     (when (<= cursor (length haystack))
-      (match (string.find haystack pattern cursor)
+      (case (string.find haystack pattern cursor)
         nil (let [res (string.sub haystack cursor)]
               (set cursor (+ 1 (length haystack)))
               res)

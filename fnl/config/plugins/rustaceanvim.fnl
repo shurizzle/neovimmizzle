@@ -108,7 +108,7 @@
         (set *installer* inst)
         inst)))
 
-(fn callback [{: buf}]
+(fn callback []
   ((installer) #nil))
 
 (fn init []

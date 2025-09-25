@@ -44,6 +44,6 @@
                    :openbsd :obsd})]
   (tset _is k (. _is v)))
 
-(tset _is :bsd (or _is.mac _is.fbsd _is.dfbsd _is.nbsd _is.obsd))
+(set _is.bsd (or _is.mac _is.fbsd _is.dfbsd _is.nbsd _is.obsd))
 
 (readonly-table {: os :is (readonly-table _is) :ssh ssh-remote})

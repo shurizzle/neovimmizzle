@@ -1,5 +1,6 @@
 (local {: ensure-winnr : buf-get-windows : stl-escape}
        (require :config.winbar.util))
+
 (local {: is} (require :config.platform))
 
 (local excluded-buftypes [:nofile :help])
@@ -79,7 +80,7 @@
     (unset-winbar winnr)))
 
 (fn options [?opts]
-  (var opts (or ?opts {}))
+  (local opts (or ?opts {}))
   (set opts.buf (or opts.buf (vim.api.nvim_get_current_buf)))
   (set opts.buftype
        (or opts.buftype (vim.api.nvim_buf_get_option opts.buf :buftype) ""))
@@ -106,10 +107,10 @@ endfunction")
   (vim.api.nvim_create_autocmd :OptionSet
                                {:pattern [:buftype :filetype]
                                 :callback (fn [opts]
-                                            (var k
-                                                 (match opts.match
-                                                   :buftype :buftype
-                                                   :filetype :filetype))
+                                            (local k
+                                                   (case opts.match
+                                                     :buftype :buftype
+                                                     :filetype :filetype))
                                             (when k
                                               (buf-changed {:buf (vim.api.nvim_get_current_buf)
                                                             k vim.v.option_new})))})

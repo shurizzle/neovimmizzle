@@ -3,7 +3,7 @@
        (lualine-require.lazy_require {:highlight :lualine.highlight
                                       :utils :lualine.utils.utils}))
 
-(var M (: (lualine-require.require :lualine.component) :extend))
+(local M (: (lualine-require.require :lualine.component) :extend))
 
 (macro if-require [varname package then ?else]
   `(let [(ok# ,varname) (pcall require ,package)]

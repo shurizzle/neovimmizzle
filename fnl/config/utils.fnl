@@ -70,7 +70,7 @@
                                                         [(split-words str)])
                                            ""))})
 
-(tset FORMATTERS :camel (fn [str] (uncapitalize (FORMATTERS.pascal str))))
+(set FORMATTERS.camel (fn [str] (uncapitalize (FORMATTERS.pascal str))))
 
 (lambda _G.convertcase [fmt str]
   (if (and (= :string (type str)) (not= 0 (length str)))

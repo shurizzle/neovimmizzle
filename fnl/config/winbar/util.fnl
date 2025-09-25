@@ -52,4 +52,5 @@
  : buf-get-tabpages
  : win-is-visible
  : buf-is-visible
- : stl-escape}
+ : stl-escape
+ : trace-callback}

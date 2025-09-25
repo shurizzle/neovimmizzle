@@ -64,7 +64,7 @@
 
 (fn config []
   (local header {:type :text
-                 :val (match (os.date "%d%m")
+                 :val (case (os.date "%d%m")
                         (where :0308) rip
                         (where (or :2412 :2512)) mistletoe
                         (where (or :3112 :0101)) fireworks

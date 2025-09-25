@@ -28,19 +28,19 @@
     (table.insert self.windows editor-win)
     (api_ui.editor_show editor-win)
     (vim.cmd (.. :bo self.result_height :split))
-    (var result-win (vim.api.nvim_get_current_win))
+    (local result-win (vim.api.nvim_get_current_win))
     (table.insert self.windows result-win)
     (api_ui.result_show result-win)
     (common.configure_window_options result-win
                                      {:relativenumber false :spell false})
     (vim.cmd (.. :to self.drawer_width :vsplit))
-    (var drawer-win (vim.api.nvim_get_current_win))
+    (local drawer-win (vim.api.nvim_get_current_win))
     (table.insert self.windows drawer-win)
     (api_ui.drawer_show drawer-win)
     (common.configure_window_options drawer-win
                                      {:relativenumber false :spell false})
     (vim.cmd (.. "belowright " self.call_log_height :split))
-    (var log-win (vim.api.nvim_get_current_win))
+    (local log-win (vim.api.nvim_get_current_win))
     (table.insert self.windows log-win)
     (api_ui.call_log_show log-win)
     (common.configure_window_options log-win
@@ -68,7 +68,7 @@
     (set self.egg nil)
     (on-close))
 
-  (fn layout-new [self ?opts]
+  (fn layout-new [_ ?opts]
     (local opts (or ?opts []))
     (each [_ k (ipairs [:drawer_width :result_height :call_log_height])]
       (when (and (. opts k) (< (. opts k) 0))
@@ -98,4 +98,3 @@
  :cmd :Dbee
  :build #((. (require :dbee) :install))
  : config}
-
