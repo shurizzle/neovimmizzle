@@ -116,6 +116,10 @@
                 :cmd :Screenkey
                 :config true)
 
+  (use-package! :hachy/eva01.vim
+                :lazy false
+                :priority 1000)
+
   ;; }}}
 
   ;; UX {{{
