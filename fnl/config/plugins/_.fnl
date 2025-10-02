@@ -51,7 +51,10 @@
                 :event :BufRead
                 :deps [:plenary]
                 :main :gitsigns
-                :opts [])
+                :opts []
+                :init #(let [kset vim.keymap.set]
+                        (kset :n :<leader>gB "<cmd>Gitsigns blame<CR>" {:noremap false :silent true})))
+
 
   (use-package! :lukas-reineke/indent-blankline.nvim
                 :tag (when (not (has :nvim-0.10)) :v3.5.4)
@@ -109,7 +112,10 @@
                 :main :neogit
                 :deps [:telescope :plenary :sindrets/diffview.nvim]
                 :cmd :Neogit
-                :opts [])
+                :opts []
+                :init #(let [kset vim.keymap.set]
+                        (kset :n :<leader>gg "<cmd>Neogit<CR>" {:noremap false :silent true})
+                        (kset :n :<leader>gb "<cmd>Neogit branch<CR>" {:noremap false :silent true})))
 
   (use-package! :NStefan002/screenkey.nvim
                 :lazy true
