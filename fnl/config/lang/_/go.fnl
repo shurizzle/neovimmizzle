@@ -1,1 +1,1 @@
-{:lsp :gopls :fmt [:gofumpt :golines] :lint :staticcheck}
+{:lsp :gopls :fmt :gofumpt+golines :lint :staticcheck}
