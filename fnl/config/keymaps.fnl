@@ -152,7 +152,9 @@
     (if (or (= :vim ft) (= :help ft))
         (vim.cmd (.. "h " (vim.fn.expand :<cword>)))
         (= :man ft)
-        (vim.cmd (.. "Man " (vim.fn.expand :<cword>)))
+        (-> "<C-]>"
+            (vim.api.nvim_replace_termcodes true false true)
+            (vim.api.nvim_feedkeys :nt true))
         (and (some #(= $1.name :rust-analyzer) (vim.lsp.buf_get_clients))
              (not= 0 (vim.fn.exists ":RustLsp")))
         (vim.cmd.RustLsp [:hover :actions])
