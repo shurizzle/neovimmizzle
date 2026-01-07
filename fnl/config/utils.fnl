@@ -99,6 +99,33 @@
 
 (vim.api.nvim_command "command! -nargs=+ Cargo lua cargo(<q-args>)")
 
+(fn cheader []
+  (let [name (.. "_" (-> (vim.fn.expand "%:t")
+                         (vim.fn.substitute "\\M\\V\\[\\.-]" "_" :g)
+                         (string.upper)))]
+    (vim.fn.append 0 [(.. "#ifndef " name) (.. "#define " name " 1")])
+    (vim.fn.append "$" (.. "#endif /* " name " */")))
+  nil)
+
+(vim.api.nvim_create_user_command :CHeader cheader {:nargs 0})
+
+(fn cstruct [{: args}]
+  (let [query (let [query (if (string.find args " ")
+                              (vim.api.nvim_echo [["Too many arguments"]] true
+                                                 {:err true})
+                              (vim.fn.trim args))]
+                (if (= "" query)
+                    (vim.fn.trim (vim.fn.inputdialog "struct name: "))
+                    query))]
+    (if (not (or (nil? query) (= "" query)))
+        (vim.fn.append (vim.fn.line ".")
+                       [(.. "typedef struct " query " " query ";")
+                        (.. "struct " query " {")
+                        "};"])))
+  nil)
+
+(vim.api.nvim_create_user_command :CStruct cstruct {:nargs "?"})
+
 (fn scratch []
   (let [bufno (vim.api.nvim_create_buf true true)]
     (when (not= 0 bufno)
