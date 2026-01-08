@@ -219,6 +219,11 @@
                 :event :VeryLazy
                 :opts [])
 
+  (use-package! :willothy/flatten.nvim
+                :lazy false
+                :config true
+                :priority 1001)
+
   ;; }}}
 
   ;; LSP {{{
