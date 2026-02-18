@@ -1,6 +1,6 @@
 (fn config []
   (fn prequire [what]
-    (local (ok lib) (pcall #(require what)))
+    (local [ok lib] [(pcall #(require what))])
     (when ok lib))
 
   (local api (require :nvim-tree.api))
@@ -10,6 +10,12 @@
   (local sidebar (require :config.sidebar))
   (local ev (require :nvim-tree.events))
   (var sb nil)
+
+  (fn explorer-fn [f ...]
+    (let [explorer (core.get_explorer)]
+      (if explorer
+          ((. explorer f) explorer ...))))
+
   (local expand-or-collapse
          (if (?. lib :expand_or_collapse) lib.expand_or_collapse
              (fn [node] (node:expand_or_collapse))))
@@ -18,7 +24,10 @@
              (fn [node] (node:last_group_node))))
   (local get-node-at-cursor
          (if (?. lib :get_node_at_cursor) lib.get_node_at_cursor
-             (fn [] (-?> (core.get_explorer) (: :get_node_at_cursor)))))
+             (fn [] (explorer-fn :get_node_at_cursor))))
+  (local change-dir
+         (let [[ok lib] [(pcall #(require :nvim-tree.actions.root.change-dir))]]
+           (if ok lib.fn (fn [dir] (explorer-fn :change_dir dir)))))
 
   (fn on_attach [bufnr]
     (fn km [mapping action ?desc]
@@ -44,10 +53,8 @@
       (if (and node (not node.open)) (expand-or-collapse node)))
 
     (fn open-or-expand-or-dir-up [node]
-      (if (= ".." node.name)
-          ((. (require :nvim-tree.actions.root.change-dir) :fn) "..")
-          (not (nil? node.nodes))
-          (expand node)
+      (if (= ".." node.name) (change-dir "..")
+          (not (nil? node.nodes)) (expand node)
           (edit :edit node)))
 
     (fn collapse [node]
@@ -56,10 +63,9 @@
 
     (fn enter [node]
       (if (= node.name "..")
-          ((. (require :nvim-tree.actions.root.change-dir) :fn) "..")
+          (change-dir "..")
           (not (nil? node.nodes))
-          ((. (require :nvim-tree.actions.root.change-dir) :fn) (. (last-group-node node)
-                                                                   :absolute_path))
+          (change-dir (. (last-group-node node) :absolute_path))
           (edit :edit node)))
 
     (km :<2-LeftMouse> api.node.open.edit :Open)
@@ -178,4 +184,3 @@
 {:cmd [:NvimTreeToggle :NvimTreeFocus :NvimTreeFindFile :NvimTreeCollapse]
  :keys [{:mode :n :desc "Toggle nvim-tree" 1 :<space>e}]
  : config}
-
