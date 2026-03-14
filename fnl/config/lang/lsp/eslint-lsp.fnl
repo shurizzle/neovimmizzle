@@ -1,17 +1,17 @@
 (local {: bin-or-install : lspconfig} (require :config.lang.util))
 
 (fn config [bin]
-  (local opts {:flags {:debounce_text_changes 1000}
-               :capabilities (vim.tbl_deep_extend :force
-                                                  (vim.lsp.protocol.make_client_capabilities)
-                                                  {:textDocument {:completion {:completionItem {:snippetSupport false
-                                                                                                :resolveSupport nil
-                                                                                                :documentationFormat nil}}}})
+  (local opts {:flags {:debounce_text_changes 1000
+                       :allow_incremental_sync false}
+               :settings {:eslint {:run :onSave
+                                   :onReceiveConfigChange {:mode :debounce}}}
                :on_attach (fn [client]
                             (set client.server_capabilities.document_formatting
                                  false)
                             (set client.server_capabilities.document_range_formatting
-                                 false))})
+                                 false)
+                            (set client.server_capabilities.debounce_text_changes
+                                 1000))})
   (when bin (set opts.cmd [bin :--stdio]))
   (lspconfig :eslint opts)
   lspconfig.eslint)

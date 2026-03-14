@@ -18,4 +18,4 @@
       (tset conform.formatters_by_ft f [:prettierd :prettier])))
   (cb))
 
-{: ft :lsp [:vtsls :eslint-lsp :oxlint :oxfmt] : config}
+{: ft :lsp [:vtsls :oxlint :oxfmt] :lint :eslint_d : config}
