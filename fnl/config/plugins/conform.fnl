@@ -42,8 +42,10 @@
   (when (format? bufnr)
     (let [timeout_ms (case (?. vim :bo bufnr :filetype)
                        (where (or :blade :kotlin :prettier :fnlfmt)) 2000
-                       _ 500)]
-      {: timeout_ms : lsp_fallback})))
+                       _ 500)
+          oxfmt? (some #(= :oxfmt $1.name) (vim.lsp.get_clients {: bufnr}))
+          filter (when oxfmt? #(= :oxfmt $1.name))]
+      {: timeout_ms : lsp_fallback : filter})))
 
 {:lazy true
  :cmd [:ConformInfo]
