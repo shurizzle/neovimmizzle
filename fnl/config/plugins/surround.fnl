@@ -1,7 +1,8 @@
 (fn config []
   (let [{:default_opts opts} (require :nvim-surround.config)]
-    (set opts.keymaps.insert nil)
-    (set opts.keymaps.insert_line nil)
+    (when opts.keymaps
+      (set opts.keymaps.insert nil)
+      (set opts.keymaps.insert_line nil))
     (set opts.aliases [])
     ((. (require :nvim-surround) :setup))))
 
