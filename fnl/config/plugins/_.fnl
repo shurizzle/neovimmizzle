@@ -346,6 +346,36 @@
                           (s "<C-,>" #(vim.fn.codeium#CycleCompletions -1))
                           (s "<C-.>" #(vim.fn.codeium#CycleCompletions 1))))
 
+  ;; (use-package! :copilotlsp-nvim/copilot-lsp
+  ;;               :name :copilot-lsp
+  ;;               :lazy true)
+  ;;
+  ;; (use-package! :zbirenbaum/copilot.lua
+  ;;               :name :copilot
+  ;;               :requires [:copilot-lsp]
+  ;;               :lazy true
+  ;;               :cmd :Copilot
+  ;;               :event :InsertEnter
+  ;;               :config {:panel {:enabled false
+  ;;                                :keymap {:jump_prev false
+  ;;                                         :jump_next false
+  ;;                                         :accept false
+  ;;                                         :refresh false
+  ;;                                         :open false}}
+  ;;                        :suggestion {:enabled true
+  ;;                                     :auto_trigger true
+  ;;                                     :keymap {:accept :<C-l>
+  ;;                                              :accept_word false
+  ;;                                              :accept_line false
+  ;;                                              :next :<C-.>
+  ;;                                              :prev "<C-,>"
+  ;;                                              :dismiss :<C-h>}}
+  ;;                        :nes {:enabled false
+  ;;                              :auto_trigger true
+  ;;                              :keymap {:accept_and_goto false
+  ;;                                       :accept false
+  ;;                                       :dismiss false}}})
+
   ;; }}}
 
   ;; langs {{{
