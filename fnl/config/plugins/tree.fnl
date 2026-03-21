@@ -155,7 +155,8 @@
 
   (vim.keymap.set :n :<space>e toggle
                   {:silent true :noremap true :desc "Toggle nvim-tree"})
-  (ev.subscribe ev.Event.TreeOpen
+  (local Event api.events.Event)
+  (ev.subscribe Event.TreeOpen
                 (fn []
                   (vim.opt_local.fillchars:append "vert: ")
                   (set vim.wo.statusline "%#NvimTreeStatusLine#")
@@ -171,12 +172,12 @@
                                                                   (sb.resize (inc (vim.api.nvim_win_get_width winnr)))))})
                     (if (and sb sb.resize)
                         (sb.resize (inc (vim.api.nvim_win_get_width winnr)))))))
-  (ev.subscribe ev.Event.Resize
+  (ev.subscribe Event.Resize
                 (fn []
                   (local winnr ((. (require :nvim-tree.view) :winid)))
                   (if (and sb sb.resize)
                       (sb.resize (inc (vim.api.nvim_win_get_width winnr))))))
-  (ev.subscribe ev.Event.TreeClose
+  (ev.subscribe Event.TreeClose
                 (fn []
                   (vim.api.nvim_create_augroup :NvimTreeResize {:clear true})
                   (when (and sb sb.close) (sb.close)))))
