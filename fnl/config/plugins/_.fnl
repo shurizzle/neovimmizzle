@@ -224,6 +224,24 @@
                 :config true
                 :priority 1001)
 
+  (use-package! :nickjvandyke/opencode.nvim
+                :lazy true
+                :init (fn []
+                        (set vim.g.opencode_opts {:lsp {:enabled true :handlers {:hover {:enabled false}}}})
+                        (set vim.o.autoread true)
+
+                        (local kmp vim.keymap.set)
+
+                        (kmp [:n :x] :<leader>aa #((. (require :opencode) :ask) "@this: " {:submit true}) {:desc "Ask opencode…"})
+                        (kmp [:n :x] :<leader>ai #((. (require :opencode) :select)) {:desc "Execute opencode action…"})
+                        (kmp :n :<space>a #((. (require :opencode) :toggle)) {:desc "Toggle opencode"})
+
+                        (kmp [:n :x] :<leader>at #((. (require :opencode) :operator) "@this: ") {:desc "Add range to opencode" :expr true})
+                        (kmp :n :<leader>a_ #(.. ((. (require :opencode) :operator) "@this: ") :_) {:desc "Add line to opencode" :expr true})
+
+                        (kmp :n :<S-C-u> #((. (require :opencode) :command) :session.half.page.up) {:desc "Scroll opencode up"})
+                        (kmp :n :<S-C-d> #((. (require :opencode) :command) :session.half.page.down) {:desc "Scroll opencode down"})))
+
   ;; }}}
 
   ;; LSP {{{

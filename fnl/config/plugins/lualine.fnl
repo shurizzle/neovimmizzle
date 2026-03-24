@@ -62,7 +62,9 @@
                                                          {1 :diagnostics
                                                           :symbols symbols.diagnostics}]
                                              :lualine_c [file-status
-                                                         #(vim.fn.codeium#GetStatusString)]
+                                                         #(vim.fn.codeium#GetStatusString)
+                                                         (. (require :opencode)
+                                                            :statusline)]
                                              :lualine_x [noice-mode
                                                          :selectioncount
                                                          :file_type]
@@ -96,4 +98,3 @@
                                                toggleterm]}))
 
 {:lazy false : config}
-
