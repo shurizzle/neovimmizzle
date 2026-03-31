@@ -145,7 +145,7 @@
                                 :desc (.. "Configure " name " language")}))
 
 (fn setup [name]
-  (let [(ok err) (pcall setup* name)]
+  (let [[ok err] [(pcall setup* name)]]
     (when (not ok)
       (vim.notify (.. name ": " err) vim.log.levels.ERROR {:title :lang}))))
 
@@ -157,13 +157,13 @@
     (local ext (or ?ext (.. "." dir)))
     (local base (join-paths (vim.fn.stdpath :config) dir :config :lang "_"))
     (local offset (- (length ext)))
-    (local (ok it) (pcall scandir base))
+    (local [ok it] [(pcall scandir base)])
     (when (and ok it)
       (each [entry it]
         (if (and (= (entry:sub offset) ext)
                  (= :file (?. (stat (join-paths base entry)) :type)))
             (tset langs (entry:sub 1 (- offset 1)) true)
-            (let [(ok md) (pcall stat (join-paths base entry (.. :init ext)))]
+            (let [[ok md] [(pcall stat (join-paths base entry (.. :init ext)))]]
               (and ok (= :file (?. md :type))))
             (tset langs entry true)))))
 
@@ -183,7 +183,8 @@
   (vim.diagnostic.config {; disable virtual text
                           :virtual_text false
                           ; show signs
-                          :signs {:active signs}
+                          :signs {:active signs
+                                  :text ["" "" "" ""]}
                           :update_in_insert false
                           :underline true
                           :severity_sort true
