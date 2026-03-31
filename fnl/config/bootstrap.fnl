@@ -52,16 +52,16 @@
     (vim.loader.enable))
 
 (git-clone "https://github.com/rktjmp/hotpot.nvim.git" :hotpot.nvim
-           [:--single-branch])
+           [:--single-branch :--branch=v1.0.0])
 
 (git-clone "https://github.com/folke/lazy.nvim.git" :lazy.nvim
            [:--branch=stable])
 
 (fn has-bit-operators []
   (fn version-has-bit-operators [[major minor]]
-    (if (> major 5) true
+    (if (< 5 major) true
         (< major 5) false
-        (> minor 2) true
+        (< 2 minor) true
         false))
 
   (if (= :table (type _G.jit))
@@ -75,7 +75,7 @@
 (local useBitLib (not (has-bit-operators)))
 
 ((. (require :hotpot) :setup) {:provide_require_fennel true
-                               :enable_hotpot_diagnostics true
+                               :enable_hotpot_diagnostics false
                                :compiler {:modules {:correlate true
                                                     : useBitLib}
                                           :macros {:env :_COMPILER
