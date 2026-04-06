@@ -97,9 +97,11 @@
                                           :find :written}
                                  :opts {:skip true}}
                                 {:filter {:event :msg_show
-                                 :kind [:echo :echomsg]
-                                 :find "[osc52]"}
-                                 :opts {:skip true}}]
+                                          :kind [:echo :echomsg]
+                                          :find "[osc52]"}
+                                 :opts {:skip true}}
+                                 {:filter {:find "Suggesting..."}
+                                  :opts {:skip true}}]
                        :cmdline {:enabled true
                                  :format {:fennel {:pattern "^:%s*Fnl%s+"
                                                    :icon ""
@@ -355,14 +357,43 @@
                 :deps [:hrsh7th/cmp-nvim-lsp]
                 :lazy true)
 
-  (use-package! :Exafunction/windsurf.vim
+  ;; (use-package! :Exafunction/windsurf.vim
+  ;;               :lazy true
+  ;;               :event :BufEnter
+  ;;               :init #(set vim.g.codeium_disable_bindings 1)
+  ;;               :config #(let [s #(vim.keymap.set :i $1 $2 {:expr true :silent true})]
+  ;;                         (s :<C-l> #(vim.fn.codeium#Accept))
+  ;;                         (s "<C-,>" #(vim.fn.codeium#CycleCompletions -1))
+  ;;                         (s "<C-.>" #(vim.fn.codeium#CycleCompletions 1))))
+
+  (use-package! :meeehdi-dev/bropilot.nvim
                 :lazy true
-                :event :BufEnter
-                :init #(set vim.g.codeium_disable_bindings 1)
-                :config #(let [s #(vim.keymap.set :i $1 $2 {:expr true :silent true})]
-                          (s :<C-l> #(vim.fn.codeium#Accept))
-                          (s "<C-,>" #(vim.fn.codeium#CycleCompletions -1))
-                          (s "<C-.>" #(vim.fn.codeium#CycleCompletions 1))))
+                :event :InsertEnter
+                :config (fn []
+                          ((. (require "bropilot") :setup) {:provider :ollama
+                                                            :auto_suggest true
+                                                            :excluded_filetypes []
+                                                            :model "qwen2.5-coder:1.5b"
+                                                            ;; :model_params {:num_ctx 32768
+                                                            ;;                :num_predict -2
+                                                            ;;                :stop ["<|fim_pad|>" "<|fim_end|>" "\n\n"]}
+                                                            ;; :debounce 500
+                                                            :model_params {:num_ctx 4096
+                                                                           :num_predict 128
+                                                                           :stop ["<|fim_pad|>" "<|fim_end|>"]}
+                                                            :debounce 150
+                                                            :keymap {:accept_block false}
+                                                            :ollama_url "http://localhost:11434/api"})
+                          (vim.keymap.set :i "<C-l>"
+                                          (fn []
+                                            (let [namespaces (vim.api.nvim_get_namespaces)
+                                                  ns-id (or (. namespaces "bropilot") (. namespaces "llm") -1)
+                                                  row (- (. (vim.api.nvim_win_get_cursor 0) 1) 1)]
+                                              (if (and (not= ns-id -1)
+                                                       (< 0 (length (vim.api.nvim_buf_get_extmarks 0 ns-id [row 0] [row -1] {}))))
+                                                ((. (require :bropilot.suggestion) :accept_block))
+                                                (vim.api.nvim_feedkeys (vim.api.nvim_replace_termcodes "<C-l>" true false true) "n" false))))
+                                          {:desc "Accetta bropilot o fallback a C-l"})))
 
   ;; (use-package! :copilotlsp-nvim/copilot-lsp
   ;;               :name :copilot-lsp
