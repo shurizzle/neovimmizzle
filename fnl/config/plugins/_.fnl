@@ -506,7 +506,8 @@
                 :opts [])
 
   (use-package! :nvim-treesitter/nvim-treesitter
-                :name :treesitter)
+                :name :treesitter
+                :branch :master)
 
   (use-package! :JoosepAlviste/nvim-ts-context-commentstring
                 :enabled (not (has :nvim-0.10))

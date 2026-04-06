@@ -25,7 +25,7 @@
   (let [install-path (join-paths (vim.fn.stdpath :data) :lazy dir)]
     (if (not (uv.fs_stat install-path))
         (do
-          (let [cmd [:git :clone "--filter=blob:none"]]
+          (let [cmd [:git :clone :--origin=origin "--filter=blob:none"]]
             (when (not= nil ?params)
               (each [_ value (ipairs ?params)]
                 (table.insert cmd value)))
