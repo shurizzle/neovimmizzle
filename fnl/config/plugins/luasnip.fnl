@@ -1,7 +1,8 @@
 (fn config []
   ((. (require :luasnip) :config :set_config) {:history true
                                                :enable_autosnippets false})
-  ((. (require :luasnip.loaders.from_vscode) :lazy_load)))
+  ((. (require :luasnip.loaders.from_vscode) :lazy_load))
+  ((. (require :luasnip.loaders.from_vscode) :lazy_load) {:paths [:./snippets]}))
 
 (fn winmake []
   (local {: which : dirname :join path-join} (require :config.path))
