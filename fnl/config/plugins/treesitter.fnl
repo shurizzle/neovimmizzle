@@ -33,9 +33,10 @@
                                                                                    :if "@function.inner"
                                                                                    :ac "@class.outer"
                                                                                    :ic "@class.inner"}}}})
-  (set vim.o.foldenable false)
-  (set vim.o.foldmethod :expr)
-  (set vim.o.foldexpr "nvim_treesitter#foldexpr()")
+  ;; disabling treesitter code folding because it's too slow in nvim 0.12
+  ;; (set vim.o.foldenable false)
+  ;; (set vim.o.foldmethod :expr)
+  ;; (set vim.o.foldexpr "nvim_treesitter#foldexpr()")
   (vim.api.nvim_create_autocmd :FileType
                                {:pattern :prolog
                                 :command "setlocal foldenable foldmethod=marker"}))
