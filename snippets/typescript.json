@@ -3,5 +3,10 @@
     "prefix": "unimplemented",
     "body": "throw new Error('Not implemented');",
     "description": "Insert unimplemented error"
+  },
+  "unreachable": {
+    "prefix": "unreachable",
+    "body": "throw new Error('unreachable');",
+    "description": "Insert unreachable error"
   }
 }
