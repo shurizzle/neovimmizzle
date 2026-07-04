@@ -100,9 +100,9 @@
 (vim.api.nvim_command "command! -nargs=+ Cargo lua cargo(<q-args>)")
 
 (fn cheader []
-  (let [name (.. "_" (-> (vim.fn.expand "%:t")
-                         (vim.fn.substitute "\\M\\V\\[\\.-]" "_" :g)
-                         (string.upper)))]
+  (let [name (-> (vim.fn.expand "%:t")
+                 (vim.fn.substitute "\\M\\V\\[\\.-]" "_" :g)
+                 (string.upper))]
     (vim.fn.append 0 [(.. "#ifndef " name) (.. "#define " name " 1")])
     (vim.fn.append "$" (.. "#endif /* " name " */")))
   nil)
