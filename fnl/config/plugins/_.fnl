@@ -370,20 +370,22 @@
                 :lazy true
                 :event :InsertEnter
                 :config (fn []
-                          ((. (require "bropilot") :setup) {:provider :ollama
+                          ((. (require "bropilot") :setup) {:provider :deepseek
+                                                            :api_key (let [[ok res] [(pcall #(. (require :config.secrets) :deepseek))]]
+                                                                       (if ok
+                                                                           res
+                                                                           (vim.notify (.. "No secrets module found: " res)
+                                                                                       vim.log.levels.WARN)))
                                                             :auto_suggest true
                                                             :excluded_filetypes []
-                                                            :model "qwen2.5-coder:1.5b"
-                                                            ;; :model_params {:num_ctx 32768
-                                                            ;;                :num_predict -2
-                                                            ;;                :stop ["<|fim_pad|>" "<|fim_end|>" "\n\n"]}
-                                                            ;; :debounce 500
-                                                            :model_params {:num_ctx 4096
-                                                                           :num_predict 128
+                                                            :model "deepseek-v4-flash"
+                                                            :model_params {:logprobs 20
+                                                                           :max_tokens 256
+                                                                           :temperature 1
+                                                                           :top_p 1
                                                                            :stop ["<|fim_pad|>" "<|fim_end|>"]}
                                                             :debounce 150
-                                                            :keymap {:accept_block false}
-                                                            :ollama_url "http://localhost:11434/api"})
+                                                            :keymap {:accept_block false}})
                           (vim.keymap.set :i "<C-l>"
                                           (fn []
                                             (let [namespaces (vim.api.nvim_get_namespaces)
