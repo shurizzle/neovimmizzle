@@ -39,7 +39,9 @@
                               :MasonUninstall
                               :MasonUninstallAll]
                         :main :mason
-                        :opts {:PATH :skip}})
+                        :opts {:PATH :skip
+                               :registries ["lua:config.mason-registry"
+                                            "github:mason-org/mason-registry"]}})
 
 (table.insert config 1 {1 :nvim-lua/plenary.nvim :lazy true :name :plenary})
 

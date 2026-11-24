@@ -207,6 +207,15 @@
                                  {:pattern ["*"]
                                   :callback #(vim.lsp.buf.clear_references)
                                   : group}))
+  ;; Filetype-agnostic FIM completions, attached to every buffer.
+  ((. lsp :fim-lsp) (fn []
+                      (vim.lsp.enable :fim-lsp)
+                      (vim.lsp.inline_completion.enable)
+                      (vim.keymap.set :i :<C-l>
+                                      #(if (not (vim.lsp.inline_completion.get))
+                                           :<C-l>)
+                                      {:expr true
+                                       :desc "Accept inline completion or fall back to C-l"})))
   ;; TODO: lint
   (each [_ lang (ipairs (get-langs))]
     (setup lang))

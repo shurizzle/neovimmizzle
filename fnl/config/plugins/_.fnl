@@ -366,37 +366,6 @@
   ;;                         (s "<C-,>" #(vim.fn.codeium#CycleCompletions -1))
   ;;                         (s "<C-.>" #(vim.fn.codeium#CycleCompletions 1))))
 
-  (use-package! :meeehdi-dev/bropilot.nvim
-                :lazy true
-                :event :InsertEnter
-                :config (fn []
-                          ((. (require "bropilot") :setup) {:provider :deepseek
-                                                            :api_key (let [[ok res] [(pcall #(. (require :config.secrets) :deepseek))]]
-                                                                       (if ok
-                                                                           res
-                                                                           (vim.notify (.. "No secrets module found: " res)
-                                                                                       vim.log.levels.WARN)))
-                                                            :auto_suggest true
-                                                            :excluded_filetypes []
-                                                            :model "deepseek-v4-flash"
-                                                            :model_params {:logprobs 20
-                                                                           :max_tokens 256
-                                                                           :temperature 1
-                                                                           :top_p 1
-                                                                           :stop ["<|fim_pad|>" "<|fim_end|>"]}
-                                                            :debounce 150
-                                                            :keymap {:accept_block false}})
-                          (vim.keymap.set :i "<C-l>"
-                                          (fn []
-                                            (let [namespaces (vim.api.nvim_get_namespaces)
-                                                  ns-id (or (. namespaces "bropilot") (. namespaces "llm") -1)
-                                                  row (- (. (vim.api.nvim_win_get_cursor 0) 1) 1)]
-                                              (if (and (not= ns-id -1)
-                                                       (< 0 (length (vim.api.nvim_buf_get_extmarks 0 ns-id [row 0] [row -1] {}))))
-                                                ((. (require :bropilot.suggestion) :accept_block))
-                                                (vim.api.nvim_feedkeys (vim.api.nvim_replace_termcodes "<C-l>" true false true) "n" false))))
-                                          {:desc "Accetta bropilot o fallback a C-l"})))
-
   ;; (use-package! :copilotlsp-nvim/copilot-lsp
   ;;               :name :copilot-lsp
   ;;               :lazy true)
