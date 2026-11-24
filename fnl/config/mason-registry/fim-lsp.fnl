@@ -1,4 +1,4 @@
-(local version :v0.1.0)
+(local version :v0.1.1)
 (local repo :shurizzle/fim-lsp)
 
 (fn asset [target triple]
@@ -36,5 +36,6 @@
  :source (if prebuilt?
              {:id (.. "pkg:github/" repo "@" version) :asset assets}
              ;; No prebuilt binary for this platform: build from the tag.
-             {:id (.. "pkg:cargo/fim-lsp@" version "?repository_url=https://github.com/" repo)})
+             {:id (.. "pkg:cargo/fim-lsp@" version
+                      "?repository_url=https://github.com/" repo)})
  :bin {:fim-lsp (if prebuilt? "{{source.asset.bin}}" "cargo:fim-lsp")}}
