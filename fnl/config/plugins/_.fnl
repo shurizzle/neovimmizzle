@@ -107,14 +107,20 @@
                                                    :icon ""
                                                    :lang :fennel}}}})
 
+  (use-package! :sindrets/diffview.nvim
+                :name :diffview
+                :lazy true
+                :cmd [:DiffviewOpen :DiffviewFileHistory]
+                :opts {:enhanced_diff_hl true})
+
   (use-package! :NeogitOrg/neogit
                 :name :neogit
                 :tag (when (not (has :nvim-0.10)) :v0.0.1)
                 :lazy true
                 :main :neogit
-                :deps [:telescope :plenary :sindrets/diffview.nvim]
+                :deps [:telescope :plenary :diffview]
                 :cmd :Neogit
-                :opts []
+                :opts {:integrations {:diffview true}}
                 :init #(let [kset vim.keymap.set]
                         (kset :n :<leader>gg "<cmd>Neogit<CR>" {:noremap false :silent true})
                         (kset :n :<leader>gb "<cmd>Neogit branch<CR>" {:noremap false :silent true})))
