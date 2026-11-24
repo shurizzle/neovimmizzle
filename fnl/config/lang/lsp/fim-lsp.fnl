@@ -1,11 +1,9 @@
 (local {: bin-or-install : lspconfig} (require :config.lang.util))
 
 (fn config [bin apiKey]
-  (lspconfig :fim-lsp {:cmd [(or bin :fim-lsp)]
-                       :init_options {:type :deepseek
-                                      : apiKey
-                                      :maxTokens 256
-                                      :temperature 0}})
+  (lspconfig :fim-lsp
+             {:cmd [(or bin :fim-lsp)]
+              :init_options {:type :deepseek : apiKey}})
   lspconfig.fim-lsp)
 
 (fn [cb]

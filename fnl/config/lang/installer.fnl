@@ -71,15 +71,19 @@
                                      (cb version)))))))
 
   (if (mason-is2?)
-      (let [mr (require :mason-registry)
-            (ok p) (pcall #(mr.get_package what))]
-        (if ok
-            (if (p:is_installed)
-                (try-upgrade p)
-                (do-install p nil cb))
-            (let [err (.. what " not found")]
-              (notify* (.. "DIOC " err) vim.log.levels.ERROR {:title :Mason})
-              (cb err))))
+      (let [mr (require :mason-registry)]
+        ;; Lua registries stay empty until refreshed, so load them before the lookup.
+        (mr.refresh (fn []
+                      (vim.schedule (fn []
+                                      (let [(ok p) (pcall #(mr.get_package what))]
+                                        (if ok
+                                            (if (p:is_installed)
+                                                (try-upgrade p)
+                                                (do-install p nil cb))
+                                            (let [err (.. what " not found")]
+                                              (notify* err vim.log.levels.ERROR
+                                                       {:title :Mason})
+                                              (cb err)))))))))
       (do
         (fn try-install [p]
           (if (not p)
