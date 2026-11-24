@@ -1,1 +1,1 @@
-{:lsp :html}
+{:lsp :html-languageserver}
